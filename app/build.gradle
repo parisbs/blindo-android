@@ -1,0 +1,163 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'com.apollographql.apollo'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'com.google.firebase.firebase-perf'
+apply plugin: 'com.google.firebase.crashlytics'
+
+def ENV_FILE = 'env.properties'
+Properties properties = new Properties()
+properties.load(project.rootProject.file(ENV_FILE).newDataInputStream())
+
+def KS_FILE = 'keystore.properties'
+Properties keystore = new Properties()
+keystore.load(project.rootProject.file(KS_FILE).newDataInputStream())
+
+android {
+    signingConfigs {
+        tests {
+            storeFile file(keystore['TEST_KS_FILE'])
+            storePassword keystore['TEST_KS_PASS']
+            keyAlias keystore['TEST_K_ALIAS']
+            keyPassword keystore['TEST_K_PASS']
+        }
+        release {
+            storeFile file(keystore['KS_FILE'])
+            storePassword keystore['KS_PASS']
+            keyAlias keystore['K_ALIAS']
+            keyPassword keystore['K_PASS']
+        }
+    }
+
+    compileSdkVersion sdk.compile
+    buildToolsVersion sdk.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.pbaltazar.blindo"
+        minSdkVersion sdk.min
+        targetSdkVersion sdk.target
+
+        versionCode 118
+        versionName "3.3.3"
+
+        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexKeepProguard file('multidex-config.pro')
+            signingConfig signingConfigs.release
+
+            buildConfigField 'String', 'SERVER_URL', properties.getProperty('PROD_SERVER_URL')
+            buildConfigField 'String', 'PUBLISHER_ID', properties.getProperty('PUBLISHER_ID')
+            buildConfigField 'String', 'TEST_DEVICE_ID', '""'
+            buildConfigField 'String', 'DEBUG_GEOGRAPHY', '""'
+        }
+        debug {
+            minifyEnabled false
+            jniDebuggable true
+            debuggable true
+            multiDexKeepProguard file('multidex-config.pro')
+            signingConfig signingConfigs.tests
+
+            versionNameSuffix "-debug"
+
+            buildConfigField 'String', 'SERVER_URL', properties.getProperty('TEST_SERVER_URL')
+            buildConfigField 'String', 'PUBLISHER_ID', properties.getProperty('PUBLISHER_ID')
+            buildConfigField 'String', 'TEST_DEVICE_ID', properties.getProperty('TEST_DEVICE_ID')
+            buildConfigField 'String', 'DEBUG_GEOGRAPHY', properties.getProperty('DEBUG_GEOGRAPHY')
+        }
+    }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+apollo {
+    generateKotlinModels.set(true)
+    customTypeMapping = [
+            "DateTime"  : "java.util.Date",
+            "JSONString": "org.json.JSONObject"
+    ]
+}
+
+dependencies {
+    implementation libraries.kotlin
+
+    implementation libraries.androidx.appcompat
+    implementation libraries.androidx.ktx
+    implementation libraries.androidx.legacy
+    implementation libraries.material.material
+    implementation libraries.androidx.constraintLayout
+    implementation libraries.androidx.recyclerView
+    implementation libraries.androidx.navigationFragment
+    implementation libraries.androidx.navigationUi
+    implementation libraries.androidx.navigationFragmentKtx
+    implementation libraries.androidx.navigationUiKtx
+    implementation libraries.lifecycle.runtime
+    implementation libraries.lifecycle.viewModel
+    implementation libraries.lifecycle.liveData
+    implementation libraries.lifecycle.savedState
+    implementation libraries.androidx.preferences
+    implementation libraries.androidx.preferencesKtx
+    implementation libraries.androidx.paging.runtime
+
+    implementation libraries.google.playCore
+    implementation libraries.firebase.messaging
+    implementation libraries.firebase.messagingKtx
+
+    implementation libraries.firebase.analytics
+    implementation libraries.firebase.analyticsKtx
+    implementation libraries.firebase.crashlytics
+    implementation libraries.firebase.crashlyticsKtx
+    implementation libraries.firebase.performance
+
+    implementation libraries.billing.playStoreBilling
+    implementation libraries.billing.playStoreBillingKtx
+    implementation libraries.adsConsent
+    implementation libraries.firebase.ads
+
+    implementation libraries.apollo.runtime
+    implementation libraries.apollo.cache
+    implementation libraries.coroutines.core
+    implementation libraries.apollo.coroutinesSupport
+    implementation libraries.squareup.okhttp3
+    implementation libraries.squareup.loggingInterceptor
+
+    implementation libraries.glide.core
+
+    implementation libraries.firebase.auth
+    implementation libraries.firebase.authKtx
+    implementation libraries.firebase.ui.auth
+    implementation libraries.facebook
+    implementation libraries.twitter
+
+    implementation libraries.viewState
+    implementation libraries.uiTools
+
+    implementation libraries.timber
+
+    implementation libraries.koin.core
+
+    implementation libraries.simpleApollo
+
+    testImplementation libraries.junit
+    androidTestImplementation libraries.extJunit
+    androidTestImplementation libraries.espressoCore
+}

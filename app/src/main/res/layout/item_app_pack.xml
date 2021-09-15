@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/appPackUserPicture"
+        android:layout_width="@dimen/userpicture_size"
+        android:layout_height="@dimen/userpicture_size"
+        android:layout_marginVertical="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/default_components_margin"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/packHeaderContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="@id/appPackUserPicture"
+        app:layout_constraintStart_toEndOf="@id/appPackUserPicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/packDetailsContainer">
+
+        <TextView
+            android:id="@+id/appPackUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_components_margin"
+            android:gravity="start"
+            android:singleLine="true"
+            android:ellipsize="marquee" />
+
+        <TextView
+            android:id="@+id/appPackLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_components_margin"
+            android:gravity="start"
+            android:ellipsize="marquee" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/packDetailsContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/packHeaderContainer"
+        app:layout_constraintStart_toEndOf="@id/appPackUserPicture"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/appPackUserPicture">
+
+        <TextView
+            android:id="@+id/appPackDownloads"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_components_margin"
+            android:gravity="start"
+            android:ellipsize="marquee" />
+
+        <TextView
+            android:id="@+id/appPackLabels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_components_margin"
+            android:gravity="start"
+            android:ellipsize="marquee" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

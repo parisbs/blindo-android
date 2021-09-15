@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="privacy_policy_link">https://blindoapp.com/privacy-policy/</string>
+
+    <string name="app_name">Blindo</string>
+    <string name="title_activity_blindo">Blindo</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Notifications -->
+    <string name="messaging__channel_updates">Updates</string>
+    <string name="messaging__channel_updates_description">Notifications about updates and new features</string>
+
+    <!-- Ads Settings -->
+    <string name="ads_settings_title">Ads Settings</string>
+    <string name="ads__current_status">
+        %1$s.
+        If you want to change your ads preferences set your consent again, also you can buy a Blindo subscription to remove all the ads.
+    </string>
+    <string name="ads__personalized">You prefer to show personalized ads</string>
+    <string name="ads__non_personalized">You prefer to show non-personalized ads</string>
+    <string name="ads__ads_free">You have a Blindo subscription so you do not show ads</string>
+    <string name="ads__ads_free_but_not_purchased">You indicated that you prefer to purchase a subscription but you have not done</string>
+    <string name="ads__non_required">You are not from Europe so you are not able to change your ads preferences and Blindo will show personalized ads</string>
+    <string name="ads__unknown_consent">Unknown ads consent status, please set your consent</string>
+    <string name="ads__ads_blocker_or_internet_error">Internet connection error or ads blocker is detected</string>
+    <string name="ads__action_change_consent">Set my consent</string>
+    <string name="ads__purchase_subscription">Purchase a subscription</string>
+
+    <string name="splash__loading">Loading Blindo, please wait...</string>
+
+    <string name="menu__create_rating">New rating</string>
+    <string name="menu__download_backup">Restore my backup</string>
+
+    <string name="tutorial__title">Tutorial</string>
+    <string name="tutorial__step_welcome">Welcome to Blindo, the most important and biggest accessibility community where you can find ratings, comments and screenreaders labels for Android. If you want to know how to use Blindo press next, otherwise press omit</string>
+    <string name="tutorial__step_home">In home you can see all the apps registered on Blindo with some information like app category, accessibility rating and available labels packs, press any one to open details about the app</string>
+    <string name="tutorial__step_app_details">Each app have 3 categories of details to show, the general info with the accessibility ratings showed by category, the list of labels packs with the owner, the number of labels, the last update date and the language for the pack; and the comments list where you can see the comments and accessibility ratings that the users gave to the app. Also you can create new rating for the app pressing "New rating" option at the top of the window below the app name</string>
+    <string name="tutorial__step_local_apps">Also you can see a list of your installed apps in "My apps"  option of drawer menu. Here you can go to the details of any app and, if is available, you can see all the details</string>
+    <string name="tutorial__step_sli">The Smart Labels Installer (SLI) allows you to run an auto generator of labels for your installed apps with different options to customize your pack</string>
+    <string name="tutorial__step_privacy_policy_terms_conditions">Blindo will collect and storage some sensitive data from your device and about you to works well</string>
+    <string name="tutorial__step_account">You need a Blindo account to access to some features, if you prefer to omit this step, you can sign in or sign up in any moment in the drawer menu. However some functions will be available without an account</string>
+    <string name="tutorial__step_premium">You can access to exclusive features purchasing a premium membership, with this you can translate labels in other languages, launch the SLI without limits, remove all the ads in Blindo and more, Do you want to purchase a premium membership now?</string>
+    <string name="tutorial__step_finish">Enjoy Blindo and help us to improve the Android accesivbility, you can see this tutorial any time at drawer menu</string>
+    <array name="tutorial__privacy_policy_terms_conditions_data">
+        <item>Personal info like full name, username or email, and social network profile photo to create your Blindo account</item>
+        <item>Device info like your device ID, manufacturer, model and other device properties to associate it to your Blindo account</item>
+        <item>Installed apps info including app public names and package names, only collected when you use the Smart Labels Installer (SLI) to generate your custom labels pack</item>
+        <item>Accessibility services info including the package name of all your installed accessibility services rewardless if they are assistive software or not to generate label packs with the correct format</item>
+    </array>
+    <string name="tutorial__action_omit">Omit</string>
+    <string name="tutorial__action_next">Next</string>
+    <string name="tutorial__action_accept_privacy_policy_terms_conditions">I accept the &lt;a href="%1$s"&gt;privacy policy&lt;/a&gt; and &lt;a href="%2$s"&gt;terms and conditions&lt;/a&gt;</string>
+    <string name="tutorial__action_accept">Accept and continue</string>
+    <string name="tutorial__action_sign_in">Sign In</string>
+    <string name="tutorial__action_get_premium">Get premium</string>
+    <string name="tutorial__action_finish">Finish</string>
+
+    <string name="auth__step_welcome">With an account you can access to exclusive features on Blindo like publish new ratings, comments or labels on our community, however you can continue without an account but some features wont be available until your sign in. Press continue to sign in or sign up</string>
+    <string name="auth__error_authentication">Error during authentication, please try again</string>
+    <string name="auth__device_error">Error: this device can not be registered because it is asigned to another user or the request have errors, more details below</string>
+    <string name="auth__step_verify_account">We send you a verification email, please follow the instructions and, when you already verify your account, press continue. If you want to verify your email later you can skip this step</string>
+    <string name="auth__step_verify_account_notice">If you skip the email verification some Blindo features could not available, however you can complete this step later</string>
+    <string name="auth__step_verify_account_unverified_yet">Your account has not been verified yet. If you already verify your account please skip this step, however you can verify later. Last verification status: %1$s</string>
+    <string name="auth__step_congrats">Hi %1$s, now you have access to Blindo community, remember that some features require a subscription. Press continue to finish</string>
+    <string name="auth__continue_button">Continue</string>
+    <string name="auth__retry_button">Retry</string>
+    <string name="auth__cancel_button">Cancel</string>
+    <string name="auth__skip_verification_button">Verify later</string>
+
+    <string name="menu__home">Home</string>
+
+    <string name="header__sign_in">Sign in</string>
+    <string name="header__premium_crown">Premium</string>
+    <string name="header__user_profile">View profile</string>
+    <string name="header__signout">Sign out</string>
+    <string name="header__email_not_verified">Your email is not verified, some features wont be available</string>
+    <string name="header__verification_email_sended">Verification email sended</string>
+    <string name="header__email_verification_not_sended">Error sending verification email</string>
+    <string name="header__send_verification_email">Send now</string>
+
+    <string name="dialogrequiresauth__title">Sign in</string>
+    <string name="dialogrequiresauth__message">Sign in or create a Blindo account to access to all incredible features, it\'s free for basic features like download labels packs and backups</string>
+    <string name="dialogrequiresauth__continue">Sign in</string>
+    <string name="dialogrequiresauth__later">Maybe later</string>
+
+    <string name="dialogrequirespremium__title">Get premium membership</string>
+    <string name="dialogrequirespremium__message">You requires a premium membership to do this</string>
+    <string name="dialogrequirespremium__get_premium">Get premium now!</string>
+    <string name="dialogrequirespremium__later">Maybe later</string>
+
+    <string name="viewstate__retry">Retry</string>
+    <string name="viewstate__empty_error_title">Ooops!</string>
+    <string name="viewstate__loading_title">Loading...</string>
+
+    <string name="profile__title">Profile</string>
+    <string name="profile__edit">Edit</string>
+    <string name="profile__done">Done</string>
+    <string name="profile__name">Full name:</string>
+    <string name="profile__name_hint">Your name, minimum 6 characters</string>
+    <string name="profile__email">E-mail:</string>
+    <string name="profile__verified">(Verified)</string>
+    <string name="profile__not_verified">(Not verified)</string>
+    <string name="profile__save">Save</string>
+    <string name="profile__name_empty">Name can\'t be empty!</string>
+    <string name="profile__unknown_error_updating">Unknown error updating your profile, please try again later</string>
+    <string name="profile__updating_error">Error: %1$s</string>
+    <string name="profile__not_signed_in">Error: User is not signed in</string>
+    <string name="profile__update_success">Success!, press Done to finish</string>
+
+    <string name="localapps__title">My apps</string>
+
+    <string name="sli__title">Smart Labels Installer</string>
+    <string name="sli__introduction">SLI analize your installed apps and generate a custom labels pack for you selecting the best labels for you trying to cover all the unlabeled buttons in your device. You can translate labels from other languages to increment the number of possibilities, also you can prefer your backup and complet the missing labels with our smart installer</string>
+    <string name="sli__prefer_user_labels">Prefer my labels</string>
+    <string name="sli__translate">Translate</string>
+    <string name="sli_action_start">Start</string>
+    <string name="sli__action_retry">Retry</string>
+    <string name="sli__action_continue">Continue</string>
+    <string name="sli__action_install">Install now!</string>
+    <string name="sli__empty_local_apps">We can\'t get your installed apps, please try again, if the problem persist contact us</string>
+    <string name="sli__prepared_apps">Found %1$d apps, search for labels in %2$s prefering %3$s and %4$s. Do you want to continue?</string>
+    <string name="sli__prefering_backup">my backup over other packs</string>
+    <string name="sli__not_prefer_backup">other packs over my backup</string>
+    <string name="sli__requesting_translation">including translations</string>
+    <string name="sli__not_translation">omitting translations</string>
+    <string name="sli__empty_sli_result">We can\'t found any label for your apps and your current SLI configuration, please try again with other configuration</string>
+    <string name="sli__sli_result">Found %1$d labels in %2$s for %3$d apps. Do you want to install it?</string>
+    <string name="sli__unable_to_save">Unable to download and save your custom labels pack, verify if you have 10 MB or higher of free disk space in your internal memory and try again</string>
+
+    <string name="premium__title">Premium membership</string>
+    <string name="premium__introduction">Get access to premium features and enjoy the best accessibility experience in your Android without limits and help us to make the biggest accessibility community in the world!</string>
+    <string name="premium__benefit1">Take advantage of your labels backup and restore it only in one click, no more missing labels or hard transfering between devices, just press restore my backup and all your labels will be in your device in a few seconds</string>
+    <string name="premium__benefit2">Use our Smart Labels Installer (SLI) to automaticaly generate a custom labels pack with all available labels for your apps. Don\'t search one by one the best labels for your apps, run Blindo SLI and get a labels pack specialy generated for you with auto translates and more</string>
+    <string name="premium__benefit3">Do you wanna a labels pack but it\'s in other language?, translate and install it in just one click. Now you can search for labels packs in other languages to grow your labels collection and enjoy the most accessible experience in your Android</string>
+    <string name="premium__benefit4">Remove all the ads in Blindo and help us to continue developing and growing up our community</string>
+    <string name="premium__payment_info">Get a membership now by %1$s monthly</string>
+    <string name="premium__payment_period">This is a recurrent payment, every month %1$s will be charge to your payment method and you can cancel any time</string>
+    <string name="premium__payment_info_purchased">Your subscription is %1$s, press manage subscription if you want to cancel or change the payment method</string>
+    <string name="premium__payment_period_purchased">Your next payment will be processed at %1$s, if you cancel your subscription your membership will be available until this date and the payment won\'t processed</string>
+    <string name="premium__subs">Subscribe now!</string>
+    <string name="premium__manage_subs">Manage my subscription</string>
+    <string name="premium__disconnected">Error: Google Play Services is disconnected, please verify your internet connection and try again</string>
+    <string name="premium__feature_not_supported">Error: your Google Play Service don\'t support subscriptions, please update your Google Play Service and try again</string>
+    <string name="premium__service_unavailable">Error: Google Play Service is not available, verify that you have the latest version of Google Play Service and try again</string>
+    <string name="premium__unknown_error">Error: Google Play Services is not able to response, are you have a valid Google Play Services version installed\?</string>
+    <string name="premium__empty_skus">Not products available</string>
+    <string name="premium__canceled_by_user">You cancel the purchase</string>
+    <string name="premium__purchased_but_not_processed">Your purchase is complete but we still processing it, this don\'t affect your premium account but maybe you could wait some minutes to have a full access to premium features</string>
+    <string name="premium__status_active">active</string>
+    <string name="premium__status_canceled">canceled</string>
+
+    <string name="ratingbars__total">Total</string>
+    <string name="ratingbars__total_description">The total accessibility rating</string>
+    <string name="ratingbars__ui">UI</string>
+    <string name="ratingbars__ui_description">The user interface rating</string>
+    <string name="ratingbars__screenreaders">Screenreaders</string>
+    <string name="ratingbars__screenreaders_description">Screenreaders compatibility rating</string>
+    <string name="ratingbars__labels">Labels</string>
+    <string name="ratingbars__labels_description">The labels quality rating</string>
+    <string name="ratingbars__functions">Functions</string>
+    <string name="ratingbars__functions_description">The accessibility rating of the app functions</string>
+    <string name="ratingbars__performance">Performance</string>
+    <string name="ratingbars__performance_description">The app performance rating when a screenreader is enabled</string>
+    <string name="ratingbars__unset_bar">No rated yet</string>
+    <plurals name="ratingbars__rating_value">
+        <item quantity="one">%1$s star</item>
+        <item quantity="other">%1$s stars</item>
+    </plurals>
+
+    <string name="viewstate__apps_empty_description">No apps found</string>
+    <string name="viewstate__app_details_empty_description">No app details, add new rating or update labels pack to register the app</string>
+    <string name="viewstate__packs_empty_description">No label packs found</string>
+    <string name="viewstate__comments_empty_description">No comments found</string>
+    <string name="appdetails__details_tab">Details</string>
+    <string name="appdetails__packs_tab">Packs (%1$d)</string>
+    <string name="appdetails__comments_tab">Comments (%1$d)</string>
+
+    <string name="appitem__no_ratings">Not rated yet</string>
+    <string name="appitem__no_labels">Not available labels</string>
+    <plurals name="appitem__ratings_details">
+        <item quantity="one">%1$s stars with %2$d rating</item>
+        <item quantity="other">%1$s stars with %2$d ratings</item>
+    </plurals>
+    <plurals name="appitem__labels_details">
+        <item quantity="one">%1$d labels pack</item>
+        <item quantity="other">%1$d labels packs</item>
+    </plurals>
+
+    <string name="apppack__author">%1$s, %2$s</string>
+    <string name="apppack__language">Language: %1$s</string>
+    <string name="apppack__downloads">Downloads: %1$s</string>
+    <string name="apppack__labels">Labels: %1$d</string>
+
+    <string name="ratingcreator__requirements">All the ratings are required and the minimum value is 1 star, the comment is optional and the language of your device will be used as reference</string>
+    <string name="ratingcreator__comment_hint">Tell us about this app. (Optional)</string>
+    <string name="ratingcreator__success">Success!</string>
+    <string name="ratingcreator__error">Error: %1$s</string>
+    <string name="ratingcreator__continue_button">Continue</string>
+    <string name="ratingcreator__retry">Retry</string>
+    <string name="ratingcreator__finish">Finish</string>
+
+    <string name="appcomment_unknown_author">Unknown</string>
+    <string name="appcomment__total_and_date">%1$s stars, %2$s</string>
+    <string name="appcomment__no_comment">No comment</string>
+
+    <string name="commentdetails__comment_info">%1$s, %2$s</string>
+    <string name="commentdetails__unknown_language">Unknown language</string>
+
+    <string name="packdetails__date_info">Created %1$s, last updated %2$s</string>
+    <string name="packdetails__translate_to">Translate to %1$s</string>
+    <string name="packdetails__install_button">Install now</string>
+    <string name="packdetails__ad_minimum_visualization">You must wait more than %1$d seconds displaying the ads before install the pack, if you want to remove all the ads you can purchase a premium account</string>
+    <string name="packdetails__get_premium">Get premium now!</string>
+    <plurals name="packdetails__download_info">
+        <item quantity="one">Downloaded %1$s time</item>
+        <item quantity="other">Downloaded %1$s times</item>
+    </plurals>
+    <plurals name="packdetails__labels_info">
+        <item quantity="one">With %1$d label on %2$s</item>
+        <item quantity="other">With %1$d labels on %2$s</item>
+    </plurals>
+
+    <string name="title_activity_upload_pack">Upload labels in Blindo</string>
+    <string name="uploadpack__user">Signed as %1$s</string>
+    <string name="uploadpack__notice">Your labels will be updated or created and will be available for all the Blindo users and in your backup. Please don\'t include bad words or any bad expression or language, your account could be suspended if you violate the vocabulary rules</string>
+    <string name="uploadpack__resume">Detected %1$d labels for %2$d apps in %3$d different languages (%4$s)</string>
+    <string name="uploadpack__resume_empty">Error: the file is empty or isn\'t recognized as a labels pack</string>
+    <string name="uploadpack__result_processing">Processing your labels, this could take few seconds, don\t close this window</string>
+    <string name="uploadpack__result_ok">Success, created or updated %1$d packs, skiped or duplicated %2$d and %3$d with errors. Thanks for colaborate with Blindo community, you rock!</string>
+    <string name="uploadpack__action_send">Send</string>
+    <string name="uploadpack__action_retry">Retry</string>
+    <string name="uploadpack__action_done">Done</string>
+
+    <string name="backup__title">My labels</string>
+    <string name="backup__empty">You don\'t have any pack yet</string>
+
+    <string name="about__title">About</string>
+    <string name="about__blindo_version">Blindo App version %1$s revision %2$d</string>
+    <string name="about__blindo_copyright">© 2020 Paris Baltazar Salguero. All rights reserved</string>
+    <string name="about__copyright_notice">The modification, adaptation, translation, derivation, copying, distribution and/or marketing of this application and any of its algorithms, components and sub-components, as well as services offered excluding the services and/or components of third parties integrated and authorized for use within it, is prohibited</string>
+    <string name="about__terms_conditions_privacy_policy">Read our &lt;a href="%1$s"&gt;terms and conditions&lt;/a&gt; and &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;</string>
+    <string name="about__contact_us">&lt;a href="mailto:support@blindoapp.com"&gt;Contact us&lt;/a&gt;</string>
+
+    <string name="usercomments__title">My comments</string>
+    <string name="usercomments__view_state_empty">You don\t have any rating or comment yet</string>
+
+    <string name="filter__menu_title">Filter</string>
+    <string name="filter__order_by_header">Order by:</string>
+    <string name="filter__order_by_instructions">Select the fields to order and their direction and their priority where 1 is the most important priority and any number higher represents a lower priority</string>
+    <string-array name="filter__asc_desc_spinner">
+        <item>Ascending</item>
+        <item>Descending</item>
+    </string-array>
+    <string name="filter__priority">Priority</string>
+    <string name="filter__more_header">More</string>
+    <string name="filter__save">Apply</string>
+
+    <string name="appsfilter__title">Filter apps</string>
+    <string name="appsfilter_package_label">App name</string>
+    <string name="appsfilter__total_rating">Total rating</string>
+    <string name="appsfilter__available_packs">Available packs</string>
+
+</resources>

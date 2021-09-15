@@ -1,0 +1,37 @@
+query GetUser($sub: String!) {
+  getUser(sub: $sub) {
+    id
+    name
+    picture
+    isPremium
+  }
+}
+
+mutation CreateUser(
+  $input: CreateUserInput!
+) {
+  createUser(
+    input: $input
+  ) {
+    user {
+      id
+      name
+      picture
+    }
+  }
+}
+
+mutation UpdateUser(
+  $input: UpdateUserInput!
+) {
+  updateUser(
+    input: $input
+  ) {
+    user {
+      id
+      name
+      picture
+      isPremium
+    }
+  }
+}

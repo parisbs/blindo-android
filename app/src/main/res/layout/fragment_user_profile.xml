@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.user.profile.UserProfileFragment">
+
+    <TextView
+        android:id="@+id/nameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:labelFor="@id/userName"
+        android:text="@string/profile__name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/userCrown"
+        android:layout_width="@dimen/crown_width"
+        android:layout_height="@dimen/crown_height"
+        android:layout_marginTop="@dimen/minimum"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:contentDescription="@string/header__premium_crown"
+        android:visibility="gone"
+        android:src="@drawable/ic_crown"
+        app:layout_constraintTop_toTopOf="@id/userName"
+        app:layout_constraintStart_toEndOf="@id/nameLabel" />
+
+    <EditText
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:inputType="textCapWords"
+        android:allowUndo="true"
+        android:singleLine="true"
+        android:enabled="false"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/userCrown"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/emailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:labelFor="@id/userEmail"
+        android:text="@string/profile__email"
+        app:layout_constraintTop_toBottomOf="@id/nameLabel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/userEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:singleLine="true"
+        android:enabled="false"
+        app:layout_constraintTop_toBottomOf="@id/userName"
+        app:layout_constraintStart_toEndOf="@id/emailLabel"
+        app:layout_constraintEnd_toStartOf="@id/isVerified" />
+
+    <TextView
+        android:id="@+id/isVerified"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/userName"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/saveUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/userEmail"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

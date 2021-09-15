@@ -1,0 +1,107 @@
+query GetPack($id: ID!) {
+  getPack(id: $id) {
+    numberOfLabels
+    downloads
+    language
+    app {
+      id
+      packageName
+      packageLabel
+      category
+    }
+    user {
+      id
+      name
+      picture
+    }
+  }
+}
+
+query ListPacks(
+  $filters: PackFilter,
+  $sort: [PackSortEnum],
+  $first: Int,
+  $after: String
+) {
+  listPacks(
+    filters: $filters,
+    sort: $sort,
+    first: $first,
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        numberOfLabels
+        downloads
+        language
+        hash
+        user {
+          id
+          name
+          picture
+        }
+        app {
+          id
+          packageName
+          packageIcon
+          packageLabel
+          category
+        }
+        createdAt
+        updatedAt
+      }
+    }
+    pageInfo {
+      hasNextPage
+        endCursor
+    }
+  }
+}
+
+mutation ProcessPacks(
+  $input: ProcessPacksInput!
+) {
+  processPacks(
+    input: $input
+  ) {
+    createdOrUpdated
+    skipedOrDuplicated
+    withErrors
+  }
+}
+
+mutation DownloadPack(
+  $input: DownloadPackInput!
+) {
+  downloadPack(
+    input: $input
+  ) {
+    targetScreenreader
+    translateTo
+    installablePack
+  }
+}
+
+mutation DownloadBackup(
+  $input: DownloadBackupInput!
+) {
+  downloadBackup(
+    input: $input
+  ) {
+    targetScreenreader
+    installablePack
+  }
+}
+
+mutation LaunchSli(
+  $input: LaunchSliInput!
+) {
+  launchSli(
+    input: $input
+  ) {
+    targetScreenreader
+    targetLanguage
+    installablePack
+  }
+}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.wizeline.viewstate.ViewState
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/localAppsViewState"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:errorTitleText="@string/viewstate__empty_error_title"
+    app:emptyTitleText="@string/viewstate__empty_error_title"
+    app:loadingTitleText="@string/viewstate__loading_title"
+    app:emptyDescriptionText="@string/viewstate__apps_empty_description"
+    app:errorRetryText="@string/viewstate__retry"
+    tools:context=".ui.app.local.LocalAppsFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/localAppsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/default_components_margin"
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+</com.wizeline.viewstate.ViewState>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="privacy_policy_link">https://blindoapp.com/politica-privacidad/</string>
+
+    <string name="app_name">Blindo</string>
+    <string name="title_activity_blindo">Blindo</string>
+    <string name="navigation_drawer_open">Abrir menú de navegación</string>
+    <string name="navigation_drawer_close">Cerrar menú de navegación</string>
+
+    <!-- Notifications -->
+    <string name="messaging__channel_updates">Actualizaciones</string>
+    <string name="messaging__channel_updates_description">notificaciones sobre actualizaciones y nuevas funciones</string>
+
+    <!-- Ads Settings -->
+    <string name="ads_settings_title">Configuración de Anuncios</string>
+    <string name="ads__current_status">
+        %1$s.
+        Si quieres cambiar tus preferencias de anuncios debes establecer tu consentimiento de nuevo, también puedes comprar una subscripción de Blindo para dejar de mostrar anuncios.
+    </string>
+    <string name="ads__personalized">Prefieres que se te muestren anuncios personalizados</string>
+    <string name="ads__non_personalized">Prefieres que no se te muestren anuncios personalizados</string>
+    <string name="ads__ads_free">Tienes una subscripción de Blindo así que no se te muestran anuncios</string>
+    <string name="ads__ads_free_but_not_purchased">Indicaste que prefieres comprar una subscripción pero no lo has hecho</string>
+    <string name="ads__non_required">No estás en Europa así que no puedes cambiar tus preferencias de anuncios y Blindo mostrará anuncios personalizados</string>
+    <string name="ads__unknown_consent">Se desconoce el estado del consentimiento de anuncios, por favor establece tu consentimiento</string>
+    <string name="ads__ads_blocker_or_internet_error">Error de conexión a internet o se detectó un bloqueador de anuncios</string>
+    <string name="ads__action_change_consent">Establecer mi consentimiento</string>
+    <string name="ads__purchase_subscription">Comprar una subscripción</string>
+
+    <string name="splash__loading">Iniciando Blindo, por favor espera un momento...</string>
+
+    <string name="menu__create_rating">Nueva calificación</string>
+    <string name="menu__download_backup">Restaurar mi respaldo</string>
+
+    <string name="tutorial__title">Tutorial</string>
+    <string name="tutorial__step_welcome">Bienvenido a Blindo, la más grande e importante comunidad de accesibilidad donde podrás encontrar calificaciones
+de accesibilidad, comentarios y etiquetas para tus lectores de pantalla de Android. Para saber cómo utilizar Blindo presiona siguiente, para saltarte el
+tutorial presiona omitir</string>
+    <string name="tutorial__step_home">En el inicio podrás ver todas las apps registradas en Blindo con su información como categoría de la app, calificación
+de accesibilidad y paquetes de etiquetas disponibles, presiona sobre cualquiera para abrir sus detalles</string>
+    <string name="tutorial__step_app_details">Cada app tiene 3 categorías en sus detalles, en los detalles generales podrás ver la calificación de accesibilidad
+por subcategorías, la lista de paquetes de etiquetas divididas por colaborador que lo compartió, el número de etiquetas dentro del paquete, cuando se actualizó
+por última vez y el idioma del paquete; y la lista de comentarios donde podrás ver todas las calificaciones de accesibilidad y comentarios de los colaboradores
+de Blindo. También podrás colaborar con tus propias calificaciones y comentarios desde la opción nueva calificación en la parte superior de la pantalla
+debajo del nombre de la app</string>
+    <string name="tutorial__step_local_apps">También puedes ver una lista con todas tus apps instaladas en la opción mis apps del menú principal. Aquí
+también puedes ir a los detalles de cualquier app donde, sí están disponibles, podrás ver todos sus detalles y enviar tus calificaciones</string>
+    <string name="tutorial__step_sli">El Instalador Inteligente de Etiquetas (SLI por sus siglas en inglés) te permite correr un auto generador de etiquetas
+para todas tus apps instaladas con diferentes opciones de configuración para personalizar al máximo los resultados</string>
+    <string name="tutorial__step_privacy_policy_terms_conditions">Blindo podrá recolectar y almacenar algunos datos sensibles sobre ti y tu dispositivo para funcionar correctamente</string>
+    <string name="tutorial__step_account">Necesitas una cuenta de Blindo para acceder a algunas características, Si prefieres saltarte este paso, puedes
+iniciar sesión o registrarte en cualquier momento desde el menú principal. De todas formas muchas funciones están disponibles sin necesidad de una cuenta</string>
+    <string name="tutorial__step_premium">Puedes acceder a funciones exclusivas comprando una membresía premium, con esta tu podrás traducir las etiquetas
+a tu idioma, utilizar el SLI sin límites, ocultar todos los anuncios de Blindo y más, Te gustaría adquirir tu membresía ahora?</string>
+    <array name="tutorial__privacy_policy_terms_conditions_data">
+        <item>Información personal como tu nombre completo, nombres de usuario o correos electrónicos, y la foto de tu perfil de redes socialespara crear tu cuenta de Blindo</item>
+        <item>Información del dispositivo como el ID de tu dispositivo, fabricante, modelo y otras propiedades del dispositivo para asociarlos a tu cuenta de Blindo</item>
+        <item>Información de apps instaladas incluyendo el nombre público y el nombre del paquete de las apps, solo se recolecta cuando usas  el Instalador Inteligente de Etiquetas (SLI) para generar el paquete pesonalizado de etiquetas</item>
+        <item>Información de los servicios de accesibilidad incluyendo el nombre del paquete de todos tus servicios de accesibilidad instalados sin importar si realmente son software de asistencia o no para generar los paquetes de etiquetas en el formato indicado</item>
+    </array>
+    <string name="tutorial__action_omit">Omitir</string>
+    <string name="tutorial__step_finish">Disfruta Blindo y colabora con nosotros para mejorar la accesibilidad en Android, puedes ver este tutorial en
+cualquier momento desde el menú principal</string>
+    <string name="tutorial__action_next">Siguiente</string>
+    <string name="tutorial__action_accept_privacy_policy_terms_conditions">Acepto las &lt;a href="%1$s"&gt;políticas de privacidad&lt;/a&gt; y los &lt;a href="%2$s"&gt;términos y condiciones&lt;/a&gt;</string>
+    <string name="tutorial__action_accept">Aceptar y continuar</string>
+    <string name="tutorial__action_sign_in">Iniciar sesión</string>
+    <string name="tutorial__action_get_premium">Adquirir membresía</string>
+    <string name="tutorial__action_finish">Finalizar</string>
+
+    <string name="auth__step_welcome">Con una cuenta puedes acceder a funciones exclusivas en Blindo como publicar tus calificaciones, comentarios y etiquetas
+para nuestra comunidad, También puedes continuar sin una cuenta pero estas funciones no estarán disponibles. Presiona continuar para iniciar sesión o registrarte</string>
+    <string name="auth__error_authentication">Error durante la autenticación, por favor inténtalo nuevamente</string>
+    <string name="auth__device_error">Error: no pudimos asociar este dispositivo a tu usuario porque ya está asignado a otra cuenta o se presentó algún
+otro error, abajo encontrarás más información</string>
+    <string name="auth__step_verify_account">Te enviamos un email de verificación, por favor sigue las instrucciones del correo y, cuando hayas verificado
+tu cuenta, presiona continuar. Puedes verificar tu email más tarde si lo deseas omitiendo este paso</string>
+    <string name="auth__step_verify_account_notice">Si omites la verificación de tu email algunas funciones podrían no estar disponibles, puedes completar
+este paso más tarde, Blindo te recordará la próxima vez si no verificas tu cuenta</string>
+    <string name="auth__step_verify_account_unverified_yet">Tu cuenta todavía no ha sido verificada. Si ya verificaste la cuenta por favor salta este paso, puedes verificar tu cuenta después. Última verificación del estado: %1$s</string>
+    <string name="auth__step_congrats">Hola %1$s, ahora tienes acceso a la comunidad de Blindo, recuerda que algunas funciones necesitan de una subscripción.
+Presiona continuar para finalizar</string>
+    <string name="auth__continue_button">Continuar</string>
+    <string name="auth__retry_button">Reintentar</string>
+    <string name="auth__cancel_button">Cancelar</string>
+    <string name="auth__skip_verification_button">Verificar más tarde</string>
+
+    <string name="menu__home">Inicio</string>
+
+    <string name="header__sign_in">Iniciar sesión</string>
+    <string name="header__premium_crown">Premium</string>
+    <string name="header__user_profile">Ver perfil</string>
+    <string name="header__signout">Cerrar sesión</string>
+    <string name="header__email_not_verified">No has verificado tu email, algunas funciones podrían no estar disponibles</string>
+    <string name="header__verification_email_sended">Correo de verificación enviado</string>
+    <string name="header__email_verification_not_sended">Error al enviar el email de verificación</string>
+    <string name="header__send_verification_email">Enviar ahora</string>
+
+    <string name="dialogrequiresauth__title">Iniciar sesión</string>
+    <string name="dialogrequiresauth__message">Inicia sesión o regístrate para acceder a nuestra increíble comunidad, es gratis para la mayoría de las
+funciones como descargar paquetes de etiquetas, calificar apps y copias de seguridad de tus etiquetas</string>
+    <string name="dialogrequiresauth__continue">Iniciar sesión</string>
+    <string name="dialogrequiresauth__later">Quizá más tarde</string>
+
+    <string name="dialogrequirespremium__title">Adquirir una membresía</string>
+    <string name="dialogrequirespremium__message">Necesitas una membresía premium para hacer esto</string>
+    <string name="dialogrequirespremium__get_premium">Adquirir una membresía ahora!</string>
+    <string name="dialogrequirespremium__later">Quizá más tarde</string>
+
+    <string name="viewstate__retry">Reintentar</string>
+    <string name="viewstate__empty_error_title">Ooops!</string>
+    <string name="viewstate__loading_title">Cargando...</string>
+
+    <string name="profile__title">Perfil</string>
+    <string name="profile__edit">Editar</string>
+    <string name="profile__done">Listo</string>
+    <string name="profile__name">Nombre completo:</string>
+    <string name="profile__name_hint">Tu nombre completo, mínimo 6 carácteres</string>
+    <string name="profile__email">E-mail:</string>
+    <string name="profile__verified">(Verificado)</string>
+    <string name="profile__not_verified">(No verificado)</string>
+    <string name="profile__save">Guardar</string>
+    <string name="profile__name_empty">El nombre no puede estar vacío!</string>
+    <string name="profile__unknown_error_updating">Error desconocido al actualizar tu perfil, por favor inténtalo de nuevo más tarde</string>
+    <string name="profile__updating_error">Error: %1$s</string>
+    <string name="profile__not_signed_in">Error: El usuario no ha iniciado sesión</string>
+    <string name="profile__update_success">Éxito!, presiona listo en la parte superior de la ventana para finalizar</string>
+
+    <string name="localapps__title">Mis apps</string>
+
+    <string name="sli__title">Instalador Inteligente de Etiquetas</string>
+    <string name="sli__introduction">SLI analiza tus apps instaladas y genera un paquete de etiquetas personalizado para tí seleccionando las mejores etiquetas
+para tu dispositivo intentando cubrir todos los elementos sin etiquetar para tus apps. Puedes traducir las etiquetas de otros idiomas para incrementar
+el número de etiquetas disponibles, también puedes dar prioridad a tu respaldo de etiquetas y tomar las faltantes con nuestro instalador automático</string>
+    <string name="sli__prefer_user_labels">Priorizar mi respaldo</string>
+    <string name="sli__translate">Traducir</string>
+    <string name="sli_action_start">Iniciar</string>
+    <string name="sli__action_retry">Reintentar</string>
+    <string name="sli__action_continue">Continuar</string>
+    <string name="sli__action_install">Instalar ahora!</string>
+    <string name="sli__empty_local_apps">No hemos podido cargar tus apps instaladas, por favor inténtalo de nuevo, Si el problema persiste contáctanos</string>
+    <string name="sli__prepared_apps">Encontradas %1$d apps, se buscarán etiquetas en %2$s priorizando %3$s y %4$s. Quieres continuar?</string>
+    <string name="sli__prefering_backup">mi respaldo antes que otras etiquetas</string>
+    <string name="sli__not_prefer_backup">otras etiquetas antes que mi respaldo</string>
+    <string name="sli__requesting_translation">incluyendo traducciones</string>
+    <string name="sli__not_translation">sin traducir etiquetas</string>
+    <string name="sli__empty_sli_result">No pudimos encontrar ninguna etiqueta para tus apps con la configuración actual para SLI, por favor inténtalo
+de nuevo con otras configuraciones</string>
+    <string name="sli__sli_result">Encontradas %1$d etiquetas en %2$s para %3$d apps. Quieres instalarlas?</string>
+    <string name="sli__unable_to_save">No pudimos descargar e importar tu paquete de etiquetas personalizado, verifica que cuentes con al menos 10 MB o
+más de espacio libre en tu almacenamiento interno y vuelve a intentarlo</string>
+
+    <string name="premium__title">Membresía premium</string>
+    <string name="premium__introduction">Accede a las funciones premium y disfruta de la mejor experiencia en accesibilidad sin límites al mismo tiempo
+que nos ayudas a crear la más grande comunidad de accesibilidad en el mundo!</string>
+    <string name="premium__benefit1">Aprovecha el respaldo de tus etiquetas restaurándolas con un solo toque, no más etiquetas perdidas ni tardadas transferencias
+entre dispositivos, solo restaura tu respaldo y todas tus etiquetas se descargarán e instalarán en tu dispositivo en unos pocos segundos</string>
+    <string name="premium__benefit2">Utiliza nuestro Instalador Inteligente de Etiquetas (SLI) para generar automáticamente un paquete de etiquetas personalizado
+con todas las etiquetas disponibles para tus apps instaladas. Ya no busques uno por uno los mejores paquetes para tus apps, solo corre nuestro SLI y en
+cuestión de segundos obtén un paquete de etiquetas especialmente generado para tí con traducciones automáticas y más</string>
+    <string name="premium__benefit3">Te gustó un paquete de etiquetas pero está en otro idioma?, tradúcelo e instálalo en un solo toque. Ahora puedes buscar
+etiquetas sin preocuparte por el idioma en el que fueron creadas y haz crecer tu colección de etiquetas</string>
+    <string name="premium__benefit4">Oculta todos los anuncios de Blindoy ayúdanos a mantener y hacer crecer nuestra comunidad</string>
+    <string name="premium__payment_info">Obten tu membresía premium por %1$s al mes</string>
+    <string name="premium__payment_period">La membresía es una suscripción con pago recurrente, cada mes %1$s serán cargados a tu forma de pago pudiendo
+cancelar tu subscripción en cualquier momento</string>
+    <string name="premium__payment_info_purchased">Tu subscripción está %1$s, presiona administrar mi suscripción si quieres cancelar tu subscripción o
+cambiar tu forma de pago</string>
+    <string name="premium__payment_period_purchased">Tú siguiente pago será procesado el %1$s, si cancelas tu membresía la misma estará disponible hasta
+esta fecha y el siguiente pago ya no será procesado</string>
+    <string name="premium__subs">Subscribirme ahora!</string>
+    <string name="premium__manage_subs">Administrar mi subscripción</string>
+    <string name="premium__disconnected">Error: Los servicios de Google están desconectados, por favor verifica tu conexión a internet e intenta de nuevo</string>
+    <string name="premium__feature_not_supported">Error: los Servicios de Google no soportan las subscripciones, por favor actualiza tus Servicios de Google
+e intenta nuevamente</string>
+    <string name="premium__service_unavailable">Error: los Servicios de Google no están disponibles, verifica que tengas instalada la última versión de
+los Servicios de Google y vuelve a intentarlo</string>
+    <string name="premium__unknown_error">Error: Los servicios de Google no puede responder, tienes una versión de los servicios de Google válida instalada\?</string>
+    <string name="premium__empty_skus">Ningún producto disponible para la compra</string>
+    <string name="premium__canceled_by_user">Calaste la compra</string>
+    <string name="premium__purchased_but_not_processed">Completaste tu compra pero seguimos procesándola, esto no afecta tu membresía pero podrías necesitar
+esperar algunos minutos antes de tener acceso completo a las funciones premium, puedes intentar reiniciar Blindo para forzar el procesamiento de tu membresía</string>
+    <string name="premium__status_active">activa</string>
+    <string name="premium__status_canceled">cancelada</string>
+
+    <string name="ratingbars__total">Total</string>
+    <string name="ratingbars__total_description">La calificación de accesibilidad total</string>
+    <string name="ratingbars__ui">Interfaz</string>
+    <string name="ratingbars__ui_description">El nivel de accesibilidad para la interfaz gráfica de la app</string>
+    <string name="ratingbars__screenreaders">Lectores de pantalla</string>
+    <string name="ratingbars__screenreaders_description">El nivel de compatibilidad con los lectores de pantalla</string>
+    <string name="ratingbars__labels">Etiquetas</string>
+    <string name="ratingbars__labels_description">La calidad de las etiquetas para los diferentes elementos de la interfaz</string>
+    <string name="ratingbars__functions">Funcionalidad</string>
+    <string name="ratingbars__functions_description">Si todas las funciones de la app son compatibles con los lectores de pantalla</string>
+    <string name="ratingbars__performance">Rendimiento</string>
+    <string name="ratingbars__performance_description">El rendimiento de la app cuando se usa con lectores de pantalla</string>
+    <string name="ratingbars__unset_bar">Sin calificar</string>
+    <plurals name="ratingbars__rating_value">
+        <item quantity="one">%1$s estrella</item>
+        <item quantity="other">%1$s estrellas</item>
+    </plurals>
+
+    <string name="viewstate__apps_empty_description">No se encontraron apps</string>
+    <string name="viewstate__app_details_empty_description">Sin detalles para esta app, crea una calificación para poder mostrar información</string>
+    <string name="viewstate__packs_empty_description">No se encontraron paquetes de etiquetas disponibles, puedes compartir el tuyo exportando tus etiquetas
+desde tu lector de pantalla</string>
+    <string name="viewstate__comments_empty_description">No se encontraron calificaciones ni comentarios, puedes crear uno en la opción nueva calificación
+en la parte superior de esta ventana</string>
+    <string name="appdetails__details_tab">Detalles</string>
+    <string name="appdetails__packs_tab">Paquetes de etiquetas (%1$d)</string>
+    <string name="appdetails__comments_tab">Comentarios (%1$d)</string>
+
+    <string name="appitem__no_ratings">Sin calificar</string>
+    <string name="appitem__no_labels">Sin etiquetas disponibles</string>
+    <plurals name="appitem__ratings_details">
+        <item quantity="one">%1$s estrella con %2$d calificaciones</item>
+        <item quantity="other">%1$s estrellas con %2$d calificaciones</item>
+    </plurals>
+    <plurals name="appitem__labels_details">
+        <item quantity="one">%1$d paquete de etiquetas</item>
+        <item quantity="other">%1$d paquetes de etiquetas</item>
+    </plurals>
+
+    <string name="apppack__author">%1$s, %2$s</string>
+    <string name="apppack__language">Idioma: %1$s</string>
+    <string name="apppack__downloads">Descargas: %1$s</string>
+    <string name="apppack__labels">Etiquetas: %1$d</string>
+
+    <string name="ratingcreator__requirements">Todas las categorías son necesarias y la calificación mínima es 1 estrella, el comentario es opcional y
+se usará el idioma de tu dispositivo como referencia</string>
+    <string name="ratingcreator__comment_hint">Comparte tus comentarios sobre la accesibilidad de esta app. (Opcional)</string>
+    <string name="ratingcreator__success">Éxito!</string>
+    <string name="ratingcreator__error">Error: %1$s</string>
+    <string name="ratingcreator__continue_button">Continuar</string>
+    <string name="ratingcreator__retry">Reintentar</string>
+    <string name="ratingcreator__finish">Terminar</string>
+
+    <string name="appcomment_unknown_author">Desconocido</string>
+    <string name="appcomment__total_and_date">%1$s estrellas, %2$s</string>
+    <string name="appcomment__no_comment">Sin comentarios</string>
+
+    <string name="commentdetails__comment_info">%1$s, %2$s</string>
+    <string name="commentdetails__unknown_language">Idioma desconocido</string>
+
+    <string name="packdetails__date_info">Creado %1$s, última actualización %2$s</string>
+    <string name="packdetails__translate_to">Traducir a %1$s</string>
+    <string name="packdetails__install_button">Instalar ahora</string>
+    <string name="packdetails__ad_minimum_visualization">Debes esperar al menos %1$d segundos con los anuncios abiertos antes de poder instalar el paquete
+de etiquetas, Si no quieres esperar ni mostrar anuncios puedes comprar una membresía premium</string>
+    <string name="packdetails__get_premium">Adquirir una membresía ahora!</string>
+    <plurals name="packdetails__download_info">
+        <item quantity="one">Descargado %1$s vez</item>
+        <item quantity="other">Descargado %1$s veces</item>
+    </plurals>
+    <plurals name="packdetails__labels_info">
+        <item quantity="one">Con %1$d etiqueta en %2$s</item>
+        <item quantity="other">Con %1$d etiquetas en %2$s</item>
+    </plurals>
+
+    <string name="title_activity_upload_pack">Subir etiquetas a Blindo</string>
+    <string name="uploadpack__user">Accediste como %1$s</string>
+    <string name="uploadpack__notice">Tus etiquetas serán actualizadas ó creadas y estarán disponibles para cualquier usuario de Blindo además de añadirse
+a tu respaldo. Por favor no incluyas malas palabras ni utilices lenguaje ofensivo o discriminatorio, tu cuenta podría ser suspendida si incumples las reglas
+de vocabulario</string>
+    <string name="uploadpack__resume">Detectadas %1$d etiquetas para %2$d apps en %3$d idiomas diferentes (%4$s)</string>
+    <string name="uploadpack__resume_empty">Error: el archivo de etiquetas está vacío o no puede ser reconocido como un paquete de etiquetas</string>
+    <string name="uploadpack__result_processing">Procesando tus etiquetas, esto puede tardar varios segundos, no cierres esta ventana</string>
+    <string name="uploadpack__result_ok">Éxito, creados ó actualizados %1$d paquetes, saltados ó duplicados %2$d y %3$d con errores. Gracias por colaborar
+con la comunidad de Blindo, eres lo máximo!</string>
+    <string name="uploadpack__action_send">Enviar</string>
+    <string name="uploadpack__action_retry">Reintentar</string>
+    <string name="uploadpack__action_done">Listo</string>
+
+    <string name="backup__title">Mis etiquetas</string>
+    <string name="backup__empty">No tienes ningún paquete de etiquetas todavía</string>
+
+    <string name="about__title">Acerca de</string>
+    <string name="about__blindo_version">Blindo App versión %1$s revisión %2$d</string>
+    <string name="about__blindo_copyright">© 2020 Paris Baltazar Salguero. Todos los derechos reservados</string>
+    <string name="about__copyright_notice">Queda prohibida la modificación, adaptación, traducción, derivación, copia, distribución y/o comercialización
+de esta aplicación y cualquiera de sus algoritmos, componentes y subcomponentes, así como servicios ofrecidos excluyendo los servicios y/o componentes
+de terceros integrados y autorizados para el uso dentro de la misma</string>
+    <string name="about__terms_conditions_privacy_policy">Lee nuestros &lt;a href="%1$s"&gt;términos y condiciones&lt;/a&gt; y la &lt;a href="%2$s"&gt;política
+de privacidad&lt;/a&gt;</string>
+    <string name="about__contact_us">&lt;a href="mailto:
+support@blindoapp.com
+"&gt;Contáctanos&lt;/a&gt;</string>
+
+    <string name="usercomments__title">Mis comentarios</string>
+    <string name="usercomments__view_state_empty">No tienes ningún comentario o calificación todavía</string>
+
+    <string name="filter__menu_title">Filtrar</string>
+    <string name="filter__order_by_header">Ordenar por:</string>
+    <string name="filter__order_by_instructions">Selecciona los campos a filtrar y su dirección y prioridad donde 1 es la prioridad más alta y los números siguientes representan prioridades inferiores</string>
+    <string-array name="filter__asc_desc_spinner">
+        <item>Ascendente</item>
+        <item>Descendente</item>
+    </string-array>
+    <string name="filter__priority">Prioridad</string>
+    <string name="filter__more_header">Más</string>
+    <string name="filter__save">Aplicar</string>
+
+    <string name="appsfilter__title">Filtrar apps</string>
+    <string name="appsfilter_package_label">Nombre</string>
+    <string name="appsfilter__total_rating">Calif. total</string>
+    <string name="appsfilter__available_packs">Paquetes disp.</string>
+
+</resources>

@@ -1,0 +1,70 @@
+query ListRatings(
+  $filters: RatingFilter,
+  $sort: [RatingSortEnum],
+  $first: Int,
+  $after: String
+) {
+  listRatings(
+    filters: $filters,
+    sort: $sort,
+    first: $first,
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        ui
+        screenreaders
+        labels
+        functions
+        performance
+        comment
+        commentLanguage
+        createdAt
+        updatedAt
+        user {
+          id
+          name
+          picture
+        }
+        app {
+          id
+          packageName
+          packageIcon
+          packageLabel
+          category
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+mutation CreateRating(
+  $input: CreateRatingInput!
+) {
+  createRating(
+    input: $input
+  ) {
+    rating {
+      id
+      userId
+    }
+  }
+}
+
+mutation UpdateRating(
+  $input: UpdateRatingInput!
+) {
+  updateRating(
+    input: $input
+  ) {
+    rating {
+      id
+      userId
+    }
+  }
+}

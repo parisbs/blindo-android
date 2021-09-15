@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.about.AboutFragment">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/blindoIcon"
+        android:layout_width="@dimen/app_icon_width_height"
+        android:layout_height="@dimen/app_icon_width_height"
+        android:layout_margin="@dimen/default_components_margin"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/blindoVersion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_components_margin"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/blindoIcon"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/blindoCopyright"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_components_margin"
+        android:gravity="center_horizontal"
+        android:textStyle="italic"
+        android:text="@string/about__blindo_copyright"
+        app:layout_constraintTop_toBottomOf="@id/blindoVersion"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/copyrightNotice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_components_margin"
+        android:text="@string/about__copyright_notice"
+        app:layout_constraintTop_toBottomOf="@id/blindoCopyright"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/terms_conditions_privacy_policy"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_components_margin"
+        android:linksClickable="true"
+        app:layout_constraintTop_toBottomOf="@id/copyrightNotice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/contactUs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_components_margin"
+        android:linksClickable="true"
+        app:layout_constraintTop_toBottomOf="@id/terms_conditions_privacy_policy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainNavigation"
+    app:startDestination="@+id/navSplash">
+
+    <fragment
+        android:id="@+id/navSplash"
+        android:name="com.pbaltazar.blindo.ui.splash.SplashFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/actionFromSplashToHome"
+            app:destination="@id/navHome"
+            app:popUpTo="@id/navSplash"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromSplashToTutorial"
+            app:destination="@id/navTutorial"
+            app:popUpTo="@id/navSplash"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navTutorial"
+        android:name="com.pbaltazar.blindo.ui.tutorial.TutorialFragment"
+        android:label="@string/tutorial__title"
+        tools:layout="@layout/fragment_tutorial">
+        <argument
+            android:name="step"
+            app:argType="integer"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/actionFromTutorialToHome"
+            app:destination="@id/navHome"
+            app:popUpTo="@id/navTutorial"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromTutorialToPremium"
+            app:destination="@id/navPremium"
+            app:popUpTo="@id/navTutorial"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navHome"
+        android:name="com.pbaltazar.blindo.ui.home.HomeFragment"
+        android:label="@string/menu__home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/actionFromHomeToAppsFilter"
+            app:destination="@id/dialogAppsFilter"
+            app:popUpTo="@id/navHome"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromHomeToAppDetails"
+            app:destination="@id/navAppDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navHome"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navUserProfile"
+        android:name="com.pbaltazar.blindo.ui.user.profile.UserProfileFragment"
+        android:label="@string/profile__title"
+        tools:layout="@layout/fragment_user_profile">
+    </fragment>
+
+    <fragment
+        android:id="@+id/navLocalApps"
+        android:name="com.pbaltazar.blindo.ui.app.local.LocalAppsFragment"
+        android:label="@string/localapps__title"
+        tools:layout="@layout/fragment_local_apps">
+        <action
+            android:id="@+id/actionFromLocalAppsToAppDetails"
+            app:destination="@id/navAppDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navLocalApps"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navBackup"
+        android:name="com.pbaltazar.blindo.ui.user.backup.BackupFragment"
+        android:label="@string/backup__title"
+        tools:layout="@layout/fragment_backup">
+        <action
+            android:id="@+id/actionFromBackupToRequiresAuth"
+            app:destination="@id/dialogRequiresAuth"
+            app:popUpTo="@id/navBackup"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromBackupToRequiresPremium"
+            app:destination="@id/dialogRequiresPremium"
+            app:popUpTo="@id/navBackup"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromBackupToPackDetails"
+            app:destination="@id/navPackDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navBackup"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navUserComments"
+        android:name="com.pbaltazar.blindo.ui.user.comment.UserCommentsFragment"
+        android:label="@string/usercomments__title"
+        tools:layout="@layout/fragment_user_comments">
+        <action
+            android:id="@+id/actionFromUserCommentsToRequiresAuth"
+            app:destination="@id/dialogRequiresAuth"
+            app:popUpTo="@id/navUserComments"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromUserCommentsToCommentCreator"
+            app:destination="@id/navCommentCreator"
+            app:popUpTo="@id/navUserComments"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navSli"
+        android:name="com.pbaltazar.blindo.ui.sli.SliFragment"
+        android:label="@string/sli__title"
+        tools:layout="@layout/fragment_sli">
+        <action
+            android:id="@+id/actionFromSliToRequiresAuth"
+            app:destination="@id/dialogRequiresAuth"
+            app:popUpTo="@id/navSli"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromSliToRequiresPremium"
+            app:destination="@id/dialogRequiresPremium"
+            app:popUpTo="@id/navSli"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navPremium"
+        android:name="com.pbaltazar.blindo.ui.premium.PremiumFragment"
+        android:label="@string/premium__title"
+        tools:layout="@layout/fragment_premium">
+        <action
+            android:id="@+id/actionFromPremiumToRequiresAuth"
+            app:destination="@id/dialogRequiresAuth"
+            app:popUpTo="@id/navPremium"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navAdsSettings"
+        android:name="com.pbaltazar.blindo.utils.ads.settings.AdsSettingsFragment"
+        android:label="@string/ads_settings_title"
+        tools:layout="@layout/fragment_ads_settings">
+        <argument
+            android:name="consentStatus"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="closeAfterUpdate"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <action
+            android:id="@+id/actionFromAdsSettingsToPremium"
+            app:destination="@id/navPremium"
+            app:popUpTo="@id/navAdsSettings"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navAbout"
+        android:name="com.pbaltazar.blindo.ui.about.AboutFragment"
+        android:label="@string/about__title"
+        tools:layout="@layout/fragment_about">
+    </fragment>
+
+    <fragment
+        android:id="@+id/navAppDetails"
+        android:name="com.pbaltazar.blindo.ui.app.details.AppFragment"
+        tools:layout="@layout/fragment_app">
+        <argument
+            android:name="app"
+            app:argType="com.pbaltazar.blindo.entities.App"
+            app:nullable="false"/>
+        <action
+            android:id="@+id/actionFromAppDetailsToCommentCreator"
+            app:destination="@id/navCommentCreator"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navAppDetails"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromAppDetailsToPackDetails"
+            app:destination="@id/navPackDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navAppDetails"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromAppDetailsToCommentDetails"
+            app:destination="@id/navCommentDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navAppDetails"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navCommentCreator"
+        android:name="com.pbaltazar.blindo.ui.comment.create.CommentCreatorFragment"
+        tools:layout="@layout/fragment_rating_creator">
+        <argument
+            android:name="app"
+            app:argType="com.pbaltazar.blindo.entities.App"
+            app:nullable="false" />
+        <argument
+            android:name="rating"
+            app:argType="com.pbaltazar.blindo.entities.Rating"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/actionFromCommentCreatorToRequiresAuth"
+            app:destination="@id/dialogRequiresAuth"
+            app:popUpTo="@id/navCommentCreator"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navPackDetails"
+        android:name="com.pbaltazar.blindo.ui.pack.details.PackDetailsFragment"
+        tools:layout="@layout/fragment_pack_details">
+        <argument
+            android:name="pack"
+            app:argType="com.pbaltazar.blindo.entities.Pack"
+            app:nullable="false" />
+        <action
+            android:id="@+id/actionFromPackDetailsToRequiresAuth"
+            app:destination="@id/dialogRequiresAuth"
+            app:popUpTo="@id/navPackDetails"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromPackDetailsToRequiresPremium"
+            app:destination="@id/dialogRequiresPremium"
+            app:popUpTo="@id/navPackDetails"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromPackDetailsToPremium"
+            app:destination="@id/navPremium"
+            app:popUpTo="@id/navPackDetails"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromPackDetailsToAdsSettings"
+            app:destination="@id/navAdsSettings"
+            app:popUpTo="@id/navPackDetails"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navCommentDetails"
+        android:name="com.pbaltazar.blindo.ui.comment.details.CommentDetailsFragment"
+        tools:layout="@layout/fragment_rating_details">
+        <argument
+            android:name="rating"
+            app:argType="com.pbaltazar.blindo.entities.Rating"
+            app:nullable="false" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/dialogRequiresAuth"
+        android:name="com.pbaltazar.blindo.ui.dialog.auth.RequiresAuth">
+    </dialog>
+
+    <dialog
+        android:id="@+id/dialogRequiresPremium"
+        android:name="com.pbaltazar.blindo.ui.dialog.premium.RequiresPremium">
+        <action
+            android:id="@+id/actionFromRequiresPremiumToPremium"
+            app:destination="@id/navPremium"
+            app:popUpTo="@id/dialogRequiresPremium"
+            app:popUpToInclusive="true"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/dialogAppsFilter"
+        android:name="com.pbaltazar.blindo.ui.filter.apps.AppsFilterFragment"
+        android:label="@string/appsfilter__title"
+        tools:layout="@layout/fragment_filter">
+    </fragment>
+
+    <action
+        android:id="@+id/actionGlobalToUserProfile"
+        app:destination="@id/navUserProfile"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right" />
+
+    <action
+        android:id="@+id/actionGlobalToAdsSettings"
+        app:destination="@id/navAdsSettings"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out" />
+
+</navigation>

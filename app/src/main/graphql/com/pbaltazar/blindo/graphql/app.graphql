@@ -1,0 +1,354 @@
+query ListApps(
+  $filters: AppFilter,
+  $sort: [AppSortEnum]!,
+  $first: Int!,
+  $after: String
+) {
+  listApps(
+    filters: $filters,
+    sort: $sort,
+    first: $first,
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        packageName
+        packageIcon
+        packageLabel
+        category
+        totalRating
+        numberOfRatings
+        availablePacks
+      }
+      cursor
+    }
+    pageInfo {
+      hasNextPage
+        endCursor
+    }
+  }
+}
+
+query GetApp(
+  $id: ID!,
+  $packsSort: [PackSortEnum]!,
+  $packsFirst: Int!,
+  $ratingsSort: [RatingSortEnum]!,
+  $ratingsFirst: Int!
+) {
+  getApp(
+    id: $id
+  ) {
+    uiRating
+    screenreadersRating
+    labelsRating
+    functionsRating
+    performanceRating
+    totalRating
+    packs (
+      sort: $packsSort,
+      first: $packsFirst
+    ) {
+      edges {
+        node {
+          id
+          numberOfLabels
+          downloads
+          language
+          hash
+          createdAt
+          updatedAt
+          user {
+            id
+            name
+            picture
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+    ratings (
+      sort: $ratingsSort,
+      first: $ratingsFirst
+    ) {
+      edges {
+        node {
+          id
+          ui
+          screenreaders
+          labels
+          functions
+          performance
+          comment
+          commentLanguage
+          createdAt
+          updatedAt
+          user {
+            id
+            name
+            picture
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
+query GetAppByPackageName(
+  $packageName: String!,
+  $packsSort: [PackSortEnum]!,
+  $packsFirst: Int!,
+  $ratingsSort: [RatingSortEnum]!,
+  $ratingsFirst: Int!
+) {
+  getAppByPackageName(
+    packageName: $packageName
+  ) {
+    id
+    packageIcon
+    packageLabel
+    category
+    uiRating
+    screenreadersRating
+    labelsRating
+    functionsRating
+    performanceRating
+    totalRating
+    numberOfRatings
+    availablePacks
+    packs (
+      sort: $packsSort,
+      first: $packsFirst
+    ) {
+      edges {
+        node {
+          id
+          numberOfLabels
+          downloads
+          language
+          hash
+          createdAt
+          updatedAt
+          user {
+            id
+            name
+            picture
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+    ratings (
+      sort: $ratingsSort,
+      first: $ratingsFirst
+    ) {
+      edges {
+        node {
+          id
+          ui
+          screenreaders
+          labels
+          functions
+          performance
+          comment
+          commentLanguage
+          createdAt
+          updatedAt
+          user {
+            id
+            name
+            picture
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
+query GetAppOnly(
+  $id: ID!
+) {
+  getApp(
+    id: $id
+  ) {
+    uiRating
+    screenreadersRating
+    labelsRating
+    functionsRating
+    performanceRating
+    totalRating
+  }
+}
+
+query GetAppPacks(
+  $id: ID!,
+  $packsSort: [PackSortEnum]!,
+  $packsFirst: Int!,
+  $packsAfter: String
+) {
+  getApp(
+    id: $id
+  ) {
+    packs (
+      sort: $packsSort,
+      first: $packsFirst,
+      after: $packsAfter
+    ) {
+      edges {
+        node {
+          id
+          numberOfLabels
+          downloads
+          language
+          hash
+          createdAt
+          updatedAt
+          user {
+            id
+            name
+            picture
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
+query GetAppPacksByPackageName(
+  $packageName: String!,
+  $packsSort: [PackSortEnum]!,
+  $packsFirst: Int!,
+  $packsAfter: String
+) {
+  getAppByPackageName(
+    packageName: $packageName
+  ) {
+    packs (
+      sort: $packsSort,
+      first: $packsFirst,
+      after: $packsAfter
+    ) {
+      edges {
+        node {
+          id
+          numberOfLabels
+          downloads
+          language
+          hash
+          createdAt
+          updatedAt
+          user {
+            id
+            name
+            picture
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
+query GetAppRatings(
+  $id: ID!,
+  $ratingsSort: [RatingSortEnum]!,
+  $ratingsFirst: Int!,
+  $ratingsAfter: String
+) {
+  getApp(
+    id: $id
+  ) {
+    ratings (
+      sort: $ratingsSort,
+      first: $ratingsFirst,
+      after: $ratingsAfter
+    ) {
+      edges {
+        node {
+          id
+          ui
+          screenreaders
+          labels
+          functions
+          performance
+          comment
+          commentLanguage
+          createdAt
+          updatedAt
+          user {
+            id
+            name
+            picture
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
+query GetAppRatingsByPackageName(
+  $packageName: String!,
+  $ratingsSort: [RatingSortEnum]!,
+  $ratingsFirst: Int!,
+  $ratingsAfter: String
+) {
+  getAppByPackageName(
+    packageName: $packageName
+  ) {
+    ratings (
+      sort: $ratingsSort,
+      first: $ratingsFirst,
+      after: $ratingsAfter
+    ) {
+      edges {
+        node {
+          id
+          ui
+          screenreaders
+          labels
+          functions
+          performance
+          comment
+          commentLanguage
+          createdAt
+          updatedAt
+          user {
+            id
+            name
+            picture
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}

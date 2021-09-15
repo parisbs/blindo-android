@@ -1,0 +1,70 @@
+query GetDevice(
+  $hardwareFingerprint: String!
+) {
+  getDevice(
+    hardwareFingerprint: $hardwareFingerprint
+  ) {
+    id
+    name
+    language
+    country
+  }
+}
+
+query ListDevices(
+  $sort: [DeviceSortEnum]!,
+  $first: Int!,
+  $after: String
+) {
+  listDevices(
+    sort: $sort,
+    first: $first,
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        hardwareFingerprint
+        name
+        language
+        country
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+mutation CreateDevice(
+  $input: CreateDeviceInput!
+) {
+  createDevice(
+    input: $input
+  ) {
+    device {
+      id
+      hardwareFingerprint
+      name
+      language
+      country
+    }
+  }
+}
+
+mutation UpdateDevice(
+  $input: UpdateDeviceInput!
+) {
+  updateDevice(
+    input: $input
+  ) {
+    device {
+      id
+      hardwareFingerprint
+      name
+      language
+      country
+    }
+  }
+}

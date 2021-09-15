@@ -1,0 +1,25 @@
+query GetMembership {
+  getMembership {
+    id
+    expireAt
+    isCanceled
+    cancelReason
+    token
+  }
+}
+
+mutation ProcessMembership(
+  $input: ProcessMembershipInput!
+) {
+  processMembership(
+    input: $input
+  ) {
+    membership {
+      id
+      expireAt
+      isCanceled
+      cancelReason
+      token
+    }
+  }
+}

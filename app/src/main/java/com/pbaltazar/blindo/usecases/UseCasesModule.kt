@@ -1,0 +1,34 @@
+package com.pbaltazar.blindo.usecases
+
+import org.koin.dsl.module
+
+val useCasesModule = module {
+
+    factory { GetLocalApps(get()) }
+
+    factory { MutationCreateDevice(get()) }
+    factory { MutationCreateComment(get()) }
+    factory { MutationCreateUser(get()) }
+    factory { MutationDownloadBackup(get()) }
+    factory { MutationDownloadPack(get()) }
+    factory { MutationLaunchSli(get()) }
+    factory { MutationProcessMembership(get()) }
+    factory { MutationProcessPacks(get()) }
+    factory { MutationUpdateComment(get()) }
+    factory { MutationUpdateDevice(get()) }
+    factory { MutationUpdateUser(get()) }
+
+    factory { QueryGetApp(get()) }
+    factory { QueryGetAppByPackageName(get()) }
+    factory { QueryGetAppOnly(get()) }
+    factory { QueryGetAppPacks(get()) }
+    factory { QueryGetAppPacksByPackageName(get()) }
+    factory { QueryGetAppRatings(get()) }
+    factory { QueryGetAppRatingsByPackageName(get()) }
+    factory { QueryGetDevice(get()) }
+    factory { QueryGetMembership(get()) }
+    factory { QueryGetUser(get()) }
+    factory { QueryListApps(get()) }
+    factory { QueryListPacks(get()) }
+    factory { QueryListComments(get()) }
+}

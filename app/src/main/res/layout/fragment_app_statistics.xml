@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.wizeline.viewstate.ViewState
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appStatisticsViewState"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:errorTitleText="@string/viewstate__empty_error_title"
+    app:emptyTitleText="@string/viewstate__empty_error_title"
+    app:loadingTitleText="@string/viewstate__loading_title"
+    app:errorRetryText="@string/viewstate__retry"
+    app:emptyDescriptionText="@string/viewstate__app_details_empty_description"
+    tools:context=".ui.app.details.pages.statistics.AppStatisticsFragment">
+
+    <include
+        layout="@layout/content_rating_bars"
+        android:id="@+id/rating_bars" />
+
+</com.wizeline.viewstate.ViewState>
