@@ -57,7 +57,7 @@ ext {
     firebasePerformanceVersion = "20.0.2"
     firebaseMessagingVersion = "22.0.0"
     firebaseAnalyticsVersion = "19.0.0"
-    apolloVersion = "2.0.1"
+    apolloVersion = "2.5.9"
     koinVersion = "3.1.2"
     playStoreBillingVersion = '4.0.0'
     timber_version = "5.0.1"
@@ -67,7 +67,7 @@ ext {
     glideVersion = "4.11.0"
     facebookVersion = "11.2.0"
     twitterVersion = "3.3.0"
-    simpleApolloVersion = "1.0.1"
+    simpleApolloVersion = "1.1.0"
     uiToolsVersion = "1.0.0-beta02"
 
     // Implementations
