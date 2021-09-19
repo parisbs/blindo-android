@@ -53,6 +53,9 @@ class BlindoAuthenticationLocal(
     override fun updateLocalAccount(user: User): User? = accountManager.getAccountsByType(
         context.getString(R.string.account_type)
     ).lastOrNull()?.let { account ->
+        accountManager.setUserData(account, ID, user.id)
+        accountManager.setUserData(account, SUB, user.sub)
+        accountManager.setUserData(account, EMAIL, user.email)
         accountManager.setUserData(account, NAME, user.name)
         accountManager.setUserData(account, PICTURE, user.picture)
         accountManager.setUserData(account, IS_PREMIUM, user.isPremium.toString())
