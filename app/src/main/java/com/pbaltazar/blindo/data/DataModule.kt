@@ -24,12 +24,15 @@ import com.wizeline.simpleapollo.api.constants.DateTimePatterns
 import com.wizeline.simpleapollo.api.constants.TimeUnit
 import com.wizeline.simpleapollo.api.customtypes.DateTimeCustomTypeAdapter
 import com.wizeline.simpleapollo.api.customtypes.JSONStringCustomTypeAdapter
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
+
+const val BASIC_SIMPLE_APOLLO_CLIENT = "basicSimpleApolloClient"
+const val EXTENDED_TIME_OUT_SIMPLE_APOLLO_CLIENT = "extendedTimeOutSimpleApolloClient"
 
 val dataModule = module {
 
-    single<SimpleApolloClient> {
-
+    single<SimpleApolloClient>(named(BASIC_SIMPLE_APOLLO_CLIENT)) {
         SimpleApolloClient.Builder()
             .context(get())
             .serverUrl(BuildConfig.SERVER_URL)
@@ -57,45 +60,75 @@ val dataModule = module {
             .build()
     }
 
+    single<SimpleApolloClient>(named(EXTENDED_TIME_OUT_SIMPLE_APOLLO_CLIENT)) {
+        SimpleApolloClient.Builder()
+            .context(get())
+            .serverUrl(BuildConfig.SERVER_URL)
+            .connectionTimeOut(300, TimeUnit.SECONDS)
+            .enableCache(
+                CacheConfiguration(
+                    fileName = "cache",
+                    cacheSize = 10485860,
+                    expireTime = 25,
+                    expireUnit = TimeUnit.MINUTES
+                )
+            )
+            .addCustomTypeAdapters(
+                mapOf<ScalarType, CustomTypeAdapter<*>>(
+                    Pair(
+                        CustomType.DATETIME,
+                        DateTimeCustomTypeAdapter(DateTimePatterns.ISO8601_MICROS_TZ.pattern)
+                    ),
+                    Pair(
+                        CustomType.JSONSTRING,
+                        JSONStringCustomTypeAdapter()
+                    )
+                )
+            )
+            .isDebug(BuildConfig.DEBUG)
+            .build()
+    }
+
     single<AppGateway> {
         BlindoApiAppGateway(
-            get()
+            get(named(BASIC_SIMPLE_APOLLO_CLIENT))
         )
     }
 
     single<CommentGateway> {
         BlindoApiCommentGateway(
-            get()
+            get(named(BASIC_SIMPLE_APOLLO_CLIENT))
         )
     }
 
     single<DeviceGateway> {
         BlindoApiDeviceGateway(
-            get()
+            get(named(BASIC_SIMPLE_APOLLO_CLIENT))
         )
     }
 
     single<LocalAppGateway> {
         PackageManagerLocalAppGateway(
-            get()
+            get(named(BASIC_SIMPLE_APOLLO_CLIENT))
         )
     }
 
     single<MembershipGateway> {
         BlindoApiMembershipGateway(
-            get()
+            get(named(BASIC_SIMPLE_APOLLO_CLIENT))
         )
     }
 
     single<PackGateway> {
         BlindoApiPackGateway(
-            get()
+            get(named(BASIC_SIMPLE_APOLLO_CLIENT)),
+            get(named(EXTENDED_TIME_OUT_SIMPLE_APOLLO_CLIENT))
         )
     }
 
     single<UserGateway> {
         BlindoApiUserGateway(
-            get()
+            get(named(BASIC_SIMPLE_APOLLO_CLIENT))
         )
     }
 }

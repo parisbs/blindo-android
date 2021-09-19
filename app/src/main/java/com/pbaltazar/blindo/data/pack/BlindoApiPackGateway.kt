@@ -19,7 +19,8 @@ import com.wizeline.simpleapollo.api.SimpleApolloClient
 import com.wizeline.simpleapollo.models.Response
 
 class BlindoApiPackGateway(
-    private val blindoApiClient: SimpleApolloClient
+    private val blindoApiClient: SimpleApolloClient,
+    private val extendedTimeOutBlindoApiClient: SimpleApolloClient
 ) : ApiHelpers, PackGateway {
 
     override suspend fun getAppPacks(appInput: AppInput): ApiResponse<List<Pack>> =
@@ -98,7 +99,7 @@ class BlindoApiPackGateway(
         installablePack: InstallablePack,
         idToken: String
     ): ApiResponse<InstallablePack> =
-        blindoApiClient.mutate(
+        extendedTimeOutBlindoApiClient.mutate(
             DownloadPackMutation(
                 input = DownloadPackInput(
                     packId = installablePack.pack.id,
@@ -120,7 +121,7 @@ class BlindoApiPackGateway(
         targetScreenreader: SupportedScreenreadersEnum,
         idToken: String
     ): ApiResponse<InstallablePack> =
-        blindoApiClient.mutate(
+        extendedTimeOutBlindoApiClient.mutate(
             DownloadBackupMutation(
                 input = DownloadBackupInput(
                     targetScreenreader = targetScreenreader
@@ -144,7 +145,7 @@ class BlindoApiPackGateway(
         translate: Boolean,
         idToken: String
     ): ApiResponse<InstallablePack> =
-        blindoApiClient.mutate(
+        extendedTimeOutBlindoApiClient.mutate(
             LaunchSliMutation(
                 input = LaunchSliInput(
                     packageNames = apps,
@@ -168,7 +169,7 @@ class BlindoApiPackGateway(
         labels: List<Label>,
         idToken: String
     ): ApiResponse<ProcessPacksResult> =
-        blindoApiClient.mutate(
+        extendedTimeOutBlindoApiClient.mutate(
             ProcessPacksMutation(
                 input = ProcessPacksInput(
                     labels = labels.mapNotNull { it.toLabelInput() }
