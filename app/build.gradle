@@ -39,8 +39,8 @@ android {
         minSdkVersion sdk.min
         targetSdkVersion sdk.target
 
-        versionCode 118
-        versionName "3.3.3"
+        versionCode 119
+        versionName "3.3.4"
 
         multiDexEnabled true
 
@@ -133,10 +133,7 @@ dependencies {
     implementation libraries.adsConsent
     implementation libraries.firebase.ads
 
-    implementation libraries.apollo.runtime
-    implementation libraries.apollo.cache
-    implementation libraries.coroutines.core
-    implementation libraries.apollo.coroutinesSupport
+    implementation libraries.simpleApollo
     implementation libraries.squareup.okhttp3
     implementation libraries.squareup.loggingInterceptor
 
@@ -154,8 +151,6 @@ dependencies {
     implementation libraries.timber
 
     implementation libraries.koin.core
-
-    implementation libraries.simpleApollo
 
     testImplementation libraries.junit
     androidTestImplementation libraries.extJunit
