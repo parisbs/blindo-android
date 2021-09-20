@@ -39,7 +39,7 @@ android {
         minSdkVersion sdk.min
         targetSdkVersion sdk.target
 
-        versionCode 119
+        versionCode 120
         versionName "3.3.4"
 
         multiDexEnabled true
