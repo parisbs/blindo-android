@@ -11,8 +11,10 @@ import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentTutorialBinding
+import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.constants.TERMS_AND_CONDITIONS_LINK
@@ -60,6 +62,7 @@ class TutorialFragment : AuthenticableFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        AnalyticsManager.registerEventWithoutParams(FirebaseAnalytics.Event.TUTORIAL_BEGIN)
         tutorialViewModel.verifyIsPrivacyPolicyAccepted()
         omitButton.setOnClickListener {
             tutorialViewModel.setStep(5)
@@ -200,6 +203,7 @@ class TutorialFragment : AuthenticableFragment() {
                     omitButton.visibility = View.INVISIBLE
                     text = getString(label)
                     setOnClickListener {
+                        AnalyticsManager.registerEventWithoutParams(FirebaseAnalytics.Event.TUTORIAL_COMPLETE)
                         this@TutorialFragment.findNavController().navigate(
                             TutorialFragmentDirections.actionFromTutorialToHome()
                         )

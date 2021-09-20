@@ -4,10 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
 import com.google.firebase.perf.metrics.AddTrace
-import com.pbaltazar.blindo.entities.BlindoPurchase
-import com.pbaltazar.blindo.entities.InstallablePack
-import com.pbaltazar.blindo.entities.Membership
-import com.pbaltazar.blindo.entities.Pack
+import com.pbaltazar.blindo.entities.*
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.constants.DOWNLOADS_DIR
 import com.pbaltazar.blindo.utils.constants.LABELS_PROVIDER
@@ -84,3 +81,12 @@ fun InstallablePack.countApps(): Int {
         return 0
     }
 }
+
+fun User.getAuthenticationMethod(): String = picture?.let {
+    when {
+        it.contains("google") == true -> "Google"
+        it.contains(".fb.") == true -> "Facebook"
+        it.contains("twitter") == true -> "Twitter"
+        else -> "Unknown"
+    }
+} ?: "Email"

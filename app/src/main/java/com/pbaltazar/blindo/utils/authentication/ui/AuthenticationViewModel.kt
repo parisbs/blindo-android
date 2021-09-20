@@ -11,8 +11,10 @@ import com.pbaltazar.blindo.entities.errors.AuthenticationProviderException
 import com.pbaltazar.blindo.entities.responses.ApiResponse
 import com.pbaltazar.blindo.entities.responses.AuthenticationProviderResponse
 import com.pbaltazar.blindo.usecases.*
+import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.authentication.local.AuthenticationLocal
 import com.pbaltazar.blindo.utils.authentication.provider.AuthenticationProvider
+import com.pbaltazar.blindo.utils.extensions.getAuthenticationMethod
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -300,6 +302,7 @@ class AuthenticationViewModel(
         }
         setUser(user)
         authenticationResult.postValue(UserAuthentication.Success(user))
+        AnalyticsManager.registerLoginEvent(user.getAuthenticationMethod())
     }
 
     private fun updateLocalAccount(user: User) =
