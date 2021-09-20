@@ -1,6 +1,7 @@
 package com.pbaltazar.blindo.data.pack
 
 import com.apollographql.apollo.api.Input
+import com.google.firebase.perf.metrics.AddTrace
 import com.pbaltazar.blindo.data.ApiHelpers
 import com.pbaltazar.blindo.entities.InstallablePack
 import com.pbaltazar.blindo.entities.Label
@@ -95,6 +96,7 @@ class BlindoApiPackGateway(
             }
         }
 
+    @AddTrace(name = "downloadPack", enabled = true)
     override suspend fun downloadPack(
         installablePack: InstallablePack,
         idToken: String
@@ -117,6 +119,7 @@ class BlindoApiPackGateway(
             }
         }
 
+    @AddTrace(name = "downloadBackup", enabled = true)
     override suspend fun downloadBackup(
         targetScreenreader: SupportedScreenreadersEnum,
         idToken: String
@@ -137,6 +140,7 @@ class BlindoApiPackGateway(
             }
         }
 
+    @AddTrace(name = "launchSli", enabled = true)
     override suspend fun launchSli(
         apps: List<String>,
         language: String,
@@ -165,6 +169,7 @@ class BlindoApiPackGateway(
             }
         }
 
+    @AddTrace(name = "processPacks", enabled = true)
     override suspend fun processPacks(
         labels: List<Label>,
         idToken: String
