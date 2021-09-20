@@ -141,6 +141,8 @@ class UserCommentsFragment : AuthenticableFragment() {
                 ) {
                     override fun hasNextPage(): Boolean = hasNextPage
 
+                    override fun prefetchDistance(): Int = 10
+
                     override fun isLoading(): Boolean = isLoading
 
                     override fun loadMoreItems() = loadComments()

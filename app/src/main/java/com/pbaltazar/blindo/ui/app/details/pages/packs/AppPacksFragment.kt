@@ -133,6 +133,8 @@ class AppPacksFragment : Fragment() {
             ) {
                 override fun hasNextPage(): Boolean = this@AppPacksFragment.hasNextPage
 
+                override fun prefetchDistance(): Int = 10
+
                 override fun isLoading(): Boolean = this@AppPacksFragment.isLoading
 
                 override fun loadMoreItems() = loadPacks()

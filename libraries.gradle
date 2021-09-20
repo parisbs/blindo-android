@@ -68,7 +68,7 @@ ext {
     facebookVersion = "11.2.0"
     twitterVersion = "3.3.0"
     simpleApolloVersion = "1.1.0"
-    uiToolsVersion = "1.0.0-beta02"
+    uiToolsVersion = "1.0.0-beta03"
 
     // Implementations
     libraries = [

@@ -133,6 +133,8 @@ class AppRatingsFragment : Fragment() {
             ) {
                 override fun hasNextPage(): Boolean = this@AppRatingsFragment.hasNextPage
 
+                override fun prefetchDistance(): Int = 10
+
                 override fun isLoading(): Boolean = this@AppRatingsFragment.isLoading
 
                 override fun loadMoreItems() = this@AppRatingsFragment.loadRatings()
