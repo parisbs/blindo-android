@@ -77,6 +77,7 @@ class HomeFragment : Fragment() {
     private fun subscribeFilters() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<List<AppSort>>(
         APP_SORT)?.observe(this, Observer {
             homeAdapter.refresh()
+        homeRecycler.scrollToPosition(0)
     })
 
     private fun setupUi() {

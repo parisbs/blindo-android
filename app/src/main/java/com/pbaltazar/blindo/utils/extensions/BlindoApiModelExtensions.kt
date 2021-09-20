@@ -7,19 +7,16 @@ import com.pbaltazar.blindo.graphql.*
 import com.pbaltazar.blindo.graphql.type.LabelInput
 import org.json.JSONObject
 
-fun ListAppsQuery.Edge.toApiModel(): App? = node?.let { app ->
-    App(
-        id = app.id,
-        packageName = app.packageName,
-        packageIcon = app.packageIcon,
-        packageLabel = app.packageLabel,
-        category = app.category,
-        totalRating = app.totalRating.toFloat(),
-        numberOfRatings = app.numberOfRatings,
-        availablePacks = app.availablePacks,
-        cursor = cursor
-    )
-}
+fun ListAppsQuery.Node.toApiModel(): App? = App(
+    id = id,
+    packageName = packageName,
+    packageIcon = packageIcon,
+    packageLabel = packageLabel,
+    category = category,
+    totalRating = totalRating.toFloat(),
+    numberOfRatings = numberOfRatings,
+    availablePacks = availablePacks
+)
 
 fun GetAppQuery.GetApp.toApiModel(): App = App(
     uiRating = uiRating?.toFloat(),

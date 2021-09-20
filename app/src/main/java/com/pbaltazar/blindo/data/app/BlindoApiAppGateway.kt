@@ -32,7 +32,7 @@ class BlindoApiAppGateway(
             when (response) {
                 is Response.Success -> response.data.listApps?.edges?.let { apps ->
                     ApiResponse.Success(
-                        apps.mapNotNull { it?.toApiModel() },
+                        apps.mapNotNull { it?.node?.toApiModel() },
                         response.data.listApps?.pageInfo?.hasNextPage ?: false,
                         response.data.listApps?.pageInfo?.endCursor
                     )

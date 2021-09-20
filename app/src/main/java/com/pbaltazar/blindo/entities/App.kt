@@ -19,7 +19,6 @@ data class App(
     val totalRating: Float? = null,
     val numberOfRatings: Int = 0,
     val availablePacks: Int = 0,
-    val cursor: String = "",
     val packs: PackConnection? = null,
     val comments: CommentConnection? = null,
 ) : Parcelable {
@@ -38,7 +37,6 @@ data class App(
         parcel.readValue(Float::class.java.classLoader) as? Float,
         parcel.readInt(),
         parcel.readInt(),
-        parcel.readString() ?: "",
         parcel.readParcelable(PackConnection::class.java.classLoader),
         parcel.readParcelable(CommentConnection::class.java.classLoader)
     ) {
@@ -58,7 +56,6 @@ data class App(
         parcel.writeValue(totalRating)
         parcel.writeInt(numberOfRatings)
         parcel.writeInt(availablePacks)
-        parcel.writeString(cursor)
         parcel.writeParcelable(packs, flags)
         parcel.writeParcelable(comments, flags)
     }

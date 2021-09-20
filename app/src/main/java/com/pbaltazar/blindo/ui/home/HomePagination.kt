@@ -22,7 +22,7 @@ class HomePagination(
             is ApiResponse.Success -> LoadResult.Page(
                 data = apiResponse.data,
                 prevKey = null,
-                nextKey = apiResponse.nextPageToken ?: apiResponse.data.last().cursor
+                nextKey = if (apiResponse.hasNextPage) apiResponse.nextPageToken else null
             )
             is ApiResponse.Error -> when (val apiException = apiResponse.error) {
                 is ApiException.EmptyResponse -> LoadResult.Error(Exception("Empty response"))
@@ -33,9 +33,6 @@ class HomePagination(
     }
 
     override fun getRefreshKey(state: PagingState<String, App>): String? {
-        return state.anchorPosition?.let { position ->
-            val anchorPage = state.closestPageToPosition(position)
-            anchorPage?.nextKey
-        }
+        return null
     }
 }

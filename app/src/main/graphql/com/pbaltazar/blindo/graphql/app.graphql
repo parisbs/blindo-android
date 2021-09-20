@@ -21,7 +21,6 @@ query ListApps(
         numberOfRatings
         availablePacks
       }
-      cursor
     }
     pageInfo {
       hasNextPage
