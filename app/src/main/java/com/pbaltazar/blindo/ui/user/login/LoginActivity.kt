@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.utils.authentication.ui
+package com.pbaltazar.blindo.ui.user.login
 
 import android.app.Activity
 import android.content.Intent
@@ -15,6 +15,9 @@ import com.pbaltazar.blindo.BuildConfig
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityLoginBinding
 import com.pbaltazar.blindo.entities.Device
+import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
+import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationContract
+import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.constants.TERMS_AND_CONDITIONS_LINK
 import com.pbaltazar.blindo.utils.extensions.toUiFormat
 import timber.log.Timber

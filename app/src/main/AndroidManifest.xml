@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.pbaltazar.blindo.utils.authentication.ui.LoginActivity"
+            android:name="com.pbaltazar.blindo.ui.user.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:excludeFromRecents="true">
             <intent-filter>

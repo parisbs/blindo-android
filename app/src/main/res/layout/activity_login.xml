@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".utils.authentication.ui.LoginActivity">
+    tools:context=".ui.user.login.LoginActivity">
 
     <TextView
         android:id="@+id/authStep"
