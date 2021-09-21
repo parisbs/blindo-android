@@ -5,6 +5,7 @@
 
     <item
         android:id="@+id/searchApps"
+        android:icon="@drawable/ic_search_black_24dp"
         android:title="@string/search__app_title"
         android:orderInCategory="1"
         app:showAsAction="withText|ifRoom"

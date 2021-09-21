@@ -41,7 +41,7 @@
 
     <item
         android:id="@+id/navAdsSettings"
-        android:icon="@drawable/ic_settings_applications_black_24dp"
+        android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/ads_settings_title" />
 
     <item
