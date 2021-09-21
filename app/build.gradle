@@ -39,8 +39,8 @@ android {
         minSdkVersion sdk.min
         targetSdkVersion sdk.target
 
-        versionCode 120
-        versionName "3.3.4"
+        versionCode 121
+        versionName "4.0.0"
 
         multiDexEnabled true
 
@@ -53,6 +53,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexKeepProguard file('multidex-config.pro')
             signingConfig signingConfigs.release
+
+            buildConfigField 'String', 'SERVER_URL', properties.getProperty('PROD_SERVER_URL')
+            buildConfigField 'String', 'PUBLISHER_ID', properties.getProperty('PUBLISHER_ID')
+            buildConfigField 'String', 'TEST_DEVICE_ID', '""'
+            buildConfigField 'String', 'DEBUG_GEOGRAPHY', '""'
+        }
+        beta {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            multiDexKeepProguard file('multidex-config.pro')
+            signingConfig signingConfigs.release
+
+            versionNameSuffix "-beta"
 
             buildConfigField 'String', 'SERVER_URL', properties.getProperty('PROD_SERVER_URL')
             buildConfigField 'String', 'PUBLISHER_ID', properties.getProperty('PUBLISHER_ID')
