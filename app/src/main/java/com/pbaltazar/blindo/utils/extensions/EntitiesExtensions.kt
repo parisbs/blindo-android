@@ -3,8 +3,11 @@ package com.pbaltazar.blindo.utils.extensions
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
+import com.apollographql.apollo.api.Input
 import com.google.firebase.perf.metrics.AddTrace
 import com.pbaltazar.blindo.entities.*
+import com.pbaltazar.blindo.entities.filters.AppFilters
+import com.pbaltazar.blindo.graphql.type.AppFilter
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.constants.DOWNLOADS_DIR
 import com.pbaltazar.blindo.utils.constants.LABELS_PROVIDER
@@ -90,3 +93,30 @@ fun User.getAuthenticationMethod(): String = picture?.let {
         else -> "Unknown"
     }
 } ?: "Email"
+
+fun AppFilters.toGraphQLFilter(): AppFilter = AppFilter(
+    or = Input.optional(let {
+        val clauses: MutableList<AppFilter> = mutableListOf()
+        clauses.addAll(getPackageNameClausesList())
+        clauses.addAll(getPackageLabelClausesList())
+        clauses.toList()
+    })
+)
+
+fun AppFilters.getPackageNameClausesList(): List<AppFilter> = packageName?.let { pn ->
+    listOf(
+        AppFilter(packageNameIlike = Input.optional("%$pn")),
+        AppFilter(packageNameIlike = Input.optional("%${pn}%")),
+        AppFilter(packageNameIlike = Input.optional("${pn}%")),
+        AppFilter(packageNameIlike = Input.optional(pn))
+    )
+} ?: emptyList()
+
+fun AppFilters.getPackageLabelClausesList(): List<AppFilter> = packageLabel?.let { pl ->
+    listOf(
+        AppFilter(packageLabelIlike = Input.optional("%$pl")),
+        AppFilter(packageLabelIlike = Input.optional("%${pl}%")),
+        AppFilter(packageLabelIlike = Input.optional("${pl}%")),
+        AppFilter(Input.optional(pl))
+    )
+} ?: emptyList()

@@ -14,6 +14,7 @@ import com.pbaltazar.blindo.graphql.type.AppSortEnum
 import com.pbaltazar.blindo.graphql.type.PackSortEnum
 import com.pbaltazar.blindo.graphql.type.RatingSortEnum
 import com.pbaltazar.blindo.utils.extensions.toApiModel
+import com.pbaltazar.blindo.utils.extensions.toGraphQLFilter
 import com.wizeline.simpleapollo.api.SimpleApolloClient
 import com.wizeline.simpleapollo.models.Response
 
@@ -24,6 +25,7 @@ class BlindoApiAppGateway(
     override suspend fun listApps(appInput: AppInput): ApiResponse<List<App>> =
         blindoApiClient.query(
             ListAppsQuery(
+                filters = Input.optional(appInput.filters?.toGraphQLFilter()),
                 sort = appInput.sort.mapNotNull { it.apiEnum as AppSortEnum },
                 first = appInput.pageSize,
                 after = Input.optional(appInput.nextPageToken)

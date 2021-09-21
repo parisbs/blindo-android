@@ -1,10 +1,12 @@
 package com.pbaltazar.blindo.entities.inputs
 
 import com.pbaltazar.blindo.entities.enums.AppSort
+import com.pbaltazar.blindo.entities.filters.AppFilters
 
 data class AppInput(
     val id: String = "",
     val packageName: String = "",
+    val filters: AppFilters? = null,
     val sort: List<AppSort> = emptyList(),
     val pageSize: Int = 50,
     val nextPageToken: String? = null,

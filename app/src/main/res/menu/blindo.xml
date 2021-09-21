@@ -3,4 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/searchApps"
+        android:title="@string/search__app_title"
+        android:orderInCategory="1"
+        app:showAsAction="withText|ifRoom"
+        app:actionViewClass="android.widget.SearchView"
+        />
+
 </menu>

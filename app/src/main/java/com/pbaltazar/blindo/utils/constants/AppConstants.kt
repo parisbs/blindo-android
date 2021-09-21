@@ -32,6 +32,7 @@ const val TERMS_AND_CONDITIONS_LINK = "https://blindoapp.com/terms-and-condition
 const val AUTH_CANCELED_ON_DIALOG = "authCanceledOnDialog"
 const val REFRESH_USER_FROM_PREMIUM = "refreshUserFromPremium"
 
+const val ARGUMENTS_QUERY = "query"
 const val ARGUMENTS_APP = "app"
 const val ARGUMENTS_APP_TAB = "app_tab"
 val APP_DETAILS_TAB_TITLES = arrayOf(

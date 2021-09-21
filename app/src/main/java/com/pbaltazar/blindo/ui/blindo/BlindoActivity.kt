@@ -1,9 +1,12 @@
 package com.pbaltazar.blindo.ui.blindo
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
@@ -124,6 +127,10 @@ class BlindoActivity : AuthenticableActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.blindo, menu)
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        (menu.findItem(R.id.searchApps).actionView as SearchView).apply {
+            setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        }
         return true
     }
 
@@ -152,6 +159,22 @@ class BlindoActivity : AuthenticableActivity() {
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.also { handleIntent(it) }
+    }
+
+    private fun handleIntent(intent: Intent) {
+        when (intent.action) {
+            Intent.ACTION_SEARCH -> intent.getStringExtra(SearchManager.QUERY)?.also { query ->
+                navController.navigate(
+                    MainNavigationDirections.actionGlobalToSearch(query)
+                )
+            }
+            else -> Unit
         }
     }
 
@@ -289,6 +312,13 @@ class BlindoActivity : AuthenticableActivity() {
                         }
                     }
                     R.id.navUserProfile -> drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                    R.id.navSearch -> arguments?.getString(ARGUMENTS_QUERY)?.also { query ->
+                        val searchTitle = this.getString(R.string.search__app_title, query)
+                        supportActionBar?.apply {
+                            title = searchTitle
+                            subtitle = null
+                        }
+                    }
                     R.id.navAppDetails -> arguments?.getParcelable<App>(ARGUMENTS_APP)?.also { app ->
                         supportActionBar?.apply {
                             title = app.packageLabel

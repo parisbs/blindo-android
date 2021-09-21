@@ -64,6 +64,25 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navSearch"
+        android:name="com.pbaltazar.blindo.ui.search.SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <argument
+            android:name="query"
+            app:argType="string"
+            app:nullable="false" />
+        <action
+            android:id="@+id/actionFromSearchToAppDetails"
+            app:destination="@id/navAppDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navSearch"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
         android:id="@+id/navHome"
         android:name="com.pbaltazar.blindo.ui.home.HomeFragment"
         android:label="@string/menu__home"
@@ -387,6 +406,15 @@
         android:label="@string/appsfilter__title"
         tools:layout="@layout/fragment_filter">
     </fragment>
+
+    <action
+        android:id="@+id/actionGlobalToSearch"
+        app:destination="@id/navSearch"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right" />
 
     <action
         android:id="@+id/actionGlobalToUserProfile"

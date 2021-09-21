@@ -8,6 +8,10 @@
     <string name="navigation_drawer_open">Abrir menú de navegación</string>
     <string name="navigation_drawer_close">Cerrar menú de navegación</string>
 
+    <!-- Search -->
+    <string name="search__app_title">Buscando \"%1$s\"</string>
+    <string name="search__app_hint">Busca por nombre de paquete o nombre de la app</string>
+
     <!-- Notifications -->
     <string name="messaging__channel_updates">Actualizaciones</string>
     <string name="messaging__channel_updates_description">notificaciones sobre actualizaciones y nuevas funciones</string>

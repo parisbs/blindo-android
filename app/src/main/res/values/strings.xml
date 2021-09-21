@@ -8,6 +8,10 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- Search -->
+    <string name="search__app_title">Searching for \"%1$s\"</string>
+    <string name="search__app_hint">Search by package name or app name</string>
+
     <!-- Notifications -->
     <string name="messaging__channel_updates">Updates</string>
     <string name="messaging__channel_updates_description">Notifications about updates and new features</string>
