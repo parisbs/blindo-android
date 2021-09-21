@@ -294,7 +294,7 @@ class BlindoActivity : AuthenticableActivity() {
                 adBanner.visibility = View.GONE
                 toolbar.visibility = View.GONE
             }
-            R.id.navTutorial, R.id.navAdsSettings, R.id.navPremium, R.id.navAbout, R.id.dialogRequiresAuth -> {
+            R.id.navTutorial, R.id.navAdsSettings, R.id.navPremium, R.id.navAbout, R.id.dialogRequiresAuth, R.id.dialogRequiresPremium, R.id.dialogClearSearchHistory -> {
                 adBanner.visibility = View.GONE
             }
             else -> {
