@@ -574,6 +574,33 @@
               "deprecationReason": null
             },
             {
+              "name": "getUserProfile",
+              "description": "Get User profile by ID",
+              "args": [
+                {
+                  "name": "id",
+                  "description": "The unique identifier of the User",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "getUser",
               "description": "Get User by sub ID. Requires authentication and permissions",
               "args": [
@@ -1537,7 +1564,7 @@
             },
             {
               "name": "sub",
-              "description": "The User sub ID to authenticate in external service",
+              "description": "The User sub ID to authenticate in external service. Requires permission",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1553,7 +1580,7 @@
             },
             {
               "name": "email",
-              "description": "The email of the User",
+              "description": "The email of the User. Requires permission",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1569,7 +1596,7 @@
             },
             {
               "name": "name",
-              "description": "The name of the user taken from the external authentication service",
+              "description": "The display name of the user",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1597,7 +1624,7 @@
             },
             {
               "name": "isPremium",
-              "description": "If the User have an active premium Membership or not",
+              "description": "If the User have an active premium Membership or not. Requires permission",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1613,7 +1640,7 @@
             },
             {
               "name": "devices",
-              "description": "The devices associated with this User",
+              "description": "The devices associated with this User. Requires permission",
               "args": [
                 {
                   "name": "filters",
