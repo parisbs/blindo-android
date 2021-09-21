@@ -64,6 +64,7 @@ class BlindoActivity : AuthenticableActivity() {
     private lateinit var headerUserName: TextView
     private lateinit var headerUserProfile: TextView
     private lateinit var headerSignOut: TextView
+    private lateinit var searchBox: SearchView
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var emailVerificationMessage: Snackbar
@@ -128,7 +129,7 @@ class BlindoActivity : AuthenticableActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.blindo, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        (menu.findItem(R.id.searchApps).actionView as SearchView).apply {
+        searchBox = (menu.findItem(R.id.searchApps).actionView as SearchView).apply {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
         return true
@@ -141,6 +142,8 @@ class BlindoActivity : AuthenticableActivity() {
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
+        } else if (searchBox.isIconified.not()) {
+            searchBox.isIconified = true
         } else {
             super.onBackPressed()
         }

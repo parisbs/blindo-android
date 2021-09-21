@@ -11,6 +11,11 @@
     <!-- Search -->
     <string name="search__app_title">Searching for \"%1$s\"</string>
     <string name="search__app_hint">Search by package name or app name</string>
+    <string name="search__voice_prompt_text">Say an app name or keyword to search on Blindo</string>
+    <string name="search__clear_search_history_title">Clear search history</string>
+    <string name="search__clear_search_history_message">Do you want to clear all your search history?, this action cannot be undone</string>
+    <string name="search__clear_button">Clear</string>
+    <string name="search__no_button">No</string>
 
     <!-- Notifications -->
     <string name="messaging__channel_updates">Updates</string>

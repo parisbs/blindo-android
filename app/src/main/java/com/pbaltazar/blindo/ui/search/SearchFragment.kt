@@ -1,6 +1,7 @@
 package com.pbaltazar.blindo.ui.search
 
 import android.os.Bundle
+import android.provider.SearchRecentSuggestions
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.ui.home.HomeAdapter
 import com.pbaltazar.blindo.ui.home.HomeComparator
 import com.pbaltazar.blindo.utils.pagination.ui.PaginationStateAdapter
+import com.pbaltazar.blindo.utils.search.RecentSearchesProvider
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,6 +38,8 @@ class SearchFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        SearchRecentSuggestions(this.requireContext(), RecentSearchesProvider.AUTHORITY, RecentSearchesProvider.MODE)
+            .saveRecentQuery(searchFragmentArgs.query, null)
         searchViewModel.setQuery(searchFragmentArgs.query)
     }
 

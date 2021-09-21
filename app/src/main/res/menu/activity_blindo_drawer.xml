@@ -45,6 +45,11 @@
         android:title="@string/ads_settings_title" />
 
     <item
+        android:id="@+id/dialogClearSearchHistory"
+        android:icon="@drawable/ic_delete_forever_black_24dp"
+        android:title="@string/search__clear_search_history_title" />
+
+    <item
         android:id="@+id/navAbout"
         android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/about__title" />

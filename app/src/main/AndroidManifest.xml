@@ -89,6 +89,10 @@
         </service>
 
         <provider
+            android:name=".utils.search.RecentSearchesProvider"
+            android:authorities="com.pbaltazar.blindo.utils.search.RecentSearchesProvider" />
+
+        <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.providers.LabelsProvider"
             android:exported="false"
@@ -97,6 +101,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/paths" />
         </provider>
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_application_id" />

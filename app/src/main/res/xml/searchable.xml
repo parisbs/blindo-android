@@ -2,5 +2,9 @@
 <searchable xmlns:android="http://schemas.android.com/apk/res/android"
     android:label="@string/app_name"
     android:hint="@string/search__app_hint"
+    android:icon="@drawable/ic_search_black_24dp"
     android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
+    android:voicePromptText="@string/search__voice_prompt_text"
+    android:searchSuggestAuthority="com.pbaltazar.blindo.utils.search.RecentSearchesProvider"
+    android:searchSuggestSelection=" ?"
     />

@@ -11,6 +11,11 @@
     <!-- Search -->
     <string name="search__app_title">Buscando \"%1$s\"</string>
     <string name="search__app_hint">Busca por nombre de paquete o nombre de la app</string>
+    <string name="search__voice_prompt_text">Di el nombre de una app o una palabra clave para buscar en Blindo</string>
+    <string name="search__clear_search_history_title">Eliminar historial de búsqueda</string>
+    <string name="search__clear_search_history_message">¿Seguro que quieres eliminar todo tu historial de búsqueda?, esta acción no se puede deshacer</string>
+    <string name="search__clear_button">Eliminar</string>
+    <string name="search__no_button">No</string>
 
     <!-- Notifications -->
     <string name="messaging__channel_updates">Actualizaciones</string>

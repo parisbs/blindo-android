@@ -381,6 +381,11 @@
     </fragment>
 
     <dialog
+        android:id="@+id/dialogClearSearchHistory"
+        android:name="com.pbaltazar.blindo.ui.dialog.search.ClearSearchHistory">
+    </dialog>
+
+    <dialog
         android:id="@+id/dialogRequiresAuth"
         android:name="com.pbaltazar.blindo.ui.dialog.auth.RequiresAuth">
     </dialog>
