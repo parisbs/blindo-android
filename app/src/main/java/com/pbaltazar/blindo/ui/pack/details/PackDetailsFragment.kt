@@ -22,7 +22,7 @@ import com.pbaltazar.blindo.databinding.FragmentPackDetailsBinding
 import com.pbaltazar.blindo.entities.InstallablePack
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.ads.AdsManager
-import com.pbaltazar.blindo.utils.ads.AdsViewModel
+import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG

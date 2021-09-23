@@ -232,7 +232,7 @@
 
     <fragment
         android:id="@+id/navAdsSettings"
-        android:name="com.pbaltazar.blindo.utils.ads.settings.AdsSettingsFragment"
+        android:name="com.pbaltazar.blindo.ui.ads.settings.AdsSettingsFragment"
         android:label="@string/ads_settings_title"
         tools:layout="@layout/fragment_ads_settings">
         <argument

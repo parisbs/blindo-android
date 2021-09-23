@@ -15,7 +15,7 @@ import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityUploadPackBinding
 import com.pbaltazar.blindo.entities.Label
 import com.pbaltazar.blindo.utils.ads.AdsManager
-import com.pbaltazar.blindo.utils.ads.AdsViewModel
+import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
 import com.pbaltazar.blindo.utils.extensions.countApps
 import com.pbaltazar.blindo.utils.extensions.getLanguages

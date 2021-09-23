@@ -11,7 +11,7 @@ import com.pbaltazar.blindo.MainNavigationDirections
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentSplashBinding
 import com.pbaltazar.blindo.utils.ads.AdsManager
-import com.pbaltazar.blindo.utils.ads.AdsViewModel
+import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel

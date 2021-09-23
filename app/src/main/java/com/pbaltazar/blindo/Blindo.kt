@@ -2,6 +2,7 @@ package com.pbaltazar.blindo
 
 import android.app.Application
 import com.pbaltazar.blindo.data.dataModule
+import com.pbaltazar.blindo.ui.ads.adsModule
 import com.pbaltazar.blindo.ui.app.appModule
 import com.pbaltazar.blindo.ui.filter.filterModule
 import com.pbaltazar.blindo.ui.home.homeModule
@@ -13,7 +14,7 @@ import com.pbaltazar.blindo.ui.splash.splashModule
 import com.pbaltazar.blindo.ui.tutorial.tutorialModule
 import com.pbaltazar.blindo.ui.user.userModule
 import com.pbaltazar.blindo.usecases.useCasesModule
-import com.pbaltazar.blindo.utils.ads.adsModule
+import com.pbaltazar.blindo.utils.ads.adsUtilsModule
 import com.pbaltazar.blindo.utils.authentication.authenticationModule
 import com.pbaltazar.blindo.utils.billing.billingModule
 import com.pbaltazar.blindo.utils.log.BlindoDebuger
@@ -55,6 +56,7 @@ class Blindo : Application() {
             modules(
                 listOf(
                     mainModule,
+                    adsUtilsModule,
                     adsModule,
                     messagingModule,
                     preferencesModule,

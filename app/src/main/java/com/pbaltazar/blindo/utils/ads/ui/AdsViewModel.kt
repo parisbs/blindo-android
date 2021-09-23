@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.utils.ads
+package com.pbaltazar.blindo.utils.ads.ui
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -10,6 +10,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
