@@ -11,11 +11,11 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.pbaltazar.blindo.R
-import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.databinding.FragmentAdsSettingsBinding
+import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
-import com.pbaltazar.blindo.utils.constants.ARGUMENTS_CONSENT_STATUS
+import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AdsSettingsFragment : AuthenticableFragment() {
@@ -142,7 +142,7 @@ class AdsSettingsFragment : AuthenticableFragment() {
                 } else {
                     if (closeAfterUpdate) {
                         findNavController().previousBackStackEntry?.savedStateHandle?.set(
-                            ARGUMENTS_CONSENT_STATUS,
+                            ARGUMENT_CONSENT_STATUS,
                             adsConsentStatus
                         )
                         findNavController().popBackStack()

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <CheckBox
+        android:id="@+id/lastUpdatedCheckbox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_components_margin"
+        android:minWidth="@dimen/min_a11y_touch_target_size"
+        android:minHeight="@dimen/min_a11y_touch_target_size"
+        android:checked="false"
+        android:text="@string/filter__updated_at"
+        android:labelFor="@id/lastUpdatedSpinner"
+        app:layout_constraintTop_toTopOf="@id/lastUpdatedSpinner"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/lastUpdatedSpinner"
+        app:layout_constraintBottom_toBottomOf="@id/lastUpdatedSpinner"
+        />
+
+    <Spinner
+        android:id="@+id/lastUpdatedSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_components_margin"
+        android:minWidth="@dimen/min_a11y_touch_target_size"
+        android:minHeight="@dimen/min_a11y_touch_target_size"
+        android:spinnerMode="dropdown"
+        android:entries="@array/filter__asc_desc_spinner"
+        android:autofillHints="@string/filter__asc_desc_hint"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

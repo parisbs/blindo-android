@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentHomeBinding
 import com.pbaltazar.blindo.entities.App
-import com.pbaltazar.blindo.entities.enums.AppSort
 import com.pbaltazar.blindo.utils.constants.APP_SORT
+import com.pbaltazar.blindo.utils.constants.ARGUMENT_REQUIRE_REFRESH_FILTERS
 import com.pbaltazar.blindo.utils.pagination.ui.PaginationStateAdapter
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -74,10 +73,12 @@ class HomeFragment : Fragment() {
         binding = null
     }
 
-    private fun subscribeFilters() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<List<AppSort>>(
-        APP_SORT)?.observe(this, Observer {
+    private fun subscribeFilters() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
+        ARGUMENT_REQUIRE_REFRESH_FILTERS)?.observe(this, Observer {
+        if (it) {
             homeAdapter.refresh()
-        homeRecycler.scrollToPosition(0)
+            homeRecycler.scrollToPosition(0)
+        }
     })
 
     private fun setupUi() {

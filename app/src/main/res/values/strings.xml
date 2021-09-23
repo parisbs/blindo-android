@@ -262,13 +262,13 @@
         <item>Ascending</item>
         <item>Descending</item>
     </string-array>
-    <string name="filter__priority">Priority</string>
-    <string name="filter__more_header">More</string>
-    <string name="filter__save">Apply</string>
+    <string name="filter__updated_at">Last updated</string>
+    <string name="filter__asc_desc_hint">Select order direction</string>
+    <string name="filter__apply">Apply</string>
 
-    <string name="appsfilter__title">Filter apps</string>
-    <string name="appsfilter_package_label">App name</string>
-    <string name="appsfilter__total_rating">Total rating</string>
-    <string name="appsfilter__available_packs">Available packs</string>
+    <string name="apps_filter__title">Filter apps</string>
+    <string name="apps_filter__package_label">App name</string>
+    <string name="apps_filter__total_rating">Total rating</string>
+    <string name="apps_filter__available_packs">Available packs</string>
 
 </resources>

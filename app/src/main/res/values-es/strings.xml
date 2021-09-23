@@ -307,13 +307,13 @@ support@blindoapp.com
         <item>Ascendente</item>
         <item>Descendente</item>
     </string-array>
-    <string name="filter__priority">Prioridad</string>
-    <string name="filter__more_header">Más</string>
-    <string name="filter__save">Aplicar</string>
+    <string name="filter__updated_at">Último actualizado</string>
+    <string name="filter__asc_desc_hint">Selecciona dirección del orden</string>
+    <string name="filter__apply">Aplicar</string>
 
-    <string name="appsfilter__title">Filtrar apps</string>
-    <string name="appsfilter_package_label">Nombre</string>
-    <string name="appsfilter__total_rating">Calif. total</string>
-    <string name="appsfilter__available_packs">Paquetes disp.</string>
+    <string name="apps_filter__title">Filtrar apps</string>
+    <string name="apps_filter__package_label">Nombre de app</string>
+    <string name="apps_filter__total_rating">Calificación total</string>
+    <string name="apps_filter__available_packs">Paquetes disp.</string>
 
 </resources>

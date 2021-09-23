@@ -15,7 +15,7 @@ import com.pbaltazar.blindo.utils.ads.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
-import com.pbaltazar.blindo.utils.constants.ARGUMENTS_CONSENT_STATUS
+import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.extensions.isExpired
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -132,7 +132,7 @@ class SplashFragment : AuthenticableFragment() {
 
     private fun subscribeAdsSettings() =
         findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<AdsManager.ConsentStatus>(
-            ARGUMENTS_CONSENT_STATUS)?.observe(this, Observer {
+            ARGUMENT_CONSENT_STATUS)?.observe(this, Observer {
                 adsViewModel.setConsentStatus(AdsViewModel.AdsConsentStatus.Success(it))
         })
 

@@ -408,8 +408,8 @@
     <fragment
         android:id="@+id/dialogAppsFilter"
         android:name="com.pbaltazar.blindo.ui.filter.apps.AppsFilterFragment"
-        android:label="@string/appsfilter__title"
-        tools:layout="@layout/fragment_filter">
+        android:label="@string/apps_filter__title"
+        tools:layout="@layout/fragment_apps_filter">
     </fragment>
 
     <action

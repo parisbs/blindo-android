@@ -315,14 +315,14 @@ class BlindoActivity : AuthenticableActivity() {
                         }
                     }
                     R.id.navUserProfile -> drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                    R.id.navSearch -> arguments?.getString(ARGUMENTS_QUERY)?.also { query ->
+                    R.id.navSearch -> arguments?.getString(ARGUMENT_QUERY)?.also { query ->
                         val searchTitle = this.getString(R.string.search__app_title, query)
                         supportActionBar?.apply {
                             title = searchTitle
                             subtitle = null
                         }
                     }
-                    R.id.navAppDetails -> arguments?.getParcelable<App>(ARGUMENTS_APP)?.also { app ->
+                    R.id.navAppDetails -> arguments?.getParcelable<App>(ARGUMENT_APP)?.also { app ->
                         supportActionBar?.apply {
                             title = app.packageLabel
                             subtitle = if (app.category.isNullOrEmpty().not())
@@ -331,13 +331,13 @@ class BlindoActivity : AuthenticableActivity() {
                                 app.packageName
                         }
                     }
-                    R.id.navCommentCreator -> arguments?.getParcelable<Rating>(ARGUMENTS_RATING)?.app?.also { app ->
+                    R.id.navCommentCreator -> arguments?.getParcelable<Rating>(ARGUMENT_RATING)?.app?.also { app ->
                         supportActionBar?.apply {
                             title = app.packageLabel
                             subtitle = app.category
                         }
                     }
-                    R.id.navPackDetails -> arguments?.getParcelable<Pack>(ARGUMENTS_PACK)?.also { pack ->
+                    R.id.navPackDetails -> arguments?.getParcelable<Pack>(ARGUMENT_PACK)?.also { pack ->
                         pack.app?.also { app ->
                             supportActionBar?.apply {
                                 title = app.packageLabel
@@ -397,7 +397,7 @@ class BlindoActivity : AuthenticableActivity() {
 
     private fun subscribeAdsSettings() =
         navController.currentBackStackEntry?.savedStateHandle?.getLiveData<AdsManager.ConsentStatus>(
-            ARGUMENTS_CONSENT_STATUS)?.observe(this, Observer {
+            ARGUMENT_CONSENT_STATUS)?.observe(this, Observer {
             if (isWaitingForSplash.not()) {
                 adsViewModel.setConsentStatus(AdsViewModel.AdsConsentStatus.Success(it))
             }

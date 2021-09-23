@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.filter.apps.AppsFilterFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/orderByHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_components_margin"
+            android:textSize="@dimen/text_h2"
+            android:text="@string/filter__order_by_header"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/orderByInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_components_margin"
+            android:singleLine="false"
+            android:text="@string/filter__order_by_instructions"
+            app:layout_constraintTop_toBottomOf="@id/orderByHeader"
+            />
+
+        <include
+            android:id="@+id/common_order_by"
+            layout="@layout/content_common_filters_order_by_section"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/orderByInstructions"
+            />
+
+        <CheckBox
+            android:id="@+id/packageLabelCheckbox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_components_margin"
+            android:minWidth="@dimen/min_a11y_touch_target_size"
+            android:minHeight="@dimen/min_a11y_touch_target_size"
+            android:checked="false"
+            android:text="@string/apps_filter__package_label"
+            android:labelFor="@id/packageLabelSpinner"
+            app:layout_constraintTop_toTopOf="@id/packageLabelSpinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/packageLabelSpinner"
+            app:layout_constraintBottom_toBottomOf="@id/packageLabelSpinner"
+            />
+
+        <Spinner
+            android:id="@+id/packageLabelSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_components_margin"
+            android:minWidth="@dimen/min_a11y_touch_target_size"
+            android:minHeight="@dimen/min_a11y_touch_target_size"
+            android:spinnerMode="dropdown"
+            android:entries="@array/filter__asc_desc_spinner"
+            android:autofillHints="@string/filter__asc_desc_hint"
+            app:layout_constraintTop_toBottomOf="@id/common_order_by"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/packageLabelBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="packageLabelCheckbox,packageLabelSpinner"
+            />
+
+        <CheckBox
+            android:id="@+id/totalRatingCheckbox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_components_margin"
+            android:minWidth="@dimen/min_a11y_touch_target_size"
+            android:minHeight="@dimen/min_a11y_touch_target_size"
+            android:checked="false"
+            android:text="@string/apps_filter__total_rating"
+            android:labelFor="@id/totalRatingSpinner"
+            app:layout_constraintTop_toTopOf="@id/totalRatingSpinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/totalRatingSpinner"
+            app:layout_constraintBottom_toBottomOf="@id/totalRatingSpinner"
+            />
+
+        <Spinner
+            android:id="@+id/totalRatingSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_components_margin"
+            android:minWidth="@dimen/min_a11y_touch_target_size"
+            android:minHeight="@dimen/min_a11y_touch_target_size"
+            android:spinnerMode="dropdown"
+            android:entries="@array/filter__asc_desc_spinner"
+            android:autofillHints="@string/filter__asc_desc_hint"
+            app:layout_constraintTop_toBottomOf="@id/packageLabelBarrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/totalRatingBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="totalRatingCheckbox,totalRatingSpinner"
+            />
+
+        <CheckBox
+            android:id="@+id/availablePacksCheckbox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_components_margin"
+            android:minWidth="@dimen/min_a11y_touch_target_size"
+            android:minHeight="@dimen/min_a11y_touch_target_size"
+            android:checked="false"
+            android:text="@string/apps_filter__available_packs"
+            android:labelFor="@id/availablePacksSpinner"
+            app:layout_constraintTop_toTopOf="@id/availablePacksSpinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/availablePacksSpinner"
+            app:layout_constraintBottom_toBottomOf="@id/availablePacksSpinner"
+            />
+
+        <Spinner
+            android:id="@+id/availablePacksSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_components_margin"
+            android:minWidth="@dimen/min_a11y_touch_target_size"
+            android:minHeight="@dimen/min_a11y_touch_target_size"
+            android:spinnerMode="dropdown"
+            android:entries="@array/filter__asc_desc_spinner"
+            android:autofillHints="@string/filter__asc_desc_hint"
+            app:layout_constraintTop_toBottomOf="@id/totalRatingBarrier"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/availablePacksBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="availablePacksCheckbox,availablePacksSpinner"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

@@ -11,9 +11,6 @@ const val NO_PERSONALIZED_ADS_NO = "0"
 
 const val ADS_CLIENT_ID = "com.google.android.gms.ads.MobileAds"
 
-const val ARGUMENTS_SHOW_NAVIGATE_UP = "showNavigateUp"
-const val ARGUMENTS_CONSENT_STATUS = "consentStatus"
-
 const val ADS_CONSENT_STATUS = "adsConsentStatus"
 const val IS_FIRST_TIME = "isFirstTime"
 const val IS_PRIVACY_POLICY_ACCEPTED = "isPrivacyPolicyAccepted"
@@ -30,11 +27,15 @@ const val DEFAULT_ADS_CONSENT_STATUS = "UNKNOWN"
 const val TERMS_AND_CONDITIONS_LINK = "https://blindoapp.com/terms-and-conditions"
 
 const val AUTH_CANCELED_ON_DIALOG = "authCanceledOnDialog"
-const val REFRESH_USER_FROM_PREMIUM = "refreshUserFromPremium"
 
-const val ARGUMENTS_QUERY = "query"
-const val ARGUMENTS_APP = "app"
-const val ARGUMENTS_APP_TAB = "app_tab"
+const val ARGUMENT_SHOW_NAVIGATE_UP = "showNavigateUp"
+const val ARGUMENT_CONSENT_STATUS = "consentStatus"
+const val ARGUMENT_QUERY = "query"
+const val ARGUMENT_REQUIRE_REFRESH_FILTERS = "requireRefreshFilters"
+const val ARGUMENT_APP = "app"
+const val ARGUMENT_PACK = "pack"
+const val ARGUMENT_RATING = "rating"
+
 val APP_DETAILS_TAB_TITLES = arrayOf(
     R.string.appdetails__details_tab,
     R.string.appdetails__packs_tab,
@@ -47,9 +48,6 @@ const val RECEIPT_TOKEN_KEY = "token"
 const val RECEIPT_PACKAGENAME_KEY = "packageName"
 const val RECEIPT_PRODUCTID_KEY = "productId"
 const val RECEIPT_PURCHASETOKEN_KEY = "purchaseToken"
-
-const val ARGUMENTS_PACK = "pack"
-const val ARGUMENTS_RATING = "rating"
 
 const val INTERTITIAL_ADS_MINIMUM_VISUALIZATION = 15000L
 
