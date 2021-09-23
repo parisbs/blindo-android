@@ -302,7 +302,7 @@ support@blindoapp.com
 
     <string name="filter__menu_title">Filtrar</string>
     <string name="filter__order_by_header">Ordenar por:</string>
-    <string name="filter__order_by_instructions">Selecciona los campos a filtrar y su dirección y prioridad donde 1 es la prioridad más alta y los números siguientes representan prioridades inferiores</string>
+    <string name="filter__order_by_instructions">Selecciona los campos a filtrar y su dirección. La prioridad se mostrará como un valor numérico empezando desde 1 según el mismo orden en que agregues los campos</string>
     <string-array name="filter__asc_desc_spinner">
         <item>Ascendente</item>
         <item>Descendente</item>

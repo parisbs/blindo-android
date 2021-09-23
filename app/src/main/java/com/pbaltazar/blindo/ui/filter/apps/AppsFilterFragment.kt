@@ -1,6 +1,7 @@
 package com.pbaltazar.blindo.ui.filter.apps
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.*
 import android.widget.AdapterView
 import android.widget.CheckBox
@@ -149,6 +150,7 @@ class AppsFilterFragment : Fragment() {
         appSort: AppSort? = null,
         isInitialState: Boolean = false
     ) {
+        val notCheckedText = getString(textRes)
         if (isInitialState) {
             checkBox.isChecked = isChecked
             spinner.isEnabled = isChecked
@@ -159,12 +161,19 @@ class AppsFilterFragment : Fragment() {
             }
         }
         appSort?.also {
-            if (isChecked) {
-                checkBox.text = "${getString(textRes)}, ${sort.indexOf(it) + 1}"
+            val checkedText = "${getString(textRes)}, ${sort.indexOf(it) + 1}"
+            if (
+                isChecked &&
+                    TextUtils.equals(checkedText, checkBox.text).not()
+            ) {
+                checkBox.text = checkedText
             }
         } ?: run {
-            if (checkBox.isChecked.not()) {
-                checkBox.text = getString(textRes)
+            if (
+                checkBox.isChecked.not() &&
+                    TextUtils.equals(notCheckedText, checkBox.text).not()
+            ) {
+                checkBox.text = notCheckedText
             }
         }
     }
@@ -182,6 +191,10 @@ class AppsFilterFragment : Fragment() {
         availablePacksCheckBox.setOnCheckedChangeListener { _, isChecked ->
             setCheckboxState(isChecked, availablePacksSpinner)
         }
+        ViewCompat.setAccessibilityLiveRegion(updatedAtCheckBox, ViewCompat.ACCESSIBILITY_LIVE_REGION_POLITE)
+        ViewCompat.setAccessibilityLiveRegion(packageLabelCheckbox, ViewCompat.ACCESSIBILITY_LIVE_REGION_POLITE)
+        ViewCompat.setAccessibilityLiveRegion(totalRatingCheckBox, ViewCompat.ACCESSIBILITY_LIVE_REGION_POLITE)
+        ViewCompat.setAccessibilityLiveRegion(availablePacksCheckBox, ViewCompat.ACCESSIBILITY_LIVE_REGION_POLITE)
     }
 
     private fun setCheckboxState(isChecked: Boolean, spinner: Spinner) {

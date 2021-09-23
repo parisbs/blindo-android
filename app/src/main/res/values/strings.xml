@@ -257,7 +257,7 @@
 
     <string name="filter__menu_title">Filter</string>
     <string name="filter__order_by_header">Order by:</string>
-    <string name="filter__order_by_instructions">Select the fields to order and their direction and their priority where 1 is the most important priority and any number higher represents a lower priority</string>
+    <string name="filter__order_by_instructions">Select the fields to order and their direction, The priority will be shown as a number value begining from 1 according the same order that you add fields</string>
     <string-array name="filter__asc_desc_spinner">
         <item>Ascending</item>
         <item>Descending</item>
