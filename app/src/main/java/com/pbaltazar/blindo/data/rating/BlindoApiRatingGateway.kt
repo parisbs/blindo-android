@@ -1,11 +1,11 @@
-package com.pbaltazar.blindo.data.comment
+package com.pbaltazar.blindo.data.rating
 
 import com.apollographql.apollo.api.Input
 import com.pbaltazar.blindo.data.ApiHelpers
 import com.pbaltazar.blindo.entities.Rating
 import com.pbaltazar.blindo.entities.errors.ApiException
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.entities.inputs.CommentInput
+import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.entities.responses.ApiResponse
 import com.pbaltazar.blindo.graphql.*
 import com.pbaltazar.blindo.graphql.type.CreateRatingInput
@@ -17,17 +17,17 @@ import com.pbaltazar.blindo.utils.extensions.toApiModel
 import com.wizeline.simpleapollo.api.SimpleApolloClient
 import com.wizeline.simpleapollo.models.Response
 
-class BlindoApiCommentGateway(
+class BlindoApiRatingGateway(
     private val blindoApiClient: SimpleApolloClient
-) : ApiHelpers, CommentGateway {
+) : ApiHelpers, RatingGateway {
 
     override suspend fun getAppRatings(appInput: AppInput): ApiResponse<List<Rating>> =
         blindoApiClient.query(
             GetAppRatingsQuery(
                 id = appInput.id,
-                ratingsSort = appInput.commentInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
-                ratingsFirst = appInput.commentInput.pageSize,
-                ratingsAfter = Input.optional(appInput.commentInput.nextPageToken)
+                ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
+                ratingsFirst = appInput.ratingInput.pageSize,
+                ratingsAfter = Input.optional(appInput.ratingInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
@@ -48,9 +48,9 @@ class BlindoApiCommentGateway(
         blindoApiClient.query(
             GetAppRatingsByPackageNameQuery(
                 packageName = appInput.packageName,
-                ratingsSort = appInput.commentInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
-                ratingsFirst = appInput.commentInput.pageSize,
-                ratingsAfter = Input.optional(appInput.commentInput.nextPageToken)
+                ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
+                ratingsFirst = appInput.ratingInput.pageSize,
+                ratingsAfter = Input.optional(appInput.ratingInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
@@ -67,7 +67,7 @@ class BlindoApiCommentGateway(
             }
         }
 
-    override suspend fun createComment(rating: Rating, idToken: String): ApiResponse<Rating> =
+    override suspend fun createRating(rating: Rating, idToken: String): ApiResponse<Rating> =
         blindoApiClient.mutate(
             CreateRatingMutation(
                 input = CreateRatingInput(
@@ -86,14 +86,14 @@ class BlindoApiCommentGateway(
             idToken
         ).let { response ->
             when (response) {
-                is Response.Success -> response.data.createRating?.rating?.let { comment ->
-                    ApiResponse.Success(comment.toApiModel())
+                is Response.Success -> response.data.createRating?.rating?.let { createdRating ->
+                    ApiResponse.Success(createdRating.toApiModel())
                 } ?: ApiResponse.Error(ApiException.EmptyResponse)
                 is Response.Failure -> processErrors(response.error)
             }
         }
 
-    override suspend fun updateComment(rating: Rating, idToken: String): ApiResponse<Rating> =
+    override suspend fun updateRating(rating: Rating, idToken: String): ApiResponse<Rating> =
         blindoApiClient.mutate(
             UpdateRatingMutation(
                 input = UpdateRatingInput(
@@ -110,31 +110,31 @@ class BlindoApiCommentGateway(
             idToken
         ).let { response ->
             when (response) {
-                is Response.Success -> response.data.updateRating?.rating?.let { comment ->
-                    ApiResponse.Success(comment.toApiModel())
+                is Response.Success -> response.data.updateRating?.rating?.let { updatedRating ->
+                    ApiResponse.Success(updatedRating.toApiModel())
                 } ?: ApiResponse.Error(ApiException.EmptyResponse)
                 is Response.Failure -> processErrors(response.error)
             }
         }
 
-    override suspend fun listComments(commentInput: CommentInput): ApiResponse<List<Rating>> =
+    override suspend fun listRatings(ratingInput: RatingInput): ApiResponse<List<Rating>> =
         blindoApiClient.query(
             ListRatingsQuery(
                 filters = Input.optional(
                     RatingFilter(
-                        appId = Input.optional(commentInput.appId.takeUnless { it.isNullOrEmptyOrBlank() }),
-                        userId = Input.optional(commentInput.userId.takeUnless { it.isNullOrEmptyOrBlank() })
+                        appId = Input.optional(ratingInput.appId.takeUnless { it.isNullOrEmptyOrBlank() }),
+                        userId = Input.optional(ratingInput.userId.takeUnless { it.isNullOrEmptyOrBlank() })
                     )
                 ),
-                sort = Input.optional(commentInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }),
-                first = Input.optional(commentInput.pageSize),
-                after = Input.optional(commentInput.nextPageToken)
+                sort = Input.optional(ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }),
+                first = Input.optional(ratingInput.pageSize),
+                after = Input.optional(ratingInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
-                is Response.Success -> response.data.listRatings?.edges?.takeUnless { it.isNullOrEmpty() }?.let { comments ->
+                is Response.Success -> response.data.listRatings?.edges?.takeUnless { it.isNullOrEmpty() }?.let { ratings ->
                     ApiResponse.Success(
-                        comments.mapNotNull { it?.node?.toApiModel() },
+                        ratings.mapNotNull { it?.node?.toApiModel() },
                         response.data.listRatings?.pageInfo?.hasNextPage ?: false,
                         response.data.listRatings?.pageInfo?.endCursor
                     )

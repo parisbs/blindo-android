@@ -11,7 +11,7 @@
     app:emptyDescriptionText="@string/usercomments__view_state_empty"
     app:loadingTitleText="@string/viewstate__loading_title"
     app:errorRetryText="@string/viewstate__retry"
-    tools:context=".ui.user.comment.UserCommentsFragment">
+    tools:context=".ui.user.rating.UserRatingsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userCommentsRecycler"

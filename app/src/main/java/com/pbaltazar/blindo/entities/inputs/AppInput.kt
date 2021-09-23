@@ -11,5 +11,5 @@ data class AppInput(
     val pageSize: Int = 50,
     val nextPageToken: String? = null,
     val packInput: PackInput = PackInput(),
-    val commentInput: CommentInput = CommentInput()
+    val ratingInput: RatingInput = RatingInput()
 )

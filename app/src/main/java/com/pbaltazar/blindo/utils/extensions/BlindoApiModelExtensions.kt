@@ -1,8 +1,8 @@
 package com.pbaltazar.blindo.utils.extensions
 
 import com.pbaltazar.blindo.entities.*
-import com.pbaltazar.blindo.entities.connections.CommentConnection
 import com.pbaltazar.blindo.entities.connections.PackConnection
+import com.pbaltazar.blindo.entities.connections.RatingConnection
 import com.pbaltazar.blindo.graphql.*
 import com.pbaltazar.blindo.graphql.type.LabelInput
 import org.json.JSONObject
@@ -26,7 +26,7 @@ fun GetAppQuery.GetApp.toApiModel(): App = App(
     performanceRating = performanceRating?.toFloat(),
     totalRating = totalRating.toFloat(),
     packs = packs?.toApiModel(),
-    comments = ratings?.toApiModel()
+    ratings = ratings?.toApiModel()
 )
 
 fun GetAppQuery.Packs.toApiModel(): PackConnection = PackConnection(
@@ -52,8 +52,8 @@ fun GetAppQuery.User.toApiModel(): User = User(
     picture = picture
 )
 
-fun GetAppQuery.Ratings.toApiModel(): CommentConnection = CommentConnection(
-    comments = edges.mapNotNull { it?.node?.toApiModel() },
+fun GetAppQuery.Ratings.toApiModel(): RatingConnection = RatingConnection(
+    ratings = edges.mapNotNull { it?.node?.toApiModel() },
     hasNextPage = pageInfo.hasNextPage,
     nextPageToken = pageInfo.endCursor
 )
@@ -96,7 +96,7 @@ fun GetAppQuery.Node1.toApiModel(): Rating {
         numberOfRatings = numberOfRatings,
         availablePacks = availablePacks,
         packs = packs?.toApiModel(),
-        comments = ratings?.toApiModel()
+        ratings = ratings?.toApiModel()
     )
 
 fun GetAppByPackageNameQuery.Packs.toApiModel(): PackConnection = PackConnection(
@@ -122,8 +122,8 @@ fun GetAppByPackageNameQuery.User.toApiModel(): User = User(
     picture = picture
 )
 
-fun GetAppByPackageNameQuery.Ratings.toApiModel(): CommentConnection = CommentConnection(
-    comments = edges.mapNotNull { it?.node?.toApiModel() },
+fun GetAppByPackageNameQuery.Ratings.toApiModel(): RatingConnection = RatingConnection(
+    ratings = edges.mapNotNull { it?.node?.toApiModel() },
     hasNextPage = pageInfo.hasNextPage,
     nextPageToken = pageInfo.endCursor
 )

@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Pack
 import com.pbaltazar.blindo.entities.Rating
-import com.pbaltazar.blindo.entities.enums.CommentSort
+import com.pbaltazar.blindo.entities.enums.RatingSort
 import com.pbaltazar.blindo.entities.enums.PackSort
 import com.pbaltazar.blindo.entities.errors.ApiException
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.entities.inputs.CommentInput
+import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.entities.inputs.PackInput
 import com.pbaltazar.blindo.entities.responses.ApiResponse
 import com.pbaltazar.blindo.usecases.*
@@ -57,7 +57,7 @@ class AppViewModel(
 
     fun getRatingsPageSize(): Int = userPreferences.getCommentsPageSize()
 
-    fun getRatingsSort(): List<CommentSort> = userPreferences.getCommentSort()
+    fun getRatingsSort(): List<RatingSort> = userPreferences.getCommentSort()
 
     fun getApp(id: String? = null, packageName: String? = null) = viewModelScope.launch(backgroundContext) {
         val appInput = AppInput(
@@ -67,7 +67,7 @@ class AppViewModel(
                 sort = getPackSort(),
                 pageSize = getPacksPageSize()
             ),
-            commentInput = CommentInput(
+            ratingInput = RatingInput(
                 sort = getRatingsSort(),
                 pageSize = getRatingsPageSize()
             )

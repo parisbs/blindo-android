@@ -2,8 +2,8 @@ package com.pbaltazar.blindo.entities
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.pbaltazar.blindo.entities.connections.CommentConnection
 import com.pbaltazar.blindo.entities.connections.PackConnection
+import com.pbaltazar.blindo.entities.connections.RatingConnection
 
 data class App(
     val id: String = "",
@@ -20,7 +20,7 @@ data class App(
     val numberOfRatings: Int = 0,
     val availablePacks: Int = 0,
     val packs: PackConnection? = null,
-    val comments: CommentConnection? = null,
+    val ratings: RatingConnection? = null,
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -38,7 +38,7 @@ data class App(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readParcelable(PackConnection::class.java.classLoader),
-        parcel.readParcelable(CommentConnection::class.java.classLoader)
+        parcel.readParcelable(RatingConnection::class.java.classLoader)
     ) {
     }
 
@@ -57,7 +57,7 @@ data class App(
         parcel.writeInt(numberOfRatings)
         parcel.writeInt(availablePacks)
         parcel.writeParcelable(packs, flags)
-        parcel.writeParcelable(comments, flags)
+        parcel.writeParcelable(ratings, flags)
     }
 
     override fun describeContents(): Int = 0

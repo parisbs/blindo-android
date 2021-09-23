@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.comment.details
+package com.pbaltazar.blindo.ui.rating.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,10 +18,10 @@ import com.wizeline.simpleapollo.utils.extensions.toTimeAgo
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class CommentDetailsFragment : Fragment() {
+class RatingDetailsFragment : Fragment() {
 
-    private val commentDetailsViewModel: CommentDetailsViewModel by viewModel()
-    private val commentDetailsFragmentArgs: CommentDetailsFragmentArgs by navArgs()
+    private val ratingDetailsViewModel: RatingDetailsViewModel by viewModel()
+    private val ratingDetailsFragmentArgs: RatingDetailsFragmentArgs by navArgs()
     private var binding: FragmentRatingDetailsBinding? = null
 
     private lateinit var userPhoto: ImageView
@@ -43,7 +43,7 @@ class CommentDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        commentDetailsViewModel.setTargetRating(commentDetailsFragmentArgs.rating)
+        ratingDetailsViewModel.setTargetRating(ratingDetailsFragmentArgs.rating)
     }
 
     override fun onCreateView(
@@ -88,7 +88,7 @@ class CommentDetailsFragment : Fragment() {
         labelsRating.setExplainingTooltip(R.string.ratingbars__labels_description)
         functionsRating.setExplainingTooltip(R.string.ratingbars__functions_description)
         performanceRating.setExplainingTooltip(R.string.ratingbars__performance_description)
-        commentDetailsViewModel.getTargetRating()?.also { rating ->
+        ratingDetailsViewModel.getTargetRating()?.also { rating ->
             Glide.with(requireContext())
                 .load(rating.user?.picture)
                 .placeholder(R.mipmap.default_user_picture)

@@ -18,14 +18,13 @@ import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.R
-import com.pbaltazar.blindo.utils.ads.AdsManager
-import com.pbaltazar.blindo.utils.ads.AdsViewModel
 import com.pbaltazar.blindo.databinding.FragmentPackDetailsBinding
 import com.pbaltazar.blindo.entities.InstallablePack
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
+import com.pbaltazar.blindo.utils.ads.AdsManager
+import com.pbaltazar.blindo.utils.ads.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG
 import com.pbaltazar.blindo.utils.constants.INTERTITIAL_ADS_MINIMUM_VISUALIZATION
 import com.pbaltazar.blindo.utils.extensions.getTalkbackInstallableFileUri
@@ -173,14 +172,6 @@ class PackDetailsFragment : AuthenticableFragment() {
                 PackDetailsFragmentDirections.actionFromPackDetailsToRequiresAuth()
             )
         }
-    }
-
-    override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
-        // Not required
-    }
-
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
-        // Not required
     }
 
     private fun subscribeDownload() = packDetailsViewModel.installablePack.observe(this, Observer {

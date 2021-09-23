@@ -12,12 +12,11 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.pbaltazar.blindo.R
-import com.pbaltazar.blindo.utils.ads.AdsManager
-import com.pbaltazar.blindo.utils.ads.AdsViewModel
 import com.pbaltazar.blindo.databinding.ActivityUploadPackBinding
 import com.pbaltazar.blindo.entities.Label
+import com.pbaltazar.blindo.utils.ads.AdsManager
+import com.pbaltazar.blindo.utils.ads.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.extensions.countApps
 import com.pbaltazar.blindo.utils.extensions.getLanguages
 import com.pbaltazar.blindo.utils.extensions.toHumanReadable
@@ -68,7 +67,6 @@ class UploadPackActivity : AuthenticableActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        loginScreen.unregister()
         binding = null
     }
 
@@ -89,30 +87,6 @@ class UploadPackActivity : AuthenticableActivity() {
         } ?: run {
             loginScreen.launch(Unit)
         }
-    }
-
-    override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
-        // Not required
-    }
-
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
-        // Not required
-    }
-
-    override fun onIsValidationEmailSent(isValidationEmailSent: Boolean) {
-        // Not required
-    }
-
-    override fun onSubscribeDevice() {
-        // Not required
-    }
-
-    override fun onSubscribeDeviceAuthentication(deviceAuthentication: AuthenticationViewModel.DeviceAuthentication) {
-        // Not required
-    }
-
-    override fun onSubscribeDeviceUpdate(deviceUpdate: AuthenticationViewModel.DeviceUpdate) {
-        // Not required
     }
 
     private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this, Observer {

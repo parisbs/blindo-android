@@ -6,7 +6,8 @@ import com.pbaltazar.blindo.entities.Device
 import com.pbaltazar.blindo.entities.User
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-abstract class AuthenticableActivity : AppCompatActivity() {
+open class AuthenticableActivity : AppCompatActivity(),
+    AuthenticableCallbacks {
 
     private val authenticationViewModel: AuthenticationViewModel by viewModel()
 
@@ -17,7 +18,10 @@ abstract class AuthenticableActivity : AppCompatActivity() {
         setUser(signedUser)
     }
 
-    abstract fun onSubscribeUser()
+    override fun onDestroy() {
+        super.onDestroy()
+        loginScreen.unregister()
+    }
 
     fun subscribeUser() = authenticationViewModel.user.observe(this, Observer {
         user = it
@@ -28,23 +32,17 @@ abstract class AuthenticableActivity : AppCompatActivity() {
 
     fun setUser(user: User?) = authenticationViewModel.setUser(user)
 
-    abstract fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication)
-
     fun subscribeAuthentication() = authenticationViewModel.authentication.observe(this, Observer {
         onSubscribeAuthentication(it)
     })
 
     fun authenticateUser() = authenticationViewModel.authenticateUser()
 
-    abstract fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate)
-
     fun subscribeUserUpdate() = authenticationViewModel.userUpdate.observe(this, Observer {
         onSubscribeUserUpdate(it)
     })
 
     fun updateUser(user: User) = authenticationViewModel.updateUser(user)
-
-    abstract fun onIsValidationEmailSent(isValidationEmailSent: Boolean)
 
     fun subscribeIsValidationEmailSent() = authenticationViewModel.isValidationEmailSent.observe(this, Observer {
         onIsValidationEmailSent(it)
@@ -54,8 +52,6 @@ abstract class AuthenticableActivity : AppCompatActivity() {
 
     fun propagateVerifiedStatus() = authenticationViewModel.propagateVerifiedStatus()
 
-    abstract fun onSubscribeDevice()
-
     fun subscribeDevice() = authenticationViewModel.device.observe(this, Observer {
         device = it
         onSubscribeDevice()
@@ -63,15 +59,11 @@ abstract class AuthenticableActivity : AppCompatActivity() {
 
     fun getDevice(): Device? = device
 
-    abstract fun onSubscribeDeviceAuthentication(deviceAuthentication: AuthenticationViewModel.DeviceAuthentication)
-
     fun subscribeDeviceAuthentication() = authenticationViewModel.deviceAuthentication.observe(this, Observer {
         onSubscribeDeviceAuthentication(it)
     })
 
     fun authenticateDevice(device: Device) = authenticationViewModel.authenticateDevice(device)
-
-    abstract fun onSubscribeDeviceUpdate(deviceUpdate: AuthenticationViewModel.DeviceUpdate)
 
     fun subscribeDeviceUpdate() = authenticationViewModel.deviceUpdate.observe(this, Observer {
         onSubscribeDeviceUpdate(it)

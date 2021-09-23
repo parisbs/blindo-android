@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.comment.create
+package com.pbaltazar.blindo.ui.rating.create
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,22 +8,22 @@ import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Rating
 import com.pbaltazar.blindo.entities.errors.ApiException
 import com.pbaltazar.blindo.entities.errors.AuthenticationProviderException
-import com.pbaltazar.blindo.entities.inputs.CommentInput
+import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.entities.responses.ApiResponse
 import com.pbaltazar.blindo.entities.responses.AuthenticationProviderResponse
-import com.pbaltazar.blindo.usecases.MutationCreateComment
-import com.pbaltazar.blindo.usecases.MutationUpdateComment
-import com.pbaltazar.blindo.usecases.QueryListComments
+import com.pbaltazar.blindo.usecases.MutationCreateRating
+import com.pbaltazar.blindo.usecases.MutationUpdateRating
+import com.pbaltazar.blindo.usecases.QueryListRatings
 import com.pbaltazar.blindo.utils.authentication.provider.AuthenticationProvider
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class CommentCreatorViewModel(
+class RatingCreatorViewModel(
     private val backgroundDispatcher: CoroutineContext,
     private val authenticationProvider: AuthenticationProvider,
-    private val queryListComments: QueryListComments,
-    private val mutationCreateComment: MutationCreateComment,
-    private val mutationUpdateComment: MutationUpdateComment
+    private val queryListRatings: QueryListRatings,
+    private val mutationCreateRating: MutationCreateRating,
+    private val mutationUpdateRating: MutationUpdateRating
 ) : ViewModel() {
 
     private val _app = MutableLiveData<App?>()
@@ -40,12 +40,12 @@ class CommentCreatorViewModel(
     private val creation = MutableLiveData<RatingCreatorViewState>()
     val isCreated: LiveData<RatingCreatorViewState> get() = creation
 
-    fun setUserComment(rating: Rating) = viewModelScope.launch(backgroundDispatcher) {
+    fun setUserRating(rating: Rating) = viewModelScope.launch(backgroundDispatcher) {
         userRating.postValue(rating)
     }
 
-    fun getUserRating(commentInput: CommentInput) = viewModelScope.launch(backgroundDispatcher) {
-        when (val apiResponse = queryListComments(commentInput)) {
+    fun getUserRating(ratingInput: RatingInput) = viewModelScope.launch(backgroundDispatcher) {
+        when (val apiResponse = queryListRatings(ratingInput)) {
             is ApiResponse.Success -> userRating.postValue(apiResponse.data.last())
         }
     }
@@ -54,9 +54,9 @@ class CommentCreatorViewModel(
         when (val tokenResponse = authenticationProvider.getIdToken()) {
             is AuthenticationProviderResponse.Success -> when (val response =
                     if (isUpdate)
-                        mutationUpdateComment(rating, tokenResponse.data)
+                        mutationUpdateRating(rating, tokenResponse.data)
                     else
-                        mutationCreateComment(rating, tokenResponse.data)
+                        mutationCreateRating(rating, tokenResponse.data)
                     ) {
                     is ApiResponse.Success -> creation.postValue(RatingCreatorViewState.Success)
                     is ApiResponse.Error -> when (val error = response.error) {

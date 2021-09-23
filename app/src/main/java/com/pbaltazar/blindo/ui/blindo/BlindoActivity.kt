@@ -38,7 +38,6 @@ import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.AdsViewModel
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.*
 import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
@@ -151,7 +150,6 @@ class BlindoActivity : AuthenticableActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        loginScreen.unregister()
         binding = null
     }
 
@@ -252,26 +250,6 @@ class BlindoActivity : AuthenticableActivity() {
             headerUserProfile.visibility = View.GONE
             headerSignOut.visibility = View.GONE
         }
-    }
-
-    override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
-        // Not required
-    }
-
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
-        // Not required
-    }
-
-    override fun onSubscribeDevice() {
-        // Not required
-    }
-
-    override fun onSubscribeDeviceAuthentication(deviceAuthentication: AuthenticationViewModel.DeviceAuthentication) {
-        // Not required
-    }
-
-    override fun onSubscribeDeviceUpdate(deviceUpdate: AuthenticationViewModel.DeviceUpdate) {
-        // Not required
     }
 
     private fun subscribeMessagingToken() = messagingViewModel.messagingToken.observe(this, Observer {

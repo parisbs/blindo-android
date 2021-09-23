@@ -1,10 +1,10 @@
-package com.pbaltazar.blindo.ui.comment.details
+package com.pbaltazar.blindo.ui.rating.details
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pbaltazar.blindo.entities.Rating
 
-class CommentDetailsViewModel : ViewModel() {
+class RatingDetailsViewModel : ViewModel() {
 
     private val _rating = MutableLiveData<Rating>()
 

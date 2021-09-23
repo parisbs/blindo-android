@@ -1,7 +1,7 @@
 package com.pbaltazar.blindo.utils.preferences
 
 import com.pbaltazar.blindo.entities.enums.AppSort
-import com.pbaltazar.blindo.entities.enums.CommentSort
+import com.pbaltazar.blindo.entities.enums.RatingSort
 import com.pbaltazar.blindo.entities.enums.PackSort
 import com.pbaltazar.blindo.utils.ads.AdsManager
 
@@ -31,6 +31,6 @@ interface UserPreferences {
     fun getCommentsPageSize(): Int
     fun setCommentsPageSize(size: Int): Boolean
 
-    fun getCommentSort(): List<CommentSort>
-    fun setCommentSort(sort: List<CommentSort>): Boolean
+    fun getCommentSort(): List<RatingSort>
+    fun setCommentSort(sort: List<RatingSort>): Boolean
 }

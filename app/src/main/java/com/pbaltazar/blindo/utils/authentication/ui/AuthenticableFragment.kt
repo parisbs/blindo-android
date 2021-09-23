@@ -5,7 +5,8 @@ import androidx.lifecycle.Observer
 import com.pbaltazar.blindo.entities.User
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-abstract class AuthenticableFragment : Fragment() {
+open class AuthenticableFragment : Fragment(),
+    AuthenticableCallbacks {
 
     private val authenticationViewModel: AuthenticationViewModel by sharedViewModel()
 
@@ -15,7 +16,10 @@ abstract class AuthenticableFragment : Fragment() {
         setUser(signedUser)
     }
 
-    abstract fun onSubscribeUser()
+    override fun onDestroy() {
+        super.onDestroy()
+        loginScreen.unregister()
+    }
 
     fun subscribeUser() = authenticationViewModel.user.observe(this, Observer {
         user = it
@@ -27,15 +31,11 @@ abstract class AuthenticableFragment : Fragment() {
 
     fun setUser(user: User?) = authenticationViewModel.setUser(user)
 
-    abstract fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication)
-
     fun subscribeAuthentication() = authenticationViewModel.authentication.observe(this, Observer {
         onSubscribeAuthentication(it)
     })
 
     fun authenticateUser() = authenticationViewModel.authenticateUser()
-
-    abstract fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate)
 
     fun subscribeUserUpdate() = authenticationViewModel.userUpdate.observe(this, Observer {
         onSubscribeUserUpdate(it)

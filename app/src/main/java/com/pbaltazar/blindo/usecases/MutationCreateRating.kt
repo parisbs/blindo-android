@@ -2,12 +2,14 @@ package com.pbaltazar.blindo.usecases
 
 import com.pbaltazar.blindo.data.rating.RatingGateway
 import com.pbaltazar.blindo.entities.Rating
-import com.pbaltazar.blindo.entities.inputs.AppInput
 import com.pbaltazar.blindo.entities.responses.ApiResponse
 
-class QueryGetAppRatings(
+class MutationCreateRating(
     private val ratingGateway: RatingGateway
 ) {
-    suspend operator fun invoke(appInput: AppInput): ApiResponse<List<Rating>> =
-        ratingGateway.getAppRatings(appInput)
+    suspend operator fun invoke(
+        rating: Rating,
+        idToken: String
+    ): ApiResponse<Rating> =
+        ratingGateway.createRating(rating, idToken)
 }

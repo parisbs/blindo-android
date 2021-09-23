@@ -110,20 +110,7 @@ class BackupFragment : AuthenticableFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        loginScreen.unregister()
         binding = null
-    }
-
-    override fun onSubscribeUser() {
-        // Not required
-    }
-
-    override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
-        // Not required
-    }
-
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
-        // Not required
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(

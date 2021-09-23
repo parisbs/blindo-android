@@ -1,7 +1,7 @@
 package com.pbaltazar.blindo.ui.user
 
 import com.pbaltazar.blindo.ui.user.backup.BackupViewModel
-import com.pbaltazar.blindo.ui.user.comment.UserCommentsViewModel
+import com.pbaltazar.blindo.ui.user.rating.UserRatingsViewModel
 import com.pbaltazar.blindo.utils.BACKGROUND_DISPATCHER
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
@@ -19,7 +19,7 @@ val userModule = module {
     }
 
     viewModel {
-        UserCommentsViewModel(
+        UserRatingsViewModel(
             get(named(BACKGROUND_DISPATCHER)),
             get()
         )

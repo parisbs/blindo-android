@@ -7,14 +7,14 @@ val useCasesModule = module {
     factory { GetLocalApps(get()) }
 
     factory { MutationCreateDevice(get()) }
-    factory { MutationCreateComment(get()) }
+    factory { MutationCreateRating(get()) }
     factory { MutationCreateUser(get()) }
     factory { MutationDownloadBackup(get()) }
     factory { MutationDownloadPack(get()) }
     factory { MutationLaunchSli(get()) }
     factory { MutationProcessMembership(get()) }
     factory { MutationProcessPacks(get()) }
-    factory { MutationUpdateComment(get()) }
+    factory { MutationUpdateRating(get()) }
     factory { MutationUpdateDevice(get()) }
     factory { MutationUpdateUser(get()) }
 
@@ -30,5 +30,5 @@ val useCasesModule = module {
     factory { QueryGetUser(get()) }
     factory { QueryListApps(get()) }
     factory { QueryListPacks(get()) }
-    factory { QueryListComments(get()) }
+    factory { QueryListRatings(get()) }
 }

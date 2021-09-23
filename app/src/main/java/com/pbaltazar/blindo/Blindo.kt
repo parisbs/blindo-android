@@ -3,10 +3,10 @@ package com.pbaltazar.blindo
 import android.app.Application
 import com.pbaltazar.blindo.data.dataModule
 import com.pbaltazar.blindo.ui.app.appModule
-import com.pbaltazar.blindo.ui.comment.commentModule
 import com.pbaltazar.blindo.ui.filter.filterModule
 import com.pbaltazar.blindo.ui.home.homeModule
 import com.pbaltazar.blindo.ui.pack.packModule
+import com.pbaltazar.blindo.ui.rating.ratingModule
 import com.pbaltazar.blindo.ui.search.searchModule
 import com.pbaltazar.blindo.ui.sli.sliModule
 import com.pbaltazar.blindo.ui.splash.splashModule
@@ -71,7 +71,7 @@ class Blindo : Application() {
                     appModule,
                     sliModule,
                     packModule,
-                    commentModule
+                    ratingModule
                 )
             )
         }

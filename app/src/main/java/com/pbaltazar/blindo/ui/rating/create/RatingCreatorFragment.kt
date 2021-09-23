@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.comment.create
+package com.pbaltazar.blindo.ui.rating.create
 
 import android.os.Bundle
 import android.text.Editable
@@ -16,19 +16,18 @@ import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentRatingCreatorBinding
 import com.pbaltazar.blindo.entities.Rating
-import com.pbaltazar.blindo.entities.inputs.CommentInput
+import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG
 import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.pbaltazar.blindo.utils.extensions.setValueWithAccessibilitySupport
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class CommentCreatorFragment : AuthenticableFragment() {
+class RatingCreatorFragment : AuthenticableFragment() {
 
-    private val commentCreatorViewModel: CommentCreatorViewModel by viewModel()
-    private val commentCreatorFragmentArgs: CommentCreatorFragmentArgs by navArgs()
+    private val ratingCreatorViewModel: RatingCreatorViewModel by viewModel()
+    private val ratingCreatorFragmentArgs: RatingCreatorFragmentArgs by navArgs()
     private var binding: FragmentRatingCreatorBinding? = null
 
     private lateinit var totalRating: TextView
@@ -51,7 +50,7 @@ class CommentCreatorFragment : AuthenticableFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        commentCreatorViewModel.setTargetApp(commentCreatorFragmentArgs.app)
+        ratingCreatorViewModel.setTargetApp(ratingCreatorFragmentArgs.app)
     }
 
     override fun onCreateView(
@@ -89,13 +88,13 @@ class CommentCreatorFragment : AuthenticableFragment() {
     override fun onSubscribeUser() {
         getUser()?.also { user ->
             if (isUpdate.not()) {
-                commentCreatorFragmentArgs.rating?.also { rating ->
+                ratingCreatorFragmentArgs.rating?.also { rating ->
                     rating.user?.id?.takeIf { it == user.id }?.also {
-                        commentCreatorViewModel.setUserComment(rating)
+                        ratingCreatorViewModel.setUserRating(rating)
                     } ?: findNavController().popBackStack()
-                } ?: commentCreatorViewModel.getUserRating(
-                    CommentInput(
-                        appId = commentCreatorFragmentArgs.app.id,
+                } ?: ratingCreatorViewModel.getUserRating(
+                    RatingInput(
+                        appId = ratingCreatorFragmentArgs.app.id,
                         userId = user.id,
                         pageSize = 1
                     )
@@ -103,17 +102,9 @@ class CommentCreatorFragment : AuthenticableFragment() {
             }
         } ?: run {
             findNavController().navigate(
-                CommentCreatorFragmentDirections.actionFromCommentCreatorToRequiresAuth()
+                RatingCreatorFragmentDirections.actionFromCommentCreatorToRequiresAuth()
             )
         }
-    }
-
-    override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
-        // Not required
-    }
-
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
-        // Not required
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
@@ -124,7 +115,7 @@ class CommentCreatorFragment : AuthenticableFragment() {
         }
     })
 
-    private fun subscribeUserRating() = commentCreatorViewModel.rating.observe(this, Observer {
+    private fun subscribeUserRating() = ratingCreatorViewModel.rating.observe(this, Observer {
         it?.also { rating ->
             isUpdate = true
             currentRatingId = rating.id
@@ -137,9 +128,9 @@ class CommentCreatorFragment : AuthenticableFragment() {
         }
     })
 
-    private fun subscribeCreation() = commentCreatorViewModel.isCreated.observe(this, Observer {
+    private fun subscribeCreation() = ratingCreatorViewModel.isCreated.observe(this, Observer {
         when (val response = it) {
-            is CommentCreatorViewModel.RatingCreatorViewState.Success -> {
+            is RatingCreatorViewModel.RatingCreatorViewState.Success -> {
                 Snackbar.make(
                     ratingContinue,
                     getString(R.string.ratingcreator__success),
@@ -153,7 +144,7 @@ class CommentCreatorFragment : AuthenticableFragment() {
                     }
                 }
             }
-            is CommentCreatorViewModel.RatingCreatorViewState.Error -> {
+            is RatingCreatorViewModel.RatingCreatorViewState.Error -> {
                 uiRatingBar.isEnabled = true
                 screenreadersRatingBar.isEnabled = true
                 labelsRatingBar.isEnabled = true
@@ -232,8 +223,8 @@ class CommentCreatorFragment : AuthenticableFragment() {
         commentText.isEnabled = false
         isReadyToContinue = false
         ratingContinue.text = getString(R.string.viewstate__loading_title)
-        commentCreatorViewModel.getTargetApp()?.also { app ->
-            commentCreatorViewModel.createOrUpdateRating(
+        ratingCreatorViewModel.getTargetApp()?.also { app ->
+            ratingCreatorViewModel.createOrUpdateRating(
                 Rating(
                     id = currentRatingId,
                     app = app,

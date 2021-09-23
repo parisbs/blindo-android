@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.user.comment
+package com.pbaltazar.blindo.ui.user.rating
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,30 +12,29 @@ import com.blindoapp.uitools.recyclerview.PaginationScrollListener
 import com.pbaltazar.blindo.databinding.FragmentUserCommentsBinding
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Rating
-import com.pbaltazar.blindo.entities.enums.CommentSort
-import com.pbaltazar.blindo.entities.inputs.CommentInput
+import com.pbaltazar.blindo.entities.enums.RatingSort
+import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class UserCommentsFragment : AuthenticableFragment() {
+class UserRatingsFragment : AuthenticableFragment() {
 
-    private val userCommentsViewModel: UserCommentsViewModel by viewModel()
+    private val userRatingsViewModel: UserRatingsViewModel by viewModel()
     private var binding: FragmentUserCommentsBinding? = null
 
     private lateinit var userCommentsViewState: ViewState
     private lateinit var userCommentsRecycler: RecyclerView
 
-    private val userCommentsAdapter: UserCommentsAdapter =
-        UserCommentsAdapter({ rating ->
+    private val userRatingsAdapter: UserRatingsAdapter =
+        UserRatingsAdapter({ rating ->
             onCommentClickListener(rating)
         })
 
-    private var sort: List<CommentSort> = listOf(
-        CommentSort.UPDATED_AT_DESC
+    private var sort: List<RatingSort> = listOf(
+        RatingSort.UPDATED_AT_DESC
     )
     private var pageSize: Int = 30
     private var nextPageToken: String? = null
@@ -68,27 +67,14 @@ class UserCommentsFragment : AuthenticableFragment() {
 
     override fun onResume() {
         super.onResume()
-        if (userCommentsAdapter.itemCount == 0 && isLoading.not()) {
+        if (userRatingsAdapter.itemCount == 0 && isLoading.not()) {
             loadComments()
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        loginScreen.unregister()
         binding = null
-    }
-
-    override fun onSubscribeUser() {
-        // Not required
-    }
-
-    override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
-        // Not required
-    }
-
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
-        // Not required
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
@@ -100,26 +86,26 @@ class UserCommentsFragment : AuthenticableFragment() {
         }
     })
 
-    private fun subscribeComments() = userCommentsViewModel.comments.observe(this, Observer {
+    private fun subscribeComments() = userRatingsViewModel.ratings.observe(this, Observer {
         isLoading = false
         when (val response = it) {
-            is UserCommentsViewModel.UserComments.Success -> {
+            is UserRatingsViewModel.UserRatings.Success -> {
                 hasNextPage = response.hasNextPage
                 nextPageToken = response.nextPageToken
-                if (userCommentsAdapter.itemCount == 0) {
+                if (userRatingsAdapter.itemCount == 0) {
                     userCommentsViewState.setState(State.CONTENT)
-                    userCommentsAdapter.items = response.comments.toMutableList()
+                    userRatingsAdapter.items = response.ratings.toMutableList()
                 } else {
-                    userCommentsAdapter.appendItems(response.comments)
+                    userRatingsAdapter.appendItems(response.ratings)
                 }
             }
-            is UserCommentsViewModel.UserComments.Empty -> {
-                if (userCommentsAdapter.itemCount == 0) {
+            is UserRatingsViewModel.UserRatings.Empty -> {
+                if (userRatingsAdapter.itemCount == 0) {
                     userCommentsViewState.setState(State.EMPTY)
                 }
             }
-            is UserCommentsViewModel.UserComments.Error -> {
-                if (userCommentsAdapter.itemCount == 0) {
+            is UserRatingsViewModel.UserRatings.Error -> {
+                if (userRatingsAdapter.itemCount == 0) {
                     userCommentsViewState.apply {
                         setState(State.ERROR)
                         setErrorDescriptionText(response.errorMessage)
@@ -131,13 +117,13 @@ class UserCommentsFragment : AuthenticableFragment() {
 
     private fun setupUi() {
         userCommentsRecycler.apply {
-            adapter = userCommentsAdapter
+            adapter = userRatingsAdapter
             addOnScrollListener(
                 object: PaginationScrollListener(
                     if (layoutManager != null)
                         layoutManager as LinearLayoutManager
                 else
-                        LinearLayoutManager(this@UserCommentsFragment.requireContext())
+                        LinearLayoutManager(this@UserRatingsFragment.requireContext())
                 ) {
                     override fun hasNextPage(): Boolean = hasNextPage
 
@@ -155,15 +141,15 @@ class UserCommentsFragment : AuthenticableFragment() {
     }
 
     private fun loadComments() {
-        if (userCommentsAdapter.itemCount == 0) {
+        if (userRatingsAdapter.itemCount == 0) {
             userCommentsViewState.setState(State.LOADING)
             hasNextPage = false
             nextPageToken = null
         }
         getUser()?.also { user ->
             isLoading = true
-            userCommentsViewModel.getUserComments(
-                CommentInput(
+            userRatingsViewModel.getUserRatings(
+                RatingInput(
                     userId = user.id,
                     sort = sort,
                     pageSize = pageSize,
@@ -171,13 +157,13 @@ class UserCommentsFragment : AuthenticableFragment() {
                 )
             )
         } ?: findNavController().navigate(
-            UserCommentsFragmentDirections.actionFromUserCommentsToRequiresAuth()
+            UserRatingsFragmentDirections.actionFromUserCommentsToRequiresAuth()
         )
     }
 
     private fun onCommentClickListener(rating: Rating) {
         findNavController().navigate(
-            UserCommentsFragmentDirections.actionFromUserCommentsToCommentCreator(
+            UserRatingsFragmentDirections.actionFromUserCommentsToCommentCreator(
                 rating.app ?: App(),
                 rating
             )

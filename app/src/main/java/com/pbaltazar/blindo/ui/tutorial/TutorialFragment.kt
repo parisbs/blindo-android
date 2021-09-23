@@ -72,7 +72,6 @@ class TutorialFragment : AuthenticableFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        loginScreen.unregister()
         binding = null
     }
 
@@ -82,14 +81,6 @@ class TutorialFragment : AuthenticableFragment() {
                 tutorialViewModel.setStep(currentStep + 1)
             }
         }
-    }
-
-    override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
-        // Not required
-    }
-
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
-        // Not required
     }
 
     private fun subscribePrivacyPolicy() = tutorialViewModel.isPrivacyPolicyAccepted.observe(this, Observer {

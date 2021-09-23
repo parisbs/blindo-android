@@ -166,7 +166,7 @@
 
     <fragment
         android:id="@+id/navUserComments"
-        android:name="com.pbaltazar.blindo.ui.user.comment.UserCommentsFragment"
+        android:name="com.pbaltazar.blindo.ui.user.rating.UserRatingsFragment"
         android:label="@string/usercomments__title"
         tools:layout="@layout/fragment_user_comments">
         <action
@@ -301,7 +301,7 @@
 
     <fragment
         android:id="@+id/navCommentCreator"
-        android:name="com.pbaltazar.blindo.ui.comment.create.CommentCreatorFragment"
+        android:name="com.pbaltazar.blindo.ui.rating.create.RatingCreatorFragment"
         tools:layout="@layout/fragment_rating_creator">
         <argument
             android:name="app"
@@ -372,7 +372,7 @@
 
     <fragment
         android:id="@+id/navCommentDetails"
-        android:name="com.pbaltazar.blindo.ui.comment.details.CommentDetailsFragment"
+        android:name="com.pbaltazar.blindo.ui.rating.details.RatingDetailsFragment"
         tools:layout="@layout/fragment_rating_details">
         <argument
             android:name="rating"

@@ -11,8 +11,6 @@ import com.google.android.material.tabs.TabLayout
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentAppBinding
 import com.pbaltazar.blindo.entities.App
-import com.pbaltazar.blindo.entities.inputs.CommentInput
-import com.pbaltazar.blindo.entities.inputs.PackInput
 import com.pbaltazar.blindo.ui.app.details.pages.AppViewModelListener
 import com.pbaltazar.blindo.ui.app.details.pages.AppPagerHelper
 import com.wizeline.viewstate.State

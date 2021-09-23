@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.user.comment
+package com.pbaltazar.blindo.ui.user.rating
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,17 +14,17 @@ import com.pbaltazar.blindo.utils.extensions.toRatingString
 import com.wizeline.simpleapollo.utils.extensions.toTimeAgo
 import java.util.*
 
-class UserCommentsAdapter(
+class UserRatingsAdapter(
     private val clickListener: (Rating) -> (Unit)
 ) : Adapter<Rating>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
-        UserCommentsViewHolder(
+        UserRatingsViewHolder(
             ItemAppCommentBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
 
     override fun bind(item: Rating, viewHolder: ViewHolder) {
-        (viewHolder as UserCommentsViewHolder).itemBinding.apply {
+        (viewHolder as UserRatingsViewHolder).itemBinding.apply {
             ViewCompat.setAccessibilityHeading(commentHeaderContainer, true)
             appCommentUserPicture.apply {
                 Glide.with(context)

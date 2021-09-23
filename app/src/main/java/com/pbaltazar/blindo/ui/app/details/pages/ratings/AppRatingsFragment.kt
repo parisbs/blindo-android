@@ -14,13 +14,12 @@ import com.pbaltazar.blindo.databinding.FragmentAppRatingsBinding
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Rating
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.entities.inputs.CommentInput
+import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.ui.app.details.AppFragmentDirections
 import com.pbaltazar.blindo.ui.app.details.AppViewModel
 import com.pbaltazar.blindo.ui.app.details.pages.AppPagerHelper
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AppRatingsFragment : Fragment() {
 
@@ -65,7 +64,7 @@ class AppRatingsFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         currentApp = AppPagerHelper.appViewModelListener.getCurrentApp()
-        if (currentApp?.numberOfRatings ?: 0 > 0 && currentApp?.comments == null) {
+        if (currentApp?.numberOfRatings ?: 0 > 0 && currentApp?.ratings == null) {
             loadRatings()
         } else {
             setupApp()
@@ -113,7 +112,7 @@ class AppRatingsFragment : Fragment() {
                 AppInput(
                     id = if (appViewModel.getIsQueryById()) currentApp?.id ?: "" else "",
                     packageName = if (appViewModel.getIsQueryById().not()) currentApp?.packageName ?: "" else "",
-                    commentInput = CommentInput(
+                    ratingInput = RatingInput(
                         sort = appViewModel.getRatingsSort(),
                         pageSize = appViewModel.getRatingsPageSize(),
                         nextPageToken = nextPageToken
@@ -147,13 +146,13 @@ class AppRatingsFragment : Fragment() {
     }
 
     private fun setupApp() {
-        currentApp?.comments?.also { commentConnection ->
-            commentConnection.comments?.takeIf { it.isNotEmpty() }?.also { ratings ->
+        currentApp?.ratings?.also { ratingConnection ->
+            ratingConnection.ratings?.takeIf { it.isNotEmpty() }?.also { ratings ->
                 if (appRatingsAdapter.itemCount < 1) {
                     appRatingsViewState.setState(State.CONTENT)
                     appRatingsAdapter.appendItems(ratings)
-                    hasNextPage = commentConnection.hasNextPage
-                    nextPageToken = commentConnection.nextPageToken
+                    hasNextPage = ratingConnection.hasNextPage
+                    nextPageToken = ratingConnection.nextPageToken
                     isLoading = false
                 }
             } ?: appRatingsViewState.setState(State.EMPTY)

@@ -1,16 +1,16 @@
-package com.pbaltazar.blindo.ui.comment
+package com.pbaltazar.blindo.ui.rating
 
-import com.pbaltazar.blindo.ui.comment.create.CommentCreatorViewModel
-import com.pbaltazar.blindo.ui.comment.details.CommentDetailsViewModel
+import com.pbaltazar.blindo.ui.rating.create.RatingCreatorViewModel
+import com.pbaltazar.blindo.ui.rating.details.RatingDetailsViewModel
 import com.pbaltazar.blindo.utils.BACKGROUND_DISPATCHER
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val commentModule = module {
+val ratingModule = module {
 
     viewModel {
-        CommentCreatorViewModel(
+        RatingCreatorViewModel(
             get(named(BACKGROUND_DISPATCHER)),
             get(),
             get(),
@@ -20,6 +20,6 @@ val commentModule = module {
     }
 
     viewModel {
-        CommentDetailsViewModel()
+        RatingDetailsViewModel()
     }
 }

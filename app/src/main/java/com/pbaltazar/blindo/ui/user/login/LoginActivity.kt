@@ -136,18 +136,6 @@ class LoginActivity : AuthenticableActivity() {
         }
     }
 
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
-        // Not required
-    }
-
-    override fun onIsValidationEmailSent(isValidationEmailSent: Boolean) {
-        // Not required
-    }
-
-    override fun onSubscribeDevice() {
-        // Not required
-    }
-
     override fun onSubscribeDeviceAuthentication(deviceAuthentication: AuthenticationViewModel.DeviceAuthentication) {
         when (val response = deviceAuthentication) {
             is AuthenticationViewModel.DeviceAuthentication.Success -> {
@@ -164,10 +152,6 @@ class LoginActivity : AuthenticableActivity() {
             is AuthenticationViewModel.DeviceAuthentication.NetworkError -> setStepRegisterDeviceError(response.throwable.localizedMessage ?: response.throwable.toString())
             else -> setStepRegisterDeviceError("Unable to register your device")
         }
-    }
-
-    override fun onSubscribeDeviceUpdate(deviceUpdate: AuthenticationViewModel.DeviceUpdate) {
-        // Not required
     }
 
     private fun setStepLoading() {

@@ -2,7 +2,7 @@ package com.pbaltazar.blindo.utils.preferences
 
 import android.content.SharedPreferences
 import com.pbaltazar.blindo.entities.enums.AppSort
-import com.pbaltazar.blindo.entities.enums.CommentSort
+import com.pbaltazar.blindo.entities.enums.RatingSort
 import com.pbaltazar.blindo.entities.enums.PackSort
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.constants.*
@@ -61,12 +61,12 @@ class BlindoPreferences(
 
     override fun setCommentsPageSize(size: Int): Boolean = sharedPreferences.putAndCommit(COMMENTS_PAGE_SIZE, size)
 
-    override fun getCommentSort(): List<CommentSort> = sharedPreferences.getEnumsList<CommentSort>(
+    override fun getCommentSort(): List<RatingSort> = sharedPreferences.getEnumsList<RatingSort>(
         COMMENT_SORT,
-        listOf<CommentSort>(
-            CommentSort.UPDATED_AT_DESC
+        listOf<RatingSort>(
+            RatingSort.UPDATED_AT_DESC
         )
     )
 
-    override fun setCommentSort(sort: List<CommentSort>): Boolean = sharedPreferences.putAndCommitEnumsList(COMMENT_SORT, sort)
+    override fun setCommentSort(sort: List<RatingSort>): Boolean = sharedPreferences.putAndCommitEnumsList(COMMENT_SORT, sort)
 }

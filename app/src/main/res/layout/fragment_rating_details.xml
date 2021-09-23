@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.comment.details.CommentDetailsFragment">
+    tools:context=".ui.rating.details.RatingDetailsFragment">
 
     <ImageView
         android:id="@+id/userPhoto"

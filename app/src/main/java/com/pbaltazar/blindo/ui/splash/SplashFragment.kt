@@ -50,10 +50,6 @@ class SplashFragment : AuthenticableFragment() {
         binding = null
     }
 
-    override fun onSubscribeUser() {
-        // Not required
-    }
-
     override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
         when (userAuthentication) {
             is AuthenticationViewModel.UserAuthentication.Success -> if (userAuthentication.user.isPremium ?: false) {
@@ -64,10 +60,6 @@ class SplashFragment : AuthenticableFragment() {
             }
             else -> adsViewModel.updateAdsConsentStatus()
         }
-    }
-
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
-        // Not required
     }
 
     private fun subscribeBillingConnection() = billingViewModel.isConnected.observe(this, Observer {

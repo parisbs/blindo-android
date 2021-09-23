@@ -49,8 +49,8 @@ class BlindoApiAppGateway(
                 id = appInput.id,
                 packsFirst = appInput.packInput.pageSize,
                 packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
-                ratingsFirst = appInput.commentInput.pageSize,
-                ratingsSort = appInput.commentInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }
+                ratingsFirst = appInput.ratingInput.pageSize,
+                ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }
             )
         ).let { response ->
                 when (response) {
@@ -67,8 +67,8 @@ class BlindoApiAppGateway(
                 packageName = appInput.packageName,
                 packsFirst = appInput.packInput.pageSize,
                 packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
-                ratingsFirst = appInput.commentInput.pageSize,
-                ratingsSort = appInput.commentInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }
+                ratingsFirst = appInput.ratingInput.pageSize,
+                ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }
             )
         ).let { response ->
             when (response) {

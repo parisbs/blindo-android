@@ -14,7 +14,6 @@ import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentAdsSettingsBinding
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -118,18 +117,6 @@ class AdsSettingsFragment : AuthenticableFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
-    }
-
-    override fun onSubscribeUser() {
-        // Not required
-    }
-
-    override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
-        // Not required
-    }
-
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
-        // Not required
     }
 
     private fun subscribeAdsConsentStatus() = adsSettingsViewModel.adsConsentStatus.observe(this, Observer {

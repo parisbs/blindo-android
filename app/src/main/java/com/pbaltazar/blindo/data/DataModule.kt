@@ -5,8 +5,8 @@ import com.apollographql.apollo.api.ScalarType
 import com.pbaltazar.blindo.BuildConfig
 import com.pbaltazar.blindo.data.app.AppGateway
 import com.pbaltazar.blindo.data.app.BlindoApiAppGateway
-import com.pbaltazar.blindo.data.comment.BlindoApiCommentGateway
-import com.pbaltazar.blindo.data.comment.CommentGateway
+import com.pbaltazar.blindo.data.rating.BlindoApiRatingGateway
+import com.pbaltazar.blindo.data.rating.RatingGateway
 import com.pbaltazar.blindo.data.device.BlindoApiDeviceGateway
 import com.pbaltazar.blindo.data.device.DeviceGateway
 import com.pbaltazar.blindo.data.localapp.LocalAppGateway
@@ -95,8 +95,8 @@ val dataModule = module {
         )
     }
 
-    single<CommentGateway> {
-        BlindoApiCommentGateway(
+    single<RatingGateway> {
+        BlindoApiRatingGateway(
             get(named(BASIC_SIMPLE_APOLLO_CLIENT))
         )
     }

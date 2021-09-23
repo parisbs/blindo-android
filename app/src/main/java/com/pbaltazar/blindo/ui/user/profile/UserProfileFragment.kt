@@ -125,10 +125,6 @@ class UserProfileFragment : AuthenticableFragment() {
         }
     }
 
-    override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
-        // Not required
-    }
-
     override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
         when (userUpdate) {
             is AuthenticationViewModel.UserUpdate.Success -> processUpdateResult(getString(R.string.profile__update_success))
