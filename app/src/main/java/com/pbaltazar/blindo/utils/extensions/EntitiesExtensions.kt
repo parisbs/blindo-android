@@ -7,6 +7,7 @@ import com.apollographql.apollo.api.Input
 import com.google.firebase.perf.metrics.AddTrace
 import com.pbaltazar.blindo.entities.*
 import com.pbaltazar.blindo.entities.filters.AppFilters
+import com.pbaltazar.blindo.entities.filters.FloatRange
 import com.pbaltazar.blindo.graphql.type.AppFilter
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.constants.DOWNLOADS_DIR
@@ -95,6 +96,7 @@ fun User.getAuthenticationMethod(): String = picture?.let {
 } ?: "Email"
 
 fun AppFilters.toGraphQLFilter(): AppFilter = AppFilter(
+    totalRatingRange = Input.optional(totalRatingRange?.toGraphQLFilter()),
     or = Input.optional(let {
         val clauses: MutableList<AppFilter> = mutableListOf()
         clauses.addAll(getPackageNameClausesList())
@@ -120,3 +122,9 @@ fun AppFilters.getPackageLabelClausesList(): List<AppFilter> = packageLabel?.let
         AppFilter(Input.optional(pl))
     )
 } ?: emptyList()
+
+fun FloatRange.toGraphQLFilter(): com.pbaltazar.blindo.graphql.type.FloatRange =
+    com.pbaltazar.blindo.graphql.type.FloatRange(
+        begin = begin.toDouble(),
+        end = end.toDouble()
+    )

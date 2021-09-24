@@ -7,12 +7,17 @@ import android.widget.AdapterView
 import android.widget.CheckBox
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentAppsFilterBinding
-import com.pbaltazar.blindo.entities.enums.AppSort
+import com.pbaltazar.blindo.entities.filters.FloatRange
+import com.pbaltazar.blindo.entities.sorts.AppSort
+import com.pbaltazar.blindo.ui.components.selectors.AccessibleRangeSelector
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_REQUIRE_REFRESH_FILTERS
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -30,6 +35,9 @@ class AppsFilterFragment : Fragment() {
     private lateinit var totalRatingSpinner: Spinner
     private lateinit var availablePacksCheckBox: CheckBox
     private lateinit var availablePacksSpinner: Spinner
+    private lateinit var totalRatingRangeControl: TextView
+    private lateinit var totalRatingRangeSelectorContainer: ConstraintLayout
+    private lateinit var totalRatingRangeSelector: AccessibleRangeSelector
 
     private val spinnersAndCheckboxesMap: MutableMap<Int, CheckBox> = mutableMapOf()
 
@@ -50,12 +58,22 @@ class AppsFilterFragment : Fragment() {
     private var originalSort: List<AppSort> = listOf()
     private val sort: MutableList<AppSort> = mutableListOf()
 
+    private val totalRatingExpandAction: AccessibilityNodeInfoCompat.AccessibilityActionCompat = AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_EXPAND
+    private val totalRatingCollapseAction: AccessibilityNodeInfoCompat.AccessibilityActionCompat = AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_COLLAPSE
+    private var originalIsTotalRatingRangeExpanded: Boolean = false
+    private var isTotalRatingRangeExpanded: Boolean = false
+    private var originalTotalRatingRange: FloatRange = FloatRange(1F, 5F)
+    private val totalRatingRange: FloatRange get() =
+        totalRatingRangeSelector.getRange()
+
     private var isFirstLaunch: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         originalSort = appsFilterViewModel.getAppSort()
+        originalIsTotalRatingRangeExpanded = appsFilterViewModel.getIsAppTotalRatingRangeChecked()
+        originalTotalRatingRange = appsFilterViewModel.getAppTotalRatingRange()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,6 +88,10 @@ class AppsFilterFragment : Fragment() {
         totalRatingSpinner = binding!!.totalRatingSpinner
         availablePacksCheckBox = binding!!.availablePacksCheckbox
         availablePacksSpinner = binding!!.availablePacksSpinner
+        totalRatingRangeControl = binding!!.totalRatingRangeHeader
+        ViewCompat.setAccessibilityHeading(totalRatingRangeControl, true)
+        totalRatingRangeSelectorContainer = binding!!.totalRatingRangeExpandableContainer
+        totalRatingRangeSelector = binding!!.totalRatingRangeSelector
         return binding!!.root
     }
 
@@ -83,6 +105,9 @@ class AppsFilterFragment : Fragment() {
         sort.clear()
         sort.addAll(originalSort)
         refreshOrderByStates(true)
+        isTotalRatingRangeExpanded = originalIsTotalRatingRangeExpanded.not()
+        totalRatingRangeSelector.setRange(originalTotalRatingRange)
+        totalRatingRangeExpandableController()
         isFirstLaunch = false
     }
 
@@ -111,6 +136,7 @@ class AppsFilterFragment : Fragment() {
     private fun setupUi() {
         setupCheckboxes()
         setupSpinners()
+        setupTotalRatingRange()
     }
 
     private fun refreshOrderByStates(isInitialState: Boolean = false) {
@@ -222,6 +248,52 @@ class AppsFilterFragment : Fragment() {
         )
     }
 
+    private fun setupTotalRatingRange() {
+        ViewCompat.setAccessibilityDelegate(totalRatingRangeControl, object : AccessibilityDelegateCompat() {
+            override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
+                super.onInitializeAccessibilityNodeInfo(host, info)
+                info.apply {
+                    isCheckable = true
+                    if (isTotalRatingRangeExpanded) {
+                        removeAction(totalRatingExpandAction)
+                        addAction(totalRatingCollapseAction)
+                        isChecked = true
+                    } else {
+                        removeAction(totalRatingCollapseAction)
+                        addAction(totalRatingExpandAction)
+                        isChecked = false
+                    }
+                }
+            }
+
+            override fun performAccessibilityAction(host: View, action: Int, args: Bundle?): Boolean {
+                when (action) {
+                    totalRatingExpandAction.id, totalRatingCollapseAction.id -> {
+                        totalRatingRangeExpandableController()
+                        return true
+                    }
+                    else -> {
+                        return super.performAccessibilityAction(host, action, args)
+                    }
+                }
+            }
+        })
+        totalRatingRangeControl.setOnClickListener {
+            totalRatingRangeExpandableController()
+        }
+    }
+
+    private fun totalRatingRangeExpandableController() {
+        if (isTotalRatingRangeExpanded) {
+            totalRatingRangeControl.setCompoundDrawablesRelative(resources.getDrawable(R.drawable.ic_check_box_outline_blank_black_24dp), null, null, null)
+            totalRatingRangeSelectorContainer.visibility = View.GONE
+        } else {
+            totalRatingRangeControl.setCompoundDrawablesRelative(resources.getDrawable(R.drawable.ic_check_box_black_24dp), null, null, null)
+            totalRatingRangeSelectorContainer.visibility = View.VISIBLE
+        }
+        isTotalRatingRangeExpanded = isTotalRatingRangeExpanded.not()
+    }
+
     private fun processSpinnerValue(appSort: AppSort) {
         val invertedAppSort = appSort.invert()
         var currentPosicion = sort.size
@@ -242,10 +314,16 @@ class AppsFilterFragment : Fragment() {
 
     private fun saveFilters() {
         appsFilterViewModel.setAppSort(sort)
+        appsFilterViewModel.setIsAppTotalRatingRangeChecked(isTotalRatingRangeExpanded)
+        if (isTotalRatingRangeExpanded) {
+            appsFilterViewModel.setAppTotalRatingRange(totalRatingRange)
+        }
         findNavController().apply {
             previousBackStackEntry?.savedStateHandle?.set(
                 ARGUMENT_REQUIRE_REFRESH_FILTERS,
-                originalSort.equals(sort).not()
+                originalSort.equals(sort).not() ||
+                    originalIsTotalRatingRangeExpanded.equals(isTotalRatingRangeExpanded).not() ||
+                    if (isTotalRatingRangeExpanded) originalTotalRatingRange.equals(totalRatingRange).not() else false
             )
             popBackStack()        }
     }

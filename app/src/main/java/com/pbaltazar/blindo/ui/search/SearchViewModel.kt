@@ -7,7 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.pbaltazar.blindo.entities.App
-import com.pbaltazar.blindo.entities.enums.AppSort
+import com.pbaltazar.blindo.entities.sorts.AppSort
 import com.pbaltazar.blindo.entities.filters.AppFilters
 import com.pbaltazar.blindo.entities.inputs.AppInput
 import com.pbaltazar.blindo.ui.home.HomePagination

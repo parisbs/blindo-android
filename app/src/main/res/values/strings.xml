@@ -270,5 +270,15 @@
     <string name="apps_filter__package_label">App name</string>
     <string name="apps_filter__total_rating">Total rating</string>
     <string name="apps_filter__available_packs">Available packs</string>
+    <string name="apps_filter__total_rating_range_header">Total Rating Range</string>
+
+    <!-- Components -->
+    <!-- Accessible Range Selector -->
+    <string name="components__accessible_range_selector__begin_label">%1$s begins</string>
+    <string name="components__accessible_range_selector__end_label">%1$s ends</string>
+    <string name="components__accessible_range_selector__begin">begin</string>
+    <string name="components__accessible_range_selector__end">end</string>
+    <string name="components__accessible_range_selector__minus_buttons">Decreasse %1$s %2$s value</string>
+    <string name="components__accessible_range_selector__plus_buttons">Increasse %1$s %2$s value</string>
 
 </resources>

@@ -1,7 +1,7 @@
 package com.pbaltazar.blindo.entities.inputs
 
-import com.pbaltazar.blindo.entities.enums.AppSort
 import com.pbaltazar.blindo.entities.filters.AppFilters
+import com.pbaltazar.blindo.entities.sorts.AppSort
 
 data class AppInput(
     val id: String = "",

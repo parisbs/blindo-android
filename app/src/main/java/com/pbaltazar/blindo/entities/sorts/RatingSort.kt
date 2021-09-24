@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.entities.enums
+package com.pbaltazar.blindo.entities.sorts
 
 import com.pbaltazar.blindo.graphql.type.RatingSortEnum
 

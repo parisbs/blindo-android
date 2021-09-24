@@ -1,7 +1,8 @@
 package com.pbaltazar.blindo.ui.filter.apps
 
 import androidx.lifecycle.ViewModel
-import com.pbaltazar.blindo.entities.enums.AppSort
+import com.pbaltazar.blindo.entities.filters.FloatRange
+import com.pbaltazar.blindo.entities.sorts.AppSort
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 
 class AppsFilterViewModel(
@@ -15,4 +16,12 @@ class AppsFilterViewModel(
     fun getAppSort(): List<AppSort> = userPreferences.getAppSort()
 
     fun setAppSort(sort: List<AppSort>): Boolean = userPreferences.setAppSort(sort)
+
+    fun getIsAppTotalRatingRangeChecked(): Boolean = userPreferences.getIsTotalRatingRangeChecked()
+
+    fun setIsAppTotalRatingRangeChecked(isChecked: Boolean): Boolean = userPreferences.setIsAppTotalRatingRangeChecked(isChecked)
+
+    fun getAppTotalRatingRange(): FloatRange = userPreferences.getAppTotalRatingRange()
+
+    fun setAppTotalRatingRange(floatRange: FloatRange): Boolean = userPreferences.setAppTotalRatingRange(floatRange)
 }

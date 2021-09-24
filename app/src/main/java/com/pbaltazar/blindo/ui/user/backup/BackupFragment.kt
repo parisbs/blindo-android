@@ -11,11 +11,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentBackupBinding
 import com.pbaltazar.blindo.entities.Pack
-import com.pbaltazar.blindo.entities.enums.PackSort
+import com.pbaltazar.blindo.entities.sorts.PackSort
 import com.pbaltazar.blindo.entities.inputs.PackInput
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG
 import com.pbaltazar.blindo.utils.extensions.installTalkbackPack
 import com.pbaltazar.blindo.utils.extensions.saveTalkbackInstallableFile

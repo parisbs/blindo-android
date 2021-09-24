@@ -7,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Pack
 import com.pbaltazar.blindo.entities.Rating
-import com.pbaltazar.blindo.entities.enums.RatingSort
-import com.pbaltazar.blindo.entities.enums.PackSort
+import com.pbaltazar.blindo.entities.sorts.RatingSort
+import com.pbaltazar.blindo.entities.sorts.PackSort
 import com.pbaltazar.blindo.entities.errors.ApiException
 import com.pbaltazar.blindo.entities.inputs.AppInput
 import com.pbaltazar.blindo.entities.inputs.RatingInput

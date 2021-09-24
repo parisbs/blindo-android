@@ -7,8 +7,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.pbaltazar.blindo.entities.App
-import com.pbaltazar.blindo.entities.enums.AppSort
+import com.pbaltazar.blindo.entities.filters.AppFilters
 import com.pbaltazar.blindo.entities.inputs.AppInput
+import com.pbaltazar.blindo.entities.sorts.AppSort
 import com.pbaltazar.blindo.usecases.QueryListApps
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import kotlinx.coroutines.flow.Flow
@@ -27,6 +28,7 @@ class HomeViewModel(
         )
     ) {
         HomePagination(queryListApps, AppInput(
+            filters = getAppFilters(),
             sort = getAppSort(),
             pageSize = getAppsPageSize()
         ))
@@ -36,4 +38,10 @@ class HomeViewModel(
     private fun getAppsPageSize(): Int = userPreferences.getAppsPageSize()
 
     private fun getAppSort(): List<AppSort> = userPreferences.getAppSort()
+
+    private fun getAppFilters(): AppFilters = AppFilters(
+        totalRatingRange = if (userPreferences.getIsTotalRatingRangeChecked())
+            userPreferences.getAppTotalRatingRange()
+    else null
+    )
 }

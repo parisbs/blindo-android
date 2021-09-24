@@ -107,8 +107,7 @@ ext {
             ]
         ],
         material       : [
-            material: "com.google.android.material:material:$materialVersion",
-            design: "com.google.android.material:material:$designVersion"
+            material: "com.google.android.material:material:$materialVersion"
         ],
         apollo         : [
             runtime: "com.apollographql.apollo:apollo-runtime:$apolloVersion",

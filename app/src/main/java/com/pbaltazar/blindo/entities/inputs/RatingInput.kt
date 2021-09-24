@@ -1,6 +1,6 @@
 package com.pbaltazar.blindo.entities.inputs
 
-import com.pbaltazar.blindo.entities.enums.RatingSort
+import com.pbaltazar.blindo.entities.sorts.RatingSort
 
 data class RatingInput(
     private val id: String = "",

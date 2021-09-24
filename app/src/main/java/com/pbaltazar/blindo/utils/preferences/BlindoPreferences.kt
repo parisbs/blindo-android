@@ -1,9 +1,10 @@
 package com.pbaltazar.blindo.utils.preferences
 
 import android.content.SharedPreferences
-import com.pbaltazar.blindo.entities.enums.AppSort
-import com.pbaltazar.blindo.entities.enums.RatingSort
-import com.pbaltazar.blindo.entities.enums.PackSort
+import com.pbaltazar.blindo.entities.filters.FloatRange
+import com.pbaltazar.blindo.entities.sorts.AppSort
+import com.pbaltazar.blindo.entities.sorts.PackSort
+import com.pbaltazar.blindo.entities.sorts.RatingSort
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.constants.*
 import com.pbaltazar.blindo.utils.extensions.getEnumsList
@@ -43,6 +44,19 @@ class BlindoPreferences(
     )
 
     override fun setAppSort(sort: List<AppSort>): Boolean = sharedPreferences.putAndCommitEnumsList(APP_SORT, sort)
+
+    override fun getIsTotalRatingRangeChecked(): Boolean = sharedPreferences.getBoolean(APP_TOTAL_RATING_RANGE_CHECKED, false)
+
+    override fun setIsAppTotalRatingRangeChecked(isChecked: Boolean): Boolean = sharedPreferences.putAndCommit(APP_TOTAL_RATING_RANGE_CHECKED, isChecked)
+
+    override fun getAppTotalRatingRange(): FloatRange = FloatRange(
+        begin = sharedPreferences.getFloat(APP_TOTAL_RATING_RANGE_BEGIN, 1.0F),
+        end = sharedPreferences.getFloat(APP_TOTAL_RATING_RANGE_END, 5.0F)
+    )
+
+    override fun setAppTotalRatingRange(floatRange: FloatRange): Boolean =
+        sharedPreferences.putAndCommit(APP_TOTAL_RATING_RANGE_BEGIN, floatRange.begin) &&
+            sharedPreferences.putAndCommit(APP_TOTAL_RATING_RANGE_END, floatRange.end)
 
     override fun getPacksPageSize(): Int = sharedPreferences.getInt(PACKS_PAGE_SIZE, 25)
 

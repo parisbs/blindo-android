@@ -1,8 +1,9 @@
 package com.pbaltazar.blindo.utils.preferences
 
-import com.pbaltazar.blindo.entities.enums.AppSort
-import com.pbaltazar.blindo.entities.enums.RatingSort
-import com.pbaltazar.blindo.entities.enums.PackSort
+import com.pbaltazar.blindo.entities.filters.FloatRange
+import com.pbaltazar.blindo.entities.sorts.AppSort
+import com.pbaltazar.blindo.entities.sorts.PackSort
+import com.pbaltazar.blindo.entities.sorts.RatingSort
 import com.pbaltazar.blindo.utils.ads.AdsManager
 
 interface UserPreferences {
@@ -21,6 +22,12 @@ interface UserPreferences {
 
     fun getAppSort(): List<AppSort>
     fun setAppSort(sort: List<AppSort>): Boolean
+
+    fun getIsTotalRatingRangeChecked(): Boolean
+    fun setIsAppTotalRatingRangeChecked(isChecked: Boolean): Boolean
+
+    fun getAppTotalRatingRange(): FloatRange
+    fun setAppTotalRatingRange(floatRange: FloatRange): Boolean
 
     fun getPacksPageSize(): Int
     fun setPacksPageSize(size: Int): Boolean

@@ -153,6 +153,46 @@
             app:constraint_referenced_ids="availablePacksCheckbox,availablePacksSpinner"
             />
 
+        <LinearLayout
+            android:id="@+id/totalRatingRangeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/availablePacksBarrier">
+
+            <TextView
+                android:id="@+id/totalRatingRangeHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_components_margin"
+                android:textSize="@dimen/text_h2"
+                android:text="@string/apps_filter__total_rating_range_header"
+                android:drawableStart="@drawable/ic_check_box_outline_blank_black_24dp"
+                />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/totalRatingRangeExpandableContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <com.pbaltazar.blindo.ui.components.selectors.AccessibleRangeSelector
+                    android:id="@+id/totalRatingRangeSelector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+                    android:layout_marginVertical="@dimen/default_components_margin"
+                    android:valueFrom="1.0"
+                    android:valueTo="5.0"
+                    android:stepSize="0.1"
+                    app:selectorDescription="@string/apps_filter__total_rating"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>
