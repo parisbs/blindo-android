@@ -20,10 +20,9 @@ const val APP_SORT = "appsort"
 const val APP_TOTAL_RATING_RANGE_CHECKED = "appTotalRatingRangeChecked"
 const val APP_TOTAL_RATING_RANGE_BEGIN = "appTotalRatingRangeBegin"
 const val APP_TOTAL_RATING_RANGE_END = "appTotalRatingRangeEnd"
-const val PACKS_PAGE_SIZE = "packsPageSize"
-const val PACK_SORT = "packSort"
 const val COMMENTS_PAGE_SIZE = "commentsPageSize"
 const val COMMENT_SORT = "commentSort"
+const val PAGE_SIZE = "pageSize"
 
 const val DEFAULT_ADS_CONSENT_STATUS = "UNKNOWN"
 

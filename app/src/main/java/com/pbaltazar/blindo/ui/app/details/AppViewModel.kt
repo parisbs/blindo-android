@@ -1,26 +1,32 @@
 package com.pbaltazar.blindo.ui.app.details
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Pack
 import com.pbaltazar.blindo.entities.Rating
-import com.pbaltazar.blindo.entities.sorts.RatingSort
-import com.pbaltazar.blindo.entities.sorts.PackSort
 import com.pbaltazar.blindo.entities.errors.ApiException
+import com.pbaltazar.blindo.entities.filters.sorts.PackSort
+import com.pbaltazar.blindo.entities.filters.sorts.RatingSort
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.entities.inputs.PackInput
+import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.entities.responses.ApiResponse
+import com.pbaltazar.blindo.ui.components.filters.FiltersScreen
+import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.pbaltazar.blindo.usecases.*
+import com.pbaltazar.blindo.utils.constants.COMMENTS_PAGE_SIZE
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class AppViewModel(
     private val backgroundContext: CoroutineContext,
+    private val context: Context,
     private val userPreferences: UserPreferences,
     private val queryGetApp: QueryGetApp,
     private val queryGetAppByPackageName: QueryGetAppByPackageName,
@@ -51,11 +57,17 @@ class AppViewModel(
         this.isQueryById = isQueryById
     }
 
-    fun getPacksPageSize(): Int = userPreferences.getPacksPageSize()
+    fun getPacksPageSize(): Int =
+        userPreferences.getInt(FiltersSet.APP_PACKS.getPreferencesKeyForPageSize(), 15)
 
-    fun getPackSort(): List<PackSort> = userPreferences.getPackSort()
+    fun getPackSort(): List<PackSort> =
+        userPreferences.getString(
+            FiltersSet.APP_PACKS.getPreferencesKeyForTypeAndId(context, FiltersScreen.Companion.FilterType.ORDER_BY_TYPE, R.id.filters_screen_order_by_type),
+            FiltersSet.APP_PACKS.getOrderByDefault() ?: ""
+        ).split(",").mapNotNull { PackSort.valueOf(it) }
 
-    fun getRatingsPageSize(): Int = userPreferences.getCommentsPageSize()
+    fun getRatingsPageSize(): Int =
+        userPreferences.getInt(COMMENTS_PAGE_SIZE, 15)
 
     fun getRatingsSort(): List<RatingSort> = userPreferences.getCommentSort()
 

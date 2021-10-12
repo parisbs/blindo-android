@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+    <TextView
+        android:id="@+id/rangeHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:minWidth="@dimen/min_a11y_touch_target_size"
+        android:minHeight="@dimen/min_a11y_touch_target_size"
+        android:layout_margin="@dimen/default_components_margin"
+        android:textSize="@dimen/text_h2"
+        android:drawableStart="@drawable/ic_check_box_outline_blank_black_24dp"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <LinearLayout
+        android:id="@+id/rangeExpandableContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/rangeHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.pbaltazar.blindo.ui.components.selectors.AccessibleRangeSelector
+            android:id="@+id/rangeSelector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_marginVertical="@dimen/default_components_margin"
+            />
+
+    </LinearLayout>
+
+</merge>

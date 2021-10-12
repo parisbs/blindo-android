@@ -255,6 +255,7 @@
     <string name="usercomments__title">My comments</string>
     <string name="usercomments__view_state_empty">You don\t have any rating or comment yet</string>
 
+    <!-- Filters Components -->
     <string name="filter__menu_title">Filter</string>
     <string name="filter__order_by_header">Order by:</string>
     <string name="filter__order_by_instructions">Select the fields to order and their direction, The priority will be shown as a number value begining from 1 according the same order that you add fields</string>
@@ -263,14 +264,21 @@
         <item>Descending</item>
     </string-array>
     <string name="filter__updated_at">Last updated</string>
-    <string name="filter__asc_desc_hint">Select order direction</string>
+    <string name="filter__range_title">%1$s Range</string>
     <string name="filter__apply">Apply</string>
 
+    <!-- Apps Filters -->
     <string name="apps_filter__title">Filter apps</string>
     <string name="apps_filter__package_label">App name</string>
     <string name="apps_filter__total_rating">Total rating</string>
     <string name="apps_filter__available_packs">Available packs</string>
     <string name="apps_filter__total_rating_range_header">Total Rating Range</string>
+
+    <!-- Packs Filters -->
+    <string name="packs_filters__title">Filter Packs</string>
+    <string name="packs_filters__number_of_labels">Number of labels</string>
+    <string name="packs_filters__downloads">Downloads</string>
+    <string name="packs_filters__in_languages">In my language</string>
 
     <!-- Components -->
     <!-- Accessible Range Selector -->

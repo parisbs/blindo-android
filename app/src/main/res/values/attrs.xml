@@ -1,11 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <bool name="is_checked">true</bool>
+    <bool name="is_not_checked">false</bool>
+
     <declare-styleable name="AccessibleRangeSelector">
         <attr name="selectorDescription" format="string" />
         <attr name="android:valueFrom" format="float" />
         <attr name="android:valueTo" format="float" />
             <attr name="android:stepSize" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="FiltersScreen">
+        <attr name="showOrderBySection" format="boolean" />
+        <attr name="autoAddOrderByCommonElements" format="boolean" />
+        <attr name="filters" format="reference" />
+    </declare-styleable>
+
+    <item name="filters_screen_order_by_type" type="id" />
+    <item name="filters_screen_range_type" type="id" />
+    <item name="filters_screen_checkbox_type" type="id" />
+
+    <declare-styleable name="FiltersOrderBySection">
+        <attr name="autoAddCommonElements" format="boolean" />
+        <attr name="elements" format="reference" />
+    </declare-styleable>
+
+    <item name="filters_order_by_updated_at" type="id" />
+
+    <declare-styleable name="FiltersOrderByElement">
+        <attr name="android:text" format="string" />
+        <attr name="android:checked" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="FiltersRange">
+        <attr name="android:text" format="string" />
+        <attr name="expanded" format="boolean" />
+        <attr name="android:valueFrom" format="float" />
+        <attr name="android:valueTo" format="float" />
+        <attr name="android:stepSize" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="FiltersCheckbox">
+        <attr name="android:text" format="string" />
+        <attr name="android:checked" format="boolean" />
     </declare-styleable>
 
 </resources>

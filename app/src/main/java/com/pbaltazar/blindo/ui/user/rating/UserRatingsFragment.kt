@@ -12,7 +12,7 @@ import com.blindoapp.uitools.recyclerview.PaginationScrollListener
 import com.pbaltazar.blindo.databinding.FragmentUserCommentsBinding
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Rating
-import com.pbaltazar.blindo.entities.sorts.RatingSort
+import com.pbaltazar.blindo.entities.filters.sorts.RatingSort
 import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG

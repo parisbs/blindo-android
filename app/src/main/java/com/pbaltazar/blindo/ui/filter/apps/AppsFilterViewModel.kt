@@ -1,8 +1,8 @@
 package com.pbaltazar.blindo.ui.filter.apps
 
 import androidx.lifecycle.ViewModel
-import com.pbaltazar.blindo.entities.filters.FloatRange
-import com.pbaltazar.blindo.entities.sorts.AppSort
+import com.pbaltazar.blindo.entities.filters.common.FloatRange
+import com.pbaltazar.blindo.entities.filters.sorts.AppSort
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 
 class AppsFilterViewModel(

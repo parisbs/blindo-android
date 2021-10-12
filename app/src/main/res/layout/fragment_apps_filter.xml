@@ -64,7 +64,6 @@
             android:minHeight="@dimen/min_a11y_touch_target_size"
             android:spinnerMode="dropdown"
             android:entries="@array/filter__asc_desc_spinner"
-            android:autofillHints="@string/filter__asc_desc_hint"
             app:layout_constraintTop_toBottomOf="@id/common_order_by"
             app:layout_constraintEnd_toEndOf="parent"
             />
@@ -102,7 +101,6 @@
             android:minHeight="@dimen/min_a11y_touch_target_size"
             android:spinnerMode="dropdown"
             android:entries="@array/filter__asc_desc_spinner"
-            android:autofillHints="@string/filter__asc_desc_hint"
             app:layout_constraintTop_toBottomOf="@id/packageLabelBarrier"
             app:layout_constraintEnd_toEndOf="parent"
             />
@@ -140,7 +138,6 @@
             android:minHeight="@dimen/min_a11y_touch_target_size"
             android:spinnerMode="dropdown"
             android:entries="@array/filter__asc_desc_spinner"
-            android:autofillHints="@string/filter__asc_desc_hint"
             app:layout_constraintTop_toBottomOf="@id/totalRatingBarrier"
             app:layout_constraintEnd_toEndOf="parent"
             />

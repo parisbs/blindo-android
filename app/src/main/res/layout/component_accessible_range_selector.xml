@@ -2,8 +2,10 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <TextView
         android:id="@+id/beginLabel"
@@ -13,6 +15,7 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:minWidth="@dimen/min_a11y_touch_target_size"
         android:minHeight="@dimen/min_a11y_touch_target_size"
+        android:focusable="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintStart_toEndOf="@id/buttonSetBarrier"
@@ -25,6 +28,7 @@
         android:layout_marginTop="@dimen/default_components_margin"
         android:layout_marginStart="@dimen/default_components_margin"
         android:src="@drawable/ic_arrow_back_black_24dp"
+        android:focusable="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/beginValue"
         />
@@ -37,6 +41,7 @@
         android:layout_marginStart="@dimen/default_components_margin"
         android:minWidth="@dimen/min_a11y_touch_target_size"
         android:minHeight="@dimen/min_a11y_touch_target_size"
+        android:focusable="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/beginPlusButton"
         />
@@ -49,6 +54,7 @@
         android:layout_marginStart="@dimen/default_components_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:src="@drawable/ic_arrow_forward_black_24dp"
+        android:focusable="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
@@ -69,6 +75,7 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:minWidth="@dimen/min_a11y_touch_target_size"
         android:minHeight="@dimen/min_a11y_touch_target_size"
+        android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/beginBarrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintStart_toEndOf="@id/buttonSetBarrier"
@@ -81,6 +88,7 @@
         android:layout_marginTop="@dimen/default_components_margin"
         android:layout_marginStart="@dimen/default_components_margin"
         android:src="@drawable/ic_arrow_back_black_24dp"
+        android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/beginBarrier"
         app:layout_constraintEnd_toStartOf="@id/endValue"
         />
@@ -93,6 +101,7 @@
         android:layout_marginStart="@dimen/default_components_margin"
         android:minWidth="@dimen/min_a11y_touch_target_size"
         android:minHeight="@dimen/min_a11y_touch_target_size"
+        android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/beginBarrier"
         app:layout_constraintEnd_toStartOf="@id/endPlusButton"
         />
@@ -105,6 +114,7 @@
         android:layout_marginStart="@dimen/default_components_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:src="@drawable/ic_arrow_forward_black_24dp"
+        android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/beginBarrier"
         app:layout_constraintEnd_toEndOf="parent"
         />

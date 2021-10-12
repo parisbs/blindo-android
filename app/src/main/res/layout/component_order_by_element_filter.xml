@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <CheckBox
-        android:id="@+id/lastUpdatedCheckbox"
+        android:id="@+id/checkbox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_components_margin"
         android:minWidth="@dimen/min_a11y_touch_target_size"
         android:minHeight="@dimen/min_a11y_touch_target_size"
         android:checked="false"
-        android:text="@string/filter__updated_at"
-        android:labelFor="@id/lastUpdatedSpinner"
-        app:layout_constraintTop_toTopOf="@id/lastUpdatedSpinner"
+        android:labelFor="@id/spinner"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/lastUpdatedSpinner"
-        app:layout_constraintBottom_toBottomOf="@id/lastUpdatedSpinner"
+        app:layout_constraintEnd_toStartOf="@id/spinner"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
     <Spinner
-        android:id="@+id/lastUpdatedSpinner"
+        android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_components_margin"
@@ -30,8 +32,10 @@
         android:minHeight="@dimen/min_a11y_touch_target_size"
         android:spinnerMode="dropdown"
         android:entries="@array/filter__asc_desc_spinner"
+        android:focusable="true"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</merge>

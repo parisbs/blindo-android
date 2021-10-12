@@ -9,7 +9,7 @@ import androidx.paging.cachedIn
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.filters.AppFilters
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.entities.sorts.AppSort
+import com.pbaltazar.blindo.entities.filters.sorts.AppSort
 import com.pbaltazar.blindo.usecases.QueryListApps
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import kotlinx.coroutines.flow.Flow

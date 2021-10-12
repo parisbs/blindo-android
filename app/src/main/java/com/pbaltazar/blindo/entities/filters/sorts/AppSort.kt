@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.entities.sorts
+package com.pbaltazar.blindo.entities.filters.sorts
 
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.graphql.type.AppSortEnum

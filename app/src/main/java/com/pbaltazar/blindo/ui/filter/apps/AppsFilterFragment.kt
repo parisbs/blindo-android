@@ -15,8 +15,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentAppsFilterBinding
-import com.pbaltazar.blindo.entities.filters.FloatRange
-import com.pbaltazar.blindo.entities.sorts.AppSort
+import com.pbaltazar.blindo.entities.filters.common.FloatRange
+import com.pbaltazar.blindo.entities.filters.sorts.AppSort
 import com.pbaltazar.blindo.ui.components.selectors.AccessibleRangeSelector
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_REQUIRE_REFRESH_FILTERS
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -63,7 +63,8 @@ class AppsFilterFragment : Fragment() {
     private var originalIsTotalRatingRangeExpanded: Boolean = false
     private var isTotalRatingRangeExpanded: Boolean = false
     private var originalTotalRatingRange: FloatRange = FloatRange(1F, 5F)
-    private val totalRatingRange: FloatRange get() =
+    private val totalRatingRange: FloatRange
+        get() =
         totalRatingRangeSelector.getRange()
 
     private var isFirstLaunch: Boolean = true
@@ -118,7 +119,7 @@ class AppsFilterFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.apps_filter, menu)
+        inflater.inflate(R.menu.filters, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

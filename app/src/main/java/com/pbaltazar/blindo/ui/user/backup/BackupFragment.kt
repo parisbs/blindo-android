@@ -11,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentBackupBinding
 import com.pbaltazar.blindo.entities.Pack
-import com.pbaltazar.blindo.entities.sorts.PackSort
+import com.pbaltazar.blindo.entities.filters.sorts.PackSort
 import com.pbaltazar.blindo.entities.inputs.PackInput
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment

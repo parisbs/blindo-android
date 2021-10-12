@@ -10,7 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ComponentAccessibleRangeSelectorBinding
-import com.pbaltazar.blindo.entities.filters.FloatRange
+import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.pbaltazar.blindo.utils.extensions.toRatingString
 
@@ -142,13 +142,13 @@ class AccessibleRangeSelector @JvmOverloads constructor(
                 ss
             }
 
-            setLabelsAndContentDescriptions()
-            setClickListeners()
-            setInitialValues()
-            setupAccessibility()
-
             a.recycle()
         }
+
+        setLabelsAndContentDescriptions()
+        setClickListeners()
+        setInitialValues()
+        setupAccessibility()
     }
 
     private fun setupAccessibility() {

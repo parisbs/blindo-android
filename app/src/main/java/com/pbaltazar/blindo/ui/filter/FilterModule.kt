@@ -11,4 +11,10 @@ val filterModule = module {
             get()
         )
     }
+
+    viewModel {
+        FiltersViewModel(
+            get()
+        )
+    }
 }

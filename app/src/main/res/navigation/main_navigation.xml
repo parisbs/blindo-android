@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
+ <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -411,6 +411,25 @@
         android:label="@string/apps_filter__title"
         tools:layout="@layout/fragment_apps_filter">
     </fragment>
+
+    <fragment
+        android:id="@+id/dialogFilters"
+        android:name="com.pbaltazar.blindo.ui.filter.FiltersFragment"
+        tools:layout="@layout/fragment_filters">
+        <argument
+            android:name="filtersSet"
+            app:argType="com.pbaltazar.blindo.ui.filter.FiltersSet"
+            app:nullable="false" />
+    </fragment>
+
+    <action
+        android:id="@+id/actionGlobalToFilters"
+        app:destination="@id/dialogFilters"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out" />
 
     <action
         android:id="@+id/actionGlobalToSearch"

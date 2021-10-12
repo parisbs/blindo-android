@@ -1,6 +1,6 @@
 package com.pbaltazar.blindo.entities.inputs
 
-import com.pbaltazar.blindo.entities.sorts.PackSort
+import com.pbaltazar.blindo.entities.filters.sorts.PackSort
 
 data class PackInput(
     val id: String = "",

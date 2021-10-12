@@ -300,27 +300,35 @@ support@blindoapp.com
     <string name="usercomments__title">Mis comentarios</string>
     <string name="usercomments__view_state_empty">No tienes ningún comentario o calificación todavía</string>
 
+    <!-- Filters Components -->
     <string name="filter__menu_title">Filtrar</string>
     <string name="filter__order_by_header">Ordenar por:</string>
-    <string name="filter__order_by_instructions">Selecciona los campos a filtrar y su dirección. La prioridad se mostrará como un valor numérico empezando desde 1 según el mismo orden en que agregues los campos</string>
+    <string name="filter__order_by_instructions">Selecciona los campos a ordenar y sus direcciones, la prioridad se mostrará como un valor numérico empezando desde 1 conforme vayas agregando los campos</string>
     <string-array name="filter__asc_desc_spinner">
         <item>Ascendente</item>
         <item>Descendente</item>
     </string-array>
     <string name="filter__updated_at">Último actualizado</string>
-    <string name="filter__asc_desc_hint">Selecciona dirección del orden</string>
+    <string name="filter__range_title">Rango de %1$s</string>
     <string name="filter__apply">Aplicar</string>
 
-    <string name="apps_filter__title">Filtrar apps</string>
+    <!-- Apps Filters -->
+    <string name="apps_filter__title">Filtrar Apps</string>
     <string name="apps_filter__package_label">Nombre de app</string>
     <string name="apps_filter__total_rating">Calificación total</string>
     <string name="apps_filter__available_packs">Paquetes disponibles</string>
-    <string name="apps_filter__total_rating_range_header">Rango de Calificación Total</string>
+    <string name="apps_filter__total_rating_range_header">Rango de calificación total</string>
+
+    <!-- Packs Filters -->
+    <string name="packs_filters__title">Filtrar Paquetes</string>
+    <string name="packs_filters__number_of_labels">Número de etiquetas</string>
+    <string name="packs_filters__downloads">Descargas</string>
+    <string name="packs_filters__in_languages">En mi idioma</string>
 
     <!-- Components -->
     <!-- Accessible Range Selector -->
     <string name="components__accessible_range_selector__begin_label">%1$s desde</string>
-    <string name="components__accessible_range_selector__end_label">%1$s hasta</string>
+    <string name="components__accessible_range_selector__end_label">%1$s ehasta</string>
     <string name="components__accessible_range_selector__begin">desde</string>
     <string name="components__accessible_range_selector__end">hasta</string>
     <string name="components__accessible_range_selector__minus_buttons">Disminuir valor de %1$s %2$s</string>

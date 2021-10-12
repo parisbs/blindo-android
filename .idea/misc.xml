@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/component_accessible_range_selector.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/component_filters_checkbox.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/component_filters_order_by_element.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/component_filters_order_by_section.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/component_filters_range.xml" value="0.12613981762917933" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/component_filters_screen.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/content_common_filters_order_by_section.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_apps_filter.xml" value="0.11296296296296296" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_filters.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_packs_filter.xml" value="0.12613981762917933" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/menu/apps_filter.xml" value="0.13645833333333332" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/menu/home.xml" value="0.13645833333333332" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
