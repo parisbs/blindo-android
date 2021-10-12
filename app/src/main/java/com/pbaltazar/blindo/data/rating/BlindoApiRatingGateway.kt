@@ -14,6 +14,7 @@ import com.pbaltazar.blindo.graphql.type.RatingSortEnum
 import com.pbaltazar.blindo.graphql.type.UpdateRatingInput
 import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.pbaltazar.blindo.utils.extensions.toApiModel
+import com.pbaltazar.blindo.utils.extensions.toGraphQLFilter
 import com.wizeline.simpleapollo.api.SimpleApolloClient
 import com.wizeline.simpleapollo.models.Response
 
@@ -25,6 +26,7 @@ class BlindoApiRatingGateway(
         blindoApiClient.query(
             GetAppRatingsQuery(
                 id = appInput.id,
+                ratingsFilters = Input.optional(appInput.ratingInput?.filters?.toGraphQLFilter()),
                 ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
                 ratingsFirst = appInput.ratingInput.pageSize,
                 ratingsAfter = Input.optional(appInput.ratingInput.nextPageToken)
@@ -48,6 +50,7 @@ class BlindoApiRatingGateway(
         blindoApiClient.query(
             GetAppRatingsByPackageNameQuery(
                 packageName = appInput.packageName,
+                ratingsFilters = Input.optional(appInput.ratingInput?.filters?.toGraphQLFilter()),
                 ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
                 ratingsFirst = appInput.ratingInput.pageSize,
                 ratingsAfter = Input.optional(appInput.ratingInput.nextPageToken)

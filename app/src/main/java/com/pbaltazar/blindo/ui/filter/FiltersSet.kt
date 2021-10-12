@@ -5,6 +5,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.entities.filters.sorts.PackSort
+import com.pbaltazar.blindo.entities.filters.sorts.RatingSort
 import com.pbaltazar.blindo.ui.components.filters.FiltersScreen
 import kotlin.reflect.KClass
 
@@ -24,7 +25,16 @@ enum class FiltersSet(
         true,
         PackSort::class
     ) {
-        override fun getOrderByDefault(): String? = PackSort.UPDATED_AT_DESC.name
+        override fun getOrderByDefault(): String = PackSort.UPDATED_AT_DESC.name
+    },
+    APP_RATINGS(
+        R.string.ratings_filters__title,
+        R.array.app_ratings_filters,
+        true,
+        true,
+        RatingSort::class
+    ) {
+        override fun getOrderByDefault(): String = RatingSort.UPDATED_AT_DESC.name
     };
 
     fun getPreferencesKeyForTypeAndId(

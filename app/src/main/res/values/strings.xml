@@ -280,6 +280,11 @@
     <string name="packs_filters__downloads">Downloads</string>
     <string name="packs_filters__in_languages">In my language</string>
 
+    <!-- Ratings Filters -->
+    <string name="ratings_filters__title">Filter Ratings</string>
+    <string name="ratings_filters__with_comment">With comment</string>
+    <string name="ratings_filters__only_my_language">In my language</string>
+
     <!-- Components -->
     <!-- Accessible Range Selector -->
     <string name="components__accessible_range_selector__begin_label">%1$s begins</string>

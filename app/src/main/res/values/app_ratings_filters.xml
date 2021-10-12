@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="appRatingsFiltersWithComment" type="id" />
+    <item name="appRatingsFiltersOnlyMyLanguage" type="id" />
+
+    <array name="app_ratings_filters">
+        <item>@array/app_ratings_with_comment</item>
+        <item>@array/app_ratings_only_my_language</item>
+    </array>
+
+    <array name="app_ratings_with_comment">
+        <item>@id/filters_screen_checkbox_type</item>
+        <item>@id/appRatingsFiltersWithComment</item>
+        <item>@string/ratings_filters__with_comment</item>
+    </array>
+
+    <array name="app_ratings_only_my_language">
+        <item>@id/filters_screen_checkbox_type</item>
+        <item>@id/appRatingsFiltersOnlyMyLanguage</item>
+        <item>@string/ratings_filters__only_my_language</item>
+    </array>
+
+</resources>

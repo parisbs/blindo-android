@@ -10,6 +10,7 @@ import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Pack
 import com.pbaltazar.blindo.entities.Rating
 import com.pbaltazar.blindo.entities.errors.ApiException
+import com.pbaltazar.blindo.entities.filters.RatingFilters
 import com.pbaltazar.blindo.entities.filters.sorts.PackSort
 import com.pbaltazar.blindo.entities.filters.sorts.RatingSort
 import com.pbaltazar.blindo.entities.inputs.AppInput
@@ -19,9 +20,9 @@ import com.pbaltazar.blindo.entities.responses.ApiResponse
 import com.pbaltazar.blindo.ui.components.filters.FiltersScreen
 import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.pbaltazar.blindo.usecases.*
-import com.pbaltazar.blindo.utils.constants.COMMENTS_PAGE_SIZE
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import kotlinx.coroutines.launch
+import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class AppViewModel(
@@ -67,9 +68,50 @@ class AppViewModel(
         ).split(",").mapNotNull { PackSort.valueOf(it) }
 
     fun getRatingsPageSize(): Int =
-        userPreferences.getInt(COMMENTS_PAGE_SIZE, 15)
+        userPreferences.getInt(FiltersSet.APP_RATINGS.getPreferencesKeyForPageSize(), 15)
 
-    fun getRatingsSort(): List<RatingSort> = userPreferences.getCommentSort()
+    fun getRatingsSort(): List<RatingSort> =
+        userPreferences.getString(
+            FiltersSet.APP_RATINGS.getPreferencesKeyForTypeAndId(context, FiltersScreen.Companion.FilterType.ORDER_BY_TYPE, R.id.filters_screen_order_by_type),
+            FiltersSet.APP_RATINGS.getOrderByDefault()
+        ).split(",").mapNotNull { RatingSort.valueOf(it) }
+
+    fun getAppRatingsWithComment(): Boolean =
+        userPreferences.getBoolean(
+            FiltersSet.APP_RATINGS.getPreferencesKeyForTypeAndId(
+                context,
+                FiltersScreen.Companion.FilterType.CHECKBOX_TYPE,
+                R.id.appRatingsFiltersWithComment
+            ),
+            false
+        )
+
+    fun getAppRatingsInLanguages(): List<String>? =
+        userPreferences.getBoolean(
+            FiltersSet.APP_RATINGS.getPreferencesKeyForTypeAndId(
+                context,
+                FiltersScreen.Companion.FilterType.CHECKBOX_TYPE,
+                R.id.appRatingsFiltersOnlyMyLanguage
+            ),
+            false
+        ).let { inMyLanguage ->
+            if (inMyLanguage) {
+                listOf(
+                    Locale.getDefault().language
+                )
+            } else null
+        }
+
+    fun getAppRatingsFilters(): RatingFilters = RatingFilters(
+        commentIsNull = getAppRatingsWithComment().not(),
+        commentLanguageIn = getAppRatingsInLanguages()
+    )
+
+    fun getRatingInput(): RatingInput = RatingInput(
+        filters = getAppRatingsFilters(),
+        sort = getRatingsSort(),
+        pageSize = getRatingsPageSize()
+    )
 
     fun getApp(id: String? = null, packageName: String? = null) = viewModelScope.launch(backgroundContext) {
         val appInput = AppInput(
@@ -79,10 +121,7 @@ class AppViewModel(
                 sort = getPackSort(),
                 pageSize = getPacksPageSize()
             ),
-            ratingInput = RatingInput(
-                sort = getRatingsSort(),
-                pageSize = getRatingsPageSize()
-            )
+            ratingInput = getRatingInput()
         )
         when (
             val apiResponse = if (isQueryById)

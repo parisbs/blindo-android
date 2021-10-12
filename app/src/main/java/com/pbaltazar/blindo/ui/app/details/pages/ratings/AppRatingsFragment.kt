@@ -13,15 +13,18 @@ import com.blindoapp.uitools.recyclerview.PaginationScrollListener
 import com.pbaltazar.blindo.databinding.FragmentAppRatingsBinding
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Rating
+import com.pbaltazar.blindo.entities.connections.RatingConnection
 import com.pbaltazar.blindo.entities.inputs.AppInput
 import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.ui.app.details.AppFragmentDirections
 import com.pbaltazar.blindo.ui.app.details.AppViewModel
 import com.pbaltazar.blindo.ui.app.details.pages.AppPagerHelper
+import com.pbaltazar.blindo.ui.filter.FilterableFragment
+import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
 
-class AppRatingsFragment : Fragment() {
+class AppRatingsFragment : FilterableFragment() {
 
     private lateinit var appViewModel: AppViewModel
     private var binding: FragmentAppRatingsBinding? = null
@@ -36,6 +39,10 @@ class AppRatingsFragment : Fragment() {
     private var isLoading: Boolean = false
     private var hasNextPage: Boolean = false
     private var nextPageToken: String? = null
+    private var requiresRefresh: Boolean = false
+
+    override val filtersSet: FiltersSet
+        get() = FiltersSet.APP_RATINGS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,14 +63,16 @@ class AppRatingsFragment : Fragment() {
         subscribeRatings()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         binding = null
     }
 
     override fun onResume() {
         super.onResume()
-        currentApp = AppPagerHelper.appViewModelListener.getCurrentApp()
+        if (currentApp == null && requiresRefresh.not()) {
+            currentApp = AppPagerHelper.appViewModelListener.getCurrentApp()
+        }
         if (currentApp?.numberOfRatings ?: 0 > 0 && currentApp?.ratings == null) {
             loadRatings()
         } else {
@@ -71,9 +80,33 @@ class AppRatingsFragment : Fragment() {
         }
     }
 
+    override fun onFiltersChange(isChanged: Boolean) {
+        requiresRefresh = isChanged
+        if (requiresRefresh) {
+            currentApp?.also {
+                currentApp = it.copy(
+                    ratings = null
+                )
+            }
+            appRatingsAdapter.clearItems()
+        }
+    }
+
     private fun subscribeRatings() = appViewModel.ratings.observe(this, Observer {
         when (val response = it) {
             is AppViewModel.RatingsList.Success -> {
+                if (requiresRefresh) {
+                    currentApp?.also { app ->
+                        currentApp = app.copy(
+                            ratings = RatingConnection(
+                                ratings = response.ratings,
+                                hasNextPage = response.hasNextPage,
+                                nextPageToken = response.nextPageToken
+                            )
+                        )
+                    }
+                    requiresRefresh = false
+                }
                 if (appRatingsAdapter.itemCount < 1) {
                     appRatingsViewState.setState(State.CONTENT)
                 }
@@ -112,9 +145,7 @@ class AppRatingsFragment : Fragment() {
                 AppInput(
                     id = if (appViewModel.getIsQueryById()) currentApp?.id ?: "" else "",
                     packageName = if (appViewModel.getIsQueryById().not()) currentApp?.packageName ?: "" else "",
-                    ratingInput = RatingInput(
-                        sort = appViewModel.getRatingsSort(),
-                        pageSize = appViewModel.getRatingsPageSize(),
+                    ratingInput = appViewModel.getRatingInput().copy(
                         nextPageToken = nextPageToken
                     )
                 )
@@ -136,7 +167,7 @@ class AppRatingsFragment : Fragment() {
 
                 override fun isLoading(): Boolean = this@AppRatingsFragment.isLoading
 
-                override fun loadMoreItems() = this@AppRatingsFragment.loadRatings()
+                override fun loadMoreItems() = loadRatings()
             })
         }
         appRatingsViewState.setOnRetryClickListener {
@@ -149,12 +180,12 @@ class AppRatingsFragment : Fragment() {
         currentApp?.ratings?.also { ratingConnection ->
             ratingConnection.ratings?.takeIf { it.isNotEmpty() }?.also { ratings ->
                 if (appRatingsAdapter.itemCount < 1) {
-                    appRatingsViewState.setState(State.CONTENT)
                     appRatingsAdapter.appendItems(ratings)
                     hasNextPage = ratingConnection.hasNextPage
                     nextPageToken = ratingConnection.nextPageToken
-                    isLoading = false
                 }
+                appRatingsViewState.setState(State.CONTENT)
+                isLoading = false
             } ?: appRatingsViewState.setState(State.EMPTY)
         } ?: appRatingsViewState.setState(State.ERROR)
     }

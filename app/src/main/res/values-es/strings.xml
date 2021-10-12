@@ -325,6 +325,11 @@ support@blindoapp.com
     <string name="packs_filters__downloads">Descargas</string>
     <string name="packs_filters__in_languages">En mi idioma</string>
 
+    <!-- Ratings Filters -->
+    <string name="ratings_filters__title">Filtrar Calificaciones</string>
+    <string name="ratings_filters__with_comment">Con comentario</string>
+    <string name="ratings_filters__only_my_language">En mi idioma</string>
+
     <!-- Components -->
     <!-- Accessible Range Selector -->
     <string name="components__accessible_range_selector__begin_label">%1$s desde</string>

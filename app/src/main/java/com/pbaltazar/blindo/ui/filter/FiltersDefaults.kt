@@ -7,7 +7,7 @@ import com.pbaltazar.blindo.ui.components.filters.elements.RangeFilter
 import com.pbaltazar.blindo.utils.extensions.toIntRange
 
 interface FiltersDefaults {
-    fun getOrderByDefault(): String? = null
+    fun getOrderByDefault(): String = ""
     fun getFloatRangeDefault(range: RangeFilter): FloatRange = FloatRange(
         begin = range.valueFrom,
         end = range.valueTo

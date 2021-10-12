@@ -49,6 +49,7 @@ class BlindoApiAppGateway(
                 id = appInput.id,
                 packsFirst = appInput.packInput.pageSize,
                 packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
+                ratingsFilters = Input.optional(appInput.ratingInput?.filters?.toGraphQLFilter()),
                 ratingsFirst = appInput.ratingInput.pageSize,
                 ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }
             )
@@ -67,6 +68,7 @@ class BlindoApiAppGateway(
                 packageName = appInput.packageName,
                 packsFirst = appInput.packInput.pageSize,
                 packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
+                ratingsFilters = Input.optional(appInput.ratingInput?.filters?.toGraphQLFilter()),
                 ratingsFirst = appInput.ratingInput.pageSize,
                 ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }
             )
