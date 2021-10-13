@@ -88,15 +88,6 @@
         android:label="@string/menu__home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/actionFromHomeToAppsFilter"
-            app:destination="@id/dialogAppsFilter"
-            app:popUpTo="@id/navHome"
-            app:launchSingleTop="true"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out" />
-        <action
             android:id="@+id/actionFromHomeToAppDetails"
             app:destination="@id/navAppDetails"
             app:launchSingleTop="true"
@@ -404,13 +395,6 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out" />
     </dialog>
-
-    <fragment
-        android:id="@+id/dialogAppsFilter"
-        android:name="com.pbaltazar.blindo.ui.filter.apps.AppsFilterFragment"
-        android:label="@string/apps_filter__title"
-        tools:layout="@layout/fragment_apps_filter">
-    </fragment>
 
     <fragment
         android:id="@+id/dialogFilters"

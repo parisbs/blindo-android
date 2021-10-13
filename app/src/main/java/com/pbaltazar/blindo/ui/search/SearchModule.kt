@@ -7,6 +7,7 @@ val searchModule = module {
     viewModel {
         SearchViewModel(
             get(),
+            get(),
             get()
         )
     }

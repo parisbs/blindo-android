@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.entities.filters.sorts.AppSort
 import com.pbaltazar.blindo.entities.filters.sorts.PackSort
 import com.pbaltazar.blindo.entities.filters.sorts.RatingSort
 import com.pbaltazar.blindo.ui.components.filters.FiltersScreen
@@ -18,6 +19,15 @@ enum class FiltersSet(
     val autoAddCommonElements: Boolean,
     val orderByEnum: KClass<out Enum<*>>
 ) : FiltersDefaults {
+    APP(
+        R.string.apps_filter__title,
+        R.array.app_filters,
+        true,
+        true,
+        AppSort::class
+    ) {
+        override fun getOrderByDefault(): String = AppSort.UPDATED_AT_DESC.name
+    },
     APP_PACKS(
         R.string.packs_filters__title,
         R.array.app_packs_filters,

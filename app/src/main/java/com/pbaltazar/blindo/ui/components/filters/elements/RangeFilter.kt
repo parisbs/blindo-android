@@ -39,6 +39,7 @@ class RangeFilter @JvmOverloads constructor(
     set(value) {
         field = value
         header.text = resources.getString(R.string.filter__range_title, field).trim()
+        rangeSelector.description = field
     }
 
     private val expandAction: AccessibilityNodeInfoCompat.AccessibilityActionCompat =

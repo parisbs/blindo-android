@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="appFiltersOrderByPackageLabel" type="id" />
+    <item name="appFiltersORderByTotalRating" type="id" />
+    <item name="appFiltersOrderByAvailablePacks" type="id" />
+    <item name="appFiltersRangeTotalRating" type="id" />
+
+    <array name="app_filters">
+        <item>@array/app_filters_order_by_total_rating</item>
+        <item>@array/app_filters_order_by_available_packs</item>
+        <item>@array/app_filters_total_rating_range</item>
+    </array>
+
+    <array name="app_filters_order_by_package_label">
+        <item>@id/filters_screen_order_by_type</item>
+        <item>@id/appFiltersOrderByPackageLabel</item>
+        <item>@string/apps_filter__package_label</item>
+    </array>
+
+    <array name="app_filters_order_by_total_rating">
+        <item>@id/filters_screen_order_by_type</item>
+        <item>@id/appFiltersORderByTotalRating</item>
+        <item>@string/apps_filter__total_rating</item>
+    </array>
+
+    <array name="app_filters_order_by_available_packs">
+        <item>@id/filters_screen_order_by_type</item>
+        <item>@id/appFiltersOrderByAvailablePacks</item>
+        <item>@string/apps_filter__available_packs</item>
+    </array>
+
+    <array name="app_filters_total_rating_range">
+        <item>@id/filters_screen_range_type</item>
+        <item>@id/appFiltersRangeTotalRating</item>
+        <item>@string/apps_filter__total_rating</item>
+        <item>1.0</item>
+        <item>5.0</item>
+        <item>0.1</item>
+    </array>
+
+</resources>

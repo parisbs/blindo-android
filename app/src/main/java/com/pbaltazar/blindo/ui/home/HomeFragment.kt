@@ -1,24 +1,23 @@
 package com.pbaltazar.blindo.ui.home
 
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.RecyclerView
-import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentHomeBinding
 import com.pbaltazar.blindo.entities.App
-import com.pbaltazar.blindo.utils.constants.APP_SORT
-import com.pbaltazar.blindo.utils.constants.ARGUMENT_REQUIRE_REFRESH_FILTERS
+import com.pbaltazar.blindo.ui.filter.FilterableFragment
+import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.pbaltazar.blindo.utils.pagination.ui.PaginationStateAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment() {
+class HomeFragment : FilterableFragment() {
 
     private val homeViewModel: HomeViewModel by viewModel()
     private var binding: FragmentHomeBinding? = null
@@ -32,10 +31,8 @@ class HomeFragment : Fragment() {
         }
     )
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
-    }
+    override val filtersSet: FiltersSet
+        get() = FiltersSet.APP
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -45,27 +42,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subscribeFilters()
         setupUi()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.home, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.homeFilter -> {
-                findNavController().navigate(
-                    HomeFragmentDirections.actionFromHomeToAppsFilter()
-                )
-                return true
-            }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
-        }
     }
 
     override fun onDestroyView() {
@@ -73,13 +50,12 @@ class HomeFragment : Fragment() {
         binding = null
     }
 
-    private fun subscribeFilters() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
-        ARGUMENT_REQUIRE_REFRESH_FILTERS)?.observe(this, Observer {
-        if (it) {
+    override fun onFiltersChange(isChanged: Boolean) {
+        if (isChanged) {
             homeAdapter.refresh()
             homeRecycler.scrollToPosition(0)
         }
-    })
+    }
 
     private fun setupUi() {
         homeRecycler.adapter = homeAdapter.withLoadStateFooter(
