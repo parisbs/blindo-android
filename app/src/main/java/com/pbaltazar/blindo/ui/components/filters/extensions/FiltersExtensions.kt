@@ -1,7 +1,9 @@
 package com.pbaltazar.blindo.ui.components.filters.extensions
 
 import android.content.Context
+import android.content.res.Resources
 import android.content.res.TypedArray
+import androidx.core.content.res.getFloatOrThrow
 import androidx.core.content.res.getResourceIdOrThrow
 import androidx.core.content.res.getStringOrThrow
 import com.pbaltazar.blindo.ui.components.filters.elements.CheckboxFilter
@@ -34,9 +36,21 @@ fun TypedArray.toFiltersRange(context: Context): RangeFilter {
     return RangeFilter(context).apply {
         id = getResourceIdOrThrow(1)
         text = resources.getString(this@toFiltersRange.getResourceIdOrThrow(2))
-        valueFrom = resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(3))
-        valueTo = resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(4))
-        stepSize = resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(5))
+        valueFrom = try {
+            resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(3))
+        } catch (e: Resources.NotFoundException) {
+            this@toFiltersRange.getFloatOrThrow(3)
+        }
+        valueTo = try {
+            resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(4))
+        } catch (e: Resources.NotFoundException) {
+            this@toFiltersRange.getFloatOrThrow(4)
+        }
+        stepSize = try {
+            resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(5))
+        } catch (e: Resources.NotFoundException) {
+            this@toFiltersRange.getFloatOrThrow(5)
+        }
         isExpanded = if (this@toFiltersRange.length() >= 7)
             resources.getBoolean(this@toFiltersRange.getResourceIdOrThrow(6))
         else false

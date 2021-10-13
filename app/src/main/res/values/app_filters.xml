@@ -7,6 +7,7 @@
     <item name="appFiltersRangeTotalRating" type="id" />
 
     <array name="app_filters">
+        <item>@array/app_filters_order_by_package_label</item>
         <item>@array/app_filters_order_by_total_rating</item>
         <item>@array/app_filters_order_by_available_packs</item>
         <item>@array/app_filters_total_rating_range</item>

@@ -53,8 +53,20 @@ class RangeFilter @JvmOverloads constructor(
     }
 
     var valueFrom: Float = 0F
+    set(value) {
+        field = value
+        rangeSelector.valueFrom = field
+    }
     var valueTo: Float = 0F
+    set(value) {
+        field = value
+        rangeSelector.valueTo = field
+    }
     var stepSize: Float = 0F
+    set(value) {
+        field = value
+        rangeSelector.stepSize = field
+    }
     private val range: FloatRange get() = FloatRange(valueFrom, valueTo)
 
     init {
@@ -76,7 +88,6 @@ class RangeFilter @JvmOverloads constructor(
             a.recycle()
         }
 
-        rangeSelector.stepSize = stepSize
         setFloatRange(range)
         setupSelector()
     }
@@ -91,7 +102,7 @@ class RangeFilter @JvmOverloads constructor(
 
     private fun setupSelector() {
         rangeSelector.description = text
-        rangeSelector.setOnClickListener { isExpanded = isExpanded.not() }
+        header.setOnClickListener { isExpanded = isExpanded.not() }
         setupAccessibility()
     }
 
@@ -116,8 +127,12 @@ class RangeFilter @JvmOverloads constructor(
 
             override fun performAccessibilityAction(host: View?, action: Int, args: Bundle?): Boolean {
                 return when(action) {
-                    expandAction.id, collapseAction.id -> {
-                        expandableListener()
+                    expandAction.id -> {
+                        isExpanded = true
+                        true
+                    }
+                    collapseAction.id -> {
+                        isExpanded = false
                         true
                     }
                     else -> super.performAccessibilityAction(host, action, args)

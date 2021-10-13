@@ -33,11 +33,7 @@ class SearchViewModel(
             prefetchDistance = 10
         )
     ) {
-        HomePagination(queryListApps, AppInput(
-            filters = searchInput,
-            sort = getAppSort(),
-            pageSize = getAppsPageSize()
-        ))
+        HomePagination(queryListApps, getAppInput())
     }.flow
         .cachedIn(viewModelScope)
 
@@ -65,7 +61,10 @@ class SearchViewModel(
         isQueryPackageName(query).not() && query.contains(Regex("\\s")).not()
 
     private fun getAppsPageSize(): Int =
-        userPreferences.getInt(FiltersSet.APP.getPreferencesKeyForPageSize(), 20)
+        userPreferences.getInt(
+            FiltersSet.APP.getPreferencesKeyForPageSize(),
+            20
+        )
 
     private fun getAppSort(): List<AppSort> =
         userPreferences.getString(
@@ -76,4 +75,10 @@ class SearchViewModel(
             ),
             FiltersSet.APP.getOrderByDefault()
         ).split(",").mapNotNull { AppSort.valueOf(it) }
+
+    fun getAppInput(): AppInput = AppInput(
+        filters = searchInput,
+        sort = getAppSort(),
+        pageSize = getAppsPageSize()
+    )
 }

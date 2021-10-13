@@ -1,20 +1,33 @@
 package com.pbaltazar.blindo.ui.filter
 
+import android.content.Context
+import androidx.annotation.IdRes
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.entities.filters.common.IntRange
-import com.pbaltazar.blindo.ui.components.filters.elements.CheckboxFilter
-import com.pbaltazar.blindo.ui.components.filters.elements.RangeFilter
-import com.pbaltazar.blindo.utils.extensions.toIntRange
 
 interface FiltersDefaults {
+
+    fun getPageSizeDefault(): Int = 50
+
     fun getOrderByDefault(): String = ""
-    fun getFloatRangeDefault(range: RangeFilter): FloatRange = FloatRange(
-        begin = range.valueFrom,
-        end = range.valueTo
-    )
-    fun getIntRangeDefault(range: RangeFilter): IntRange = FloatRange(
-        begin = range.valueFrom,
-        end = range.valueTo
-    ).toIntRange()
-    fun getCheckboxDefault(checkbox: CheckboxFilter): Boolean = false
+
+    fun isRangeCheckedDefault(
+        context: Context,
+        @IdRes id: Int
+    ): Boolean
+
+    fun getFloatRangeDefault(
+        context: Context,
+        @IdRes id: Int
+    ): FloatRange
+
+    fun getIntRangeDefault(
+        context: Context,
+        @IdRes id: Int
+    ): IntRange
+
+    fun getCheckboxDefault(
+        context: Context,
+        @IdRes id: Int
+    ): Boolean
 }

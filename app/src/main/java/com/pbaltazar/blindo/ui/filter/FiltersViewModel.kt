@@ -28,6 +28,12 @@ class FiltersViewModel(
     fun setBoolean(key: String, value: Boolean): Boolean =
         userPreferences.setBoolean(key, value)
 
+    fun getInt(key: String, defValue: Int): Int =
+        userPreferences.getInt(key, defValue)
+
+    fun setInt(key: String, value: Int): Boolean =
+        userPreferences.setInt(key, value)
+
     fun getFloatRange(key: String, defValue: FloatRange): FloatRange =
         userPreferences.getFloatRange(key, defValue)
 

@@ -60,12 +60,15 @@ class AppViewModel(
     }
 
     fun getPacksPageSize(): Int =
-        userPreferences.getInt(FiltersSet.APP_PACKS.getPreferencesKeyForPageSize(), 15)
+        userPreferences.getInt(
+            FiltersSet.APP_PACKS.getPreferencesKeyForPageSize(),
+            FiltersSet.APP_PACKS.getPageSizeDefault()
+        )
 
     fun getPackSort(): List<PackSort> =
         userPreferences.getString(
             FiltersSet.APP_PACKS.getPreferencesKeyForTypeAndId(context, FiltersScreen.Companion.FilterType.ORDER_BY_TYPE, R.id.filters_screen_order_by_type),
-            FiltersSet.APP_PACKS.getOrderByDefault() ?: ""
+            FiltersSet.APP_PACKS.getOrderByDefault()
         ).split(",").mapNotNull { PackSort.valueOf(it) }
 
     fun getAppPacksInLanguages(): List<String>? =
@@ -75,7 +78,7 @@ class AppViewModel(
                 FiltersScreen.Companion.FilterType.CHECKBOX_TYPE,
                 R.id.appPacksFiltersOnlyMyLanguage
             ),
-            false
+            FiltersSet.APP_PACKS.getCheckboxDefault(context, R.id.appPacksFiltersOnlyMyLanguage)
         ).let { inMyLanguage ->
             if (inMyLanguage) {
                 listOf(

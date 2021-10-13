@@ -36,7 +36,10 @@ class HomeViewModel(
         .cachedIn(viewModelScope)
 
     private fun getAppsPageSize(): Int =
-        userPreferences.getInt(FiltersSet.APP.getPreferencesKeyForPageSize(), 50)
+        userPreferences.getInt(
+            FiltersSet.APP.getPreferencesKeyForPageSize(),
+            FiltersSet.APP.getPageSizeDefault()
+        )
 
     private fun getAppSort(): List<AppSort> =
         userPreferences.getString(
@@ -55,7 +58,7 @@ class HomeViewModel(
                 FiltersScreen.Companion.FilterType.RANGE_TYPE,
                 R.id.appFiltersRangeTotalRating
             ),
-            false
+            FiltersSet.APP.isRangeCheckedDefault(context, R.id.appFiltersRangeTotalRating)
         )
 
     private fun getTotalRatingRange(): FloatRange =
@@ -65,7 +68,7 @@ class HomeViewModel(
                 FiltersScreen.Companion.FilterType.RANGE_TYPE,
                 R.id.appFiltersRangeTotalRating
             ),
-            FloatRange(1.0F, 5.0F)
+            FiltersSet.APP.getFloatRangeDefault(context, R.id.appFiltersRangeTotalRating)
         )
 
     private fun getAppFilters(): AppFilters = AppFilters(

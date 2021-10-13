@@ -93,7 +93,7 @@ class FiltersFragment : Fragment(),
             val key: String = filtersSet.getPreferencesKeyForTypeAndId(requireContext(), FiltersScreen.Companion.FilterType.ORDER_BY_TYPE, filtersScreen.id)
             filtersViewModel.getString(
                 key,
-                filtersSet.getOrderByDefault() ?: ""
+                filtersSet.getOrderByDefault()
             ).split(",").forEach { item ->
                 (filtersSet.orderByEnum.java.enumConstants.filter { it.name.equals(item) }.takeIf { it.size == 1 }?.first() as? OrderByEnum)?.also { orderByEnum ->
                     filtersScreen.getOrderByElements().forEach { orderByElementFilter ->
@@ -117,12 +117,12 @@ class FiltersFragment : Fragment(),
     private fun setSavedRangesValues() {
         filtersScreen.getRangeElements().takeIf { it.size > 0 }?.forEach { rangeFilter ->
             val key: String = filtersSet.getPreferencesKeyForTypeAndId(requireContext(), FiltersScreen.Companion.FilterType.RANGE_TYPE, rangeFilter.id)
-            val isChecked = filtersViewModel.getBoolean(key, false)
+            val isChecked = filtersViewModel.getBoolean(key, filtersSet.isRangeCheckedDefault(requireContext(), rangeFilter.id))
             rangeFilter.isExpanded = isChecked
             if (isChecked) {
                 val range: FloatRange = filtersViewModel.getFloatRange(
                     key,
-                    filtersSet.getFloatRangeDefault(rangeFilter)
+                    filtersSet.getFloatRangeDefault(requireContext(), rangeFilter.id)
                 )
                 rangeFilter.setFloatRange(range)
             }
@@ -135,7 +135,7 @@ class FiltersFragment : Fragment(),
             val key = filtersSet.getPreferencesKeyForTypeAndId(requireContext(), FiltersScreen.Companion.FilterType.CHECKBOX_TYPE, checkboxFilter.id)
             val isChecked: Boolean = filtersViewModel.getBoolean(
                 key,
-                filtersSet.getCheckboxDefault(checkboxFilter)
+                filtersSet.getCheckboxDefault(requireContext(), checkboxFilter.id)
             )
             checkboxFilter.isChecked = isChecked
             keysToListen.add(key)

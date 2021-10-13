@@ -333,7 +333,7 @@ support@blindoapp.com
     <!-- Components -->
     <!-- Accessible Range Selector -->
     <string name="components__accessible_range_selector__begin_label">%1$s desde</string>
-    <string name="components__accessible_range_selector__end_label">%1$s ehasta</string>
+    <string name="components__accessible_range_selector__end_label">%1$s hasta</string>
     <string name="components__accessible_range_selector__begin">desde</string>
     <string name="components__accessible_range_selector__end">hasta</string>
     <string name="components__accessible_range_selector__minus_buttons">Disminuir valor de %1$s %2$s</string>
