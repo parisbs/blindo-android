@@ -34,7 +34,7 @@ class FiltersOrderBySection @JvmOverloads constructor(
     private val commonElementFilters: List<OrderByElementFilter> = listOf(
         OrderByElementFilter(context).apply {
             id = R.id.filters_order_by_updated_at
-            text = resources.getString(R.string.filter__updated_at)
+            text = resources.getString(R.string.filters__updated_at_title)
             isChecked = false
         }
     )

@@ -6,7 +6,7 @@
     <item
         android:id="@+id/applyFilters"
         android:icon="@drawable/ic_save_black_24dp"
-        android:title="@string/filter__apply"
+        android:title="@string/filters__apply"
         android:orderInCategory="1"
         app:showAsAction="always"
         />

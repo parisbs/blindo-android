@@ -236,6 +236,8 @@ class AccessibleRangeSelector @JvmOverloads constructor(
     fun getEndValue(): Float = currentEndValue.toOneDecimalFloat()
 
     fun setRange(floatRange: FloatRange) {
+        currentBeginValue = valueFrom
+        currentEndValue = valueTo
         setBeginValue(floatRange.begin)
         setEndValue(floatRange.end)
         refreshButtonsState()

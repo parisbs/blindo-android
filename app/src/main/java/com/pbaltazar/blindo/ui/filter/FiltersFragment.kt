@@ -1,7 +1,9 @@
 package com.pbaltazar.blindo.ui.filter
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -41,6 +43,17 @@ class FiltersFragment : Fragment(),
         filtersSet = filtersFragmentArgs.filtersSet
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            subtitle = this@FiltersFragment.getString(
+                R.string.filters__subtitle,
+                title
+            )
+            title = filtersFragmentArgs.filtersSet.getTitle(requireContext())
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentFiltersBinding.inflate(inflater, container, false)
         filtersScreen = binding!!.appsPacksFilters
@@ -69,6 +82,7 @@ class FiltersFragment : Fragment(),
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.filters, menu)
+        menu.findItem(R.id.searchApps).setVisible(false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -117,15 +131,13 @@ class FiltersFragment : Fragment(),
     private fun setSavedRangesValues() {
         filtersScreen.getRangeElements().takeIf { it.size > 0 }?.forEach { rangeFilter ->
             val key: String = filtersSet.getPreferencesKeyForTypeAndId(requireContext(), FiltersScreen.Companion.FilterType.RANGE_TYPE, rangeFilter.id)
-            val isChecked = filtersViewModel.getBoolean(key, filtersSet.isRangeCheckedDefault(requireContext(), rangeFilter.id))
-            rangeFilter.isExpanded = isChecked
-            if (isChecked) {
-                val range: FloatRange = filtersViewModel.getFloatRange(
-                    key,
-                    filtersSet.getFloatRangeDefault(requireContext(), rangeFilter.id)
-                )
-                rangeFilter.setFloatRange(range)
-            }
+            val isExpanded = filtersViewModel.getBoolean(key, filtersSet.isRangeCheckedDefault(requireContext(), rangeFilter.id))
+            val range: FloatRange = filtersViewModel.getFloatRange(
+                key,
+                filtersSet.getFloatRangeDefault(requireContext(), rangeFilter.id)
+            )
+            rangeFilter.isExpanded = isExpanded
+            rangeFilter.setFloatRange(range)
             keysToListen.add(key)
         }
     }

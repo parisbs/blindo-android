@@ -79,6 +79,9 @@ enum class FiltersSet(
     override fun getCheckboxDefault(context: Context, id: Int): Boolean = getFilterTypedArray(context, id)
         ?.toFiltersCheckbox(context)?.isChecked ?: throw NullPointerException("The filter ${getResourceName(context, id)} no exists in this filters screen.")
 
+    fun getTitle(context: Context): String =
+        context.getString(title)
+
     fun getPreferencesKeyForTypeAndId(
         context: Context,
         filterType: FiltersScreen.Companion.FilterType,

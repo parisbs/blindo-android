@@ -38,7 +38,7 @@ class RangeFilter @JvmOverloads constructor(
     var text: String = ""
     set(value) {
         field = value
-        header.text = resources.getString(R.string.filter__range_title, field).trim()
+        header.text = resources.getString(R.string.filters__range_title, field).trim()
         rangeSelector.description = field
     }
 

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_components_margin"
             android:textSize="@dimen/text_h2"
-            android:text="@string/filter__order_by_header"
+            android:text="@string/filters__order_by_header"
             app:layout_constraintTop_toTopOf="parent"
             />
 
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/default_components_margin"
             android:singleLine="false"
-            android:text="@string/filter__order_by_instructions"
+            android:text="@string/filters__order_by_instructions"
             app:layout_constraintTop_toBottomOf="@id/orderByHeader"
             />
 
@@ -63,7 +63,7 @@
             android:minWidth="@dimen/min_a11y_touch_target_size"
             android:minHeight="@dimen/min_a11y_touch_target_size"
             android:spinnerMode="dropdown"
-            android:entries="@array/filter__asc_desc_spinner"
+            android:entries="@array/filters__order_by_spinner"
             app:layout_constraintTop_toBottomOf="@id/common_order_by"
             app:layout_constraintEnd_toEndOf="parent"
             />
@@ -100,7 +100,7 @@
             android:minWidth="@dimen/min_a11y_touch_target_size"
             android:minHeight="@dimen/min_a11y_touch_target_size"
             android:spinnerMode="dropdown"
-            android:entries="@array/filter__asc_desc_spinner"
+            android:entries="@array/filters__order_by_spinner"
             app:layout_constraintTop_toBottomOf="@id/packageLabelBarrier"
             app:layout_constraintEnd_toEndOf="parent"
             />
@@ -137,7 +137,7 @@
             android:minWidth="@dimen/min_a11y_touch_target_size"
             android:minHeight="@dimen/min_a11y_touch_target_size"
             android:spinnerMode="dropdown"
-            android:entries="@array/filter__asc_desc_spinner"
+            android:entries="@array/filters__order_by_spinner"
             app:layout_constraintTop_toBottomOf="@id/totalRatingBarrier"
             app:layout_constraintEnd_toEndOf="parent"
             />
