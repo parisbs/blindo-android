@@ -36,10 +36,10 @@ enum class PackSort(
             R.id.filters_order_by_updated_at
         )
         NUMBER_OF_LABELS_ASC, NUMBER_OF_LABELS_DESC -> listOf(
-            R.id.appsPacksFiltersOrderByNumberOfLabels
+            R.id.appPacksFiltersOrderByNumberOfLabels
         )
         DOWNLOADS_ASC, DOWNLOADS_DESC -> listOf(
-            R.id.appsPacksFiltersOrderByDownloads
+            R.id.appPacksFiltersOrderByDownloads
         )
     }
 

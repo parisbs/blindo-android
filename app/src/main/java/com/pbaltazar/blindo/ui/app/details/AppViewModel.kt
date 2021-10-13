@@ -10,6 +10,7 @@ import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Pack
 import com.pbaltazar.blindo.entities.Rating
 import com.pbaltazar.blindo.entities.errors.ApiException
+import com.pbaltazar.blindo.entities.filters.PackFilters
 import com.pbaltazar.blindo.entities.filters.RatingFilters
 import com.pbaltazar.blindo.entities.filters.sorts.PackSort
 import com.pbaltazar.blindo.entities.filters.sorts.RatingSort
@@ -67,6 +68,32 @@ class AppViewModel(
             FiltersSet.APP_PACKS.getOrderByDefault() ?: ""
         ).split(",").mapNotNull { PackSort.valueOf(it) }
 
+    fun getAppPacksInLanguages(): List<String>? =
+        userPreferences.getBoolean(
+            FiltersSet.APP_PACKS.getPreferencesKeyForTypeAndId(
+                context,
+                FiltersScreen.Companion.FilterType.CHECKBOX_TYPE,
+                R.id.appPacksFiltersOnlyMyLanguage
+            ),
+            false
+        ).let { inMyLanguage ->
+            if (inMyLanguage) {
+                listOf(
+                    Locale.getDefault().language
+                )
+            } else null
+        }
+
+    fun getAppPacksFilters(): PackFilters = PackFilters(
+        languageIn = getAppPacksInLanguages()
+    )
+
+    fun getPackInput(): PackInput = PackInput(
+        filters = getAppPacksFilters(),
+        sort = getPackSort(),
+        pageSize = getPacksPageSize()
+    )
+
     fun getRatingsPageSize(): Int =
         userPreferences.getInt(FiltersSet.APP_RATINGS.getPreferencesKeyForPageSize(), 15)
 
@@ -117,10 +144,7 @@ class AppViewModel(
         val appInput = AppInput(
             id = id ?: "",
             packageName = packageName ?: "",
-            packInput = PackInput(
-                sort = getPackSort(),
-                pageSize = getPacksPageSize()
-            ),
+            packInput = getPackInput(),
             ratingInput = getRatingInput()
         )
         when (

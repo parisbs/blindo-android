@@ -20,7 +20,7 @@ enum class FiltersSet(
 ) : FiltersDefaults {
     APP_PACKS(
         R.string.packs_filters__title,
-        R.array.apps_packs_filters,
+        R.array.app_packs_filters,
         true,
         true,
         PackSort::class

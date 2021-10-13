@@ -31,6 +31,7 @@ query ListApps(
 
 query GetApp(
   $id: ID!,
+  $packsFilters: PackFilter,
   $packsSort: [PackSortEnum]!,
   $packsFirst: Int!,
   $ratingsFilters: RatingFilter,
@@ -47,6 +48,7 @@ query GetApp(
     performanceRating
     totalRating
     packs (
+      filters: $packsFilters,
       sort: $packsSort,
       first: $packsFirst
     ) {
@@ -105,6 +107,7 @@ query GetApp(
 
 query GetAppByPackageName(
   $packageName: String!,
+  $packsFilters: PackFilter,
   $packsSort: [PackSortEnum]!,
   $packsFirst: Int!,
   $ratingsFilters: RatingFilter,
@@ -127,6 +130,7 @@ query GetAppByPackageName(
     numberOfRatings
     availablePacks
     packs (
+      filters: $packsFilters,
       sort: $packsSort,
       first: $packsFirst
     ) {
@@ -200,6 +204,7 @@ query GetAppOnly(
 
 query GetAppPacks(
   $id: ID!,
+  $packsFilters: PackFilter,
   $packsSort: [PackSortEnum]!,
   $packsFirst: Int!,
   $packsAfter: String
@@ -208,6 +213,7 @@ query GetAppPacks(
     id: $id
   ) {
     packs (
+      filters: $packsFilters,
       sort: $packsSort,
       first: $packsFirst,
       after: $packsAfter
@@ -238,6 +244,7 @@ query GetAppPacks(
 
 query GetAppPacksByPackageName(
   $packageName: String!,
+  $packsFilters: PackFilter,
   $packsSort: [PackSortEnum]!,
   $packsFirst: Int!,
   $packsAfter: String
@@ -246,6 +253,7 @@ query GetAppPacksByPackageName(
     packageName: $packageName
   ) {
     packs (
+      filters: $packsFilters,
       sort: $packsSort,
       first: $packsFirst,
       after: $packsAfter

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="appPacksFiltersOrderByNumberOfLabels" type="id" />
+    <item name="appPacksFiltersOrderByDownloads" type="id" />
+    <item name="appPacksFiltersOnlyMyLanguage" type="id" />
+
+    <array name="app_packs_filters">
+        <item>@array/app_packs_order_by_number_of_labels</item>
+        <item>@array/app_packs_order_by_downloads</item>
+        <item>@array/app_packs_only_my_language</item>
+    </array>
+
+    <array name="app_packs_order_by_number_of_labels">
+        <item>@id/filters_screen_order_by_type</item>
+        <item>@id/appPacksFiltersOrderByNumberOfLabels</item>
+        <item>@string/packs_filters__number_of_labels</item>
+    </array>
+
+    <array name="app_packs_order_by_downloads">
+        <item>@id/filters_screen_order_by_type</item>
+        <item>@id/appPacksFiltersOrderByDownloads</item>
+        <item>@string/packs_filters__downloads</item>
+    </array>
+
+    <array name="app_packs_only_my_language">
+        <item>@id/filters_screen_checkbox_type</item>
+        <item>@id/appPacksFiltersOnlyMyLanguage</item>
+        <item>@string/packs_filters__in_languages</item>
+    </array>
+
+</resources>

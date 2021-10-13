@@ -145,9 +145,7 @@ class AppPacksFragment : FilterableFragment() {
                 AppInput(
                     id = if (appViewModel.getIsQueryById()) currentApp?.id ?: "" else "",
                     packageName = if (appViewModel.getIsQueryById().not()) currentApp?.packageName ?: "" else "",
-                    packInput = PackInput(
-                        sort = appViewModel.getPackSort(),
-                        pageSize = appViewModel.getPacksPageSize(),
+                    packInput = appViewModel.getPackInput().copy(
                         nextPageToken = nextPageToken
                     )
                 )
