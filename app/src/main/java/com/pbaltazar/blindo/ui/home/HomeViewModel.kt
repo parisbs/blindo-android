@@ -13,7 +13,7 @@ import com.pbaltazar.blindo.entities.filters.AppFilters
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.entities.filters.sorts.AppSort
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.ui.components.filters.FiltersScreen
+import com.pbaltazar.blindo.components.filters.FiltersScreen
 import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.pbaltazar.blindo.usecases.QueryListApps
 import com.pbaltazar.blindo.utils.preferences.UserPreferences

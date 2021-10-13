@@ -18,7 +18,7 @@ import com.pbaltazar.blindo.entities.inputs.AppInput
 import com.pbaltazar.blindo.entities.inputs.PackInput
 import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.entities.responses.ApiResponse
-import com.pbaltazar.blindo.ui.components.filters.FiltersScreen
+import com.pbaltazar.blindo.components.filters.FiltersScreen
 import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.pbaltazar.blindo.usecases.*
 import com.pbaltazar.blindo.utils.preferences.UserPreferences

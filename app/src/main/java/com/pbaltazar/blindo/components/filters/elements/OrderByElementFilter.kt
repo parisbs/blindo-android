@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.components.filters.elements
+package com.pbaltazar.blindo.components.filters.elements
 
 import android.content.Context
 import android.util.AttributeSet
@@ -12,8 +12,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ComponentOrderByElementFilterBinding
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderByDirection
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderBySelection
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderByDirection
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderBySelection
 
 class OrderByElementFilter @JvmOverloads constructor(
     context: Context,

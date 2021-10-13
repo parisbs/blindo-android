@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.components.filters.elements
+package com.pbaltazar.blindo.components.filters.elements
 
 import android.content.Context
 import android.os.Bundle
@@ -15,7 +15,7 @@ import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ComponentRangeFilterBinding
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.entities.filters.common.IntRange
-import com.pbaltazar.blindo.ui.components.selectors.AccessibleRangeSelector
+import com.pbaltazar.blindo.components.selectors.AccessibleRangeSelector
 import com.pbaltazar.blindo.utils.extensions.toFloatRange
 import com.pbaltazar.blindo.utils.extensions.toIntRange
 

@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.components.filters.FiltersScreen
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderByEnum
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderBySelection
 import com.pbaltazar.blindo.databinding.FragmentFiltersBinding
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
-import com.pbaltazar.blindo.ui.components.filters.FiltersScreen
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderByEnum
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderBySelection
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_REQUIRE_REFRESH_FILTERS
 import com.pbaltazar.blindo.utils.preferences.OnUserPreferencesChangeListener
 import org.koin.androidx.viewmodel.ext.android.viewModel

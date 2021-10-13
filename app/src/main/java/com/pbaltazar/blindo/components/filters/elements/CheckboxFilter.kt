@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.components.filters.elements
+package com.pbaltazar.blindo.components.filters.elements
 
 import android.content.Context
 import android.util.AttributeSet

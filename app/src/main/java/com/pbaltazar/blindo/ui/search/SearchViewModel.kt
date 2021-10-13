@@ -12,7 +12,7 @@ import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.filters.AppFilters
 import com.pbaltazar.blindo.entities.filters.sorts.AppSort
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.ui.components.filters.FiltersScreen
+import com.pbaltazar.blindo.components.filters.FiltersScreen
 import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.pbaltazar.blindo.ui.home.HomePagination
 import com.pbaltazar.blindo.usecases.QueryListApps

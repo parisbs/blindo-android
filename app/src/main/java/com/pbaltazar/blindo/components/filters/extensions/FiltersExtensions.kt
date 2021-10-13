@@ -1,14 +1,13 @@
-package com.pbaltazar.blindo.ui.components.filters.extensions
+package com.pbaltazar.blindo.components.filters.extensions
 
 import android.content.Context
 import android.content.res.Resources
 import android.content.res.TypedArray
 import androidx.core.content.res.getFloatOrThrow
 import androidx.core.content.res.getResourceIdOrThrow
-import androidx.core.content.res.getStringOrThrow
-import com.pbaltazar.blindo.ui.components.filters.elements.CheckboxFilter
-import com.pbaltazar.blindo.ui.components.filters.elements.OrderByElementFilter
-import com.pbaltazar.blindo.ui.components.filters.elements.RangeFilter
+import com.pbaltazar.blindo.components.filters.elements.CheckboxFilter
+import com.pbaltazar.blindo.components.filters.elements.OrderByElementFilter
+import com.pbaltazar.blindo.components.filters.elements.RangeFilter
 
 fun TypedArray.toFiltersOrderByElement(context: Context): OrderByElementFilter {
     if (length() < 3) {

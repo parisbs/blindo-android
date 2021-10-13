@@ -2,9 +2,9 @@ package com.pbaltazar.blindo.entities.filters.sorts
 
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.graphql.type.PackSortEnum
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderByDirection
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderByEnum
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderBySelection
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderByDirection
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderByEnum
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderBySelection
 
 enum class PackSort(
     val apiEnum: Any,

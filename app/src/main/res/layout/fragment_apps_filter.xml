@@ -173,7 +173,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="gone">
 
-                <com.pbaltazar.blindo.ui.components.selectors.AccessibleRangeSelector
+                <com.pbaltazar.blindo.components.selectors.AccessibleRangeSelector
                     android:id="@+id/totalRatingRangeSelector"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <com.pbaltazar.blindo.ui.components.filters.FiltersOrderBySection
+    <com.pbaltazar.blindo.components.filters.FiltersOrderBySection
         android:id="@+id/orderBySection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

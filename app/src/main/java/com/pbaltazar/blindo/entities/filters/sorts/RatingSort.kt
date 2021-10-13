@@ -2,8 +2,8 @@ package com.pbaltazar.blindo.entities.filters.sorts
 
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.graphql.type.RatingSortEnum
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderByDirection
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderByEnum
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderByDirection
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderByEnum
 
 enum class RatingSort(
     val apiEnum: Any

@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.components.selectors
+package com.pbaltazar.blindo.components.selectors
 
 import android.content.Context
 import android.util.AttributeSet

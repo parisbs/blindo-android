@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.components.filters
+package com.pbaltazar.blindo.components.filters
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -13,13 +13,13 @@ import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ComponentFiltersScreenBinding
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.entities.filters.common.IntRange
-import com.pbaltazar.blindo.ui.components.filters.elements.CheckboxFilter
-import com.pbaltazar.blindo.ui.components.filters.elements.OrderByElementFilter
-import com.pbaltazar.blindo.ui.components.filters.elements.RangeFilter
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderBySelection
-import com.pbaltazar.blindo.ui.components.filters.extensions.toFiltersCheckbox
-import com.pbaltazar.blindo.ui.components.filters.extensions.toFiltersOrderByElement
-import com.pbaltazar.blindo.ui.components.filters.extensions.toFiltersRange
+import com.pbaltazar.blindo.components.filters.elements.CheckboxFilter
+import com.pbaltazar.blindo.components.filters.elements.OrderByElementFilter
+import com.pbaltazar.blindo.components.filters.elements.RangeFilter
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderBySelection
+import com.pbaltazar.blindo.components.filters.extensions.toFiltersCheckbox
+import com.pbaltazar.blindo.components.filters.extensions.toFiltersOrderByElement
+import com.pbaltazar.blindo.components.filters.extensions.toFiltersRange
 
 class FiltersScreen @JvmOverloads constructor(
     context: Context,

@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.components.filters.elements
+package com.pbaltazar.blindo.components.filters.elements
 
 interface Filter {
 

@@ -5,18 +5,15 @@ import android.content.res.TypedArray
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.core.content.res.getResourceIdOrThrow
-import com.google.android.play.core.internal.br
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.entities.filters.common.IntRange
 import com.pbaltazar.blindo.entities.filters.sorts.AppSort
 import com.pbaltazar.blindo.entities.filters.sorts.PackSort
 import com.pbaltazar.blindo.entities.filters.sorts.RatingSort
-import com.pbaltazar.blindo.ui.components.filters.FiltersScreen
-import com.pbaltazar.blindo.ui.components.filters.elements.CheckboxFilter
-import com.pbaltazar.blindo.ui.components.filters.elements.RangeFilter
-import com.pbaltazar.blindo.ui.components.filters.extensions.toFiltersCheckbox
-import com.pbaltazar.blindo.ui.components.filters.extensions.toFiltersRange
+import com.pbaltazar.blindo.components.filters.FiltersScreen
+import com.pbaltazar.blindo.components.filters.extensions.toFiltersCheckbox
+import com.pbaltazar.blindo.components.filters.extensions.toFiltersRange
 import com.pbaltazar.blindo.utils.extensions.toIntRange
 import kotlin.reflect.KClass
 

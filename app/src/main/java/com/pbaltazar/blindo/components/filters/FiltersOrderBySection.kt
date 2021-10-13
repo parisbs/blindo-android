@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.components.filters
+package com.pbaltazar.blindo.components.filters
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -12,9 +12,9 @@ import androidx.core.content.res.getResourceIdOrThrow
 import androidx.core.view.ViewCompat
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ComponentFiltersOrderBySectionBinding
-import com.pbaltazar.blindo.ui.components.filters.elements.OrderByElementFilter
-import com.pbaltazar.blindo.ui.components.filters.entities.orderby.OrderBySelection
-import com.pbaltazar.blindo.ui.components.filters.extensions.toFiltersOrderByElement
+import com.pbaltazar.blindo.components.filters.elements.OrderByElementFilter
+import com.pbaltazar.blindo.components.filters.entities.orderby.OrderBySelection
+import com.pbaltazar.blindo.components.filters.extensions.toFiltersOrderByElement
 
 class FiltersOrderBySection @JvmOverloads constructor(
     context: Context,

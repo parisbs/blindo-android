@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.components.filters.entities.orderby
+package com.pbaltazar.blindo.components.filters.entities.orderby
 
 import androidx.annotation.IdRes
 
