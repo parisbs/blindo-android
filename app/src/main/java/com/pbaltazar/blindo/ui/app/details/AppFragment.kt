@@ -1,7 +1,9 @@
 package com.pbaltazar.blindo.ui.app.details
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -13,15 +15,16 @@ import com.pbaltazar.blindo.databinding.FragmentAppBinding
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.ui.app.details.pages.AppViewModelListener
 import com.pbaltazar.blindo.ui.app.details.pages.AppPagerHelper
+import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
+import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AppFragment : Fragment() {
+class AppFragment : BlindoFragment<FragmentAppBinding>() {
 
     private val appViewModel: AppViewModel by viewModel()
     private val appFragmentArgs: AppFragmentArgs by navArgs()
-    private var binding: FragmentAppBinding? = null
 
     private lateinit var appViewState: ViewState
     private lateinit var appViewPager: ViewPager
@@ -31,6 +34,9 @@ class AppFragment : Fragment() {
     private var currentApp: App? = null
     private var isLoadingApp: Boolean = false
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -39,6 +45,17 @@ class AppFragment : Fragment() {
             override fun getCurrentApp(): App? = currentApp
 
             override fun getAppViewModel(): AppViewModel = appViewModel
+        }
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            title = appFragmentArgs.app.packageLabel
+            subtitle = if (appFragmentArgs.app.category.isNullOrEmptyOrBlank().not())
+                appFragmentArgs.app.category
+            else
+                appFragmentArgs.app.packageName
         }
     }
 
@@ -80,11 +97,6 @@ class AppFragment : Fragment() {
         if (isLoadingApp.not()) {
             loadApp()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
     }
 
     private fun loadApp() {

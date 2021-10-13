@@ -24,10 +24,9 @@ import com.pbaltazar.blindo.utils.extensions.saveTalkbackInstallableFile
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class SliFragment : AuthenticableFragment() {
+class SliFragment : AuthenticableFragment<FragmentSliBinding>() {
 
     private val sliViewModel: SliViewModel by viewModel()
-    private var binding: FragmentSliBinding? = null
 
     private lateinit var preferUserLabels: Switch
     private lateinit var translateLabel: TextView
@@ -37,6 +36,9 @@ class SliFragment : AuthenticableFragment() {
 
     private lateinit var apps: List<String>
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribeUser()
@@ -44,11 +46,7 @@ class SliFragment : AuthenticableFragment() {
         subscribeInstallablePack()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSliBinding.inflate(inflater, container, false)
         preferUserLabels = binding!!.preferUserLabels
         translateLabel = binding!!.translateLabel
@@ -62,11 +60,6 @@ class SliFragment : AuthenticableFragment() {
         super.onViewCreated(view, savedInstanceState)
         subscribeAuth()
         setupUi()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     override fun onSubscribeUser() {

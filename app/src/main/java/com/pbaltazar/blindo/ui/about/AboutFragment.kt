@@ -8,31 +8,24 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.text.HtmlCompat
-import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.pbaltazar.blindo.BuildConfig
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentAboutBinding
 import com.pbaltazar.blindo.utils.constants.TERMS_AND_CONDITIONS_LINK
+import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
 
-class AboutFragment : Fragment() {
-
-    private var binding: FragmentAboutBinding? = null
+class AboutFragment : BlindoFragment<FragmentAboutBinding>() {
 
     private lateinit var blindoIcon: ImageView
     private lateinit var blindoVersion: TextView
     private lateinit var terms_conditions_privacy_policy: TextView
     private lateinit var contactUs: TextView
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    override val isSearchable: Boolean
+        get() = false
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAboutBinding.inflate(inflater, container, false)
         blindoIcon = binding!!.blindoIcon
         blindoVersion = binding!!.blindoVersion
@@ -44,11 +37,6 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     private fun setupUi() {

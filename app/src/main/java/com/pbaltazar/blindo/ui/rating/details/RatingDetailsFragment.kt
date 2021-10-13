@@ -7,22 +7,21 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentRatingDetailsBinding
+import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
 import com.pbaltazar.blindo.utils.extensions.setExplainingTooltip
 import com.pbaltazar.blindo.utils.extensions.setValueWithAccessibilitySupport
 import com.wizeline.simpleapollo.utils.extensions.toTimeAgo
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class RatingDetailsFragment : Fragment() {
+class RatingDetailsFragment : BlindoFragment<FragmentRatingDetailsBinding>() {
 
     private val ratingDetailsViewModel: RatingDetailsViewModel by viewModel()
     private val ratingDetailsFragmentArgs: RatingDetailsFragmentArgs by navArgs()
-    private var binding: FragmentRatingDetailsBinding? = null
 
     private lateinit var userPhoto: ImageView
     private lateinit var authorInfo: TextView
@@ -41,16 +40,15 @@ class RatingDetailsFragment : Fragment() {
     private lateinit var performanceRatingBar: RatingBar
     private lateinit var commentText: TextView
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ratingDetailsViewModel.setTargetRating(ratingDetailsFragmentArgs.rating)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRatingDetailsBinding.inflate(inflater, container, false)
         userPhoto = binding!!.userPhoto
         authorInfo = binding!!.authorInfo
@@ -74,11 +72,6 @@ class RatingDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     private fun setupUi() {

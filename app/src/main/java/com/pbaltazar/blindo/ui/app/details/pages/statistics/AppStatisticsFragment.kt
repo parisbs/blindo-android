@@ -13,16 +13,16 @@ import com.pbaltazar.blindo.databinding.FragmentAppStatisticsBinding
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.ui.app.details.AppViewModel
 import com.pbaltazar.blindo.ui.app.details.pages.AppPagerHelper
+import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
 import com.pbaltazar.blindo.utils.extensions.setExplainingTooltip
 import com.pbaltazar.blindo.utils.extensions.setValueWithAccessibilitySupport
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AppStatisticsFragment : Fragment() {
+class AppStatisticsFragment : BlindoFragment<FragmentAppStatisticsBinding>() {
 
     private lateinit var appViewModel: AppViewModel
-    private var binding: FragmentAppStatisticsBinding? = null
 
     private lateinit var appStatisticsViewState: ViewState
     private lateinit var totalRating: TextView
@@ -72,6 +72,9 @@ class AppStatisticsFragment : Fragment() {
     private var currentApp: App? = null
     private var isLoading: Boolean = false
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         appViewModel = AppPagerHelper.appViewModelListener.getAppViewModel()!!
@@ -100,11 +103,6 @@ class AppStatisticsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
         subscribeStatistics()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
     }
 
     override fun onResume() {

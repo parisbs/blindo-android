@@ -27,10 +27,9 @@ import com.pbaltazar.blindo.utils.extensions.toLocalMembership
 import com.pbaltazar.blindo.utils.extensions.toUiFormat
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class PremiumFragment : AuthenticableFragment() {
+class PremiumFragment : AuthenticableFragment<FragmentPremiumBinding>() {
 
     private val billingViewModel: BillingViewModel by sharedViewModel()
-    private var binding: FragmentPremiumBinding? = null
 
     private var isRequestedMembershipOnce: Boolean = false
 
@@ -74,6 +73,9 @@ class PremiumFragment : AuthenticableFragment() {
         }
     }
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribeUser()
@@ -82,11 +84,7 @@ class PremiumFragment : AuthenticableFragment() {
         subscribeMembership()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPremiumBinding.inflate(inflater, container, false)
         paymentInfo = binding!!.paymentInfo
         paymentPeriod = binding!!.paymentPeriod
@@ -98,11 +96,6 @@ class PremiumFragment : AuthenticableFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
         subscribeAuth()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     override fun onSubscribeUser() {

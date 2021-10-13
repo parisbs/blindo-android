@@ -17,11 +17,10 @@ import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class AdsSettingsFragment : AuthenticableFragment() {
+class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() {
 
     private val adsSettingsViewModel: AdsSettingsViewModel by viewModel()
     private val adsSettingsFragmentArgs: AdsSettingsFragmentArgs by navArgs()
-    private var binding: FragmentAdsSettingsBinding? = null
 
     private lateinit var currentStatus: TextView
     private lateinit var changeConsent: Button
@@ -79,17 +78,16 @@ class AdsSettingsFragment : AuthenticableFragment() {
     }
     private var closeAfterUpdate: Boolean = false
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         closeAfterUpdate = adsSettingsFragmentArgs.closeAfterUpdate
         subscribeAdsConsentStatus()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAdsSettingsBinding.inflate(inflater, container, false)
         currentStatus = binding!!.currentStatus
         changeConsent = binding!!.changeConsent
@@ -112,11 +110,6 @@ class AdsSettingsFragment : AuthenticableFragment() {
         if (adsConsentStatus == null && isFirstLaunch) {
             adsSettingsViewModel.updateAdsConsentStatus()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     private fun subscribeAdsConsentStatus() = adsSettingsViewModel.adsConsentStatus.observe(this, Observer {

@@ -14,9 +14,7 @@ import com.pbaltazar.blindo.databinding.FragmentUserProfileBinding
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 
-class UserProfileFragment : AuthenticableFragment() {
-
-    private var binding: FragmentUserProfileBinding? = null
+class UserProfileFragment : AuthenticableFragment<FragmentUserProfileBinding>() {
 
     private lateinit var userCrown: ImageView
     private lateinit var userName: EditText
@@ -45,6 +43,9 @@ class UserProfileFragment : AuthenticableFragment() {
         }
     }
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -52,11 +53,7 @@ class UserProfileFragment : AuthenticableFragment() {
         subscribeUserUpdate()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentUserProfileBinding.inflate(inflater, container, false)
         userCrown = binding!!.userCrown
         userName = binding!!.userName
@@ -97,11 +94,6 @@ class UserProfileFragment : AuthenticableFragment() {
                 return super.onOptionsItemSelected(item)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     override fun onSubscribeUser() {

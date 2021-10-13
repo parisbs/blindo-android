@@ -31,15 +31,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.MainNavigationDirections
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityBlindoBinding
-import com.pbaltazar.blindo.entities.App
-import com.pbaltazar.blindo.entities.Pack
-import com.pbaltazar.blindo.entities.Rating
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.*
+import com.pbaltazar.blindo.utils.extensions.gone
+import com.pbaltazar.blindo.utils.extensions.visible
 import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
 import com.pbaltazar.blindo.utils.updates.UpdateManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -70,6 +69,16 @@ class BlindoActivity : AuthenticableActivity() {
 
     private var isWaitingForSplash: Boolean = true
     private var isAdBannerLoaded: Boolean = false
+
+    private val adsFreeScreens: List<Int> = listOf(
+        R.id.navTutorial,
+        R.id.navAdsSettings,
+        R.id.navPremium,
+        R.id.navAbout,
+        R.id.dialogRequiresAuth,
+        R.id.dialogRequiresPremium,
+        R.id.dialogClearSearchHistory
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -272,59 +281,38 @@ class BlindoActivity : AuthenticableActivity() {
                 adBanner.visibility = View.GONE
                 toolbar.visibility = View.GONE
             }
-            R.id.navTutorial, R.id.navAdsSettings, R.id.navPremium, R.id.navAbout, R.id.dialogRequiresAuth, R.id.dialogRequiresPremium, R.id.dialogClearSearchHistory -> {
-                adBanner.visibility = View.GONE
-            }
             else -> {
                 isWaitingForSplash = false
-                if (getUser()?.isPremium?.not() ?: true) {
-                    if (isAdBannerLoaded.not()) {
-                        adsViewModel.updateAdsConsentStatus()
-                    } else {
-                        adBanner.visibility = View.VISIBLE
-                    }
-                }
-                toolbar.visibility = View.VISIBLE
-                when (destination.id) {
-                    R.id.navHome, R.id.navLocalApps, R.id.navBackup, R.id.navUserComments, R.id.navSli -> {
-                        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-                        supportActionBar?.apply {
-                            subtitle = null
-                        }
-                    }
-                    R.id.navUserProfile -> drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-                    R.id.navSearch -> arguments?.getString(ARGUMENT_QUERY)?.also { query ->
-                        val searchTitle = this.getString(R.string.search__app_title, query)
-                        supportActionBar?.apply {
-                            title = searchTitle
-                            subtitle = null
-                        }
-                    }
-                    R.id.navAppDetails -> arguments?.getParcelable<App>(ARGUMENT_APP)?.also { app ->
-                        supportActionBar?.apply {
-                            title = app.packageLabel
-                            subtitle = if (app.category.isNullOrEmpty().not())
-                                app.category
-                            else
-                                app.packageName
-                        }
-                    }
-                    R.id.navCommentCreator -> arguments?.getParcelable<Rating>(ARGUMENT_RATING)?.app?.also { app ->
-                        supportActionBar?.apply {
-                            title = app.packageLabel
-                            subtitle = app.category
-                        }
-                    }
-                    R.id.navPackDetails -> arguments?.getParcelable<Pack>(ARGUMENT_PACK)?.also { pack ->
-                        pack.app?.also { app ->
-                            supportActionBar?.apply {
-                                title = app.packageLabel
-                                subtitle = app.category
-                            }
-                        }
-                    }
-                }
+                toolbar.visible()
+                refreshAdsBanner(destination.id)
+                refreshUi(destination.id)
             }
+        }
+    }
+
+    private fun refreshAdsBanner(destinationId: Int) {
+        if (adsFreeScreens.contains(destinationId)) {
+            adBanner.gone()
+        } else {
+            if (getUser()?.isPremium?.not() ?: true) {
+                if (isAdBannerLoaded.not()) {
+                    adsViewModel.updateAdsConsentStatus()
+                } else {
+                    adBanner.visible()
+                }
+            } else {
+                adBanner.gone()
+            }
+        }
+    }
+
+    private fun refreshUi(destinationId: Int) {
+        when (destinationId) {
+            R.id.navHome, R.id.navLocalApps, R.id.navBackup, R.id.navUserComments, R.id.navSli -> {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                supportActionBar?.subtitle = null
+            }
+            R.id.navUserProfile -> drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
     }
 

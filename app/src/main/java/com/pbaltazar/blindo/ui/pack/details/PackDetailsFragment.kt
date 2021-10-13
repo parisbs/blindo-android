@@ -1,5 +1,6 @@
 package com.pbaltazar.blindo.ui.pack.details
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -37,12 +39,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import java.util.*
 
-class PackDetailsFragment : AuthenticableFragment() {
+class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() {
 
     private val packDetailsViewModel: PackDetailsViewModel by viewModel()
     private val adsViewModel: AdsViewModel by sharedViewModel()
     private val packDetailsFragmentArgs: PackDetailsFragmentArgs by navArgs()
-    private var binding: FragmentPackDetailsBinding? = null
 
     private lateinit var userPhoto: ImageView
     private lateinit var authorInfo: TextView
@@ -69,6 +70,9 @@ class PackDetailsFragment : AuthenticableFragment() {
 
     private lateinit var adMessage: Snackbar
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         packDetailsViewModel.setTargetPack(packDetailsFragmentArgs.pack)
@@ -78,11 +82,20 @@ class PackDetailsFragment : AuthenticableFragment() {
         subscribeDownload()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            packDetailsFragmentArgs.pack.app?.also { app ->
+                title = app.packageLabel
+                subtitle = if (app.category.isNullOrEmptyOrBlank().not())
+                    app.category
+                else
+                    app.packageName
+            }
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPackDetailsBinding.inflate(inflater, container, false)
         userPhoto = binding!!.userPhoto
         authorInfo = binding!!.authorInfo
@@ -100,11 +113,6 @@ class PackDetailsFragment : AuthenticableFragment() {
         subscribeAuth()
         setupUi()
         setUser(getUser())
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(

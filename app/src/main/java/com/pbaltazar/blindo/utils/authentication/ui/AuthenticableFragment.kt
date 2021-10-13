@@ -1,11 +1,12 @@
 package com.pbaltazar.blindo.utils.authentication.ui
 
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.viewbinding.ViewBinding
 import com.pbaltazar.blindo.entities.User
+import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-open class AuthenticableFragment : Fragment(),
+abstract class AuthenticableFragment<VB : ViewBinding> : BlindoFragment<VB>(),
     AuthenticableCallbacks {
 
     private val authenticationViewModel: AuthenticationViewModel by sharedViewModel()

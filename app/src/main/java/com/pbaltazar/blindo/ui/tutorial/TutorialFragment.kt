@@ -16,15 +16,13 @@ import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentTutorialBinding
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.constants.TERMS_AND_CONDITIONS_LINK
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class TutorialFragment : AuthenticableFragment() {
+class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
 
     private val tutorialViewModel: TutorialViewModel by viewModel()
     private val tutorialFragmentArgs: TutorialFragmentArgs by navArgs()
-    private var binding: FragmentTutorialBinding? = null
 
     private lateinit var stepInfo: TextView
     private lateinit var dataList: ListView
@@ -37,6 +35,9 @@ class TutorialFragment : AuthenticableFragment() {
     private var isPrivacyPolicyAccepted: Boolean = false
     private var currentStep: Int = 0
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribePrivacyPolicy()
@@ -44,11 +45,7 @@ class TutorialFragment : AuthenticableFragment() {
         subscribeStep()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentTutorialBinding.inflate(inflater, container, false)
         stepInfo = binding!!.stepInfo
         dataList = binding!!.dataList
@@ -68,11 +65,6 @@ class TutorialFragment : AuthenticableFragment() {
             tutorialViewModel.setStep(5)
         }
         tutorialViewModel.setStep(tutorialFragmentArgs.step)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     override fun onSubscribeUser() {

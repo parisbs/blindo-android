@@ -20,14 +20,16 @@ import com.pbaltazar.blindo.utils.extensions.isExpired
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SplashFragment : AuthenticableFragment() {
+class SplashFragment : AuthenticableFragment<FragmentSplashBinding>() {
 
     private val splashViewModel: SplashViewModel by viewModel()
     private val adsViewModel: AdsViewModel by sharedViewModel()
     private val billingViewModel: BillingViewModel by sharedViewModel()
-    private var binding: FragmentSplashBinding? = null
 
     private lateinit var loadingText: TextView
+
+    override val isSearchable: Boolean
+        get() = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,11 +45,6 @@ class SplashFragment : AuthenticableFragment() {
         binding = FragmentSplashBinding.inflate(inflater, container, false)
         loadingText = binding!!.loadingText
         return binding!!.root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {

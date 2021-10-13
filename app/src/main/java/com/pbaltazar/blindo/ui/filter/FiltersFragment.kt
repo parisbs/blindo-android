@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.pbaltazar.blindo.R
@@ -14,14 +13,14 @@ import com.pbaltazar.blindo.components.filters.entities.orderby.OrderBySelection
 import com.pbaltazar.blindo.databinding.FragmentFiltersBinding
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_REQUIRE_REFRESH_FILTERS
+import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
 import com.pbaltazar.blindo.utils.preferences.OnUserPreferencesChangeListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FiltersFragment : Fragment(),
+class FiltersFragment : BlindoFragment<FragmentFiltersBinding>(),
     OnUserPreferencesChangeListener {
 
     private val filtersViewModel : FiltersViewModel by viewModel()
-    private var binding: FragmentFiltersBinding? = null
     private val filtersFragmentArgs: FiltersFragmentArgs by navArgs()
 
     private lateinit var filtersScreen: FiltersScreen
@@ -30,6 +29,8 @@ class FiltersFragment : Fragment(),
 
     private val keysToListen: MutableList<String> = mutableListOf()
     private var requiresRefresh: Boolean = false
+    override val isSearchable: Boolean
+        get() = false
 
     override fun onUserPreferencesChange(key: String) {
         if (keysToListen.contains(key)) {
@@ -69,11 +70,6 @@ class FiltersFragment : Fragment(),
         filtersViewModel.registerOnUserPreferencesChangeListener(this as OnUserPreferencesChangeListener)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         filtersViewModel.unregisterOnUserPreferencesChangeListener(this as OnUserPreferencesChangeListener)
@@ -82,7 +78,6 @@ class FiltersFragment : Fragment(),
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.filters, menu)
-        menu.findItem(R.id.searchApps).setVisible(false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

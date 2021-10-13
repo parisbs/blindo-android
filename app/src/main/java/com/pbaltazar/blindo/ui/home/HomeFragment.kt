@@ -17,10 +17,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : FilterableFragment() {
+class HomeFragment : FilterableFragment<FragmentHomeBinding>() {
 
     private val homeViewModel: HomeViewModel by viewModel()
-    private var binding: FragmentHomeBinding? = null
 
     private lateinit var homeRecycler: RecyclerView
 
@@ -30,6 +29,9 @@ class HomeFragment : FilterableFragment() {
             onAppClickListener(app)
         }
     )
+
+    override val isSearchable: Boolean
+        get() = true
 
     override val filtersSet: FiltersSet
         get() = FiltersSet.APP
@@ -43,11 +45,6 @@ class HomeFragment : FilterableFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     override fun onFiltersChange(isChanged: Boolean) {

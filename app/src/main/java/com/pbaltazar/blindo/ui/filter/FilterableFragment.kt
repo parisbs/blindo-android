@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.viewbinding.ViewBinding
 import com.pbaltazar.blindo.MainNavigationDirections
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_REQUIRE_REFRESH_FILTERS
+import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
 
-abstract class FilterableFragment : Fragment() {
+abstract class FilterableFragment<VB : ViewBinding> : BlindoFragment<VB>() {
 
     abstract val filtersSet: FiltersSet
 

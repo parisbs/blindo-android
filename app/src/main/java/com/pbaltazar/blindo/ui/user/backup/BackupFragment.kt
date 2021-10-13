@@ -22,10 +22,9 @@ import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BackupFragment : AuthenticableFragment() {
+class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
 
     private val backupViewModel: BackupViewModel by viewModel()
-    private var binding: FragmentBackupBinding? = null
 
     private lateinit var backupViewState: ViewState
     private lateinit var backupRecycler: RecyclerView
@@ -44,6 +43,9 @@ class BackupFragment : AuthenticableFragment() {
     private var isLoading: Boolean = false
     private var hasNextPage: Boolean = false
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -52,11 +54,7 @@ class BackupFragment : AuthenticableFragment() {
         subscribeBackup()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentBackupBinding.inflate(inflater, container, false)
         backupViewState = binding!!.backupViewState
         backupRecycler = binding!!.backupRecycler
@@ -105,11 +103,6 @@ class BackupFragment : AuthenticableFragment() {
         if (backupAdapter.itemCount == 0 && isLoading.not()) {
             loadPacks()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(

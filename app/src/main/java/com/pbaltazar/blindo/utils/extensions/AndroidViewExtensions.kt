@@ -21,3 +21,15 @@ fun RatingBar.setValueWithAccessibilitySupport(stars: Float) = this.apply {
         stars.toRatingString()
     )
 }
+
+fun View.visible() {
+    visibility = View.VISIBLE
+}
+
+fun View.invisible() {
+    visibility = View.INVISIBLE
+}
+
+fun View.gone() {
+    visibility = View.GONE
+}

@@ -20,10 +20,9 @@ import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class UserRatingsFragment : AuthenticableFragment() {
+class UserRatingsFragment : AuthenticableFragment<FragmentUserCommentsBinding>() {
 
     private val userRatingsViewModel: UserRatingsViewModel by viewModel()
-    private var binding: FragmentUserCommentsBinding? = null
 
     private lateinit var userCommentsViewState: ViewState
     private lateinit var userCommentsRecycler: RecyclerView
@@ -42,17 +41,16 @@ class UserRatingsFragment : AuthenticableFragment() {
     private var isLoading: Boolean = false
     private var hasNextPage: Boolean = false
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribeUser()
         subscribeComments()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentUserCommentsBinding.inflate(inflater, container, false)
         userCommentsViewState = binding!!.userCommentsViewState
         userCommentsRecycler = binding!!.userCommentsRecycler
@@ -70,11 +68,6 @@ class UserRatingsFragment : AuthenticableFragment() {
         if (userRatingsAdapter.itemCount == 0 && isLoading.not()) {
             loadComments()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(

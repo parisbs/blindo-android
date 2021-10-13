@@ -4,20 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.pbaltazar.blindo.databinding.FragmentLocalAppsBinding
 import com.pbaltazar.blindo.entities.App
+import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LocalAppsFragment : Fragment() {
+class LocalAppsFragment : BlindoFragment<FragmentLocalAppsBinding>() {
 
     private val localAppsViewModel: LocalAppsViewModel by viewModel()
-    private var binding: FragmentLocalAppsBinding? = null
 
     private lateinit var localAppsViewState: ViewState
     private lateinit var localAppsRecycler: RecyclerView
@@ -27,16 +26,15 @@ class LocalAppsFragment : Fragment() {
             onAppClickListener(app)
         })
 
+    override val isSearchable: Boolean
+        get() = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribeApps()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentLocalAppsBinding.inflate(inflater, container, false)
         localAppsViewState = binding!!.localAppsViewState
         localAppsRecycler = binding!!.localAppsRecycler
@@ -53,11 +51,6 @@ class LocalAppsFragment : Fragment() {
         if (localAppsAdapter.itemCount == 0) {
             loadApps()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     private fun loadApps() {

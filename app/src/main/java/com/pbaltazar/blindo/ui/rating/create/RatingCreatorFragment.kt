@@ -1,5 +1,6 @@
 package com.pbaltazar.blindo.ui.rating.create
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -24,11 +26,10 @@ import com.pbaltazar.blindo.utils.extensions.setValueWithAccessibilitySupport
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 
-class RatingCreatorFragment : AuthenticableFragment() {
+class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding>() {
 
     private val ratingCreatorViewModel: RatingCreatorViewModel by viewModel()
     private val ratingCreatorFragmentArgs: RatingCreatorFragmentArgs by navArgs()
-    private var binding: FragmentRatingCreatorBinding? = null
 
     private lateinit var totalRating: TextView
     private lateinit var totalRatingBar: RatingBar
@@ -48,16 +49,26 @@ class RatingCreatorFragment : AuthenticableFragment() {
     ratingContinue.isEnabled = value
     }
 
+    override val isSearchable: Boolean
+        get() = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ratingCreatorViewModel.setTargetApp(ratingCreatorFragmentArgs.app)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            title = ratingCreatorFragmentArgs.app.packageLabel
+            subtitle = if (ratingCreatorFragmentArgs.app.category.isNullOrEmptyOrBlank().not())
+                ratingCreatorFragmentArgs.app.category
+            else
+                ratingCreatorFragmentArgs.app.packageName
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRatingCreatorBinding.inflate(inflater, container, false)
         totalRating = binding!!.ratingBars.totalRating
         totalRatingBar = binding!!.ratingBars.totalRatingBar
@@ -78,11 +89,6 @@ class RatingCreatorFragment : AuthenticableFragment() {
         subscribeUser()
         subscribeUserRating()
         subscribeCreation()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     override fun onSubscribeUser() {

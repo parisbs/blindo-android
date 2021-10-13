@@ -24,10 +24,9 @@ import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
 
-class AppRatingsFragment : FilterableFragment() {
+class AppRatingsFragment : FilterableFragment<FragmentAppRatingsBinding>() {
 
     private lateinit var appViewModel: AppViewModel
-    private var binding: FragmentAppRatingsBinding? = null
 
     private lateinit var appRatingsViewState: ViewState
     private lateinit var appRatingsRecycler: RecyclerView
@@ -40,6 +39,9 @@ class AppRatingsFragment : FilterableFragment() {
     private var hasNextPage: Boolean = false
     private var nextPageToken: String? = null
     private var requiresRefresh: Boolean = false
+
+    override val isSearchable: Boolean
+        get() = false
 
     override val filtersSet: FiltersSet
         get() = FiltersSet.APP_RATINGS

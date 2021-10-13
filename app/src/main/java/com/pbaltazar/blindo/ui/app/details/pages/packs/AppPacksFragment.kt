@@ -24,10 +24,9 @@ import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
 
-class AppPacksFragment : FilterableFragment() {
+class AppPacksFragment : FilterableFragment<FragmentAppPacksBinding>() {
 
     private lateinit var appViewModel: AppViewModel
-    private var binding: FragmentAppPacksBinding? = null
 
     private lateinit var appPacksViewState: ViewState
     private lateinit var appPacksRecycler: RecyclerView
@@ -40,6 +39,9 @@ class AppPacksFragment : FilterableFragment() {
     private var hasNextPage: Boolean = false
     private var nextPageToken: String? = null
     private var requiresRefresh: Boolean = false
+
+    override val isSearchable: Boolean
+        get() = false
 
     override val filtersSet: FiltersSet
         get() = FiltersSet.APP_PACKS
@@ -61,11 +63,6 @@ class AppPacksFragment : FilterableFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
         subscribePacks()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     override fun onResume() {
