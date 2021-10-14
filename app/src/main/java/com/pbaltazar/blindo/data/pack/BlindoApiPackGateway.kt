@@ -35,7 +35,7 @@ class BlindoApiPackGateway(
         ).let { response ->
             when (response) {
                 is Response.Success -> response.data.getApp?.packs?.let { query ->
-                    query.edges?.takeIf { it.isNotEmpty() }?.let { packs ->
+                    query.edges.takeIf { it.isNotEmpty() }?.let { packs ->
                         ApiResponse.Success(
                             data = packs.mapNotNull { it?.node?.toApiModel() },
                             hasNextPage = query.pageInfo.hasNextPage,
@@ -58,7 +58,7 @@ class BlindoApiPackGateway(
         ).let { response ->
             when (response) {
                 is Response.Success -> response.data.getAppByPackageName?.packs?.let { query ->
-                    query.edges?.takeIf { it.isNotEmpty() }?.let { packs ->
+                    query.edges.takeIf { it.isNotEmpty() }?.let { packs ->
                         ApiResponse.Success(
                             data = packs.mapNotNull { it?.node?.toApiModel() },
                             hasNextPage = query.pageInfo.hasNextPage,

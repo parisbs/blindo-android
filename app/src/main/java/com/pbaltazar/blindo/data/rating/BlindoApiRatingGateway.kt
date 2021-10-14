@@ -26,7 +26,7 @@ class BlindoApiRatingGateway(
         blindoApiClient.query(
             GetAppRatingsQuery(
                 id = appInput.id,
-                ratingsFilters = Input.optional(appInput.ratingInput?.filters?.toGraphQLFilter()),
+                ratingsFilters = Input.optional(appInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
                 ratingsFirst = appInput.ratingInput.pageSize,
                 ratingsAfter = Input.optional(appInput.ratingInput.nextPageToken)
@@ -34,7 +34,7 @@ class BlindoApiRatingGateway(
         ).let { response ->
             when (response) {
                 is Response.Success -> response.data.getApp?.ratings?.let { query ->
-                    query.edges?.takeIf { it.isNotEmpty() }?.let { ratings ->
+                    query.edges.takeIf { it.isNotEmpty() }?.let { ratings ->
                         ApiResponse.Success(
                             data = ratings.mapNotNull { it?.node?.toApiModel() },
                             hasNextPage = query.pageInfo.hasNextPage,
@@ -50,7 +50,7 @@ class BlindoApiRatingGateway(
         blindoApiClient.query(
             GetAppRatingsByPackageNameQuery(
                 packageName = appInput.packageName,
-                ratingsFilters = Input.optional(appInput.ratingInput?.filters?.toGraphQLFilter()),
+                ratingsFilters = Input.optional(appInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
                 ratingsFirst = appInput.ratingInput.pageSize,
                 ratingsAfter = Input.optional(appInput.ratingInput.nextPageToken)
@@ -58,7 +58,7 @@ class BlindoApiRatingGateway(
         ).let { response ->
             when (response) {
                 is Response.Success -> response.data.getAppByPackageName?.ratings?.let { query ->
-                    query.edges?.takeIf { it.isNotEmpty() }?.let { ratings ->
+                    query.edges.takeIf { it.isNotEmpty() }?.let { ratings ->
                         ApiResponse.Success(
                             data = ratings.mapNotNull { it?.node?.toApiModel() },
                             hasNextPage = query.pageInfo.hasNextPage,

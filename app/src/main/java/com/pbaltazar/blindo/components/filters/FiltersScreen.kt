@@ -44,10 +44,10 @@ class FiltersScreen @JvmOverloads constructor(
         }
     }
 
-    private lateinit var binding: ComponentFiltersScreenBinding
+    private val binding: ComponentFiltersScreenBinding
 
-    private lateinit var filtersOrderBySection: FiltersOrderBySection
-    private lateinit var filtersSection: LinearLayout
+    private val filtersOrderBySection: FiltersOrderBySection
+    private val filtersSection: LinearLayout
 
     var showOrderBySection: Boolean = false
     set(value) {

@@ -49,7 +49,7 @@ class SplashFragment : AuthenticableFragment<FragmentSplashBinding>() {
 
     override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
         when (userAuthentication) {
-            is AuthenticationViewModel.UserAuthentication.Success -> if (userAuthentication.user.isPremium ?: false) {
+            is AuthenticationViewModel.UserAuthentication.Success -> if (userAuthentication.user.isPremium) {
                 setIsUserPremium(true)
                 verifyIsFirstRunAndPrivacyPolicyAccepted()
             } else {

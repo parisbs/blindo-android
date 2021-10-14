@@ -12,10 +12,10 @@ import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.components.selectors.AccessibleRangeSelector
 import com.pbaltazar.blindo.databinding.ComponentRangeFilterBinding
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.entities.filters.common.IntRange
-import com.pbaltazar.blindo.components.selectors.AccessibleRangeSelector
 import com.pbaltazar.blindo.utils.extensions.toFloatRange
 import com.pbaltazar.blindo.utils.extensions.toIntRange
 
@@ -29,11 +29,11 @@ class RangeFilter @JvmOverloads constructor(
         const val FILTER_TYPE: Int = R.id.filters_screen_range_type
     }
 
-    private lateinit var binding: ComponentRangeFilterBinding
+    private val binding: ComponentRangeFilterBinding
 
-    private lateinit var header: TextView
-    private lateinit var expandableContainer: LinearLayout
-    private lateinit var rangeSelector: AccessibleRangeSelector
+    private val header: TextView
+    private val expandableContainer: LinearLayout
+    private val rangeSelector: AccessibleRangeSelector
 
     var text: String = ""
     set(value) {
@@ -143,10 +143,10 @@ class RangeFilter @JvmOverloads constructor(
 
     private fun expandableListener() {
         if (isExpanded) {
-            header.setCompoundDrawablesRelative(resources.getDrawable(R.drawable.ic_check_box_black_24dp), null, null, null)
+            header.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_check_box_black_24dp, 0, 0, 0)
             expandableContainer.visibility = View.VISIBLE
         } else {
-            header.setCompoundDrawablesRelative(resources.getDrawable(R.drawable.ic_check_box_outline_blank_black_24dp), null, null, null)
+            header.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.ic_check_box_outline_blank_black_24dp, 0, 0, 0)
             expandableContainer.visibility = View.GONE
         }
     }

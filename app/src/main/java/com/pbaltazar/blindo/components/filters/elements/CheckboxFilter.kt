@@ -20,9 +20,9 @@ class CheckboxFilter @JvmOverloads constructor(
         const val FILTER_TYPE: Int = R.id.filters_screen_checkbox_type
     }
 
-    private lateinit var binding: ComponentCheckboxFilterBinding
+    private val binding: ComponentCheckboxFilterBinding
 
-    private lateinit var checkBox: CheckBox
+    private val checkBox: CheckBox
 
     var text: String?
     get() = checkBox.text?.toString()

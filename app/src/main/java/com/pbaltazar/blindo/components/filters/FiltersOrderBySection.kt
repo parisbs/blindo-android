@@ -23,13 +23,9 @@ class FiltersOrderBySection @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr),
     OrderByElementFilter.OnCheckedChangeListener {
 
-    companion object {
-        const val PREFERENCES_KEY: String = "orderBy"
-    }
+    private val binding: ComponentFiltersOrderBySectionBinding
 
-    private lateinit var binding: ComponentFiltersOrderBySectionBinding
-
-    private lateinit var container: LinearLayout
+    private val container: LinearLayout
 
     private val commonElementFilters: List<OrderByElementFilter> = listOf(
         OrderByElementFilter(context).apply {

@@ -11,9 +11,9 @@ import android.widget.Spinner
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import com.pbaltazar.blindo.R
-import com.pbaltazar.blindo.databinding.ComponentOrderByElementFilterBinding
 import com.pbaltazar.blindo.components.filters.entities.orderby.OrderByDirection
 import com.pbaltazar.blindo.components.filters.entities.orderby.OrderBySelection
+import com.pbaltazar.blindo.databinding.ComponentOrderByElementFilterBinding
 
 class OrderByElementFilter @JvmOverloads constructor(
     context: Context,
@@ -34,13 +34,13 @@ class OrderByElementFilter @JvmOverloads constructor(
         fun onNothingSelected(elementFilter: OrderByElementFilter): Unit = Unit
     }
 
-    private lateinit var binding: ComponentOrderByElementFilterBinding
+    private val binding: ComponentOrderByElementFilterBinding
 
-    private lateinit var checkbox: CheckBox
+    private val checkbox: CheckBox
     private lateinit var spinner: Spinner
 
     private val checkboxListener: CompoundButton.OnCheckedChangeListener =
-        CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
+        CompoundButton.OnCheckedChangeListener { _, isChecked ->
         spinner.isEnabled = isChecked
             customCheckedListener?.onCheckedChanged(
                 OrderBySelection(

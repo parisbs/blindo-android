@@ -19,15 +19,15 @@ class AccessibleRangeSelector @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private lateinit var binding: ComponentAccessibleRangeSelectorBinding
+    private val binding: ComponentAccessibleRangeSelectorBinding
 
-    private lateinit var beginLabel: TextView
+    private val beginLabel: TextView
     private lateinit var beginMinusButton: ImageButton
-    private lateinit var beginValue: TextView
+    private val beginValue: TextView
     private lateinit var beginPlusButton: ImageButton
-    private lateinit var endLabel: TextView
+    private val endLabel: TextView
     private lateinit var endMinusButton: ImageButton
-    private lateinit var endValue: TextView
+    private val endValue: TextView
     private lateinit var endPlusButton: ImageButton
 
     var description: String = ""
