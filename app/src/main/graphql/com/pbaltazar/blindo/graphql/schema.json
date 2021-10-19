@@ -12,11 +12,11 @@
         {
           "kind": "OBJECT",
           "name": "Query",
-          "description": null,
+          "description": "Query nodes\n\nSome queries require authentication and/or permissions, please send the authorization token through the request headers.",
           "fields": [
             {
               "name": "getApp",
-              "description": null,
+              "description": "Get app by ID.",
               "args": [
                 {
                   "name": "id",
@@ -43,11 +43,11 @@
             },
             {
               "name": "getAppByPackageName",
-              "description": "Get App by package name",
+              "description": "Get app by package name.",
               "args": [
                 {
                   "name": "packageName",
-                  "description": "Package name to retrieve",
+                  "description": "Package name to retrieve.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -70,7 +70,7 @@
             },
             {
               "name": "listApps",
-              "description": "Get all available apps and filter results",
+              "description": "Get all available apps and filter results.",
               "args": [
                 {
                   "name": "filters",
@@ -147,11 +147,11 @@
             },
             {
               "name": "getDevice",
-              "description": "Get Device by hardware fingerprint. Requires authentication and permissions",
+              "description": "Get device by hardware fingerprint. Requires authentication and permissions.",
               "args": [
                 {
                   "name": "hardwareFingerprint",
-                  "description": "The Device hardware fingerprint to retrieve",
+                  "description": "The device hardware fingerprint to retrieve.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -174,7 +174,7 @@
             },
             {
               "name": "listDevices",
-              "description": "Get all available Devices and filter results. Requires authentication and permissions",
+              "description": "Get all available devices and filter results. Requires authentication and permissions.",
               "args": [
                 {
                   "name": "filters",
@@ -251,7 +251,7 @@
             },
             {
               "name": "getMembership",
-              "description": "Get the Membership associated with the User. Requires authentication and permissions",
+              "description": "Get the membership associated with the user. Requires authentication and permissions.",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -263,7 +263,7 @@
             },
             {
               "name": "getPack",
-              "description": null,
+              "description": "Get pack by ID.",
               "args": [
                 {
                   "name": "id",
@@ -290,7 +290,7 @@
             },
             {
               "name": "listPacks",
-              "description": "Get all available Packs and filter results",
+              "description": "Get all available packs and filter results.",
               "args": [
                 {
                   "name": "filters",
@@ -367,11 +367,11 @@
             },
             {
               "name": "getPurchase",
-              "description": "Get Purchase by ID. Requires authentication and permissions",
+              "description": "Get purchase by ID. Requires authentication and permissions.",
               "args": [
                 {
                   "name": "id",
-                  "description": "The unique identifier of the Purchase",
+                  "description": "The unique identifier of the purchase.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -394,7 +394,7 @@
             },
             {
               "name": "listPurchases",
-              "description": "Get all available Purchases and filter results. Require authentication and permissions",
+              "description": "Get all available purchases and filter results. Require authentication and permissions.",
               "args": [
                 {
                   "name": "filters",
@@ -471,7 +471,7 @@
             },
             {
               "name": "getRating",
-              "description": null,
+              "description": "Get rating by ID.",
               "args": [
                 {
                   "name": "id",
@@ -498,7 +498,7 @@
             },
             {
               "name": "listRatings",
-              "description": "Get all available Ratings and filter results",
+              "description": "Get all available ratings and filter results.",
               "args": [
                 {
                   "name": "filters",
@@ -574,18 +574,18 @@
               "deprecationReason": null
             },
             {
-              "name": "getUserProfile",
-              "description": "Get User profile by ID",
+              "name": "getUser",
+              "description": "Get user by sub ID. Requires authentication and permissions.",
               "args": [
                 {
-                  "name": "id",
-                  "description": "The unique identifier of the User",
+                  "name": "sub",
+                  "description": "The sub ID of the user.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "ID",
+                      "name": "String",
                       "ofType": null
                     }
                   },
@@ -597,22 +597,34 @@
                 "name": "User",
                 "ofType": null
               },
+              "isDeprecated": true,
+              "deprecationReason": "The query getUser(sub: String) is deprecated, use authenticateUser query instead."
+            },
+            {
+              "name": "authenticateUser",
+              "description": "Authenticate an user on the API. Do not returns a token or something similar, just the user info. Requires authentication header.",
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
               "isDeprecated": false,
               "deprecationReason": null
             },
             {
-              "name": "getUser",
-              "description": "Get User by sub ID. Requires authentication and permissions",
+              "name": "getPublicUser",
+              "description": "Get the public user info. Some fields are not available by the privacy guard.",
               "args": [
                 {
-                  "name": "sub",
-                  "description": "The sub ID of the User",
+                  "name": "id",
+                  "description": "The unique identifier of the user.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
                     "ofType": {
                       "kind": "SCALAR",
-                      "name": "String",
+                      "name": "ID",
                       "ofType": null
                     }
                   },
@@ -636,7 +648,7 @@
         {
           "kind": "OBJECT",
           "name": "App",
-          "description": null,
+          "description": "An app with its info like ratings, packs, etc.",
           "fields": [
             {
               "name": "id",
@@ -684,7 +696,7 @@
             },
             {
               "name": "packageName",
-              "description": "The package name of the App",
+              "description": "The package name of the app.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -700,7 +712,7 @@
             },
             {
               "name": "packageIcon",
-              "description": "The URL of app icon in Play Store",
+              "description": "The URL of the app icon in Play Store.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -712,7 +724,7 @@
             },
             {
               "name": "packageLabel",
-              "description": "The public name of the App in Play Store or in the APK manifest",
+              "description": "The public name of the app in Play Store or in the APK manifest.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -728,7 +740,7 @@
             },
             {
               "name": "category",
-              "description": "The category of the App in Play Store",
+              "description": "The category of the app in Play Store.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -744,7 +756,7 @@
             },
             {
               "name": "uiRating",
-              "description": "The UI accessibility rating of the App",
+              "description": "The UI accessibility rating of the app.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -756,7 +768,7 @@
             },
             {
               "name": "screenreadersRating",
-              "description": "The screen readers compatibility rating of the App",
+              "description": "The screen readers compatibility rating of the app.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -768,7 +780,7 @@
             },
             {
               "name": "labelsRating",
-              "description": "The quality of the labels in the App",
+              "description": "The quality of the labels in the app.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -780,7 +792,7 @@
             },
             {
               "name": "functionsRating",
-              "description": "The accessibility rating of the functions in the App",
+              "description": "The accessibility rating of the functions in the app.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -792,7 +804,7 @@
             },
             {
               "name": "performanceRating",
-              "description": "The rating of the App performance when an accessibility service is enabled",
+              "description": "The quality of the app performance when an accessibility service is enabled.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -804,7 +816,7 @@
             },
             {
               "name": "totalRating",
-              "description": "The total accessibility rating of the App",
+              "description": "The total accessibility rating of the app.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -820,7 +832,7 @@
             },
             {
               "name": "numberOfRatings",
-              "description": "The total numbers of ratings for the App",
+              "description": "The total numbers of ratings for the app.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -836,7 +848,7 @@
             },
             {
               "name": "availablePacks",
-              "description": "The number of available labels packs for the App",
+              "description": "The number of available labels packs for the app.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -851,85 +863,8 @@
               "deprecationReason": null
             },
             {
-              "name": "ratings",
-              "description": "The ratings associated with this App",
-              "args": [
-                {
-                  "name": "filters",
-                  "description": null,
-                  "type": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "RatingFilter",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "sort",
-                  "description": null,
-                  "type": {
-                    "kind": "LIST",
-                    "name": null,
-                    "ofType": {
-                      "kind": "ENUM",
-                      "name": "RatingSortEnum",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": "[\"ID_ASC\"]"
-                },
-                {
-                  "name": "before",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "after",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "first",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "last",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "RatingConnection",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "packs",
-              "description": "The packs associated with this App",
+              "description": "The packs associated with this app.",
               "args": [
                 {
                   "name": "filters",
@@ -1003,6 +938,83 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "ratings",
+              "description": "The ratings associated with this app",
+              "args": [
+                {
+                  "name": "filters",
+                  "description": null,
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "RatingFilter",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "sort",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "RatingSortEnum",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": "[\"ID_ASC\"]"
+                },
+                {
+                  "name": "before",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "after",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "first",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "last",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "RatingConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -1049,7 +1061,7 @@
             },
             {
               "kind": "OBJECT",
-              "name": "Rating",
+              "name": "Pack",
               "ofType": null
             },
             {
@@ -1064,7 +1076,7 @@
             },
             {
               "kind": "OBJECT",
-              "name": "Pack",
+              "name": "Rating",
               "ofType": null
             },
             {
@@ -1131,8 +1143,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "RatingConnection",
-          "description": null,
+          "name": "PackConnection",
+          "description": "The labels packs associated with this query.",
           "fields": [
             {
               "name": "pageInfo",
@@ -1162,7 +1174,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "OBJECT",
-                    "name": "RatingEdge",
+                    "name": "PackEdge",
                     "ofType": null
                   }
                 }
@@ -1255,8 +1267,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "RatingEdge",
-          "description": "A Relay edge containing a `Rating` and its cursor.",
+          "name": "PackEdge",
+          "description": "A Relay edge containing a `Pack` and its cursor.",
           "fields": [
             {
               "name": "node",
@@ -1264,7 +1276,7 @@
               "args": [],
               "type": {
                 "kind": "OBJECT",
-                "name": "Rating",
+                "name": "Pack",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -1294,8 +1306,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Rating",
-          "description": null,
+          "name": "Pack",
+          "description": "A labels pack info,\ndo not includes the labels to install.\nYou must request the download to obtain the installable labels pack.",
           "fields": [
             {
               "name": "id",
@@ -1343,7 +1355,7 @@
             },
             {
               "name": "userId",
-              "description": "The unique identifier of the User associated with this Rating",
+              "description": "The unique identifier of the user associated with this pack.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1359,7 +1371,7 @@
             },
             {
               "name": "appId",
-              "description": "The unique identifier of the App associated with this Rating",
+              "description": "The unique identifier of the app associated with this pack.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1374,8 +1386,8 @@
               "deprecationReason": null
             },
             {
-              "name": "ui",
-              "description": "The UI rating for this App",
+              "name": "numberOfLabels",
+              "description": "The number of the labels of this pack.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1390,15 +1402,15 @@
               "deprecationReason": null
             },
             {
-              "name": "screenreaders",
-              "description": "The screen readers compatibility rating for this App",
+              "name": "downloads",
+              "description": "The total of downloads of this pack.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "String",
                   "ofType": null
                 }
               },
@@ -1406,15 +1418,15 @@
               "deprecationReason": null
             },
             {
-              "name": "labels",
-              "description": "The quality of the labels for this App",
+              "name": "language",
+              "description": "The language of the labels in this pack.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "String",
                   "ofType": null
                 }
               },
@@ -1422,57 +1434,17 @@
               "deprecationReason": null
             },
             {
-              "name": "functions",
-              "description": "The accessibility rating of the functions in this App",
+              "name": "hash",
+              "description": "The HASH fingerprint of this pack.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
                 "ofType": {
                   "kind": "SCALAR",
-                  "name": "Int",
+                  "name": "String",
                   "ofType": null
                 }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "performance",
-              "description": "The performance rating for this App when an accessibility service is enabled",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "comment",
-              "description": "The comment about the App of this Rating",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "commentLanguage",
-              "description": "The language of the comment attatched to this Rating",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1516,7 +1488,7 @@
         {
           "kind": "OBJECT",
           "name": "User",
-          "description": null,
+          "description": "A user registered on Blindo\n\nThe user has some private info that only can be accessed if the authenticated user request it,\nthe public info can be accessed on any query with read-only permission.",
           "fields": [
             {
               "name": "id",
@@ -1564,7 +1536,7 @@
             },
             {
               "name": "sub",
-              "description": "The User sub ID to authenticate in external service. Requires permission",
+              "description": "The unique identifier of the user from the authenticate service. Requires permission.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1580,7 +1552,7 @@
             },
             {
               "name": "email",
-              "description": "The email of the User. Requires permission",
+              "description": "The email of the user. Requires permissio.n",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1596,7 +1568,7 @@
             },
             {
               "name": "name",
-              "description": "The display name of the user",
+              "description": "The name of the user.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1612,7 +1584,7 @@
             },
             {
               "name": "picture",
-              "description": "The picture URL of the User taken from the external authentication service",
+              "description": "The picture URL of the user.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -1624,7 +1596,7 @@
             },
             {
               "name": "isPremium",
-              "description": "If the User have an active premium Membership or not. Requires permission",
+              "description": "If the user have an active premium Membership or not. Requires permission.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -1640,7 +1612,7 @@
             },
             {
               "name": "devices",
-              "description": "The devices associated with this User. Requires permission",
+              "description": "The devices associated with this user. Requires permission.",
               "args": [
                 {
                   "name": "filters",
@@ -1716,85 +1688,8 @@
               "deprecationReason": null
             },
             {
-              "name": "ratings",
-              "description": "The ratings associated with this User",
-              "args": [
-                {
-                  "name": "filters",
-                  "description": null,
-                  "type": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "RatingFilter",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "sort",
-                  "description": null,
-                  "type": {
-                    "kind": "LIST",
-                    "name": null,
-                    "ofType": {
-                      "kind": "ENUM",
-                      "name": "RatingSortEnum",
-                      "ofType": null
-                    }
-                  },
-                  "defaultValue": "[\"ID_ASC\"]"
-                },
-                {
-                  "name": "before",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "after",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "first",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "last",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "RatingConnection",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "packs",
-              "description": "The packs associated with this User",
+              "description": "The packs associated with this user.",
               "args": [
                 {
                   "name": "filters",
@@ -1868,6 +1763,83 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
+            },
+            {
+              "name": "ratings",
+              "description": "The ratings associated with this user.",
+              "args": [
+                {
+                  "name": "filters",
+                  "description": null,
+                  "type": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "RatingFilter",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "sort",
+                  "description": null,
+                  "type": {
+                    "kind": "LIST",
+                    "name": null,
+                    "ofType": {
+                      "kind": "ENUM",
+                      "name": "RatingSortEnum",
+                      "ofType": null
+                    }
+                  },
+                  "defaultValue": "[\"ID_ASC\"]"
+                },
+                {
+                  "name": "before",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "after",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "first",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "last",
+                  "description": null,
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "RatingConnection",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -1884,7 +1856,7 @@
         {
           "kind": "OBJECT",
           "name": "DeviceConnection",
-          "description": null,
+          "description": "The devices associated with this query.",
           "fields": [
             {
               "name": "pageInfo",
@@ -1970,7 +1942,7 @@
         {
           "kind": "OBJECT",
           "name": "Device",
-          "description": null,
+          "description": "A device associated with an user.",
           "fields": [
             {
               "name": "id",
@@ -2018,7 +1990,7 @@
             },
             {
               "name": "hardwareFingerprint",
-              "description": "The ID or fingerprint of the hardware for this Device",
+              "description": "The ID or fingerprint of the hardware for this device.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -2034,7 +2006,7 @@
             },
             {
               "name": "name",
-              "description": "The name of this Device",
+              "description": "The name of this device.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -2050,7 +2022,7 @@
             },
             {
               "name": "language",
-              "description": "The language code of this Device",
+              "description": "The language code of this device.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -2066,7 +2038,7 @@
             },
             {
               "name": "country",
-              "description": "The country code of this Device",
+              "description": "The country code of this device.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -2095,7 +2067,7 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "DeviceFilter",
-          "description": null,
+          "description": "Available fields to filter devices.",
           "fields": null,
           "inputFields": [
             {
@@ -2260,7 +2232,7 @@
             },
             {
               "name": "userId",
-              "description": "Exact match",
+              "description": "Filters devices by the given user ID.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2370,8 +2342,757 @@
         },
         {
           "kind": "INPUT_OBJECT",
-          "name": "RatingFilter",
+          "name": "PackFilter",
+          "description": "Available fields to filter packs.",
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "numberOfLabels",
+              "description": "Exact match.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "numberOfLabelsLt",
+              "description": "Less than.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "numberOfLabelsLte",
+              "description": "Less than or equal to.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "numberOfLabelsGt",
+              "description": "Greater than.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "numberOfLabelsGte",
+              "description": "Greater than or equal to.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "numberOfLabelsRange",
+              "description": "Selects values within a given range.",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "IntRange",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "downloads",
+              "description": "Exact match.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "downloadsLt",
+              "description": "Less than.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "downloadsLte",
+              "description": "Less than or equal to.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "downloadsGt",
+              "description": "Greater than.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "downloadsGte",
+              "description": "Greater than or equal to.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "Float",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "downloadsRange",
+              "description": "Selects values within a given range.",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "FloatRange",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "language",
+              "description": "Exact match.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "languageNe",
+              "description": "Not match.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "languageIn",
+              "description": "In a given list.",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "and",
+              "description": "Conjunction of filters joined by ``AND``.",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "PackFilter",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "or",
+              "description": "Conjunction of filters joined by ``OR``.",
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "PackFilter",
+                    "ofType": null
+                  }
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "not",
+              "description": "Negation of filters.",
+              "type": {
+                "kind": "INPUT_OBJECT",
+                "name": "PackFilter",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "userId",
+              "description": "Filters packs by user ID.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "appId",
+              "description": "Filters packs by app ID.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "packageName",
+              "description": "Filters packs by app package name.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "IntRange",
           "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "begin",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "end",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "FloatRange",
+          "description": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "name": "begin",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "end",
+              "description": null,
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            }
+          ],
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "ENUM",
+          "name": "PackSortEnum",
+          "description": "An enumeration.",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": [
+            {
+              "name": "ID_ASC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ID_DESC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CREATED_AT_ASC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "CREATED_AT_DESC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "UPDATED_AT_ASC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "UPDATED_AT_DESC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "USER_ID_ASC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "USER_ID_DESC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "APP_ID_ASC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "APP_ID_DESC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NUMBER_OF_LABELS_ASC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "NUMBER_OF_LABELS_DESC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DOWNLOADS_ASC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "DOWNLOADS_DESC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "LANGUAGE_ASC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "LANGUAGE_DESC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "HASH_ASC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "HASH_DESC",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RatingConnection",
+          "description": "The ratings associated with this query.",
+          "fields": [
+            {
+              "name": "pageInfo",
+              "description": "Pagination data for this connection.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "PageInfo",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "edges",
+              "description": "Contains the nodes in this connection.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "RatingEdge",
+                    "ofType": null
+                  }
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "RatingEdge",
+          "description": "A Relay edge containing a `Rating` and its cursor.",
+          "fields": [
+            {
+              "name": "node",
+              "description": "The item at the end of the edge",
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "Rating",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "cursor",
+              "description": "A cursor for use in pagination",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "OBJECT",
+          "name": "Rating",
+          "description": "A rating for an app, associated with an user.",
+          "fields": [
+            {
+              "name": "id",
+              "description": "The ID of the object.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "createdAt",
+              "description": "The first creation datetime of this resource",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "updatedAt",
+              "description": "The last update datetime of this resource",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "DateTime",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user associated with this rating.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "appId",
+              "description": "The unique identifier of the app associated with this rating.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "ID",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "ui",
+              "description": "The UI rating for this app.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "screenreaders",
+              "description": "The screen readers compatibility rating for this app.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "labels",
+              "description": "The quality of the labels for this app.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "functions",
+              "description": "The accessibility rating of the functions in this app.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "performance",
+              "description": "The performance quality for this app when an accessibility service is enabled.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comment",
+              "description": "The comment about the App of this rating.",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "commentLanguage",
+              "description": "The language of the comment attatched to this rating.",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "app",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "App",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "user",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [
+            {
+              "kind": "INTERFACE",
+              "name": "Node",
+              "ofType": null
+            }
+          ],
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "INPUT_OBJECT",
+          "name": "RatingFilter",
+          "description": "Available fields to filter ratings.",
           "fields": null,
           "inputFields": [
             {
@@ -2766,7 +3487,7 @@
             },
             {
               "name": "userId",
-              "description": "Exact match",
+              "description": "Filters by user ID.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2776,7 +3497,7 @@
             },
             {
               "name": "appId",
-              "description": "Exact match",
+              "description": "Filters by app ID.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -2786,50 +3507,11 @@
             },
             {
               "name": "packageName",
-              "description": "Exact match",
+              "description": "Filters by app package name.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
                 "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "IntRange",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "begin",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "end",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
               },
               "defaultValue": null
             }
@@ -2995,678 +3677,8 @@
         },
         {
           "kind": "OBJECT",
-          "name": "PackConnection",
-          "description": null,
-          "fields": [
-            {
-              "name": "pageInfo",
-              "description": "Pagination data for this connection.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "PageInfo",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "edges",
-              "description": "Contains the nodes in this connection.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "PackEdge",
-                    "ofType": null
-                  }
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "PackEdge",
-          "description": "A Relay edge containing a `Pack` and its cursor.",
-          "fields": [
-            {
-              "name": "node",
-              "description": "The item at the end of the edge",
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Pack",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "cursor",
-              "description": "A cursor for use in pagination",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "Pack",
-          "description": null,
-          "fields": [
-            {
-              "name": "id",
-              "description": "The ID of the object.",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "createdAt",
-              "description": "The first creation datetime of this resource",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "DateTime",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "updatedAt",
-              "description": "The last update datetime of this resource",
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "userId",
-              "description": "The unique identifier of the User associated with this Pack",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "appId",
-              "description": "The unique identifier of the App associated with this Pack",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "numberOfLabels",
-              "description": "The number of the labels of this Pack",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "downloads",
-              "description": "The total of downloads of this Pack",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "language",
-              "description": "The language of the labels in this Pack",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "hash",
-              "description": "The HASH fingerprint of this Pack",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "app",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "App",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "user",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "User",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [
-            {
-              "kind": "INTERFACE",
-              "name": "Node",
-              "ofType": null
-            }
-          ],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "PackFilter",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "numberOfLabels",
-              "description": "Exact match.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "numberOfLabelsLt",
-              "description": "Less than.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "numberOfLabelsLte",
-              "description": "Less than or equal to.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "numberOfLabelsGt",
-              "description": "Greater than.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "numberOfLabelsGte",
-              "description": "Greater than or equal to.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "numberOfLabelsRange",
-              "description": "Selects values within a given range.",
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "IntRange",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "downloads",
-              "description": "Exact match.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "downloadsLt",
-              "description": "Less than.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "downloadsLte",
-              "description": "Less than or equal to.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "downloadsGt",
-              "description": "Greater than.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "downloadsGte",
-              "description": "Greater than or equal to.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "Float",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "downloadsRange",
-              "description": "Selects values within a given range.",
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "FloatRange",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "language",
-              "description": "Exact match.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "languageNe",
-              "description": "Not match.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "languageIn",
-              "description": "In a given list.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "and",
-              "description": "Conjunction of filters joined by ``AND``.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "PackFilter",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "or",
-              "description": "Conjunction of filters joined by ``OR``.",
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "INPUT_OBJECT",
-                    "name": "PackFilter",
-                    "ofType": null
-                  }
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "not",
-              "description": "Negation of filters.",
-              "type": {
-                "kind": "INPUT_OBJECT",
-                "name": "PackFilter",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "userId",
-              "description": "Exact match",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "appId",
-              "description": "Exact match",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "packageName",
-              "description": "Exact match",
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "INPUT_OBJECT",
-          "name": "FloatRange",
-          "description": null,
-          "fields": null,
-          "inputFields": [
-            {
-              "name": "begin",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "end",
-              "description": null,
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "Float",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            }
-          ],
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "ENUM",
-          "name": "PackSortEnum",
-          "description": "An enumeration.",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": [
-            {
-              "name": "ID_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "ID_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "CREATED_AT_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "CREATED_AT_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "UPDATED_AT_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "UPDATED_AT_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "USER_ID_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "USER_ID_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "APP_ID_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "APP_ID_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "NUMBER_OF_LABELS_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "NUMBER_OF_LABELS_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "DOWNLOADS_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "DOWNLOADS_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "LANGUAGE_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "LANGUAGE_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "HASH_ASC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "HASH_DESC",
-              "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
           "name": "AppConnection",
-          "description": null,
+          "description": "The apps associated with this query.",
           "fields": [
             {
               "name": "pageInfo",
@@ -3752,7 +3764,7 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "AppFilter",
-          "description": null,
+          "description": "Available fields to filter apps.",
           "fields": null,
           "inputFields": [
             {
@@ -4734,7 +4746,7 @@
         {
           "kind": "OBJECT",
           "name": "Membership",
-          "description": null,
+          "description": "A membership associated with an user.",
           "fields": [
             {
               "name": "id",
@@ -4782,7 +4794,7 @@
             },
             {
               "name": "origin",
-              "description": "The origin of the Membership",
+              "description": "The origin of the membership.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -4798,7 +4810,7 @@
             },
             {
               "name": "sku",
-              "description": "The SKU of the Membership",
+              "description": "The SKU of the membership.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -4814,7 +4826,7 @@
             },
             {
               "name": "expireAt",
-              "description": "Expire date of the Membership",
+              "description": "Expire date of the membership.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -4830,7 +4842,7 @@
             },
             {
               "name": "isCanceled",
-              "description": "If the Membership is canceled or not",
+              "description": "If the membership is canceled or not.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -4846,7 +4858,7 @@
             },
             {
               "name": "cancelReason",
-              "description": "The cancel reason code if the Membership is canceled",
+              "description": "The cancel reason code if the membership is canceled.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -4858,7 +4870,7 @@
             },
             {
               "name": "token",
-              "description": "The token to identify the Membership",
+              "description": "The token to identify the membership.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -4887,7 +4899,7 @@
         {
           "kind": "OBJECT",
           "name": "Purchase",
-          "description": null,
+          "description": "A purchase associated with a membership\n\nThe memberships are subscriptions so each payment represent a purchase,\nwhen a membership is canceled or expired the membership is deleted,\nif the user purchase a membership again a new membership will be created.",
           "fields": [
             {
               "name": "id",
@@ -4935,7 +4947,7 @@
             },
             {
               "name": "idOrder",
-              "description": "The order ID of this Purchase",
+              "description": "The order ID of this purchase.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -4951,7 +4963,7 @@
             },
             {
               "name": "state",
-              "description": "The payment state of this Purchase, possible values are: 0: Payment pending, 1: Payment received, 2: Free trial, 3: Pending deferred upgrade/downgrade",
+              "description": "The payment state of this purchase, possible values are:\n0: Payment pending\n1: Payment received\n2: Free trial\n3: Pending deferred upgrade/downgrade",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -4967,7 +4979,7 @@
             },
             {
               "name": "isAcknowledged",
-              "description": "If the Purchase is acknowledged or not on Play Store",
+              "description": "If the purchase is acknowledged or not on Play Store.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -4983,7 +4995,7 @@
             },
             {
               "name": "country",
-              "description": "The country of this Purchase",
+              "description": "The country of this purchase.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -4999,7 +5011,7 @@
             },
             {
               "name": "price",
-              "description": "The price of this Purchase",
+              "description": "The price of this purchase.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -5015,7 +5027,7 @@
             },
             {
               "name": "currency",
-              "description": "The payment currency of this Purchase",
+              "description": "The payment currency of this purchase.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -5044,7 +5056,7 @@
         {
           "kind": "OBJECT",
           "name": "PurchaseConnection",
-          "description": null,
+          "description": "The purchases associated with this query.",
           "fields": [
             {
               "name": "pageInfo",
@@ -5130,7 +5142,7 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "PurchaseFilter",
-          "description": null,
+          "description": "Available fields to filter purchases.",
           "fields": null,
           "inputFields": [
             {
@@ -5391,7 +5403,7 @@
             },
             {
               "name": "userId",
-              "description": "Exact match",
+              "description": "Filters purchases by user ID.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5526,15 +5538,15 @@
         {
           "kind": "OBJECT",
           "name": "Mutation",
-          "description": null,
+          "description": "Alter the nodes\n\n    Some mutations require authentication and/or permissions, please send the authorization token through the request headers.",
           "fields": [
             {
               "name": "createApp",
-              "description": "Create a new App resource",
+              "description": "Create a new app.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The App object to create",
+                  "description": "The app object to create.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5557,11 +5569,11 @@
             },
             {
               "name": "createDevice",
-              "description": "Create a new Device resource. Requires authentication",
+              "description": "Create a new device. Requires authentication.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The Device object to create",
+                  "description": "The device object to create.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5584,11 +5596,11 @@
             },
             {
               "name": "updateDevice",
-              "description": "Update an Device resource. Requires authentication and permissions",
+              "description": "Update a device. Requires authentication and permissions.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The Device object to update",
+                  "description": "The device object to update.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5611,11 +5623,11 @@
             },
             {
               "name": "processMembership",
-              "description": "Process a membership purchase. Requires authentication and permissions",
+              "description": "Process a membership purchase. Requires authentication and permissions.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The input with the membership purchase information",
+                  "description": "The input with the membership purchase information.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5638,11 +5650,11 @@
             },
             {
               "name": "processPacks",
-              "description": "Process a Pack resource. Requires authentication",
+              "description": "Process labels pack to storage it. Requires authentication.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The input to process",
+                  "description": "The input with the labels packs set to process.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5665,11 +5677,11 @@
             },
             {
               "name": "downloadPack",
-              "description": "Request Pack download. Requires authentication",
+              "description": "Request a labels pack download. Requires authentication.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The input with the download options",
+                  "description": "The input with the download options.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5692,11 +5704,11 @@
             },
             {
               "name": "downloadBackup",
-              "description": "Request User backup download. Requires authentication",
+              "description": "Request an user backup download. Requires authentication.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The input with the download options",
+                  "description": "The input with the download options.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5719,11 +5731,11 @@
             },
             {
               "name": "launchSli",
-              "description": "Request SLI to generate a custom Pack. Requires authentication",
+              "description": "Launch SLI to generate a custom labels pack. Requires authentication.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The input with the SLI options",
+                  "description": "The input with the SLI options.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5746,11 +5758,11 @@
             },
             {
               "name": "createRating",
-              "description": "Create a new Rating resource. Requires authentication",
+              "description": "Create a new rating. Requires authentication.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The Rating object to create",
+                  "description": "The rating object to create.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5773,11 +5785,11 @@
             },
             {
               "name": "updateRating",
-              "description": "Update a Rating resource. Requires authentication and permissions",
+              "description": "Update a rating. Requires authentication and permissions.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The Rating object to update",
+                  "description": "The rating object to update.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5800,11 +5812,11 @@
             },
             {
               "name": "createUser",
-              "description": "Create a new User resource",
+              "description": "Create a new user.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The User object to create",
+                  "description": "The user object to create.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5827,11 +5839,11 @@
             },
             {
               "name": "updateUser",
-              "description": "Update an User resource. Requires authentication and permissions",
+              "description": "Update an user. Requires authentication and permissions.",
               "args": [
                 {
                   "name": "input",
-                  "description": "The User object to update",
+                  "description": "The user object to update.",
                   "type": {
                     "kind": "NON_NULL",
                     "name": null,
@@ -5861,11 +5873,11 @@
         {
           "kind": "OBJECT",
           "name": "CreateApp",
-          "description": null,
+          "description": "Create a new app. Requires authentication",
           "fields": [
             {
               "name": "app",
-              "description": "The final created App",
+              "description": "The final created app.",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -5884,12 +5896,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "CreateAppInput",
-          "description": null,
+          "description": "Input to create a new app.",
           "fields": null,
           "inputFields": [
             {
               "name": "packageName",
-              "description": "The package name of the App",
+              "description": "The package name of the app.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -5903,7 +5915,7 @@
             },
             {
               "name": "packageLabel",
-              "description": "The public name of the App in Play Store or in the APK manifest",
+              "description": "The public name of the app in Play Store or in the APK manifest.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -5923,11 +5935,11 @@
         {
           "kind": "OBJECT",
           "name": "CreateDevice",
-          "description": null,
+          "description": "Create a new device and associate it with an user,\nthe user is taken from the authentication token. Requires authentication",
           "fields": [
             {
               "name": "device",
-              "description": "The final created Device",
+              "description": "The final created device.",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -5946,12 +5958,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "CreateDeviceInput",
-          "description": null,
+          "description": "Input to create a new device.",
           "fields": null,
           "inputFields": [
             {
               "name": "hardwareFingerprint",
-              "description": "The ID or fingerprint of the hardware for this Device",
+              "description": "The ID or fingerprint of the hardware for this device.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -5965,7 +5977,7 @@
             },
             {
               "name": "gcmToken",
-              "description": "The token for the Google Cloud Message associated with this Device",
+              "description": "The token for the Google Cloud Message associated with this device.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -5975,7 +5987,7 @@
             },
             {
               "name": "name",
-              "description": "The name of this Device",
+              "description": "The name of this device.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -5989,7 +6001,7 @@
             },
             {
               "name": "language",
-              "description": "The language code of this Device",
+              "description": "The language code of this device.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6003,7 +6015,7 @@
             },
             {
               "name": "country",
-              "description": "The country code of this Device",
+              "description": "The country code of this device.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6023,11 +6035,11 @@
         {
           "kind": "OBJECT",
           "name": "UpdateDevice",
-          "description": null,
+          "description": "Update a device, must be associated with the authenticated user from the authorization header.\nRequires authentication and permissions",
           "fields": [
             {
               "name": "device",
-              "description": "The Device object with the new values",
+              "description": "The device object with the new values.",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -6046,12 +6058,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "UpdateDeviceInput",
-          "description": null,
+          "description": "Input to update an existing device.",
           "fields": null,
           "inputFields": [
             {
               "name": "id",
-              "description": "The unique identifier of the Device object to update",
+              "description": "The unique identifier of the device object to update.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6065,7 +6077,7 @@
             },
             {
               "name": "gcmToken",
-              "description": "The token for the Google Cloud Message associated with this Device",
+              "description": "The token for the Google Cloud Message associated with this device.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -6075,7 +6087,7 @@
             },
             {
               "name": "name",
-              "description": "The name of this Device",
+              "description": "The name of this device.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -6085,7 +6097,7 @@
             },
             {
               "name": "language",
-              "description": "The language code of this Device",
+              "description": "The language code of this device.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -6095,7 +6107,7 @@
             },
             {
               "name": "country",
-              "description": "The country code of this Device",
+              "description": "The country code of this device.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -6111,11 +6123,11 @@
         {
           "kind": "OBJECT",
           "name": "ProcessMembership",
-          "description": null,
+          "description": "Process a membership receipt provided by the billing source and associate it with an user,\nthe user is taken from the authorization header. Requires authentication",
           "fields": [
             {
               "name": "membership",
-              "description": "The final Membership created after process the purchase",
+              "description": "The final membership created after process the purchase.",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -6134,12 +6146,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "ProcessMembershipInput",
-          "description": null,
+          "description": "Input to process a membership.",
           "fields": null,
           "inputFields": [
             {
               "name": "receipt",
-              "description": "The receipt JSON to process the purchase",
+              "description": "The JSON receipt to process the purchase.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6169,11 +6181,11 @@
         {
           "kind": "OBJECT",
           "name": "ProcessPacks",
-          "description": null,
+          "description": "Process and storage the given labels packs set,\nthe packs will be associated with the authenticated user from the authorization header. Requires authentication",
           "fields": [
             {
               "name": "packs",
-              "description": "The list of generated or updated packs for the request",
+              "description": "The list of generated or updated packs for the request.",
               "args": [],
               "type": {
                 "kind": "LIST",
@@ -6189,7 +6201,7 @@
             },
             {
               "name": "createdOrUpdated",
-              "description": "The number of created or updated packs",
+              "description": "The number of created or updated packs.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -6205,7 +6217,7 @@
             },
             {
               "name": "skipedOrDuplicated",
-              "description": "The number of skiped or duplicated packs",
+              "description": "The number of skiped or duplicated packs.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -6221,7 +6233,7 @@
             },
             {
               "name": "withErrors",
-              "description": "The number of packs with errors, these packs do not created or updated",
+              "description": "The number of packs with errors, these packs do not created or updated.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -6244,12 +6256,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "ProcessPacksInput",
-          "description": null,
+          "description": "Input to process a set of labels packs.",
           "fields": null,
           "inputFields": [
             {
               "name": "labels",
-              "description": "The labels to process",
+              "description": "The labels to process.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6273,12 +6285,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "LabelInput",
-          "description": null,
+          "description": "Input to create a new label for a pack.",
           "fields": null,
           "inputFields": [
             {
               "name": "createdAt",
-              "description": "The first creation datetime of this resource",
+              "description": "The first creation datetime of this resource.",
               "type": {
                 "kind": "SCALAR",
                 "name": "DateTime",
@@ -6298,7 +6310,7 @@
             },
             {
               "name": "packageName",
-              "description": "The package name of the app for this Label",
+              "description": "The package name of the app for this label.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6312,7 +6324,7 @@
             },
             {
               "name": "packageVersion",
-              "description": "The app version for this Label",
+              "description": "The app version for this label.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6326,7 +6338,7 @@
             },
             {
               "name": "packageSignature",
-              "description": "The app signature for this Label",
+              "description": "The app signature for this label.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6340,7 +6352,7 @@
             },
             {
               "name": "viewName",
-              "description": "The ID of the view component of this Label",
+              "description": "The ID of the view component for this label.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6354,7 +6366,7 @@
             },
             {
               "name": "labelText",
-              "description": "The label for the view component",
+              "description": "The label for the view component.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6368,7 +6380,7 @@
             },
             {
               "name": "language",
-              "description": "The language of this Label",
+              "description": "The language of this label.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6388,11 +6400,11 @@
         {
           "kind": "OBJECT",
           "name": "DownloadPack",
-          "description": null,
+          "description": "Request a labels pack download. Requires authentication.",
           "fields": [
             {
               "name": "pack",
-              "description": "The Pack for this Installable Pack",
+              "description": "The Pack for this Installable labels pack.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -6408,7 +6420,7 @@
             },
             {
               "name": "targetScreenreader",
-              "description": null,
+              "description": "The supported screen reader to generate the installable labels pack.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -6424,7 +6436,7 @@
             },
             {
               "name": "translateTo",
-              "description": "The target language of the translation if is required using 2 characters format",
+              "description": "The target language of the translation if is required using 2 characters format.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -6436,7 +6448,7 @@
             },
             {
               "name": "installablePack",
-              "description": "The installable pack that you request",
+              "description": "The installable labels pack that you request.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -6455,7 +6467,7 @@
         {
           "kind": "ENUM",
           "name": "SupportedScreenreadersEnum",
-          "description": null,
+          "description": "Supported screen readers to process and generate the labels packs",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -6472,12 +6484,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "DownloadPackInput",
-          "description": null,
+          "description": "Input to request a labels pack download.",
           "fields": null,
           "inputFields": [
             {
               "name": "packId",
-              "description": "The unique identifier of the Pack",
+              "description": "The unique identifier of the pack.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6491,7 +6503,7 @@
             },
             {
               "name": "targetScreenreader",
-              "description": null,
+              "description": "The supported screen reader to generate the pack.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6505,7 +6517,7 @@
             },
             {
               "name": "translateTo",
-              "description": "The target language of the translation if is required using 2 characters format",
+              "description": "The target language of the translation if is required using 2 characters format.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -6521,27 +6533,11 @@
         {
           "kind": "OBJECT",
           "name": "DownloadBackup",
-          "description": null,
+          "description": "Request a user backup download. Requires authentication.",
           "fields": [
             {
-              "name": "user",
-              "description": "The User owner of this Installable backup",
-              "args": [],
-              "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "User",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "targetScreenreader",
-              "description": null,
+              "description": "The supported screen reader to generate the labels pack.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -6557,7 +6553,7 @@
             },
             {
               "name": "installablePack",
-              "description": "The installable backup that you request",
+              "description": "The installable packs backup that you request.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -6576,12 +6572,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "DownloadBackupInput",
-          "description": null,
+          "description": "Input to request a labels backup download.",
           "fields": null,
           "inputFields": [
             {
               "name": "targetScreenreader",
-              "description": null,
+              "description": "The supported screen reader to generate the backup pack.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6601,11 +6597,11 @@
         {
           "kind": "OBJECT",
           "name": "LaunchSli",
-          "description": null,
+          "description": "Launch the SLI to generate a custom labels pack for all the given apps. Requires authentication.",
           "fields": [
             {
               "name": "targetScreenreader",
-              "description": null,
+              "description": "The supported screen reader to generate the custom labels pack.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -6621,7 +6617,7 @@
             },
             {
               "name": "targetLanguage",
-              "description": "The language code of the labels using 2 characters format",
+              "description": "The language code of the labels using 2 characters format.",
               "args": [],
               "type": {
                 "kind": "NON_NULL",
@@ -6637,7 +6633,7 @@
             },
             {
               "name": "installablePack",
-              "description": "The installable pack that you request",
+              "description": "The installable custom labels pack that you request.",
               "args": [],
               "type": {
                 "kind": "SCALAR",
@@ -6656,12 +6652,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "LaunchSliInput",
-          "description": null,
+          "description": "Input to launch the SLI.",
           "fields": null,
           "inputFields": [
             {
               "name": "packageNames",
-              "description": "The list of package name of the apps to the SLI",
+              "description": "The list of package name of the apps to the SLI.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6679,7 +6675,7 @@
             },
             {
               "name": "targetScreenreader",
-              "description": "The screenreader target to create the Pack",
+              "description": "The supported screen reader to generate the custom pack.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6693,7 +6689,7 @@
             },
             {
               "name": "preferMyLabels",
-              "description": "If you prefer your labels over other labels",
+              "description": "If you prefer your labels over other labels.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6707,7 +6703,7 @@
             },
             {
               "name": "targetLanguage",
-              "description": "The language code to filter labels using 2 characters format",
+              "description": "The language code to filter labels using 2 characters format.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6721,7 +6717,7 @@
             },
             {
               "name": "requiresTranslation",
-              "description": "If requires the labels translation",
+              "description": "If requires the labels translation.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6741,11 +6737,11 @@
         {
           "kind": "OBJECT",
           "name": "CreateRating",
-          "description": null,
+          "description": "Create a new rating and associate it with an user and an app\n\nThe user is taken from the authentication header and the app must be indicated into the input object.\nRequires authentication",
           "fields": [
             {
               "name": "rating",
-              "description": "The final created Rating",
+              "description": "The final created rating.",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -6764,12 +6760,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "CreateRatingInput",
-          "description": null,
+          "description": "Input to create a new rating.",
           "fields": null,
           "inputFields": [
             {
               "name": "appId",
-              "description": "The unique identifier of the App associated with this Rating",
+              "description": "The unique identifier of the app associated with this rating.",
               "type": {
                 "kind": "SCALAR",
                 "name": "ID",
@@ -6779,7 +6775,7 @@
             },
             {
               "name": "appPackageName",
-              "description": "The package name of the App associated with this Rating",
+              "description": "The package name of the app associated with this rating.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -6789,7 +6785,7 @@
             },
             {
               "name": "appPackageLabel",
-              "description": "The package label for the App associated with this Rating",
+              "description": "The package label for the app associated with this rating.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -6799,7 +6795,7 @@
             },
             {
               "name": "ui",
-              "description": "The UI rating for this App",
+              "description": "The UI rating for this app.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6813,7 +6809,7 @@
             },
             {
               "name": "screenreaders",
-              "description": "The screen readers compatibility rating for this App",
+              "description": "The screen readers compatibility rating for this app.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6827,7 +6823,7 @@
             },
             {
               "name": "labels",
-              "description": "The quality of the labels for this App",
+              "description": "The quality of the labels for this app.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6841,7 +6837,7 @@
             },
             {
               "name": "functions",
-              "description": "The accessibility rating of the functions in this App",
+              "description": "The accessibility rating of the functions in this app.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6855,7 +6851,7 @@
             },
             {
               "name": "performance",
-              "description": "The performance rating for this App when an accessibility service is enabled",
+              "description": "The performance quality for this app when an accessibility service is enabled.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6869,7 +6865,7 @@
             },
             {
               "name": "comment",
-              "description": "The comment about the App of this Rating",
+              "description": "The comment about the App of this rating.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -6879,7 +6875,7 @@
             },
             {
               "name": "commentLanguage",
-              "description": "The language of the comment attatched to this Rating",
+              "description": "The language of the comment attatched to this rating.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6899,11 +6895,11 @@
         {
           "kind": "OBJECT",
           "name": "UpdateRating",
-          "description": null,
+          "description": "Update a rating\n\nThe user is taken from the authentication header and the given rating must be associated with this user.\nRequires authentication and permissions.",
           "fields": [
             {
               "name": "rating",
-              "description": "The new Rating object",
+              "description": "The rating object with the new values.",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -6922,12 +6918,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "UpdateRatingInput",
-          "description": null,
+          "description": "Input to update an existing rating.",
           "fields": null,
           "inputFields": [
             {
               "name": "id",
-              "description": "The unique identifier of this Rating",
+              "description": "The unique identifier of this rating.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -6941,7 +6937,7 @@
             },
             {
               "name": "ui",
-              "description": "The UI rating for this App",
+              "description": "The UI rating for this app.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -6951,7 +6947,7 @@
             },
             {
               "name": "screenreaders",
-              "description": "The screen readers compatibility rating for this App",
+              "description": "The screen readers compatibility rating for this app.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -6961,7 +6957,7 @@
             },
             {
               "name": "labels",
-              "description": "The quality of the labels for this App",
+              "description": "The quality of the labels for this app.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -6971,7 +6967,7 @@
             },
             {
               "name": "functions",
-              "description": "The accessibility rating of the functions in this App",
+              "description": "The accessibility rating of the functions in this app.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -6981,7 +6977,7 @@
             },
             {
               "name": "performance",
-              "description": "The performance rating for this App when an accessibility service is enabled",
+              "description": "The performance rating for this app when an accessibility service is enabled.",
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
@@ -6991,7 +6987,7 @@
             },
             {
               "name": "comment",
-              "description": "The comment about the App of this Rating",
+              "description": "The comment about the App of this rating.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -7001,7 +6997,7 @@
             },
             {
               "name": "commentLanguage",
-              "description": "The language of the comment attatched to this Rating",
+              "description": "The language of the comment attatched to this rating.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -7017,11 +7013,11 @@
         {
           "kind": "OBJECT",
           "name": "CreateUser",
-          "description": null,
+          "description": "Create a new user. Requires authentication.",
           "fields": [
             {
               "name": "user",
-              "description": "The final created User",
+              "description": "The final created user.",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -7040,12 +7036,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "CreateUserInput",
-          "description": null,
+          "description": "Input to create a new user.",
           "fields": null,
           "inputFields": [
             {
               "name": "sub",
-              "description": "The User sub ID to authenticate in external service",
+              "description": "The unique identifier of the user from the authenticate service.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -7059,7 +7055,7 @@
             },
             {
               "name": "email",
-              "description": "The email of the User",
+              "description": "The email of the user.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -7073,7 +7069,7 @@
             },
             {
               "name": "name",
-              "description": "The name of the user taken from the external authentication service",
+              "description": "The name of the user.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -7087,7 +7083,7 @@
             },
             {
               "name": "picture",
-              "description": "The picture URL of the User taken from the external authentication service",
+              "description": "The picture URL of the user.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -7103,11 +7099,11 @@
         {
           "kind": "OBJECT",
           "name": "UpdateUser",
-          "description": null,
+          "description": "Update the user, the authenticated user from the authentication header must be the same. Requires authentication.",
           "fields": [
             {
               "name": "user",
-              "description": "The User object with the new values",
+              "description": "The user object with the new values.",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -7126,12 +7122,12 @@
         {
           "kind": "INPUT_OBJECT",
           "name": "UpdateUserInput",
-          "description": null,
+          "description": "Input to update an existing user.",
           "fields": null,
           "inputFields": [
             {
               "name": "id",
-              "description": "The unique identifier of the User",
+              "description": "The unique identifier of the user.",
               "type": {
                 "kind": "NON_NULL",
                 "name": null,
@@ -7145,7 +7141,7 @@
             },
             {
               "name": "name",
-              "description": "The name of the user taken from the external authentication service",
+              "description": "The name of the user.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
@@ -7155,7 +7151,7 @@
             },
             {
               "name": "picture",
-              "description": "The picture URL of the User taken from the external authentication service",
+              "description": "The picture URL of the user.",
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
