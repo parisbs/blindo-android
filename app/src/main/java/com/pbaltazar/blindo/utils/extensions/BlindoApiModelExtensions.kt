@@ -401,3 +401,142 @@ fun CreateRatingMutation.Rating.toApiModel(): Rating = Rating(
         targetScreenreaders = targetScreenreader,
         installable = installablePack ?: JSONObject()
     )
+
+fun GetPublicUserQuery.GetPublicUser.toApiModel(id: String): User = User(
+    id = id,
+    name = name,
+    picture = picture,
+    numberOfPacks = numberOfPacks,
+    numberOfRatings = numberOfRatings
+).let { user ->
+    user.copy(
+        packs = packs?.toApiModel(user),
+        ratings = ratings?.toApiModel(user)
+    )
+}
+
+fun GetPublicUserQuery.Packs.toApiModel(user: User): PackConnection = PackConnection(
+    packs = edges.mapNotNull { it?.node?.toApiModel(user) },
+    hasNextPage = pageInfo.hasNextPage,
+    nextPageToken = pageInfo.endCursor
+)
+
+fun GetPublicUserQuery.Node.toApiModel(user: User): Pack = Pack(
+    id = id,
+    numberOfLabels = numberOfLabels,
+    downloads = downloads,
+    language = language,
+    hash = hash,
+    user = user,
+    app = app?.toApiModel(),
+    createdAt = createdAt,
+    updatedAt = updatedAt
+)
+
+fun GetPublicUserQuery.App.toApiModel(): App = App(
+    id = id,
+    packageName = packageName,
+    packageIcon = packageIcon,
+    packageLabel = packageLabel,
+    category = category
+)
+
+fun GetPublicUserQuery.Ratings.toApiModel(user: User): RatingConnection = RatingConnection(
+    ratings = edges.mapNotNull { it?.node?.toApiModel(user) },
+    hasNextPage = pageInfo.hasNextPage,
+    nextPageToken = pageInfo.endCursor
+)
+
+fun GetPublicUserQuery.Node1.toApiModel(user: User): Rating = Rating(
+    id = id,
+    screenreaders = screenreaders,
+    labels = labels,
+    functions = functions,
+    performance = performance,
+    comment = comment,
+    commentLanguage = commentLanguage,
+    user = user,
+    app = app?.toApiModel(),
+    createdAt = createdAt,
+    updatedAt = updatedAt
+)
+
+fun GetPublicUserQuery.App1.toApiModel(): App = App(
+    id = id,
+    packageName = packageName,
+    packageIcon = packageIcon,
+    packageLabel = packageLabel,
+    category = category
+)
+
+fun GetPublicUserPacksQuery.GetPublicUser.toApiModel(id: String): User = User(
+    id = id,
+    numberOfPacks = numberOfPacks
+).let { user ->
+    user.copy(
+        packs = packs?.toApiModel(user)
+    )
+}
+
+fun GetPublicUserPacksQuery.Packs.toApiModel(user: User): PackConnection = PackConnection(
+    packs = edges.mapNotNull { it?.node?.toApiModel(user) },
+    hasNextPage = pageInfo.hasNextPage,
+    nextPageToken = pageInfo.endCursor
+)
+
+fun GetPublicUserPacksQuery.Node.toApiModel(user: User): Pack = Pack(
+    id = id,
+    numberOfLabels = numberOfLabels,
+    downloads = downloads,
+    language = language,
+    hash = hash,
+    user = user,
+    app = app?.toApiModel(),
+    createdAt = createdAt,
+    updatedAt = updatedAt
+)
+
+fun GetPublicUserPacksQuery.App.toApiModel(): App = App(
+    id = id,
+    packageName = packageName,
+    packageIcon = packageIcon,
+    packageLabel = packageLabel,
+    category = category
+)
+
+fun GetPublicUserRatingsQuery.GetPublicUser.toApiModel(id: String): User = User(
+    id = id,
+    numberOfRatings = numberOfRatings,
+).let { user ->
+    user.copy(
+        ratings = ratings?.toApiModel(user)
+    )
+}
+
+fun GetPublicUserRatingsQuery.Ratings.toApiModel(user: User): RatingConnection = RatingConnection(
+    ratings = edges.mapNotNull { it?.node?.toApiModel(user) },
+    hasNextPage = pageInfo.hasNextPage,
+    nextPageToken = pageInfo.endCursor
+)
+
+fun GetPublicUserRatingsQuery.Node.toApiModel(user: User): Rating = Rating(
+    id = id,
+    screenreaders = screenreaders,
+    labels = labels,
+    functions = functions,
+    performance = performance,
+    comment = comment,
+    commentLanguage = commentLanguage,
+    user = user,
+    app = app?.toApiModel(),
+    createdAt = createdAt,
+    updatedAt = updatedAt
+)
+
+fun GetPublicUserRatingsQuery.App.toApiModel(): App = App(
+    id = id,
+    packageName = packageName,
+    packageIcon = packageIcon,
+    packageLabel = packageLabel,
+    category = category
+)

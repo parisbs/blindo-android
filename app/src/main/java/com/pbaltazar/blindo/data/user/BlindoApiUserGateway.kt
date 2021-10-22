@@ -5,13 +5,16 @@ import com.apollographql.apollo.api.cache.http.HttpCachePolicy
 import com.pbaltazar.blindo.data.ApiHelpers
 import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.entities.errors.ApiException
+import com.pbaltazar.blindo.entities.inputs.UserInput
 import com.pbaltazar.blindo.entities.responses.ApiResponse
-import com.pbaltazar.blindo.graphql.CreateUserMutation
-import com.pbaltazar.blindo.graphql.GetUserQuery
-import com.pbaltazar.blindo.graphql.UpdateUserMutation
+import com.pbaltazar.blindo.graphql.*
 import com.pbaltazar.blindo.graphql.type.CreateUserInput
+import com.pbaltazar.blindo.graphql.type.PackSortEnum
+import com.pbaltazar.blindo.graphql.type.RatingSortEnum
 import com.pbaltazar.blindo.graphql.type.UpdateUserInput
 import com.pbaltazar.blindo.utils.extensions.toApiModel
+import com.pbaltazar.blindo.utils.extensions.toGraphQLFilter
+import com.pbaltazar.blindo.utils.extensions.toGraphQlFilter
 import com.wizeline.simpleapollo.api.SimpleApolloClient
 import com.wizeline.simpleapollo.models.Response
 
@@ -30,6 +33,68 @@ class BlindoApiUserGateway(
             when (response) {
                 is Response.Success -> response.data.getUser?.let { user ->
                     ApiResponse.Success(user.toApiModel())
+                } ?: ApiResponse.Error(ApiException.EmptyResponse)
+                is Response.Failure -> processErrors(response.error)
+            }
+        }
+
+    override suspend fun getPublicUser(userInput: UserInput): ApiResponse<User> =
+        blindoApiClient.query(
+            GetPublicUserQuery(
+                id = userInput.id,
+                packsFilters = Input.optional(userInput.packInput.filters?.toGraphQlFilter()),
+                packsSort = userInput.packInput.sort.mapNotNull { PackSortEnum.valueOf(it.name) },
+                packsFirst = userInput.packInput.pageSize,
+                ratingsFilters = Input.optional(userInput.ratingInput.filters?.toGraphQLFilter()),
+                ratingsSort = userInput.ratingInput.sort.mapNotNull { RatingSortEnum.valueOf(it.name) },
+                ratingsFirst = userInput.ratingInput.pageSize
+            )
+        ).let { response ->
+            when (response) {
+                is Response.Success -> response.data.getPublicUser?.let { user ->
+                    ApiResponse.Success(
+                        data = user.toApiModel(userInput.id)
+                    )
+                } ?: ApiResponse.Error(ApiException.EmptyResponse)
+                is Response.Failure -> processErrors(response.error)
+            }
+        }
+
+    override suspend fun getPublicUserPacks(userInput: UserInput): ApiResponse<User> =
+        blindoApiClient.query(
+            GetPublicUserPacksQuery(
+                userId = userInput.id,
+                packsFilters = Input.optional(userInput.packInput.filters?.toGraphQlFilter()),
+                packsSort = userInput.packInput.sort.mapNotNull { PackSortEnum.valueOf(it.name) },
+                packsFirst = userInput.packInput.pageSize,
+                packsAfter = Input.optional(userInput.packInput.nextPageToken)
+            )
+        ).let { response ->
+            when (response) {
+                is Response.Success -> response.data.getPublicUser?.let { user ->
+                    ApiResponse.Success(
+                        data = user.toApiModel(userInput.id)
+                    )
+                } ?: ApiResponse.Error(ApiException.EmptyResponse)
+                is Response.Failure -> processErrors(response.error)
+            }
+        }
+
+    override suspend fun getPublicUserRatings(userInput: UserInput): ApiResponse<User> =
+        blindoApiClient.query(
+            GetPublicUserRatingsQuery(
+                userId = userInput.id,
+                ratingsFilters = Input.optional(userInput.ratingInput.filters?.toGraphQLFilter()),
+                ratingsSort = userInput.ratingInput.sort.mapNotNull { RatingSortEnum.valueOf(it.name) },
+                ratingsFirst = userInput.ratingInput.pageSize,
+                ratingsAfter = Input.optional(userInput.ratingInput.nextPageToken)
+            )
+        ).let { response ->
+            when (response) {
+                is Response.Success -> response.data.getPublicUser?.let { user ->
+                    ApiResponse.Success(
+                        data = user.toApiModel(userInput.id)
+                    )
                 } ?: ApiResponse.Error(ApiException.EmptyResponse)
                 is Response.Failure -> processErrors(response.error)
             }

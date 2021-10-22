@@ -7,10 +7,12 @@ import com.apollographql.apollo.api.Input
 import com.google.firebase.perf.metrics.AddTrace
 import com.pbaltazar.blindo.entities.*
 import com.pbaltazar.blindo.entities.filters.AppFilters
+import com.pbaltazar.blindo.entities.filters.PackFilters
 import com.pbaltazar.blindo.entities.filters.RatingFilters
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.entities.filters.common.IntRange
 import com.pbaltazar.blindo.graphql.type.AppFilter
+import com.pbaltazar.blindo.graphql.type.PackFilter
 import com.pbaltazar.blindo.graphql.type.RatingFilter
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.constants.DOWNLOADS_DIR
@@ -140,6 +142,10 @@ fun FloatRange.toIntRange(): IntRange = IntRange(
 fun IntRange.toFloatRange(): FloatRange = FloatRange(
     begin = begin.toFloat(),
     end = end.toFloat()
+)
+
+fun PackFilters.toGraphQlFilter(): PackFilter = PackFilter(
+    languageIn = Input.optional(languageIn)
 )
 
 fun RatingFilters.toGraphQLFilter(): RatingFilter = RatingFilter(

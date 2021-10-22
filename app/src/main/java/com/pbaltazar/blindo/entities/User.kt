@@ -3,6 +3,8 @@ package com.pbaltazar.blindo.entities
 import android.os.Parcel
 import android.os.Parcelable
 import android.text.TextUtils
+import com.pbaltazar.blindo.entities.connections.PackConnection
+import com.pbaltazar.blindo.entities.connections.RatingConnection
 
 data class User(
     val id: String = "",
@@ -11,7 +13,11 @@ data class User(
     val name: String = "",
     val picture: String? = null,
     val isVerified: Boolean = false,
-    val isPremium: Boolean = false
+    val isPremium: Boolean = false,
+    val numberOfPacks: String = "0",
+    val numberOfRatings: String = "0",
+    val packs: PackConnection? = null,
+    val ratings: RatingConnection? = null
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -21,7 +27,11 @@ data class User(
         parcel.readString() ?: "",
         parcel.readString(),
         parcel.readByte() != 0.toByte(),
-        parcel.readByte() != 0.toByte()
+        parcel.readByte() != 0.toByte(),
+        parcel.readString() ?: "0",
+        parcel.readString() ?: "0",
+        parcel.readParcelable(PackConnection::class.java.classLoader),
+        parcel.readParcelable(RatingConnection::class.java.classLoader)
     ) {
     }
 
@@ -33,6 +43,10 @@ data class User(
         parcel.writeString(picture)
         parcel.writeByte(if (isVerified) 1 else 0)
         parcel.writeByte(if (isPremium) 1 else 0)
+        parcel.writeString(numberOfPacks)
+        parcel.writeString(numberOfRatings)
+        parcel.writeParcelable(packs, flags)
+        parcel.writeParcelable(ratings, flags)
     }
 
     override fun describeContents(): Int = 0

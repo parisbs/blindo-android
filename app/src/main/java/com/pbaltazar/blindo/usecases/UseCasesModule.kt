@@ -27,6 +27,9 @@ val useCasesModule = module {
     factory { QueryGetAppRatingsByPackageName(get()) }
     factory { QueryGetDevice(get()) }
     factory { QueryGetMembership(get()) }
+    factory { QueryGetPublicUser(get()) }
+    factory { QueryGetPublicUserPacks(get()) }
+    factory { QueryGetPublicUserRatings(get()) }
     factory { QueryGetUser(get()) }
     factory { QueryListApps(get()) }
     factory { QueryListPacks(get()) }

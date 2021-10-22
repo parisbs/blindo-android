@@ -7,6 +7,174 @@ query GetUser($sub: String!) {
   }
 }
 
+query AuthenticateUser {
+  authenticateUser {
+    id
+    name
+    picture
+    isPremium
+  }
+}
+
+query GetPublicUser(
+  $id: ID!,
+  $packsFilters: PackFilter,
+  $packsSort: [PackSortEnum]!,
+  $packsFirst: Int!,
+  $ratingsFilters: RatingFilter,
+  $ratingsSort: [RatingSortEnum]!,
+  $ratingsFirst: Int!
+) {
+  getPublicUser(id: $id) {
+    name
+    picture
+    numberOfPacks
+    numberOfRatings
+    packs(
+      filters: $packsFilters,
+      sort: $packsSort,
+      first: $packsFirst
+    ) {
+      edges {
+        node {
+          id
+          numberOfLabels
+          downloads
+          language
+          hash
+          app {
+            id
+            packageName
+            packageIcon
+            packageLabel
+            category
+          }
+          createdAt
+          updatedAt
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+    ratings(
+      filters: $ratingsFilters,
+      sort: $ratingsSort,
+      first: $ratingsFirst
+    ) {
+      edges {
+        node {
+          id
+          screenreaders
+          labels
+          functions
+          performance
+          comment
+          commentLanguage
+          app {
+            id
+            packageName
+            packageIcon
+            packageLabel
+            category
+          }
+          createdAt
+          updatedAt
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
+query GetPublicUserPacks(
+  $userId: ID!,
+  $packsFilters: PackFilter,
+  $packsSort: [PackSortEnum]!,
+  $packsFirst: Int!,
+  $packsAfter: String
+) {
+  getPublicUser(id: $userId) {
+    numberOfPacks
+    packs(
+      filters: $packsFilters,
+      sort: $packsSort,
+      first: $packsFirst,
+      after: $packsAfter
+    ) {
+      edges {
+        node {
+          id
+          numberOfLabels
+          downloads
+          language
+          hash
+          app {
+            id
+            packageName
+            packageIcon
+            packageLabel
+            category
+          }
+          createdAt
+          updatedAt
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
+query GetPublicUserRatings(
+  $userId: ID!,
+  $ratingsFilters: RatingFilter,
+  $ratingsSort: [RatingSortEnum]!,
+  $ratingsFirst: Int!,
+  $ratingsAfter: String
+) {
+  getPublicUser(id: $userId) {
+    numberOfRatings
+    ratings(
+      filters: $ratingsFilters,
+      sort: $ratingsSort,
+      first: $ratingsFirst,
+      after: $ratingsAfter
+    ) {
+      edges {
+        node {
+          id
+          screenreaders
+          labels
+          functions
+          performance
+          comment
+          commentLanguage
+          app {
+            id
+            packageName
+            packageIcon
+            packageLabel
+            category
+          }
+          createdAt
+          updatedAt
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+}
+
 mutation CreateUser(
   $input: CreateUserInput!
 ) {
