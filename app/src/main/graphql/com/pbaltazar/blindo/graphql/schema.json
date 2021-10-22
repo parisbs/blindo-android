@@ -1488,7 +1488,7 @@
         {
           "kind": "OBJECT",
           "name": "User",
-          "description": "A user registered on Blindo\n\nThe user has some private info that only can be accessed if the authenticated user request it,\nthe public info can be accessed on any query with read-only permission.",
+          "description": "An user registered on Blindo\n\nThe user has some private info that only can be accessed if the authenticated user request it,\nthe public info can be accessed on any query with read-only permission.",
           "fields": [
             {
               "name": "id",
@@ -1604,6 +1604,54 @@
                 "ofType": {
                   "kind": "SCALAR",
                   "name": "Boolean",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "numberOfDevices",
+              "description": "The number of registered devices of this user. Requires permission.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Int",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "numberOfPacks",
+              "description": "The number of labels packs uploaded by this user.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "numberOfRatings",
+              "description": "The number of ratings posted by this user.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
                   "ofType": null
                 }
               },
