@@ -10,11 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.R
-import com.pbaltazar.blindo.databinding.FragmentUserProfileBinding
+import com.pbaltazar.blindo.databinding.FragmentMyProfileBinding
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 
-class UserProfileFragment : AuthenticableFragment<FragmentUserProfileBinding>() {
+class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
 
     private lateinit var userCrown: ImageView
     private lateinit var userName: EditText
@@ -54,7 +54,7 @@ class UserProfileFragment : AuthenticableFragment<FragmentUserProfileBinding>() 
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentUserProfileBinding.inflate(inflater, container, false)
+        binding = FragmentMyProfileBinding.inflate(inflater, container, false)
         userCrown = binding!!.userCrown
         userName = binding!!.userName
         emailLabel = binding!!.emailLabel

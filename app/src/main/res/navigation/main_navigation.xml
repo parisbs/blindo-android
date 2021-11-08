@@ -99,10 +99,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navUserProfile"
-        android:name="com.pbaltazar.blindo.ui.user.profile.UserProfileFragment"
+        android:id="@+id/navMyProfile"
+        android:name="com.pbaltazar.blindo.ui.user.profile.MyProfileFragment"
         android:label="@string/profile__title"
-        tools:layout="@layout/fragment_user_profile">
+        tools:layout="@layout/fragment_my_profile">
     </fragment>
 
     <fragment
@@ -425,8 +425,8 @@
         app:exitAnim="@anim/slide_out_right" />
 
     <action
-        android:id="@+id/actionGlobalToUserProfile"
-        app:destination="@id/navUserProfile"
+        android:id="@+id/actionGlobalToMyProfile"
+        app:destination="@id/navMyProfile"
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right"

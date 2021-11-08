@@ -206,7 +206,7 @@ class BlindoActivity : AuthenticableActivity() {
             headerUserProfile.apply {
                 setOnClickListener {
                     navController.navigate(
-                        MainNavigationDirections.actionGlobalToUserProfile()
+                        MainNavigationDirections.actionGlobalToMyProfile()
                     )
                 }
                 visibility = View.VISIBLE
@@ -312,7 +312,7 @@ class BlindoActivity : AuthenticableActivity() {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
                 supportActionBar?.subtitle = null
             }
-            R.id.navUserProfile -> drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+            R.id.navMyProfile -> drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         }
     }
 
