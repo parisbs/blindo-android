@@ -1,7 +1,7 @@
 -keep class java.util.Date
 -keep class org.json.JSONObject
 -keep class com.pbaltazar.blindo.graphql.** { *; }
--keep class com.blindoapp.blindoapi.** { *; }
+-keep class com.pbaltazar.blindo.ui.filter.** { *; }
 -keep class com.apollographql.apollo.api.ScalarType
 -keep class com.apollographql.apollo.api.CustomTypeAdapter
 -keep class com.apollographql.apollo.ApolloClient
