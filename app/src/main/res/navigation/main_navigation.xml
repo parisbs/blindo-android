@@ -406,6 +406,34 @@
             app:nullable="false" />
     </fragment>
 
+    <fragment
+        android:id="@+id/navPublicUserProfile"
+        android:name="com.pbaltazar.blindo.ui.user.profile.publicprofile.UserProfileFragment"
+        tools:layout="@layout/fragment_user_profile">
+        <argument
+            android:name="user"
+            app:argType="com.pbaltazar.blindo.entities.User"
+            app:nullable="false" />
+        <action
+            android:id="@+id/actionFromPublicUserProfileToPackDetails"
+            app:destination="@id/navPackDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navPublicUserProfile"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromPublicUserProfileToRatingDetails"
+            app:destination="@id/navCommentDetails"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/navPublicUserProfile"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
     <action
         android:id="@+id/actionGlobalToFilters"
         app:destination="@id/dialogFilters"
@@ -441,5 +469,14 @@
         app:popExitAnim="@anim/fade_out"
         app:enterAnim="@anim/fade_in"
         app:exitAnim="@anim/fade_out" />
+
+    <action
+        android:id="@+id/actionGlobalToPublicUserProfile"
+        app:destination="@id/navPublicUserProfile"
+        app:launchSingleTop="true"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right" />
 
 </navigation>

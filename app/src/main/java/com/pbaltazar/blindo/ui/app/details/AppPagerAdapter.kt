@@ -12,7 +12,7 @@ import com.pbaltazar.blindo.utils.constants.APP_DETAILS_TAB_TITLES
 class AppPagerAdapter(
     context: Context,
     fragmentManager: FragmentManager
-) : SectionsPagerAdapter    (
+) : SectionsPagerAdapter(
     context,
     APP_DETAILS_TAB_TITLES.size,
     fragmentManager

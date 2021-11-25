@@ -12,10 +12,15 @@
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/component_range_filter.xml" value="0.10416666666666667" />
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/content_common_filters_order_by_section.xml" value="0.1" />
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_app.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_app_packs.xml" value="0.1" />
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_apps_filter.xml" value="0.11296296296296296" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_backup.xml" value="0.1" />
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_filters.xml" value="0.1" />
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_packs_filter.xml" value="0.12613981762917933" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_user_comments.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_user_packs.xml" value="0.1" />
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_user_profile.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_user_ratings.xml" value="0.1" />
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/menu/apps_filter.xml" value="0.13645833333333332" />
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/menu/blindo.xml" value="0.13802083333333334" />
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/menu/home.xml" value="0.13645833333333332" />
