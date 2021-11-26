@@ -25,6 +25,8 @@
 # Models
 -keep class com.pbaltazar.blindo.entities.** { *; }
 -keep class com.pbaltazar.blindo.graphql.** { *; }
+-keep class com.pbaltazar.blindo.ui.filter.FiltersSet
+-keep class com.pbaltazar.blindo.ui.filter.FiltersDefaults
 
 # Navigation component
 -keep class * extends androidx.fragment.app.Fragment{}
