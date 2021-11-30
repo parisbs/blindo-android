@@ -39,7 +39,6 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         currentApp = appFragmentArgs.app
         AppPagerHelper.appViewModelListener = object : AppViewModelListener {
             override fun getCurrentApp(): App? = currentApp

@@ -46,9 +46,10 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
     override val isSearchable: Boolean
         get() = false
 
+    override fun getMenuResId(): Int = R.menu.backup
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         subscribeUser()
         subscribePacks()
         subscribeBackup()
@@ -65,11 +66,6 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
         super.onViewCreated(view, savedInstanceState)
         subscribeAuth()
         setupUi()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.backup, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -18,15 +18,11 @@ abstract class FilterableFragment<VB : ViewBinding> : BlindoFragment<VB>() {
 
     abstract fun onFiltersChange(isChanged: Boolean)
 
+    override fun getMenuResId(): Int = R.menu.filterable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         subscribeFilters()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.filterable, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

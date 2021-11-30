@@ -46,9 +46,10 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
     override val isSearchable: Boolean
         get() = false
 
+    override fun getMenuResId(): Int = R.menu.user_profile
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         subscribeUser()
         subscribeUserUpdate()
     }
@@ -68,11 +69,6 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
         super.onViewCreated(view, savedInstanceState)
         authenticateUser()
         setupUi()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.user_profile, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

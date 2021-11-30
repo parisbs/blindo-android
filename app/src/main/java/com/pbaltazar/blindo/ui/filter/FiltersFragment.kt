@@ -29,6 +29,7 @@ class FiltersFragment : BlindoFragment<FragmentFiltersBinding>(),
 
     private val keysToListen: MutableList<String> = mutableListOf()
     private var requiresRefresh: Boolean = false
+
     override val isSearchable: Boolean
         get() = false
 
@@ -40,7 +41,6 @@ class FiltersFragment : BlindoFragment<FragmentFiltersBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         filtersSet = filtersFragmentArgs.filtersSet
     }
 
