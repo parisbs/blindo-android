@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.pbaltazar.blindo.R
@@ -87,7 +88,16 @@ class RatingDetailsFragment : BlindoFragment<FragmentRatingDetailsBinding>() {
                 .placeholder(R.mipmap.default_user_picture)
                 .centerCrop()
                 .into(userPhoto)
-            authorInfo.text = rating.user?.name ?: getString(R.string.appcomment_unknown_author)
+            authorInfo.apply {
+                text = rating.user?.name ?: getString(R.string.appcomment_unknown_author)
+                rating.user?.also { user ->
+                    setOnClickListener {
+                        this@RatingDetailsFragment.findNavController().navigate(
+                            RatingDetailsFragmentDirections.actionFromCommentDetailsToPublicUserProfile(user)
+                        )
+                    }
+                }
+            }
             commentInfo.text = getString(
         R.string.commentdetails__comment_info,
                 rating.commentLanguage?.let { language ->

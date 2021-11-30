@@ -378,6 +378,15 @@
             android:name="rating"
             app:argType="com.pbaltazar.blindo.entities.Rating"
             app:nullable="false" />
+        <action
+            android:id="@+id/actionFromCommentDetailsToPublicUserProfile"
+            app:destination="@id/navPublicUserProfile"
+            app:popUpTo="@id/navCommentDetails"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
     </fragment>
 
     <dialog
