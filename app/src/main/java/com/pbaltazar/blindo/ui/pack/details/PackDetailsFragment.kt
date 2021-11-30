@@ -212,7 +212,17 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
                 .placeholder(R.mipmap.default_user_picture)
                 .centerCrop()
                 .into(userPhoto)
-            authorInfo.text = pack.user?.name ?: getString(R.string.appcomment_unknown_author)
+            authorInfo.apply {
+                text = pack.user?.name ?: getString(R.string.appcomment_unknown_author)
+                pack.user?.also { user ->
+                    setOnClickListener {
+                        this@PackDetailsFragment.findNavController().navigate(
+                            PackDetailsFragmentDirections.actionFromPackDetailsToPublicUserProfile(user)
+                        )
+                    }
+                }
+            }
+
             dateInfo.text = getString(
                 R.string.packdetails__date_info,
                 pack.createdAt.toTimeAgo(),
