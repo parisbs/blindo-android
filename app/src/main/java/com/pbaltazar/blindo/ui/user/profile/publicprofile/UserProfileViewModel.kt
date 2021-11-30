@@ -31,6 +31,8 @@ class UserProfileViewModel(
         this.user = user
     }
 
+    fun getUser(): User? = user
+
     val userPacks: Flow<PagingData<User>> = Pager(
         PagingConfig(
             pageSize = getUserPacksPageSize(),

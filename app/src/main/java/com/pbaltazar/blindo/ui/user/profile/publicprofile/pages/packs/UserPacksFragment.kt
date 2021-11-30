@@ -1,6 +1,7 @@
 package com.pbaltazar.blindo.ui.user.profile.publicprofile.pages.packs
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,8 @@ class UserPacksFragment : BlindoFragment<FragmentUserPacksBinding>() {
         }
     )
 
+    private var currentCounterBadge: Int = 0
+
     override val isSearchable: Boolean
         get() = false
 
@@ -59,7 +62,12 @@ class UserPacksFragment : BlindoFragment<FragmentUserPacksBinding>() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             userProfileViewModel!!.userPacks.collectLatest { value: PagingData<User> ->
-                value.flatMap { it.packs?.packs ?: emptyList() }.also { pagingData ->
+                value.flatMap {
+                    if (TextUtils.equals(currentCounterBadge.toString(), it.numberOfPacks).not()) {
+                        UserProfilePagerHelper.tabsCounterBadgeListener.updatePacksCounterBadge(it.numberOfPacks.toInt())
+                    }
+                    it.packs?.packs ?: emptyList()
+                }.also { pagingData ->
                     userPacksAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
                 }
             }

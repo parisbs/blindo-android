@@ -1,6 +1,7 @@
 package com.pbaltazar.blindo.ui.user.profile.publicprofile.pages.ratings
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,8 @@ class UserRatingsFragment : BlindoFragment<FragmentUserRatingsBinding>() {
         }
     )
 
+    private var currentCounterBadge: Int = 0
+
     override val isSearchable: Boolean
         get() = false
 
@@ -59,7 +62,12 @@ class UserRatingsFragment : BlindoFragment<FragmentUserRatingsBinding>() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             userProfileViewModel!!.userRatings.collectLatest { value: PagingData<User> ->
-                value.flatMap { it.ratings?.ratings ?: emptyList() }.also { pagingData ->
+                value.flatMap {
+                    if (TextUtils.equals(currentCounterBadge.toString(), it.numberOfRatings).not()) {
+                        UserProfilePagerHelper.tabsCounterBadgeListener.updateRatingsCounterBadge(it.numberOfRatings.toInt())
+                    }
+                    it.ratings?.ratings ?: emptyList()
+                }.also { pagingData ->
                     userRatingsAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
                 }
             }

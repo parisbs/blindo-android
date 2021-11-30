@@ -67,7 +67,6 @@ class UserProfileFragment : BlindoFragment<FragmentUserProfileBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         UserProfilePagerHelper.tabsCounterBadgeListener = tabsCounterBadgeListener
-
         setupUi()
     }
 
