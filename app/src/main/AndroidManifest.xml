@@ -21,7 +21,8 @@
             android:name="com.pbaltazar.blindo.ui.blindo.BlindoActivity"
             android:label="@string/title_activity_blindo"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,7 +40,8 @@
         <activity
             android:name="com.pbaltazar.blindo.ui.user.login.LoginActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:excludeFromRecents="true">
+            android:excludeFromRecents="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.blindoapp.intent.action.AUTHENTICATE_USER" />
 

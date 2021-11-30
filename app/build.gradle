@@ -32,19 +32,21 @@ android {
     }
 
     compileSdkVersion sdk.compile
-    buildToolsVersion sdk.buildToolsVersion
 
     defaultConfig {
         applicationId "com.pbaltazar.blindo"
         minSdkVersion sdk.min
         targetSdkVersion sdk.target
 
-        versionCode 124
+        versionCode 125
         versionName "4.0.0"
 
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
     }
 
     buildTypes {
@@ -99,6 +101,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        useIR = true
     }
 }
 
