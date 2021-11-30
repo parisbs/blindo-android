@@ -18,6 +18,7 @@ val useCasesModule = module {
     factory { MutationUpdateDevice(get()) }
     factory { MutationUpdateUser(get()) }
 
+    factory { QueryAuthenticateUser(get()) }
     factory { QueryGetApp(get()) }
     factory { QueryGetAppByPackageName(get()) }
     factory { QueryGetAppOnly(get()) }

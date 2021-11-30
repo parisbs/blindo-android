@@ -8,6 +8,7 @@ import com.pbaltazar.blindo.entities.Device
 import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.entities.errors.ApiException
 import com.pbaltazar.blindo.entities.errors.AuthenticationProviderException
+import com.pbaltazar.blindo.entities.inputs.UserInput
 import com.pbaltazar.blindo.entities.responses.ApiResponse
 import com.pbaltazar.blindo.entities.responses.AuthenticationProviderResponse
 import com.pbaltazar.blindo.usecases.*
@@ -22,7 +23,7 @@ class AuthenticationViewModel(
     private val backgroundDispatcher: CoroutineContext,
     private val authenticationLocal : AuthenticationLocal,
     private val authenticationProvider : AuthenticationProvider,
-    private val queryGetUser: QueryGetUser,
+    private val queryAuthenticateUser: QueryAuthenticateUser,
     private val mutationCreateUser: MutationCreateUser,
     private val mutationUpdateUser: MutationUpdateUser,
     private val queryGetDevice: QueryGetDevice,
@@ -84,7 +85,7 @@ class AuthenticationViewModel(
     }
 
     private fun authenticateUserOnServer(user: User, idToken: String) = viewModelScope.launch(backgroundDispatcher) {
-        when (val apiResponse = queryGetUser(user.sub, idToken)) {
+        when (val apiResponse = queryAuthenticateUser(UserInput("", idToken))) {
             is ApiResponse.Success -> signIn(
                 apiResponse.data.copy(
                     sub = user.sub,

@@ -7,6 +7,13 @@ import com.pbaltazar.blindo.graphql.*
 import com.pbaltazar.blindo.graphql.type.LabelInput
 import org.json.JSONObject
 
+fun AuthenticateUserQuery.AuthenticateUser.toApiModel(): User = User(
+    id = id,
+    name = name,
+    picture = picture,
+    isPremium = isPremium
+)
+
 fun ListAppsQuery.Node.toApiModel(): App? = App(
     id = id,
     packageName = packageName,

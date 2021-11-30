@@ -38,6 +38,20 @@ class BlindoApiUserGateway(
             }
         }
 
+    override suspend fun authenticateUser(userInput: UserInput): ApiResponse<User> =
+        blindoApiClient.query(
+            AuthenticateUserQuery(),
+            userInput.idToken,
+            HttpCachePolicy.NETWORK_ONLY
+        ).let { response ->
+            when (response) {
+                is Response.Success -> response.data.authenticateUser?.let { user ->
+                    ApiResponse.Success(user.toApiModel())
+                } ?: ApiResponse.Error(ApiException.EmptyResponse)
+                is Response.Failure -> processErrors(response.error)
+            }
+        }
+
     override suspend fun getPublicUser(userInput: UserInput): ApiResponse<User> =
         blindoApiClient.query(
             GetPublicUserQuery(
