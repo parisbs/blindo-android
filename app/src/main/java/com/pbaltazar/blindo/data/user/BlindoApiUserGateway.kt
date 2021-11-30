@@ -63,7 +63,7 @@ class BlindoApiUserGateway(
     override suspend fun getPublicUserPacks(userInput: UserInput): ApiResponse<User> =
         blindoApiClient.query(
             GetPublicUserPacksQuery(
-                userId = userInput.id,
+                id = userInput.id,
                 packsFilters = Input.optional(userInput.packInput.filters?.toGraphQlFilter()),
                 packsSort = userInput.packInput.sort.mapNotNull { PackSortEnum.valueOf(it.name) },
                 packsFirst = userInput.packInput.pageSize,
@@ -83,7 +83,7 @@ class BlindoApiUserGateway(
     override suspend fun getPublicUserRatings(userInput: UserInput): ApiResponse<User> =
         blindoApiClient.query(
             GetPublicUserRatingsQuery(
-                userId = userInput.id,
+                id = userInput.id,
                 ratingsFilters = Input.optional(userInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsSort = userInput.ratingInput.sort.mapNotNull { RatingSortEnum.valueOf(it.name) },
                 ratingsFirst = userInput.ratingInput.pageSize,

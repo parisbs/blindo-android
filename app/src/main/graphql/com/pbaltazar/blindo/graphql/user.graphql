@@ -92,13 +92,13 @@ query GetPublicUser(
 }
 
 query GetPublicUserPacks(
-  $userId: ID!,
+  $id: ID!,
   $packsFilters: PackFilter,
   $packsSort: [PackSortEnum]!,
   $packsFirst: Int!,
   $packsAfter: String
 ) {
-  getPublicUser(id: $userId) {
+  getPublicUser(id: $id) {
     numberOfPacks
     packs(
       filters: $packsFilters,
@@ -133,13 +133,13 @@ query GetPublicUserPacks(
 }
 
 query GetPublicUserRatings(
-  $userId: ID!,
+  $id: ID!,
   $ratingsFilters: RatingFilter,
   $ratingsSort: [RatingSortEnum]!,
   $ratingsFirst: Int!,
   $ratingsAfter: String
 ) {
-  getPublicUser(id: $userId) {
+  getPublicUser(id: $id) {
     numberOfRatings
     ratings(
       filters: $ratingsFilters,
