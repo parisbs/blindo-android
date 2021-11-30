@@ -50,12 +50,12 @@ ext {
     firebaseVersion = "19.0.0"
     firebaseAuthVersion = "21.0.1"
     firebaseUiAuthVersion = "8.0.0"
-    firebaseAdsVersion = '20.4.0'
+    firebaseAdsVersion = '20.5.0'
     adsConsentVersion = "1.0.8"
-    firebaseCrashlyticsVersion = '18.2.3'
-    firebasePerformanceVersion = '20.0.3'
-    firebaseMessagingVersion = "22.0.0"
-    firebaseAnalyticsVersion = '19.0.2'
+    firebaseCrashlyticsVersion = '18.2.5'
+    firebasePerformanceVersion = '20.0.4'
+    firebaseMessagingVersion = '23.0.0'
+    firebaseAnalyticsVersion = '20.0.0'
     apolloVersion = "2.5.9"
     koinVersion = "3.1.2"
     playStoreBillingVersion = '4.0.0'
