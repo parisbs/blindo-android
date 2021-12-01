@@ -14,6 +14,7 @@ val appModule = module {
 
     viewModel {
         AppViewModel(
+            get(),
             get(named(BACKGROUND_DISPATCHER)),
             get(),
             get(),

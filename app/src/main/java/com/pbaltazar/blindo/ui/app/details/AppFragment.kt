@@ -3,6 +3,7 @@ package com.pbaltazar.blindo.ui.app.details
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,11 +20,12 @@ import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
 import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AppFragment : BlindoFragment<FragmentAppBinding>() {
 
-    private val appViewModel: AppViewModel by viewModel()
+    private val appViewModel: AppViewModel by stateViewModel()
     private val appFragmentArgs: AppFragmentArgs by navArgs()
 
     private lateinit var appViewState: ViewState
@@ -33,9 +35,29 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
 
     private var currentApp: App? = null
     private var isLoadingApp: Boolean = false
+    private var isFirstLaunch: Boolean = true
+
+    private val tabSelectedListener: TabLayout.OnTabSelectedListener =
+        object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                if (tab.position != appViewModel.getSelectedTab()) {
+                    appViewModel.setSelectedTab(tab.position)
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // Do nothing
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // Do nothing
+            }
+        }
 
     override val isSearchable: Boolean
         get() = false
+
+    override fun getMenuResId(): Int = R.menu.app
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,11 +92,9 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
         subscribeAppDetails()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.app, menu)
+        if (isFirstLaunch && isLoadingApp.not()) {
+            loadApp()
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -93,9 +113,12 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
 
     override fun onResume() {
         super.onResume()
-        if (isLoadingApp.not()) {
-            loadApp()
-        }
+        appTabs.addOnTabSelectedListener(tabSelectedListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        appTabs.removeOnTabSelectedListener(tabSelectedListener)
     }
 
     private fun loadApp() {
@@ -115,6 +138,7 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
     private fun subscribeAppDetails() = appViewModel.appDetails.observe(this, Observer {
         when (val response = it) {
             is AppViewModel.AppDetails.Success -> {
+                isFirstLaunch = false
                 currentApp = currentApp?.let { app ->
                     if (appViewModel.getIsQueryById()) {
                         response.app.copy(
@@ -160,6 +184,15 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
                 R.string.appdetails__comments_tab,
                 currentApp?.numberOfRatings ?: 0
             )
+        }
+        appTabs.getTabAt(appViewModel.getSelectedTab())?.also { tab ->
+            if (tab.position != appViewModel.getSelectedTab()) {
+                appTabs.selectTab(tab)
+            }
+            tab.view.apply {
+                requestFocus()
+                sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
+            }
         }
     }
 

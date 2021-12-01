@@ -1,11 +1,9 @@
 package com.pbaltazar.blindo.ui.app.details
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.components.filters.FiltersScreen
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Pack
 import com.pbaltazar.blindo.entities.Rating
@@ -18,7 +16,6 @@ import com.pbaltazar.blindo.entities.inputs.AppInput
 import com.pbaltazar.blindo.entities.inputs.PackInput
 import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.entities.responses.ApiResponse
-import com.pbaltazar.blindo.components.filters.FiltersScreen
 import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.pbaltazar.blindo.usecases.*
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
@@ -27,6 +24,7 @@ import java.util.*
 import kotlin.coroutines.CoroutineContext
 
 class AppViewModel(
+    private val handle: SavedStateHandle,
     private val backgroundContext: CoroutineContext,
     private val context: Context,
     private val userPreferences: UserPreferences,
@@ -39,7 +37,11 @@ class AppViewModel(
     private val queryGetAppRatingsByPackageName: QueryGetAppRatingsByPackageName
 ) : ViewModel() {
 
-    private var isQueryById: Boolean = false
+    private val isQueryById: Boolean get() =
+        handle.get<Boolean>("isQueryById") ?: false
+
+    private val currentSelectedTab: Int get() =
+        handle.get<Int>("selectedTab") ?: 0
 
     private val appDetailsResponse = MutableLiveData<AppDetails>()
     val appDetails: LiveData<AppDetails> get() = appDetailsResponse
@@ -53,11 +55,15 @@ class AppViewModel(
     private val ratingsList = MutableLiveData<RatingsList>()
     val ratings: LiveData<RatingsList> get() = ratingsList
 
+    fun getSelectedTab(): Int = currentSelectedTab
+
+    fun setSelectedTab(tab: Int) =
+        handle.set("selectedTab", tab)
+
     fun getIsQueryById(): Boolean = isQueryById
 
-    fun setIsQueryById(isQueryById: Boolean) {
-        this.isQueryById = isQueryById
-    }
+    fun setIsQueryById(isQueryById: Boolean) =
+        handle.set("isQueryById", isQueryById)
 
     fun getPacksPageSize(): Int =
         userPreferences.getInt(
