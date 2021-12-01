@@ -454,19 +454,24 @@ fun GetPublicUserQuery.Ratings.toApiModel(user: User): RatingConnection = Rating
     nextPageToken = pageInfo.endCursor
 )
 
-fun GetPublicUserQuery.Node1.toApiModel(user: User): Rating = Rating(
-    id = id,
-    screenreaders = screenreaders,
-    labels = labels,
-    functions = functions,
-    performance = performance,
-    comment = comment,
-    commentLanguage = commentLanguage,
-    user = user,
-    app = app?.toApiModel(),
-    createdAt = createdAt,
-    updatedAt = updatedAt
-)
+fun GetPublicUserQuery.Node1.toApiModel(user: User): Rating {
+    val totalRating: Double = ((ui + screenreaders + labels + functions + performance) / 5).toDouble()
+    return Rating(
+        id = id,
+        ui = ui,
+        screenreaders = screenreaders,
+        labels = labels,
+        functions = functions,
+        performance = performance,
+        total = totalRating.toFloat(),
+        comment = comment,
+        commentLanguage = commentLanguage,
+        user = user,
+        app = app?.toApiModel(),
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+}
 
 fun GetPublicUserQuery.App1.toApiModel(): App = App(
     id = id,
@@ -526,19 +531,24 @@ fun GetPublicUserRatingsQuery.Ratings.toApiModel(user: User): RatingConnection =
     nextPageToken = pageInfo.endCursor
 )
 
-fun GetPublicUserRatingsQuery.Node.toApiModel(user: User): Rating = Rating(
-    id = id,
-    screenreaders = screenreaders,
-    labels = labels,
-    functions = functions,
-    performance = performance,
-    comment = comment,
-    commentLanguage = commentLanguage,
-    user = user,
-    app = app?.toApiModel(),
-    createdAt = createdAt,
-    updatedAt = updatedAt
-)
+fun GetPublicUserRatingsQuery.Node.toApiModel(user: User): Rating {
+    val totalRating: Double = ((ui + screenreaders + labels + functions + performance) / 5).toDouble()
+    return Rating(
+        id = id,
+        ui = ui,
+        screenreaders = screenreaders,
+        labels = labels,
+        functions = functions,
+        performance = performance,
+        total = totalRating.toFloat(),
+        comment = comment,
+        commentLanguage = commentLanguage,
+        user = user,
+        app = app?.toApiModel(),
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+}
 
 fun GetPublicUserRatingsQuery.App.toApiModel(): App = App(
     id = id,
