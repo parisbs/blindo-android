@@ -15,8 +15,8 @@ kotlinVersion = "1.5.31"
     jetBrainsAnnotationsVersion = "13.0"
 
     // Android libraries
-    appcompatVersion = '1.4.0'
-    constraintVersion = '2.1.2'
+    appcompatVersion = '1.4.1'
+    constraintVersion = '2.1.3'
     ktxVersion = '1.7.0'
     legacySupportVersion = "1.0.0"
     lifecycleVersion = '2.4.0'
@@ -27,7 +27,7 @@ kotlinVersion = "1.5.31"
     roomVersion = "2.2.5"
     viewPager2Version = "1.0.0"
     designVersion = "1.0.0-rc01"
-    materialVersion = "1.4.0"
+    materialVersion = '1.5.0'
     coroutinesVersion = "1.3.5"
 
     // Test
@@ -45,17 +45,17 @@ kotlinVersion = "1.5.31"
 
     // External libraries
     googleServicesVersion = "19.2.0"
-    playCoreVersion = '1.10.2'
+    playCoreVersion = '1.10.3'
     playCoreKtxVersion = "1.8.1"
     firebaseVersion = "19.0.0"
     firebaseAuthVersion = "21.0.1"
     firebaseUiAuthVersion = "8.0.0"
     firebaseAdsVersion = '20.5.0'
     adsConsentVersion = "1.0.8"
-    firebaseCrashlyticsVersion = '18.2.5'
+    firebaseCrashlyticsVersion = '18.2.6'
     firebasePerformanceVersion = '20.0.4'
     firebaseMessagingVersion = '23.0.0'
-    firebaseAnalyticsVersion = '20.0.0'
+    firebaseAnalyticsVersion = '20.0.2'
     apolloVersion = "2.5.9"
     koinVersion = "3.1.2"
     playStoreBillingVersion = '4.0.0'
