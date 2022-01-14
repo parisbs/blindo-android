@@ -12,6 +12,7 @@ import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ComponentAccessibleRangeSelectorBinding
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.utils.extensions.toRatingString
+import java.util.*
 
 class AccessibleRangeSelector @JvmOverloads constructor(
     context: Context,
@@ -263,5 +264,5 @@ class AccessibleRangeSelector @JvmOverloads constructor(
         }
     }
 
-    private fun Float.toOneDecimalFloat(): Float = toRatingString().toFloat()
+    private fun Float.toOneDecimalFloat(): Float = toRatingString(Locale.ENGLISH        ).toFloat()
 }

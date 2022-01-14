@@ -105,7 +105,7 @@ fun String.isNullOrEmptyOrBlank(): Boolean {
     }
 }
 
-fun Float.toRatingString(): String = DecimalFormat.getInstance().let {
+fun Float.toRatingString(locale: Locale = Locale.getDefault()): String = DecimalFormat.getNumberInstance(locale).let {
     it.minimumFractionDigits = 1
     it.maximumFractionDigits = 1
     it.format(this.toDouble())
