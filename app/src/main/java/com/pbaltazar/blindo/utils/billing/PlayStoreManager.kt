@@ -147,33 +147,38 @@ class PlayStoreManager(
 
     override suspend fun getBillings(): BillingResponse<List<BlindoPurchase>> =
         suspendCoroutine { continuation ->
-            val response = billingClient.queryPurchases(BillingClient.SkuType.SUBS)
-            when (response.responseCode) {
-                BillingClient.BillingResponseCode.OK -> response.purchasesList?.also { purchases ->
-                    purchases.mapNotNull { it.toApiModel() }.apply {
-                        continuation.resume(BillingResponse.Success(this))
-                    }
-                } ?: continuation.resume(BillingResponse.Error(BillingException.EmptyResponse))
-                BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED -> continuation.resume(
-                    BillingResponse.Error(
-                        BillingException.FeatureNotSupported
+            billingClient.queryPurchasesAsync(
+                QueryPurchasesParams.newBuilder()
+                    .setProductType(BillingClient.SkuType.SUBS)
+                    .build()
+            ) { billingResult, purchasesList ->
+                when (billingResult.responseCode) {
+                    BillingClient.BillingResponseCode.OK -> purchasesList?.also { purchases ->
+                        purchases.mapNotNull { it.toApiModel() }.apply {
+                            continuation.resume(BillingResponse.Success(this))
+                        }
+                    } ?: continuation.resume(BillingResponse.Error(BillingException.EmptyResponse))
+                    BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED -> continuation.resume(
+                        BillingResponse.Error(
+                            BillingException.FeatureNotSupported
+                        )
                     )
-                )
-                BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> continuation.resume(
-                    BillingResponse.Error(
-                        BillingException.ServiceUnavailable
+                    BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> continuation.resume(
+                        BillingResponse.Error(
+                            BillingException.ServiceUnavailable
+                        )
                     )
-                )
-                BillingClient.BillingResponseCode.DEVELOPER_ERROR -> continuation.resume(
-                    BillingResponse.Error(
-                        BillingException.InstanceError(response.billingResult.debugMessage)
+                    BillingClient.BillingResponseCode.DEVELOPER_ERROR -> continuation.resume(
+                        BillingResponse.Error(
+                            BillingException.InstanceError(billingResult.debugMessage)
+                        )
                     )
-                )
-                else -> continuation.resume(
-                    BillingResponse.Error(
-                        BillingException.UnknownError(response.billingResult.debugMessage)
+                    else -> continuation.resume(
+                        BillingResponse.Error(
+                            BillingException.UnknownError(billingResult.debugMessage)
+                        )
                     )
-                )
+                }
             }
     }
 }
