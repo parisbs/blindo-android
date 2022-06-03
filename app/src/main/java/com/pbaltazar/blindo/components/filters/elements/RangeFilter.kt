@@ -109,9 +109,9 @@ class RangeFilter @JvmOverloads constructor(
     private fun setupAccessibility() {
         ViewCompat.setAccessibilityHeading(header, true)
         ViewCompat.setAccessibilityDelegate(header, object : AccessibilityDelegateCompat() {
-            override fun onInitializeAccessibilityNodeInfo(host: View?, info: AccessibilityNodeInfoCompat?) {
+            override fun onInitializeAccessibilityNodeInfo(host: View, info: AccessibilityNodeInfoCompat) {
                 super.onInitializeAccessibilityNodeInfo(host, info)
-                info?.apply {
+                info.apply {
                     isCheckable = true
                     if (isExpanded) {
                         removeAction(expandAction)
@@ -125,7 +125,7 @@ class RangeFilter @JvmOverloads constructor(
                 }
             }
 
-            override fun performAccessibilityAction(host: View?, action: Int, args: Bundle?): Boolean {
+            override fun performAccessibilityAction(host: View, action: Int, args: Bundle?): Boolean {
                 return when(action) {
                     expandAction.id -> {
                         isExpanded = true

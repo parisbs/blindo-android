@@ -13,7 +13,7 @@ class AuthenticationContract : ActivityResultContract<Unit, User?>() {
         const val EXTRA_SIGNED_USER = "com.blindoapp.intent.extra.SIGNED_USER"
     }
 
-    override fun createIntent(context: Context, input: Unit?): Intent = Intent(ACTION_AUTHENTICATE_BLINDO_USER)
+    override fun createIntent(context: Context, input: Unit): Intent = Intent(ACTION_AUTHENTICATE_BLINDO_USER)
 
     override fun parseResult(resultCode: Int, intent: Intent?): User? = when (resultCode) {
         Activity.RESULT_OK -> intent?.getParcelableExtra(EXTRA_SIGNED_USER)

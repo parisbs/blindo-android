@@ -26,6 +26,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 import timber.log.Timber
 
 
@@ -51,7 +52,9 @@ class Blindo : Application() {
     private fun initializeDependencyInjection(application: Application) {
         startKoin {
             androidContext(application)
-            androidLogger()
+            androidLogger(
+                if (BuildConfig.DEBUG) Level.ERROR else Level.NONE
+            )
             androidFileProperties()
             modules(
                 listOf(
