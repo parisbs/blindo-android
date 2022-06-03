@@ -38,8 +38,8 @@ android {
         minSdkVersion sdk.min
         targetSdkVersion sdk.target
 
-        versionCode 127
-        versionName "4.0.1"
+        versionCode 128
+        versionName "4.0.2"
 
         multiDexEnabled true
 
