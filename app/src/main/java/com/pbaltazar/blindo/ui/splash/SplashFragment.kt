@@ -33,7 +33,6 @@ class SplashFragment : AuthenticableFragment<FragmentSplashBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        subscribeBillingConnection()
         subscribeAuthentication()
         subscribeMembership()
         subscribeAdsConsentStatus()
@@ -47,13 +46,20 @@ class SplashFragment : AuthenticableFragment<FragmentSplashBinding>() {
         return binding!!.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        subscribeBillingConnection()
+    }
+
     override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
         when (userAuthentication) {
-            is AuthenticationViewModel.UserAuthentication.Success -> if (userAuthentication.user.isPremium) {
-                setIsUserPremium(true)
-                verifyIsFirstRunAndPrivacyPolicyAccepted()
-            } else {
-                billingViewModel.getMembership(true)
+            is AuthenticationViewModel.UserAuthentication.Success -> {
+                if (userAuthentication.user.isPremium) {
+                    setIsUserPremium(true)
+                    verifyIsFirstRunAndPrivacyPolicyAccepted()
+                } else {
+                    billingViewModel.getMembership(true)
+                }
             }
             else -> adsViewModel.updateAdsConsentStatus()
         }
