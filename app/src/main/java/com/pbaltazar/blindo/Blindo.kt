@@ -1,6 +1,7 @@
 package com.pbaltazar.blindo
 
 import android.app.Application
+import com.blindo.apollito.Apollito
 import com.pbaltazar.blindo.data.dataModule
 import com.pbaltazar.blindo.ui.ads.adsModule
 import com.pbaltazar.blindo.ui.app.appModule
@@ -21,7 +22,6 @@ import com.pbaltazar.blindo.utils.log.BlindoDebuger
 import com.pbaltazar.blindo.utils.mainModule
 import com.pbaltazar.blindo.utils.messaging.messagingModule
 import com.pbaltazar.blindo.utils.preferences.preferencesModule
-import com.wizeline.simpleapollo.SimpleApollo
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidFileProperties
 import org.koin.android.ext.koin.androidLogger
@@ -40,7 +40,7 @@ class Blindo : Application() {
     }
 
     private fun initializePlugins(application: Application) {
-        SimpleApollo.initialize(application)
+        Apollito.initialize(application)
     }
 
     private fun initializeLogger() {

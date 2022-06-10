@@ -1,7 +1,8 @@
 package com.pbaltazar.blindo.data.user
 
-import com.apollographql.apollo.api.Input
-import com.apollographql.apollo.api.cache.http.HttpCachePolicy
+import com.apollographql.apollo3.api.Optional
+import com.blindo.apollito.api.ApollitoClient
+import com.blindo.apollito.models.Response
 import com.pbaltazar.blindo.data.ApiHelpers
 import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.entities.errors.ApiException
@@ -15,11 +16,9 @@ import com.pbaltazar.blindo.graphql.type.UpdateUserInput
 import com.pbaltazar.blindo.utils.extensions.toApiModel
 import com.pbaltazar.blindo.utils.extensions.toGraphQLFilter
 import com.pbaltazar.blindo.utils.extensions.toGraphQlFilter
-import com.wizeline.simpleapollo.api.SimpleApolloClient
-import com.wizeline.simpleapollo.models.Response
 
 class BlindoApiUserGateway(
-    private val blindoApiClient: SimpleApolloClient
+    private val blindoApiClient: ApollitoClient
 ) : ApiHelpers, UserGateway {
 
     override suspend fun getUser(sub: String, idToken: String): ApiResponse<User> =
@@ -27,8 +26,7 @@ class BlindoApiUserGateway(
             GetUserQuery(
                 sub = sub
             ),
-            idToken,
-            HttpCachePolicy.NETWORK_ONLY
+            idToken
         ).let { response ->
             when (response) {
                 is Response.Success -> response.data.getUser?.let { user ->
@@ -41,8 +39,7 @@ class BlindoApiUserGateway(
     override suspend fun authenticateUser(userInput: UserInput): ApiResponse<User> =
         blindoApiClient.query(
             AuthenticateUserQuery(),
-            userInput.idToken,
-            HttpCachePolicy.NETWORK_ONLY
+            userInput.idToken
         ).let { response ->
             when (response) {
                 is Response.Success -> response.data.authenticateUser?.let { user ->
@@ -56,10 +53,10 @@ class BlindoApiUserGateway(
         blindoApiClient.query(
             GetPublicUserQuery(
                 id = userInput.id,
-                packsFilters = Input.optional(userInput.packInput.filters?.toGraphQlFilter()),
+                packsFilters = Optional.presentIfNotNull(userInput.packInput.filters?.toGraphQlFilter()),
                 packsSort = userInput.packInput.sort.mapNotNull { PackSortEnum.valueOf(it.name) },
                 packsFirst = userInput.packInput.pageSize,
-                ratingsFilters = Input.optional(userInput.ratingInput.filters?.toGraphQLFilter()),
+                ratingsFilters = Optional.presentIfNotNull(userInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsSort = userInput.ratingInput.sort.mapNotNull { RatingSortEnum.valueOf(it.name) },
                 ratingsFirst = userInput.ratingInput.pageSize
             )
@@ -78,10 +75,10 @@ class BlindoApiUserGateway(
         blindoApiClient.query(
             GetPublicUserPacksQuery(
                 id = userInput.id,
-                packsFilters = Input.optional(userInput.packInput.filters?.toGraphQlFilter()),
+                packsFilters = Optional.presentIfNotNull(userInput.packInput.filters?.toGraphQlFilter()),
                 packsSort = userInput.packInput.sort.mapNotNull { PackSortEnum.valueOf(it.name) },
                 packsFirst = userInput.packInput.pageSize,
-                packsAfter = Input.optional(userInput.packInput.nextPageToken)
+                packsAfter = Optional.presentIfNotNull(userInput.packInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
@@ -98,10 +95,10 @@ class BlindoApiUserGateway(
         blindoApiClient.query(
             GetPublicUserRatingsQuery(
                 id = userInput.id,
-                ratingsFilters = Input.optional(userInput.ratingInput.filters?.toGraphQLFilter()),
+                ratingsFilters = Optional.presentIfNotNull(userInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsSort = userInput.ratingInput.sort.mapNotNull { RatingSortEnum.valueOf(it.name) },
                 ratingsFirst = userInput.ratingInput.pageSize,
-                ratingsAfter = Input.optional(userInput.ratingInput.nextPageToken)
+                ratingsAfter = Optional.presentIfNotNull(userInput.ratingInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
@@ -121,7 +118,7 @@ class BlindoApiUserGateway(
                     sub = user.sub,
                     email = user.email,
                     name = user.name,
-                    picture = Input.optional(user.picture)
+                    picture = Optional.presentIfNotNull(user.picture)
                 )
             ),
             idToken
@@ -139,8 +136,8 @@ class BlindoApiUserGateway(
             UpdateUserMutation(
                 input = UpdateUserInput(
                     id = user.id,
-                    name = Input.optional(user.name),
-                    picture = Input.optional(user.picture)
+                    name = Optional.presentIfNotNull(user.name),
+                    picture = Optional.presentIfNotNull(user.picture)
                 )
             ),
             idToken

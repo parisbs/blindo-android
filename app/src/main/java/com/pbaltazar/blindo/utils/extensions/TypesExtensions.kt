@@ -6,12 +6,12 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.view.View
+import com.blindo.apollito.utils.extensions.toJson
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Label
 import com.pbaltazar.blindo.utils.constants.*
-import com.wizeline.simpleapollo.utils.extensions.toJson
 import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber

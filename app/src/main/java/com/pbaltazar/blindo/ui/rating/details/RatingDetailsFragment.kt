@@ -9,13 +9,13 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.blindo.apollito.utils.extensions.toTimeAgo
 import com.bumptech.glide.Glide
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentRatingDetailsBinding
 import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
 import com.pbaltazar.blindo.utils.extensions.setExplainingTooltip
 import com.pbaltazar.blindo.utils.extensions.setValueWithAccessibilitySupport
-import com.wizeline.simpleapollo.utils.extensions.toTimeAgo
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.*
 

@@ -1,6 +1,8 @@
 package com.pbaltazar.blindo.data.rating
 
-import com.apollographql.apollo.api.Input
+import com.apollographql.apollo3.api.Optional
+import com.blindo.apollito.api.ApollitoClient
+import com.blindo.apollito.models.Response
 import com.pbaltazar.blindo.data.ApiHelpers
 import com.pbaltazar.blindo.entities.Rating
 import com.pbaltazar.blindo.entities.errors.ApiException
@@ -15,21 +17,19 @@ import com.pbaltazar.blindo.graphql.type.UpdateRatingInput
 import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.pbaltazar.blindo.utils.extensions.toApiModel
 import com.pbaltazar.blindo.utils.extensions.toGraphQLFilter
-import com.wizeline.simpleapollo.api.SimpleApolloClient
-import com.wizeline.simpleapollo.models.Response
 
 class BlindoApiRatingGateway(
-    private val blindoApiClient: SimpleApolloClient
+    private val blindoApiClient: ApollitoClient
 ) : ApiHelpers, RatingGateway {
 
     override suspend fun getAppRatings(appInput: AppInput): ApiResponse<List<Rating>> =
         blindoApiClient.query(
             GetAppRatingsQuery(
                 id = appInput.id,
-                ratingsFilters = Input.optional(appInput.ratingInput.filters?.toGraphQLFilter()),
+                ratingsFilters = Optional.presentIfNotNull(appInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
                 ratingsFirst = appInput.ratingInput.pageSize,
-                ratingsAfter = Input.optional(appInput.ratingInput.nextPageToken)
+                ratingsAfter = Optional.presentIfNotNull(appInput.ratingInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
@@ -50,10 +50,10 @@ class BlindoApiRatingGateway(
         blindoApiClient.query(
             GetAppRatingsByPackageNameQuery(
                 packageName = appInput.packageName,
-                ratingsFilters = Input.optional(appInput.ratingInput.filters?.toGraphQLFilter()),
+                ratingsFilters = Optional.presentIfNotNull(appInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
                 ratingsFirst = appInput.ratingInput.pageSize,
-                ratingsAfter = Input.optional(appInput.ratingInput.nextPageToken)
+                ratingsAfter = Optional.presentIfNotNull(appInput.ratingInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
@@ -74,15 +74,15 @@ class BlindoApiRatingGateway(
         blindoApiClient.mutate(
             CreateRatingMutation(
                 input = CreateRatingInput(
-                    appId = Input.optional(rating.app?.id?.takeUnless { it.isNullOrEmpty() }),
-                    appPackageName = Input.optional(rating.app?.packageName?.takeUnless { it.isNullOrEmpty() }),
-                    appPackageLabel = Input.optional(rating.app?.packageLabel?.takeUnless { it.isNullOrEmpty() }),
+                    appId = Optional.presentIfNotNull(rating.app?.id?.takeUnless { it.isNullOrEmpty() }),
+                    appPackageName = Optional.presentIfNotNull(rating.app?.packageName?.takeUnless { it.isNullOrEmpty() }),
+                    appPackageLabel = Optional.presentIfNotNull(rating.app?.packageLabel?.takeUnless { it.isNullOrEmpty() }),
                     ui = rating.ui,
                     screenreaders = rating.screenreaders,
                     labels = rating.labels,
                     functions = rating.functions,
                     performance = rating.performance,
-                    comment = Input.optional(rating.comment),
+                    comment = Optional.presentIfNotNull(rating.comment),
                     commentLanguage = rating.commentLanguage ?: ""
                 )
             ),
@@ -101,13 +101,13 @@ class BlindoApiRatingGateway(
             UpdateRatingMutation(
                 input = UpdateRatingInput(
                     id = rating.id,
-                    ui = Input.optional(rating.ui),
-                    screenreaders = Input.optional(rating.screenreaders),
-                    labels = Input.optional(rating.labels),
-                    functions = Input.optional(rating.functions),
-                    performance = Input.optional(rating.performance),
-                    comment = Input.optional(rating.comment),
-                    commentLanguage = Input.optional(rating.commentLanguage)
+                    ui = Optional.presentIfNotNull(rating.ui),
+                    screenreaders = Optional.presentIfNotNull(rating.screenreaders),
+                    labels = Optional.presentIfNotNull(rating.labels),
+                    functions = Optional.presentIfNotNull(rating.functions),
+                    performance = Optional.presentIfNotNull(rating.performance),
+                    comment = Optional.presentIfNotNull(rating.comment),
+                    commentLanguage = Optional.presentIfNotNull(rating.commentLanguage)
                 )
             ),
             idToken
@@ -123,15 +123,15 @@ class BlindoApiRatingGateway(
     override suspend fun listRatings(ratingInput: RatingInput): ApiResponse<List<Rating>> =
         blindoApiClient.query(
             ListRatingsQuery(
-                filters = Input.optional(
+                filters = Optional.presentIfNotNull(
                     RatingFilter(
-                        appId = Input.optional(ratingInput.appId.takeUnless { it.isNullOrEmptyOrBlank() }),
-                        userId = Input.optional(ratingInput.userId.takeUnless { it.isNullOrEmptyOrBlank() })
+                        appId = Optional.presentIfNotNull(ratingInput.appId.takeUnless { it.isNullOrEmptyOrBlank() }),
+                        userId = Optional.presentIfNotNull(ratingInput.userId.takeUnless { it.isNullOrEmptyOrBlank() })
                     )
                 ),
-                sort = Input.optional(ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }),
-                first = Input.optional(ratingInput.pageSize),
-                after = Input.optional(ratingInput.nextPageToken)
+                sort = Optional.presentIfNotNull(ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }),
+                first = Optional.presentIfNotNull(ratingInput.pageSize),
+                after = Optional.presentIfNotNull(ratingInput.nextPageToken)
             )
         ).let { response ->
             when (response) {

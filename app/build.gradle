@@ -1,11 +1,12 @@
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'com.apollographql.apollo'
-apply plugin: 'androidx.navigation.safeargs.kotlin'
-apply plugin: 'com.google.firebase.firebase-perf'
-apply plugin: 'com.google.firebase.crashlytics'
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.gms.google-services'
+    id 'com.apollographql.apollo3'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.firebase.firebase-perf'
+    id 'com.google.firebase.crashlytics'
+}
 
 def ENV_FILE = 'env.properties'
 Properties properties = new Properties()
@@ -35,8 +36,8 @@ android {
 
     defaultConfig {
         applicationId "com.pbaltazar.blindo"
-        minSdkVersion sdk.min
-        targetSdkVersion sdk.target
+        minSdk sdk.min
+        targetSdk sdk.target
 
         versionCode 128
         versionName "4.0.2"
@@ -110,11 +111,10 @@ android {
 }
 
 apollo {
+    packageName.set("com.pbaltazar.blindo.graphql")
     generateKotlinModels.set(true)
-    customTypeMapping = [
-            "DateTime"  : "java.util.Date",
-            "JSONString": "org.json.JSONObject"
-    ]
+    mapScalar("DateTime", "java.util.Date")
+    mapScalar("JSONString", "org.json.JSONObject")
 }
 
 dependencies {
@@ -126,44 +126,33 @@ dependencies {
     implementation libraries.material.material
     implementation libraries.androidx.constraintLayout
     implementation libraries.androidx.recyclerView
-    implementation libraries.androidx.navigationFragment
-    implementation libraries.androidx.navigationUi
     implementation libraries.androidx.navigationFragmentKtx
     implementation libraries.androidx.navigationUiKtx
     implementation libraries.lifecycle.runtime
     implementation libraries.lifecycle.viewModel
     implementation libraries.lifecycle.liveData
     implementation libraries.lifecycle.savedState
-    implementation libraries.androidx.preferences
     implementation libraries.androidx.preferencesKtx
     implementation libraries.androidx.paging.runtime
 
     implementation libraries.google.playCore
-    implementation libraries.firebase.messaging
     implementation libraries.firebase.messagingKtx
 
-    implementation libraries.firebase.analytics
     implementation libraries.firebase.analyticsKtx
-    implementation libraries.firebase.crashlytics
     implementation libraries.firebase.crashlyticsKtx
     implementation libraries.firebase.performance
 
-    implementation libraries.billing.playStoreBilling
     implementation libraries.billing.playStoreBillingKtx
     implementation libraries.adsConsent
     implementation libraries.firebase.ads
 
-    implementation libraries.simpleApollo
-    implementation libraries.squareup.okhttp3
-    implementation libraries.squareup.loggingInterceptor
+    implementation project(":apollito")
 
     implementation libraries.glide.core
 
-    implementation libraries.firebase.auth
     implementation libraries.firebase.authKtx
     implementation libraries.firebase.ui.auth
     implementation libraries.facebook
-    implementation libraries.twitter
 
     implementation libraries.viewState
     implementation libraries.uiTools

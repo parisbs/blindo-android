@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.blindo.apollito.utils.extensions.toJson
 import com.pbaltazar.blindo.entities.Label
 import com.pbaltazar.blindo.entities.ProcessPacksResult
 import com.pbaltazar.blindo.entities.errors.ApiException
@@ -16,7 +17,6 @@ import com.pbaltazar.blindo.usecases.MutationProcessPacks
 import com.pbaltazar.blindo.utils.authentication.provider.AuthenticationProvider
 import com.pbaltazar.blindo.utils.constants.TALKBACK_LABELS_ARRAY
 import com.pbaltazar.blindo.utils.extensions.toLabelsList
-import com.wizeline.simpleapollo.utils.extensions.toJson
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.BufferedReader

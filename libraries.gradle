@@ -34,7 +34,7 @@ kotlinVersion = "1.6.21"
     coreTestingVersion = "2.0.1"
     runnerVersion = "1.1.1"
     espressoVersion = "3.4.0"
-    junitVersion = "4.13.1"
+    junitVersion = "4.13.2"
     junitExtVersion = "1.1.3"
 
     // Mocks
@@ -56,13 +56,13 @@ kotlinVersion = "1.6.21"
     firebasePerformanceVersion = '20.1.0'
     firebaseMessagingVersion = '23.0.5'
     firebaseAnalyticsVersion = '21.0.0'
-    apolloVersion = "2.5.9"
+    apolloVersion = "3.3.0"
     koinVersion = "3.2.0"
     playStoreBillingVersion = '5.0.0'
-    timber_version = "5.0.1"
+    timberVersion = "5.0.1"
     page_indicator_version = "1.0.6"
     viewStateVersion = "1.0"
-    okhttp3Version = "4.9.0"
+    okhttp3Version = "4.9.3"
     glideVersion = "4.11.0"
     facebookVersion = "12.0.0"
     twitterVersion = "3.3.0"
@@ -109,9 +109,9 @@ kotlinVersion = "1.6.21"
             material: "com.google.android.material:material:$materialVersion"
         ],
         apollo         : [
-            runtime: "com.apollographql.apollo:apollo-runtime:$apolloVersion",
-            cache: "com.apollographql.apollo:apollo-http-cache:$apolloVersion",
-            coroutinesSupport: "com.apollographql.apollo:apollo-coroutines-support:$apolloVersion"
+            runtime: "com.apollographql.apollo3:apollo-runtime:$apolloVersion",
+            cache: "com.apollographql.apollo3:apollo-http-cache:$apolloVersion",
+            adapters: "com.apollographql.apollo3:apollo-adapters:$apolloVersion"
         ],
         coroutines: [
             core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion",
@@ -177,8 +177,7 @@ kotlinVersion = "1.6.21"
         adsConsent: "com.google.android.ads.consent:consent-library:$adsConsentVersion",
             facebook: "com.facebook.android:facebook-android-sdk:$facebookVersion",
             twitter: "com.twitter.sdk.android:twitter-core:$twitterVersion",
-        timber: "com.jakewharton.timber:timber:$timber_version",
-            simpleApollo: "com.github.wizeline:simple-apollo-android:$simpleApolloVersion",
+        timber: "com.jakewharton.timber:timber:$timberVersion",
         viewState: "com.github.wizeline:android-viewstate:$viewStateVersion",
         uiTools: "com.github.parisbs:uitools:$uiToolsVersion"
     ]

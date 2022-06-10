@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
+import com.blindo.apollito.utils.extensions.toTimeAgo
 import com.bumptech.glide.Glide
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ItemAppCommentBinding
 import com.pbaltazar.blindo.entities.Rating
 import com.pbaltazar.blindo.utils.extensions.toRatingString
-import com.wizeline.simpleapollo.utils.extensions.toTimeAgo
 import java.util.*
 
 class UserRatingsAdapter(

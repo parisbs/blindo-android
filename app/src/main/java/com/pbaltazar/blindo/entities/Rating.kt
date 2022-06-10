@@ -2,9 +2,9 @@ package com.pbaltazar.blindo.entities
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.wizeline.simpleapollo.api.constants.DateTimePatterns
-import com.wizeline.simpleapollo.utils.extensions.toDate
-import com.wizeline.simpleapollo.utils.extensions.toSimpleApolloString
+import com.blindo.apollito.api.constants.DateTimePatterns
+import com.blindo.apollito.utils.extensions.toApollitoString
+import com.blindo.apollito.utils.extensions.toDate
 import java.util.*
 
 data class Rating(
@@ -52,8 +52,8 @@ data class Rating(
         parcel.writeString(commentLanguage)
         parcel.writeParcelable(user, flags)
         parcel.writeParcelable(app, flags)
-        parcel.writeString(createdAt.toSimpleApolloString(DateTimePatterns.ISO8601_MICROS_TZ.pattern))
-        parcel.writeString(updatedAt?.toSimpleApolloString(DateTimePatterns.ISO8601_MICROS_TZ.pattern))
+        parcel.writeString(createdAt.toApollitoString(DateTimePatterns.ISO8601_MICROS_TZ.pattern))
+        parcel.writeString(updatedAt?.toApollitoString(DateTimePatterns.ISO8601_MICROS_TZ.pattern))
     }
 
     override fun describeContents(): Int = 0

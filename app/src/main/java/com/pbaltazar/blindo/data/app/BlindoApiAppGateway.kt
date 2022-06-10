@@ -1,6 +1,8 @@
 package com.pbaltazar.blindo.data.app
 
-import com.apollographql.apollo.api.Input
+import com.apollographql.apollo3.api.Optional
+import com.blindo.apollito.api.ApollitoClient
+import com.blindo.apollito.models.Response
 import com.pbaltazar.blindo.data.ApiHelpers
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.errors.ApiException
@@ -15,20 +17,18 @@ import com.pbaltazar.blindo.graphql.type.PackSortEnum
 import com.pbaltazar.blindo.graphql.type.RatingSortEnum
 import com.pbaltazar.blindo.utils.extensions.toApiModel
 import com.pbaltazar.blindo.utils.extensions.toGraphQLFilter
-import com.wizeline.simpleapollo.api.SimpleApolloClient
-import com.wizeline.simpleapollo.models.Response
 
 class BlindoApiAppGateway(
-    private val blindoApiClient: SimpleApolloClient
+    private val blindoApiClient: ApollitoClient
 ) : ApiHelpers, AppGateway {
 
     override suspend fun listApps(appInput: AppInput): ApiResponse<List<App>> =
         blindoApiClient.query(
             ListAppsQuery(
-                filters = Input.optional(appInput.filters?.toGraphQLFilter()),
+                filters = Optional.presentIfNotNull(appInput.filters?.toGraphQLFilter()),
                 sort = appInput.sort.mapNotNull { it.apiEnum as AppSortEnum },
                 first = appInput.pageSize,
-                after = Input.optional(appInput.nextPageToken)
+                after = Optional.presentIfNotNull(appInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
@@ -49,7 +49,7 @@ class BlindoApiAppGateway(
                 id = appInput.id,
                 packsFirst = appInput.packInput.pageSize,
                 packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
-                ratingsFilters = Input.optional(appInput.ratingInput.filters?.toGraphQLFilter()),
+                ratingsFilters = Optional.presentIfNotNull(appInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsFirst = appInput.ratingInput.pageSize,
                 ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }
             )
@@ -68,7 +68,7 @@ class BlindoApiAppGateway(
                 packageName = appInput.packageName,
                 packsFirst = appInput.packInput.pageSize,
                 packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
-                ratingsFilters = Input.optional(appInput.ratingInput.filters?.toGraphQLFilter()),
+                ratingsFilters = Optional.presentIfNotNull(appInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsFirst = appInput.ratingInput.pageSize,
                 ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }
             )

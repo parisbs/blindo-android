@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.blindo.apollito.utils.extensions.toTimeAgo
 import com.bumptech.glide.Glide
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -33,7 +34,6 @@ import com.pbaltazar.blindo.utils.extensions.getTalkbackInstallableFileUri
 import com.pbaltazar.blindo.utils.extensions.installTalkbackPack
 import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.pbaltazar.blindo.utils.extensions.saveTalkbackInstallableFile
-import com.wizeline.simpleapollo.utils.extensions.toTimeAgo
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber

@@ -42,7 +42,7 @@ object MessagingManager {
             if (task.isSuccessful.not()) {
                 throw task.exception ?: RuntimeException("Unable to get the messaging token")
             }
-            tokenChannel.offer(task.result)
+            tokenChannel.trySend(task.result)
         }
         return tokenChannel.receive()
     }

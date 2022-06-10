@@ -3,7 +3,8 @@ package com.pbaltazar.blindo.utils.extensions
 import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
-import com.apollographql.apollo.api.Input
+import com.apollographql.apollo3.api.Optional
+import com.blindo.apollito.utils.extensions.toJson
 import com.google.firebase.perf.metrics.AddTrace
 import com.pbaltazar.blindo.entities.*
 import com.pbaltazar.blindo.entities.filters.AppFilters
@@ -19,7 +20,6 @@ import com.pbaltazar.blindo.utils.constants.DOWNLOADS_DIR
 import com.pbaltazar.blindo.utils.constants.LABELS_PROVIDER
 import com.pbaltazar.blindo.utils.constants.TALKBACK_ARRAY_PACKAGE_NAME
 import com.pbaltazar.blindo.utils.constants.TALKBACK_LABELS_ARRAY
-import com.wizeline.simpleapollo.utils.extensions.toJson
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -101,8 +101,8 @@ fun User.getAuthenticationMethod(): String = picture?.let {
 } ?: "Email"
 
 fun AppFilters.toGraphQLFilter(): AppFilter = AppFilter(
-    totalRatingRange = Input.optional(totalRatingRange?.toGraphQLFilter()),
-    or = Input.optional(let {
+    totalRatingRange = Optional.presentIfNotNull(totalRatingRange?.toGraphQLFilter()),
+    or = Optional.presentIfNotNull(let {
         val clauses: MutableList<AppFilter> = mutableListOf()
         clauses.addAll(getPackageNameClausesList())
         clauses.addAll(getPackageLabelClausesList())
@@ -112,19 +112,19 @@ fun AppFilters.toGraphQLFilter(): AppFilter = AppFilter(
 
 fun AppFilters.getPackageNameClausesList(): List<AppFilter> = packageName?.let { pn ->
     listOf(
-        AppFilter(packageNameIlike = Input.optional("%$pn")),
-        AppFilter(packageNameIlike = Input.optional("%${pn}%")),
-        AppFilter(packageNameIlike = Input.optional("${pn}%")),
-        AppFilter(packageNameIlike = Input.optional(pn))
+        AppFilter(packageNameIlike = Optional.presentIfNotNull("%$pn")),
+        AppFilter(packageNameIlike = Optional.presentIfNotNull("%${pn}%")),
+        AppFilter(packageNameIlike = Optional.presentIfNotNull("${pn}%")),
+        AppFilter(packageNameIlike = Optional.presentIfNotNull(pn))
     )
 } ?: emptyList()
 
 fun AppFilters.getPackageLabelClausesList(): List<AppFilter> = packageLabel?.let { pl ->
     listOf(
-        AppFilter(packageLabelIlike = Input.optional("%$pl")),
-        AppFilter(packageLabelIlike = Input.optional("%${pl}%")),
-        AppFilter(packageLabelIlike = Input.optional("${pl}%")),
-        AppFilter(Input.optional(pl))
+        AppFilter(packageLabelIlike = Optional.presentIfNotNull("%$pl")),
+        AppFilter(packageLabelIlike = Optional.presentIfNotNull("%${pl}%")),
+        AppFilter(packageLabelIlike = Optional.presentIfNotNull("${pl}%")),
+        AppFilter(Optional.presentIfNotNull(pl))
     )
 } ?: emptyList()
 
@@ -145,10 +145,10 @@ fun IntRange.toFloatRange(): FloatRange = FloatRange(
 )
 
 fun PackFilters.toGraphQlFilter(): PackFilter = PackFilter(
-    languageIn = Input.optional(languageIn)
+    languageIn = Optional.presentIfNotNull(languageIn)
 )
 
 fun RatingFilters.toGraphQLFilter(): RatingFilter = RatingFilter(
-    commentIsNull = Input.optional(commentIsNull),
-    commentLanguageIn = Input.optional(commentLanguageIn)
+    commentIsNull = Optional.presentIfNotNull(commentIsNull),
+    commentLanguageIn = Optional.presentIfNotNull(commentLanguageIn)
 )

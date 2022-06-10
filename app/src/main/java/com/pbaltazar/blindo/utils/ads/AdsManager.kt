@@ -12,8 +12,11 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.pbaltazar.blindo.BuildConfig
 import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.utils.constants.ADS_CLIENT_ID
+import com.pbaltazar.blindo.utils.constants.NO_PERSONALIZED_ADS
+import com.pbaltazar.blindo.utils.constants.NO_PERSONALIZED_ADS_NO
+import com.pbaltazar.blindo.utils.constants.NO_PERSONALIZED_ADS_YES
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
-import com.pbaltazar.blindo.utils.constants.*
 import kotlinx.coroutines.channels.Channel
 import java.net.URL
 import kotlin.coroutines.resume
@@ -117,7 +120,7 @@ object AdsManager {
                         com.google.ads.consent.ConsentStatus.NON_PERSONALIZED -> userPreferences.setAdsConsentStatus(ConsentStatus.NON_PERSONALIZED)
                     }
                 }
-                consentChannel.offer(this@AdsManager.consentStatus)
+                consentChannel.trySend(this@AdsManager.consentStatus)
             }
 
             override fun onFailedToUpdateConsentInfo(reason: String?) {
@@ -199,12 +202,12 @@ object AdsManager {
                     super.onAdLoaded(ad)
                     val interstitialAd = ad
                     interstitialAd.fullScreenContentCallback = fullScreenContentCallback
-                    interstitialAdChannel.offer(interstitialAd)
+                    interstitialAdChannel.trySend(interstitialAd)
                 }
 
                 override fun onAdFailedToLoad(error: LoadAdError) {
                     super.onAdFailedToLoad(error)
-                    interstitialAdChannel.offer(null)
+                    interstitialAdChannel.trySend(null)
                 }
             }
         )

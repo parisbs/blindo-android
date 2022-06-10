@@ -1,6 +1,8 @@
 package com.pbaltazar.blindo.data.pack
 
-import com.apollographql.apollo.api.Input
+import com.apollographql.apollo3.api.Optional
+import com.blindo.apollito.api.ApollitoClient
+import com.blindo.apollito.models.Response
 import com.google.firebase.perf.metrics.AddTrace
 import com.pbaltazar.blindo.data.ApiHelpers
 import com.pbaltazar.blindo.entities.InstallablePack
@@ -16,12 +18,10 @@ import com.pbaltazar.blindo.graphql.type.*
 import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.pbaltazar.blindo.utils.extensions.toApiModel
 import com.pbaltazar.blindo.utils.extensions.toLabelInput
-import com.wizeline.simpleapollo.api.SimpleApolloClient
-import com.wizeline.simpleapollo.models.Response
 
 class BlindoApiPackGateway(
-    private val blindoApiClient: SimpleApolloClient,
-    private val extendedTimeOutBlindoApiClient: SimpleApolloClient
+    private val blindoApiClient: ApollitoClient,
+    private val extendedTimeOutBlindoApiClient: ApollitoClient
 ) : ApiHelpers, PackGateway {
 
     override suspend fun getAppPacks(appInput: AppInput): ApiResponse<List<Pack>> =
@@ -30,7 +30,7 @@ class BlindoApiPackGateway(
                 id = appInput.id,
                 packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
                 packsFirst = appInput.packInput.pageSize,
-                packsAfter = Input.optional(appInput.packInput.nextPageToken)
+                packsAfter = Optional.presentIfNotNull(appInput.packInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
@@ -53,7 +53,7 @@ class BlindoApiPackGateway(
                 packageName = appInput.packageName,
                 packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
                 packsFirst = appInput.packInput.pageSize,
-                packsAfter = Input.optional(appInput.packInput.nextPageToken)
+                packsAfter = Optional.presentIfNotNull(appInput.packInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
@@ -73,15 +73,15 @@ class BlindoApiPackGateway(
     override suspend fun listPacks(packInput: PackInput): ApiResponse<List<Pack>> =
         blindoApiClient.query(
             ListPacksQuery(
-                filters = Input.optional(
+                filters = Optional.presentIfNotNull(
                     PackFilter(
-                        appId = Input.optional(packInput.appId.takeUnless { it.isNullOrEmptyOrBlank() }),
-                        userId = Input.optional(packInput.userId.takeUnless { it.isNullOrEmptyOrBlank() })
+                        appId = Optional.presentIfNotNull(packInput.appId.takeUnless { it.isNullOrEmptyOrBlank() }),
+                        userId = Optional.presentIfNotNull(packInput.userId.takeUnless { it.isNullOrEmptyOrBlank() })
                     )
                 ),
-                sort = Input.optional(packInput.sort.mapNotNull { it.apiEnum as PackSortEnum }),
-                first = Input.optional(packInput.pageSize),
-                after = Input.optional(packInput.nextPageToken)
+                sort = Optional.presentIfNotNull(packInput.sort.mapNotNull { it.apiEnum as PackSortEnum }),
+                first = Optional.presentIfNotNull(packInput.pageSize),
+                after = Optional.presentIfNotNull(packInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
@@ -106,7 +106,7 @@ class BlindoApiPackGateway(
                 input = DownloadPackInput(
                     packId = installablePack.pack.id,
                     targetScreenreader = installablePack.targetScreenreaders,
-                    translateTo = Input.optional(installablePack.translateTo)
+                    translateTo = Optional.presentIfNotNull(installablePack.translateTo)
                 )
             ),
             idToken

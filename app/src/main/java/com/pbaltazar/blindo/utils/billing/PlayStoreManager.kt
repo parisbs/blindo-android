@@ -33,34 +33,34 @@ class PlayStoreManager(
                 when (billingResult.responseCode) {
                     BillingClient.BillingResponseCode.OK -> purchases?.also { purchasesList ->
                         purchasesList.mapNotNull { it.toApiModel() }.apply {
-                            billingChannel.offer(BillingResponse.Success(this))
+                            billingChannel.trySend(BillingResponse.Success(this))
                         }
-                    } ?: billingChannel.offer(
+                    } ?: billingChannel.trySend(
                         BillingResponse.Error(
                             BillingException.EmptyResponse
                         )
                     )
-                    BillingClient.BillingResponseCode.USER_CANCELED -> billingChannel.offer(
+                    BillingClient.BillingResponseCode.USER_CANCELED -> billingChannel.trySend(
                         BillingResponse.Error(
                             BillingException.CanceledByUser
                         )
                     )
-                    BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> billingChannel.offer(
+                    BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE -> billingChannel.trySend(
                         BillingResponse.Error(
                             BillingException.ServiceUnavailable
                         )
                     )
-                    BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED -> billingChannel.offer(
+                    BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED -> billingChannel.trySend(
                         BillingResponse.Error(
                             BillingException.FeatureNotSupported
                         )
                     )
-                    BillingClient.BillingResponseCode.DEVELOPER_ERROR -> billingChannel.offer(
+                    BillingClient.BillingResponseCode.DEVELOPER_ERROR -> billingChannel.trySend(
                         BillingResponse.Error(
                             BillingException.InstanceError(billingResult.debugMessage)
                         )
                     )
-                    else -> billingChannel.offer(
+                    else -> billingChannel.trySend(
                         BillingResponse.Error(
                             BillingException.UnknownError(billingResult.debugMessage)
                         )
@@ -78,21 +78,21 @@ class PlayStoreManager(
                     when (val responseCode = billingResult.responseCode) {
                         BillingClient.BillingResponseCode.OK -> {
                             isConnected = true
-                            connectionChannel.offer(BillingResponse.Success(true))
+                            connectionChannel.trySend(BillingResponse.Success(true))
                         }
                         else -> {
                             isConnected = false
                             when (responseCode) {
-                                BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED -> connectionChannel.offer(BillingResponse.Error(BillingException.FeatureNotSupported))
-                                BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> connectionChannel.offer(BillingResponse.Error(BillingException.ServiceUnavailable))
-                                BillingClient.BillingResponseCode.DEVELOPER_ERROR -> connectionChannel.offer(
+                                BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED -> connectionChannel.trySend(BillingResponse.Error(BillingException.FeatureNotSupported))
+                                BillingClient.BillingResponseCode.BILLING_UNAVAILABLE -> connectionChannel.trySend(BillingResponse.Error(BillingException.ServiceUnavailable))
+                                BillingClient.BillingResponseCode.DEVELOPER_ERROR -> connectionChannel.trySend(
                                     BillingResponse.Error(
                                         BillingException.InstanceError(
                                             billingResult.debugMessage
                                         )
                                     )
                                 )
-                                else -> connectionChannel.offer(
+                                else -> connectionChannel.trySend(
                                     BillingResponse.Error(
                                         BillingException.UnknownError(billingResult.debugMessage)
                                     )
@@ -104,7 +104,7 @@ class PlayStoreManager(
 
                 override fun onBillingServiceDisconnected() {
                     isConnected = false
-                    connectionChannel.offer(BillingResponse.Error(BillingException.Disconnected))
+                    connectionChannel.trySend(BillingResponse.Error(BillingException.Disconnected))
                 }
             })
         return connectionChannel.receive()
