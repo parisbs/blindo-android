@@ -8,6 +8,12 @@
     <string name="navigation_drawer_open">Abrir menú de navegación</string>
     <string name="navigation_drawer_close">Cerrar menú de navegación</string>
 
+    <!-- Settings -->
+    <string name="settings__clear_cache_title">Limpiar caché</string>
+    <string name="settings__clear_cache_message">¿Seguro que quieres limpiar el caché de Blindo?, esta acción no se puede deshacer</string>
+    <string name="settings__clear_cache_continue">Continuar</string>
+    <string name="settings__clear_cache_cancel">Cancelar</string>
+
     <!-- Search -->
     <string name="search__app_title">Buscando \"%1$s\"</string>
     <string name="search__app_hint">Busca por nombre de paquete o nombre de la app</string>

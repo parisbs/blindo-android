@@ -8,6 +8,12 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- Settings -->
+    <string name="settings__clear_cache_title">Clear cache</string>
+    <string name="settings__clear_cache_message">Do you want to clear the Blindo\'s cache?, this action cannot be undone</string>
+    <string name="settings__clear_cache_continue">Continue</string>
+    <string name="settings__clear_cache_cancel">Cancel</string>
+
     <!-- Search -->
     <string name="search__app_title">Searching for \"%1$s\"</string>
     <string name="search__app_hint">Search by package name or app name</string>

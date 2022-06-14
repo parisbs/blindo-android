@@ -40,12 +40,6 @@ class BillingViewModel(
     private val currentMembership = MutableLiveData<ActiveMembership>()
     val membership: LiveData<ActiveMembership> get() = currentMembership
 
-    init {
-        if (billingManager.isConnected().not()) {
-            startConnection()
-        }
-    }
-
     fun isServiceConnected(): Boolean = billingManager.isConnected()
 
     fun startConnection() = viewModelScope.launch(backgroundDispatcher) {

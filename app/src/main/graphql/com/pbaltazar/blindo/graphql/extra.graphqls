@@ -1,0 +1,17 @@
+extend type Query @fieldPolicy(forField: "getApp", keyArgs: "id")
+extend type Query @fieldPolicy(forField: "getAppByPackageName", keyArgs: "packageName")
+extend type Query @fieldPolicy(forField: "listApps", keyArgs: "filters sort first after")
+
+extend type Query @fieldPolicy(forField: "packs", keyArgs: "filters sort first after")
+extend type Query @fieldPolicy(forField: "ratings", keyArgs: "filters sort first after")
+
+extend type Query @fieldPolicy(forField: "getDevice", keyArgs: "hardwareFingerprint")
+extend type Query @fieldPolicy(forField: "listDevices", keyArgs: "sort first after")
+
+extend type Query @fieldPolicy(forField: "getPack", keyArgs: "id")
+extend type Query @fieldPolicy(forField: "listPacks", keyArgs: "filters sort first after")
+
+extend type Query @fieldPolicy(forField: "listRatings", keyArgs: "filters sort first after")
+
+extend type Query @fieldPolicy(forField: "getUser", keyArgs: "sub")
+extend type Query @fieldPolicy(forField: "getPublicUser", keyArgs: "id")

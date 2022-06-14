@@ -22,7 +22,6 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
-import com.google.ads.consent.*
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
@@ -36,7 +35,7 @@ import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
-import com.pbaltazar.blindo.utils.constants.*
+import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.extensions.gone
 import com.pbaltazar.blindo.utils.extensions.visible
 import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
@@ -77,7 +76,8 @@ class BlindoActivity : AuthenticableActivity() {
         R.id.navAbout,
         R.id.dialogRequiresAuth,
         R.id.dialogRequiresPremium,
-        R.id.dialogClearSearchHistory
+        R.id.dialogClearSearchHistory,
+        R.id.dialogClearCache
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,7 +131,22 @@ class BlindoActivity : AuthenticableActivity() {
 
     override fun onResume() {
         super.onResume()
+        if (billingViewModel.isServiceConnected().not()) {
+            billingViewModel.startConnection()
+        }
         UpdateManager.checkForUpdates()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (billingViewModel.isServiceConnected()) {
+            billingViewModel.closeConnection()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -155,11 +170,6 @@ class BlindoActivity : AuthenticableActivity() {
         } else {
             super.onBackPressed()
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

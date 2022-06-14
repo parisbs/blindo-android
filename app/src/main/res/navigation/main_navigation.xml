@@ -395,6 +395,11 @@
     </dialog>
 
     <dialog
+        android:id="@+id/dialogClearCache"
+        android:name="com.pbaltazar.blindo.ui.dialog.ClearCache">
+    </dialog>
+
+    <dialog
         android:id="@+id/dialogRequiresAuth"
         android:name="com.pbaltazar.blindo.ui.dialog.auth.RequiresAuth">
     </dialog>

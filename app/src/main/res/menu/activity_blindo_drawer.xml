@@ -50,6 +50,11 @@
         android:title="@string/search__clear_search_history_title" />
 
     <item
+        android:id="@+id/dialogClearCache"
+        android:icon="@drawable/ic_delete_forever_black_24dp"
+        android:title="@string/settings__clear_cache_title" />
+
+    <item
         android:id="@+id/navAbout"
         android:icon="@drawable/ic_info_black_24dp"
         android:title="@string/about__title" />

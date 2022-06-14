@@ -37,7 +37,9 @@ dependencies {
     implementation libraries.material.material
 
     api libraries.apollo.runtime
-    api libraries.apollo.cache
+    api libraries.apollo.normalizedCache
+    api libraries.apollo.normalizedCacheSQLite
+    api libraries.apollo.httpCache
     api libraries.apollo.adapters
     api libraries.squareup.okhttp3
     api libraries.squareup.loggingInterceptor

@@ -110,7 +110,9 @@ kotlinVersion = "1.6.21"
         ],
         apollo         : [
             runtime: "com.apollographql.apollo3:apollo-runtime:$apolloVersion",
-            cache: "com.apollographql.apollo3:apollo-http-cache:$apolloVersion",
+            normalizedCache: "com.apollographql.apollo3:apollo-normalized-cache:$apolloVersion",
+            normalizedCacheSQLite: "com.apollographql.apollo3:apollo-normalized-cache-sqlite:$apolloVersion",
+            httpCache: "com.apollographql.apollo3:apollo-http-cache:$apolloVersion",
             adapters: "com.apollographql.apollo3:apollo-adapters:$apolloVersion"
         ],
         coroutines: [

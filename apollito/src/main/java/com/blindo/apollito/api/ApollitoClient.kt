@@ -7,8 +7,16 @@ import com.apollographql.apollo3.api.CustomScalarType
 import com.apollographql.apollo3.api.Mutation
 import com.apollographql.apollo3.api.Query
 import com.apollographql.apollo3.api.http.HttpHeader
+import com.apollographql.apollo3.cache.normalized.ApolloStore
+import com.apollographql.apollo3.cache.normalized.api.MemoryCacheFactory
+import com.apollographql.apollo3.cache.normalized.apolloStore
+import com.apollographql.apollo3.cache.normalized.fetchPolicy
+import com.apollographql.apollo3.cache.normalized.normalizedCache
+import com.apollographql.apollo3.cache.normalized.sql.SqlNormalizedCacheFactory
 import com.apollographql.apollo3.network.okHttpClient
+import com.blindo.apollito.api.cache.CacheConfiguration
 import com.blindo.apollito.api.constants.AUTHORIZATION_HEADER
+import com.blindo.apollito.api.constants.FetchPolicy
 import com.blindo.apollito.api.constants.TimeUnit
 import com.blindo.apollito.exceptions.ExpectedParameterError
 import com.blindo.apollito.models.Response
@@ -19,6 +27,7 @@ import timber.log.Timber
 
 class ApollitoClient private constructor(
     private val apolloClient: ApolloClient,
+    private val defaultFetchPolicy: FetchPolicy,
     private val isDebug: Boolean
 ) {
 
@@ -27,6 +36,7 @@ class ApollitoClient private constructor(
         private var serverUrl: String? = null,
         private var timeOutValue: Long = 30,
         private var timeOutUnit: TimeUnit = TimeUnit.SECONDS,
+        private var cacheConfiguration: CacheConfiguration = CacheConfiguration(),
         private var customTypeAdapters: Map<CustomScalarType, Adapter<*>>? = null,
         private var isDebug: Boolean = false
     ) {
@@ -42,6 +52,10 @@ class ApollitoClient private constructor(
         fun connectionTimeOut(value: Long, timeUnit: TimeUnit) = apply {
             this.timeOutValue = value
             this.timeOutUnit = timeOutUnit
+        }
+
+        fun cacheConfiguration(cacheConfiguration: CacheConfiguration) = apply {
+            this.cacheConfiguration = cacheConfiguration
         }
 
         fun addCustomTypeAdapters(customTypeAdapters: Map<CustomScalarType, Adapter<*>>) = apply {
@@ -60,12 +74,24 @@ class ApollitoClient private constructor(
             val apolloClient = ApolloClient.Builder()
                 .okHttpClient(this.getOkHttpClient())
                 .serverUrl(graphqlServerUrl)
-            this.customTypeAdapters?.takeUnless { it.isNullOrEmpty() }?.forEach { (customScalarType, adapter) ->
+                .normalizedCache(
+                    MemoryCacheFactory(
+                        cacheConfiguration.cacheSize.toInt(),
+                        cacheConfiguration.expireAfterMillis
+                    ).chain(
+                        SqlNormalizedCacheFactory(
+                            context!!,
+                            cacheConfiguration.fileName
+                        )
+                    )
+                )
+            customTypeAdapters?.takeUnless { it.isNullOrEmpty() }?.forEach { (customScalarType, adapter) ->
                 apolloClient.addCustomScalarAdapter(customScalarType, adapter)
             }
             return ApollitoClient(
                 apolloClient = apolloClient.build(),
-                isDebug = this.isDebug
+                defaultFetchPolicy = cacheConfiguration.defaultFetchPolicy,
+                isDebug = isDebug
             )
         }
 
@@ -86,14 +112,20 @@ class ApollitoClient private constructor(
                 .build()
     }
 
-    fun apolloClient(): ApolloClient = this.apolloClient
+    fun apolloClient(): ApolloClient = apolloClient
+
+    fun apolloStore(): ApolloStore = apolloClient.apolloStore
 
     suspend fun <D: Query.Data, Q: Query<D>> query(
         query: Q,
-        authorizationToken: String? = null
+        authorizationToken: String? = null,
+        fetchPolicy: FetchPolicy? = null
     ): Response<D> =
         try {
             this.apolloClient.query(query)
+                .fetchPolicy(
+                    fetchPolicy?.apolloFetchPolicy ?: defaultFetchPolicy.apolloFetchPolicy
+                )
                 .httpHeaders(
                     authorizationToken?.let {
                         listOf(
@@ -102,9 +134,9 @@ class ApollitoClient private constructor(
                     } ?: emptyList()
                 )
                 .execute()
-                .processResponse(this.isDebug)
+                .processResponse(isDebug)
         } catch (e: Exception) {
-            if (this.isDebug) {
+            if (isDebug) {
                 Timber.e(e)
             }
             Response.Failure(e)
