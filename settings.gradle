@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name='Blindo'
 include ':app'
 include ':apollito'
+include ':screenshot-watcher'
