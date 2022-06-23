@@ -3,7 +3,9 @@ package com.pbaltazar.blindo.utils.extensions
 import com.pbaltazar.blindo.entities.*
 import com.pbaltazar.blindo.entities.connections.PackConnection
 import com.pbaltazar.blindo.entities.connections.RatingConnection
+import com.pbaltazar.blindo.entities.enums.ImageDescriptionLanguages
 import com.pbaltazar.blindo.graphql.*
+import com.pbaltazar.blindo.graphql.type.ImageDescriptionLanguagesEnum
 import com.pbaltazar.blindo.graphql.type.LabelInput
 import org.json.JSONObject
 
@@ -556,4 +558,17 @@ fun GetPublicUserRatingsQuery.App.toApiModel(): App = App(
     packageIcon = packageIcon,
     packageLabel = packageLabel,
     category = category
+)
+
+fun ImageDescriptionMutation.ImageDescription.toApiModel(): ImageDescription = ImageDescription(
+    description = description,
+    descriptionConfidence = descriptionConfidence.toFloat(),
+    descriptionTags = descriptionTags,
+    descriptionLanguage = when (descriptionLanguage) {
+        ImageDescriptionLanguagesEnum.ENGLISH -> ImageDescriptionLanguages.ENGLISH
+        ImageDescriptionLanguagesEnum.SPANISH -> ImageDescriptionLanguages.SPANISH
+        else -> ImageDescriptionLanguages.ENGLISH
+    },
+    imageText = imageText,
+    left = left
 )

@@ -8,11 +8,37 @@
     <string name="navigation_drawer_open">Abrir menú de navegación</string>
     <string name="navigation_drawer_close">Cerrar menú de navegación</string>
 
+    <!-- Blindo Vision -->
+    <string name="vision__service_summary">
+        Lleva la accesibilidad a un nivel superior describiendo cualquier elemento con una simple captura de pantalla.
+    </string>
+    <string name="vision__image_description_title">Descripción de Imagen</string>
+    <string name="vision__loading_title">Analizando imagen, espera un momento por favor...</string>
+    <string name="vision__error_title">No se puede analizar la imagen</string>
+    <string name="vision__empty_title">No No hay nada que analizar en la imagen</string>
+    <string name="vision__retry">Reintentar</string>
+    <string name="vision__description">Descripción: %1$s</string>
+    <string name="vision__confidence">Precisión: %1$s</string>
+    <string name="vision__text">Texto: %1$s</string>
+    <string name="vision__tags">Etiquetas: %1$s</string>
+
+    <!-- Permissions -->
+    <string name="permissions__activity_title">Permisos para Blindo Vision</string>
+    <string name="permissions__loading_title">Validando permisos...</string>
+    <string name="permissions__summary">
+        Blindo Vision necesita acceder al almacenamiento de tus capturas de pantalla para poder obtener el recorte de los elementos que quieres describir.
+    </string>
+    <string name="permissions__continue">Continuar</string>
+
     <!-- Settings -->
     <string name="settings__clear_cache_title">Limpiar caché</string>
     <string name="settings__clear_cache_message">¿Seguro que quieres limpiar el caché de Blindo?, esta acción no se puede deshacer</string>
     <string name="settings__clear_cache_continue">Continuar</string>
     <string name="settings__clear_cache_cancel">Cancelar</string>
+    <string name="settings__vision_activity_title">Preferencias para Blindo Vision</string>
+    <string name="settings__vision_general_category">General</string>
+    <string name="settings__vision_language_title">Idioma</string>
+    <string name="settings__vision_language_summary">Selecciona el idioma para las descripciones de imagen</string>
 
     <!-- Search -->
     <string name="search__app_title">Buscando \"%1$s\"</string>

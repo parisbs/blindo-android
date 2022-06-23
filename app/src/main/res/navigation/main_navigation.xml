@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
- <navigation
+<navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -455,6 +455,13 @@
             app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navVisionResults"
+        android:name="com.pbaltazar.blindo.ui.vision.VisionResultsFragment"
+        android:label="@string/vision__image_description_title"
+        tools:layout="@layout/fragment_vision_results">
     </fragment>
 
     <action

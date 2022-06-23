@@ -11,6 +11,7 @@ val useCasesModule = module {
     factory { MutationCreateUser(get()) }
     factory { MutationDownloadBackup(get()) }
     factory { MutationDownloadPack(get()) }
+    factory { MutationImageDescription(get()) }
     factory { MutationLaunchSli(get()) }
     factory { MutationProcessMembership(get()) }
     factory { MutationProcessPacks(get()) }

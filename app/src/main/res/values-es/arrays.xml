@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Language Preference -->
+    <string-array name="language_entries">
+        <item>Inglés</item>
+        <item>Español</item>
+        <item>Japonés</item>
+        <item>Portugués</item>
+        <item>Chino Simplificado</item>
+    </string-array>
+
+</resources>

@@ -115,6 +115,7 @@ apollo {
     generateKotlinModels.set(true)
     mapScalar("DateTime", "java.util.Date")
     mapScalar("JSONString", "org.json.JSONObject")
+    mapScalarToUpload("Upload")
 }
 
 dependencies {
@@ -147,6 +148,7 @@ dependencies {
     implementation libraries.firebase.ads
 
     implementation project(":apollito")
+    implementation project(":screenshot-watcher")
 
     implementation libraries.glide.core
 

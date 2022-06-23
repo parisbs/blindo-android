@@ -22,8 +22,10 @@ import com.pbaltazar.blindo.data.rating.BlindoApiRatingGateway
 import com.pbaltazar.blindo.data.rating.RatingGateway
 import com.pbaltazar.blindo.data.user.BlindoApiUserGateway
 import com.pbaltazar.blindo.data.user.UserGateway
-import com.pbaltazar.blindo.graphql.type.JSONString
+import com.pbaltazar.blindo.data.vision.BlindoApiVisionGateway
+import com.pbaltazar.blindo.data.vision.VisionGateway
 import com.pbaltazar.blindo.graphql.type.DateTime
+import com.pbaltazar.blindo.graphql.type.JSONString
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -113,6 +115,12 @@ val dataModule = module {
     single<UserGateway> {
         BlindoApiUserGateway(
             get(named(BASIC_APOLLITO_CLIENT))
+        )
+    }
+
+    single<VisionGateway> {
+        BlindoApiVisionGateway(
+            get(named(EXTENDED_TIMEOUT_APOLLITO_CLIENT))
         )
     }
 }

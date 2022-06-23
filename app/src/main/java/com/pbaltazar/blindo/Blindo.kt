@@ -1,7 +1,6 @@
 package com.pbaltazar.blindo
 
 import android.app.Application
-import com.blindo.apollito.Apollito
 import com.pbaltazar.blindo.data.dataModule
 import com.pbaltazar.blindo.ui.ads.adsModule
 import com.pbaltazar.blindo.ui.app.appModule
@@ -14,6 +13,7 @@ import com.pbaltazar.blindo.ui.sli.sliModule
 import com.pbaltazar.blindo.ui.splash.splashModule
 import com.pbaltazar.blindo.ui.tutorial.tutorialModule
 import com.pbaltazar.blindo.ui.user.userModule
+import com.pbaltazar.blindo.ui.vision.visionResultsModule
 import com.pbaltazar.blindo.usecases.useCasesModule
 import com.pbaltazar.blindo.utils.ads.adsUtilsModule
 import com.pbaltazar.blindo.utils.authentication.authenticationModule
@@ -34,13 +34,8 @@ class Blindo : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        initializePlugins(this)
         initializeLogger()
         initializeDependencyInjection(this)
-    }
-
-    private fun initializePlugins(application: Application) {
-        Apollito.initialize(application)
     }
 
     private fun initializeLogger() {
@@ -68,6 +63,7 @@ class Blindo : Application() {
                     billingModule,
                     authenticationModule,
                     searchModule,
+                    visionResultsModule,
                     splashModule,
                     tutorialModule,
                     userModule,

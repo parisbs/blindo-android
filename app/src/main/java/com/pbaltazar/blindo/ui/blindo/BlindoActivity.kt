@@ -77,7 +77,8 @@ class BlindoActivity : AuthenticableActivity() {
         R.id.dialogRequiresAuth,
         R.id.dialogRequiresPremium,
         R.id.dialogClearSearchHistory,
-        R.id.dialogClearCache
+        R.id.dialogClearCache,
+        R.id.navVisionResults
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

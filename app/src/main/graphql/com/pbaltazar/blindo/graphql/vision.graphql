@@ -1,0 +1,12 @@
+mutation ImageDescription(
+  $input: ImageDescriptionInput!
+) {
+  imageDescription(input: $input) {
+    description
+    descriptionConfidence
+    descriptionTags
+    descriptionLanguage
+    imageText
+    left
+  }
+}

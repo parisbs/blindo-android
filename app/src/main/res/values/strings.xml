@@ -8,11 +8,38 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- Blindo Vision -->
+    <string name="vision__service_name" translatable="false">Blindo Vision</string>
+    <string name="vision__service_summary">
+        Take the accessibility to the next level by describing any element with a simple screenshot.
+    </string>
+    <string name="vision__image_description_title">Image description</string>
+    <string name="vision__loading_title">Analizing image, please wait...</string>
+    <string name="vision__error_title">Unable to analize image</string>
+    <string name="vision__empty_title">Nothing to analize in the image</string>
+    <string name="vision__retry">Retry</string>
+    <string name="vision__description">Description: %1$s</string>
+    <string name="vision__confidence">Confidence: %1$s</string>
+    <string name="vision__text">Text: %1$s</string>
+    <string name="vision__tags">Tags: %1$s</string>
+
+    <!-- Permissions -->
+    <string name="permissions__activity_title">Blindo Vision Permissions</string>
+    <string name="permissions__loading_title">Checking for permissions...</string>
+    <string name="permissions__summary">
+        Blindo Vision requires to access the storage of your screenshots in order to get the clipping of the elements you want to describe.
+    </string>
+    <string name="permissions__continue">Continue</string>
+
     <!-- Settings -->
     <string name="settings__clear_cache_title">Clear cache</string>
     <string name="settings__clear_cache_message">Do you want to clear the Blindo\'s cache?, this action cannot be undone</string>
     <string name="settings__clear_cache_continue">Continue</string>
     <string name="settings__clear_cache_cancel">Cancel</string>
+    <string name="settings__vision_activity_title">Blindo Vision Preferences</string>
+    <string name="settings__vision_general_category">General</string>
+    <string name="settings__vision_language_title">Language</string>
+    <string name="settings__vision_language_summary">Select the language for the image descriptions</string>
 
     <!-- Search -->
     <string name="search__app_title">Searching for \"%1$s\"</string>

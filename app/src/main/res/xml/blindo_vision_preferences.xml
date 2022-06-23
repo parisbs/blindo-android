@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        app:title="@string/settings__vision_general_category">
+
+        <DropDownPreference
+            app:key="language"
+            app:title="@string/settings__vision_language_title"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:defaultValue="ENGLISH"
+            app:summary="@string/settings__vision_language_summary"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

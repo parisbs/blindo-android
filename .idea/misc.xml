@@ -3,7 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/activity_blindo.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/activity_permissions.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/activity_vision_results.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/app_bar_blindo.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/content_vision_results.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/layout/fragment_vision_results.xml" value="0.1" />
         <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/menu/activity_blindo_drawer.xml" value="0.10989583333333333" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/xml/blindo_vision_preferences.xml" value="0.1" />
+        <entry key="..\:/Users/siegs/git/private/blindo-android/app/src/main/res/xml/vision_preferences.xml" value="0.15940685820203893" />
       </map>
     </option>
   </component>
