@@ -44,8 +44,6 @@ dependencies {
     api libraries.squareup.okhttp3
     api libraries.squareup.loggingInterceptor
 
-    implementation libraries.timber
-
     testImplementation libraries.junit
     androidTestImplementation libraries.extJunit
     androidTestImplementation libraries.espressoCore

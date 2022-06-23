@@ -1,12 +1,13 @@
 package com.blindo.apollito.utils.extensions
 
+import android.util.Log
 import com.apollographql.apollo3.api.ApolloResponse
 import com.apollographql.apollo3.api.Error
 import com.apollographql.apollo3.api.Operation
+import com.blindo.apollito.api.ApollitoClient
 import com.blindo.apollito.exceptions.EmptyResponse
 import com.blindo.apollito.exceptions.ResponseWithErrors
 import com.blindo.apollito.models.Response
-import timber.log.Timber
 
 internal fun <D: Operation.Data> ApolloResponse<D>.processResponse(isDebug: Boolean): Response<D> =
     if (hasErrors().not()) {
@@ -14,13 +15,14 @@ internal fun <D: Operation.Data> ApolloResponse<D>.processResponse(isDebug: Bool
             Response.Success(it)
         } ?: Response.Failure(EmptyResponse()).also {
             if (isDebug) {
-                Timber.e(it.error)
+                Log.e(ApollitoClient.TAG, it.error.message, it.error)
             }
         }
     } else {
         if (isDebug) {
-            Timber.e(
-                errors?.mapNotNull { it.toReadableLog() }?.takeUnless { it.isNullOrEmpty() }?.toString() ?: "Empty errors list"
+            Log.e(
+                ApollitoClient.TAG,
+                errors?.mapNotNull { it.toReadableLog() }?.takeUnless { it.isNullOrEmpty() }?.toString() ?: "Empty errors list",
             )
         }
         Response.Failure(

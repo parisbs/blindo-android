@@ -1,6 +1,7 @@
 package com.blindo.apollito.api
 
 import android.content.Context
+import android.util.Log
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.api.Adapter
 import com.apollographql.apollo3.api.CustomScalarType
@@ -23,13 +24,16 @@ import com.blindo.apollito.models.Response
 import com.blindo.apollito.utils.extensions.processResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import timber.log.Timber
 
 class ApollitoClient private constructor(
     private val apolloClient: ApolloClient,
     private val defaultFetchPolicy: FetchPolicy,
     private val isDebug: Boolean
 ) {
+
+    companion object {
+        const val TAG = "Apollito"
+    }
 
     class Builder(
         private var context: Context? = null,
@@ -137,7 +141,7 @@ class ApollitoClient private constructor(
                 .processResponse(isDebug)
         } catch (e: Exception) {
             if (isDebug) {
-                Timber.e(e)
+                Log.e(TAG, e.message, e)
             }
             Response.Failure(e)
         }
@@ -159,7 +163,7 @@ class ApollitoClient private constructor(
                 .processResponse(this.isDebug)
         } catch (e: Exception) {
             if (this.isDebug) {
-                Timber.e(e)
+                Log.e(TAG, e.message, e)
             }
             Response.Failure(e)
         }
