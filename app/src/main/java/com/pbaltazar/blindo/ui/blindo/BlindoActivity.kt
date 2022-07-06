@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.View
 import android.widget.SearchView
 import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -30,6 +31,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.MainNavigationDirections
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityBlindoBinding
+import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
@@ -37,7 +39,9 @@ import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.extensions.gone
+import com.pbaltazar.blindo.utils.extensions.isActive
 import com.pbaltazar.blindo.utils.extensions.visible
+import com.pbaltazar.blindo.utils.log.BlindoLogger
 import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
 import com.pbaltazar.blindo.utils.updates.UpdateManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -69,10 +73,11 @@ class BlindoActivity : AuthenticableActivity() {
     private var isWaitingForSplash: Boolean = true
     private var isAdBannerLoaded: Boolean = false
 
+    private var currentDestinationId: Int = 0
     private val adsFreeScreens: List<Int> = listOf(
         R.id.navTutorial,
         R.id.navAdsSettings,
-        R.id.navPremium,
+        R.id.navMembership,
         R.id.navAbout,
         R.id.dialogRequiresAuth,
         R.id.dialogRequiresPremium,
@@ -124,6 +129,9 @@ class BlindoActivity : AuthenticableActivity() {
 
         setupUi()
         subscribeUser()
+        subscribePurchases()
+        subscribeMembership()
+        subscribeBillingConnection()
         subscribeIsValidationEmailSent()
         subscribeAdsConsentStatus()
         subscribeAdsSettings()
@@ -138,16 +146,12 @@ class BlindoActivity : AuthenticableActivity() {
         UpdateManager.checkForUpdates()
     }
 
-    override fun onPause() {
-        super.onPause()
-        if (billingViewModel.isServiceConnected()) {
-            billingViewModel.closeConnection()
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         binding = null
+        if (billingViewModel.isServiceConnected()) {
+            billingViewModel.closeConnection()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -231,38 +235,12 @@ class BlindoActivity : AuthenticableActivity() {
                 }
                 visibility = View.VISIBLE
             }
-            if (currentUser.isPremium) {
-                adBanner.visibility = View.GONE
-                headerUserCrown.visibility = View.VISIBLE
-            } else {
-                if (isAdBannerLoaded.not()) {
-                    if (isWaitingForSplash.not()) {
-                        adsViewModel.updateAdsConsentStatus()
-                    }
-                } else {
-                    if (isWaitingForSplash) {
-                        adBanner.visibility = View.GONE
-                    } else {
-                        adBanner.visibility = View.VISIBLE
-                    }
-                }
-                headerUserCrown.visibility = View.GONE
-            }
+            refreshAdsBanner(currentDestinationId)
             if (currentUser.isVerified.not()) {
                 emailVerificationMessage.show()
             }
         } ?: run {
-            if (isAdBannerLoaded.not()) {
-                if (isWaitingForSplash.not()) {
-                    adsViewModel.updateAdsConsentStatus()
-                }
-            } else {
-                if (isWaitingForSplash) {
-                    adBanner.visibility = View.GONE
-                } else {
-                    adBanner.visibility = View.VISIBLE
-                }
-            }
+            refreshAdsBanner(currentDestinationId)
             headerSignIn.visibility = View.VISIBLE
             headerUserPicture.visibility = View.GONE
             headerUserCrown.visibility = View.GONE
@@ -271,6 +249,58 @@ class BlindoActivity : AuthenticableActivity() {
             headerSignOut.visibility = View.GONE
         }
     }
+
+    private fun subscribeBillingConnection() = billingViewModel.isConnected.observe(this, Observer {
+        when (it) {
+            is BillingViewModel.BillingConnection.Connected -> if (isWaitingForSplash.not()) {
+                billingViewModel.askForPurchases(ProductType.SUBSCRIPTION)
+            }
+            is BillingViewModel.BillingConnection.Error -> BlindoLogger.log.e(it.reason)
+            else -> BlindoLogger.log.e(it.toString())
+        }
+    })
+
+    private fun subscribePurchases() = billingViewModel.purchases.observe(this, Observer {
+        when (val response = it) {
+            is BillingViewModel.Purchases.Success -> response.purchases.also { purchases ->
+                purchases.forEach { purchase ->
+                    if (purchase.isAcknowledged.not()) {
+                        billingViewModel.sendSubscriptionPurchaseToApi(purchase)
+                    }
+                }
+            }
+            is BillingViewModel.Purchases.Empty -> {}
+            is BillingViewModel.Purchases.CanceledByUser -> processError(R.string.membership__billing_canceled_by_user)
+            is BillingViewModel.Purchases.Error -> processError(response.reason)
+            is BillingViewModel.Purchases.FeatureNotSupported -> processError(R.string.membership__billing_feature_not_supported)
+            is BillingViewModel.Purchases.ServiceUnavailable -> processError(R.string.membership__billing_service_unavailable)
+            is BillingViewModel.Purchases.Disconnected -> processError(R.string.membership__billing_disconnected)
+        }
+    })
+
+    private fun subscribeMembership() = billingViewModel.membership.observe(this, Observer {
+        when (val response = it) {
+            is BillingViewModel.PurchasedMembership.Success -> response.membership.also { membership ->
+                setIsUserPremium(membership.isActive())
+            }
+            is BillingViewModel.PurchasedMembership.Error -> {
+                setIsUserPremium(false)
+                BlindoLogger.log.e(response.reason)
+            }
+            else -> {
+                setIsUserPremium(false)
+                BlindoLogger.log.e(response.toString())
+            }
+        }
+    })
+
+    private fun processError(@StringRes reason: Int) = processError(getString(reason))
+
+    private fun processError(reason: String) = Snackbar.make(
+        blindocoordinator,
+        reason,
+        Snackbar.LENGTH_LONG
+    ).show()
 
     private fun subscribeMessagingToken() = messagingViewModel.messagingToken.observe(this, Observer {
         when (val response = it) {
@@ -286,7 +316,8 @@ class BlindoActivity : AuthenticableActivity() {
     })
 
     private fun onDestinationChangedListener(controller: NavController, destination: NavDestination, arguments: Bundle?) {
-        when (destination.id) {
+        currentDestinationId = destination.id
+        when (currentDestinationId) {
             R.id.navSplash -> {
                 isWaitingForSplash = true
                 adBanner.visibility = View.GONE
@@ -305,14 +336,36 @@ class BlindoActivity : AuthenticableActivity() {
         if (adsFreeScreens.contains(destinationId)) {
             adBanner.gone()
         } else {
-            if (getUser()?.isPremium?.not() ?: true) {
-                if (isAdBannerLoaded.not()) {
-                    adsViewModel.updateAdsConsentStatus()
+            getUser()?.also { currentUser ->
+                if (currentUser.isPremium) {
+                    adBanner.visibility = View.GONE
+                    headerUserCrown.visibility = View.VISIBLE
                 } else {
-                    adBanner.visible()
+                    if (isAdBannerLoaded.not()) {
+                        if (isWaitingForSplash.not()) {
+                            adsViewModel.updateAdsConsentStatus()
+                        }
+                    } else {
+                        if (isWaitingForSplash) {
+                            adBanner.visibility = View.GONE
+                        } else {
+                            adBanner.visibility = View.VISIBLE
+                        }
+                    }
+                    headerUserCrown.visibility = View.GONE
                 }
-            } else {
-                adBanner.gone()
+            } ?: run {
+                if (isAdBannerLoaded.not()) {
+                    if (isWaitingForSplash.not()) {
+                        adsViewModel.updateAdsConsentStatus()
+                    }
+                } else {
+                    if (isWaitingForSplash) {
+                        adBanner.visibility = View.GONE
+                    } else {
+                        adBanner.visibility = View.VISIBLE
+                    }
+                }
             }
         }
     }

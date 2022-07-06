@@ -54,7 +54,7 @@
             app:exitAnim="@anim/fade_out" />
         <action
             android:id="@+id/actionFromTutorialToPremium"
-            app:destination="@id/navPremium"
+            app:destination="@id/navMembership"
             app:popUpTo="@id/navTutorial"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/fade_in"
@@ -206,14 +206,14 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navPremium"
-        android:name="com.pbaltazar.blindo.ui.premium.PremiumFragment"
-        android:label="@string/premium__title"
-        tools:layout="@layout/fragment_premium">
+        android:id="@+id/navMembership"
+        android:name="com.pbaltazar.blindo.ui.membership.MembershipFragment"
+        android:label="@string/membership__title"
+        tools:layout="@layout/fragment_membership">
         <action
-            android:id="@+id/actionFromPremiumToRequiresAuth"
+            android:id="@+id/actionFromMembershipToRequiresAuth"
             app:destination="@id/dialogRequiresAuth"
-            app:popUpTo="@id/navPremium"
+            app:popUpTo="@id/navMembership"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
@@ -237,7 +237,7 @@
             android:defaultValue="true"/>
         <action
             android:id="@+id/actionFromAdsSettingsToPremium"
-            app:destination="@id/navPremium"
+            app:destination="@id/navMembership"
             app:popUpTo="@id/navAdsSettings"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/fade_in"
@@ -342,7 +342,7 @@
             app:exitAnim="@anim/fade_out" />
         <action
             android:id="@+id/actionFromPackDetailsToPremium"
-            app:destination="@id/navPremium"
+            app:destination="@id/navMembership"
             app:popUpTo="@id/navPackDetails"
             app:launchSingleTop="true"
             app:popEnterAnim="@anim/fade_in"
@@ -409,7 +409,7 @@
         android:name="com.pbaltazar.blindo.ui.dialog.premium.RequiresPremium">
         <action
             android:id="@+id/actionFromRequiresPremiumToPremium"
-            app:destination="@id/navPremium"
+            app:destination="@id/navMembership"
             app:popUpTo="@id/dialogRequiresPremium"
             app:popUpToInclusive="true"
             app:launchSingleTop="true"

@@ -1,26 +1,27 @@
 package com.pbaltazar.blindo.utils.billing
 
 import androidx.appcompat.app.AppCompatActivity
-import com.pbaltazar.blindo.entities.BlindoPurchase
-import com.pbaltazar.blindo.entities.Sku
+import com.pbaltazar.blindo.entities.purchases.Product
+import com.pbaltazar.blindo.entities.purchases.Purchase
+import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 import com.pbaltazar.blindo.entities.responses.BillingResponse
+import kotlinx.coroutines.flow.Flow
 
 interface BillingManager {
 
     fun isConnected(): Boolean
 
-    suspend fun startConnection(): BillingResponse<Boolean>
+    fun connectionStateFlow(): Flow<BillingResponse<Boolean>>
+
+    fun purchasesFlow(): Flow<BillingResponse<List<Purchase>>>
+
+    fun startConnection()
 
     fun closeConnection()
 
-    suspend fun getSkus(skuList: List<String>): BillingResponse<List<Sku>>
+    suspend fun getProductDetails(products: List<Product>): BillingResponse<List<Product>>
 
-    suspend fun launchBilling(
-        activity: AppCompatActivity,
-        sku: Sku
-    ): BillingResponse<List<BlindoPurchase>>
+    suspend fun launchBilling(activity: AppCompatActivity, products: List<Product>): BillingResponse<Boolean>
 
-    suspend fun acknowledgeBilling(blindoPurchase: BlindoPurchase): BillingResponse<Boolean>
-
-    suspend fun getBillings(): BillingResponse<List<BlindoPurchase>>
+    fun askForPurchases(productType: ProductType)
 }

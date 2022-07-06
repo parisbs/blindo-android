@@ -1,0 +1,156 @@
+query ListCoins(
+  $sort: [CoinSortEnum]!,
+  $first: Int!,
+  $after: String
+) {
+  listCoins(
+    sort: $sort,
+    first: $first,
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        idProduct
+        state
+        type
+        isConsumed
+        latestPurchase {
+          id
+          kind
+          idOrder
+          purchasedAt
+          isAcknowledged
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+query ListMemberships(
+  $sort: [MembershipSortEnum]!,
+  $first: Int!,
+  $after: String,
+  $purchasesSort: [PurchaseSortEnum]!,
+  $purchasesFirst: Int!
+) {
+  listMemberships(
+    sort: $sort,
+    first: $first,
+    after: $after
+  ) {
+    edges {
+      node {
+        id
+        idProduct
+        state
+        isAutoRenew
+        cancellationContext
+        autoResumeTime
+        expireAt
+        purchases(
+          sort: $purchasesSort,
+          first: $purchasesFirst
+        ) {
+          edges {
+            node {
+              id
+              kind
+              idOrder
+              startAt
+              expireAt
+              isAcknowledged
+            }
+          }
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+  }
+}
+
+query GetMembership(
+  $purchasesSort: [PurchaseSortEnum]!,
+  $purchasesFirst: Int!
+) {
+  getMembership {
+    id
+    idProduct
+    state
+    isAutoRenew
+    cancellationContext
+    autoResumeTime
+    expireAt
+    purchases(
+      sort: $purchasesSort,
+      first: $purchasesFirst
+    ) {
+      edges {
+        node {
+          id
+          kind
+          idOrder
+          startAt
+          expireAt
+          isAcknowledged
+        }
+      }
+    }
+  }
+}
+
+mutation ProcessPurchase(
+  $input: ProcessPurchaseInput!,
+  $purchasesSort: [PurchaseSortEnum]!,
+  $purchasesFirst: Int!
+) {
+  processPurchase(
+    input: $input
+  ) {
+    membership {
+      id
+      idProduct
+      state
+      isAutoRenew
+      cancellationContext
+      autoResumeTime
+      expireAt
+    purchases(
+      sort: $purchasesSort,
+      first: $purchasesFirst
+    ) {
+      edges {
+        node {
+          id
+          kind
+          idOrder
+          startAt
+          expireAt
+          isAcknowledged
+        }
+      }
+    }
+    }
+    coin {
+      id
+      idProduct
+      state
+      type
+      isConsumed
+      latestPurchase {
+        id
+        kind
+        idOrder
+        purchasedAt
+        isAcknowledged
+      }
+    }
+  }
+}

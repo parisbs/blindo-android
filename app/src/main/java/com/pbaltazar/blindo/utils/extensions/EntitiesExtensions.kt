@@ -4,9 +4,13 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.content.FileProvider
 import com.apollographql.apollo3.api.Optional
-import com.blindo.apollito.utils.extensions.toJson
 import com.google.firebase.perf.metrics.AddTrace
-import com.pbaltazar.blindo.entities.*
+import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.entities.InstallablePack
+import com.pbaltazar.blindo.entities.Membership
+import com.pbaltazar.blindo.entities.Pack
+import com.pbaltazar.blindo.entities.User
+import com.pbaltazar.blindo.entities.enums.MembershipState
 import com.pbaltazar.blindo.entities.filters.AppFilters
 import com.pbaltazar.blindo.entities.filters.PackFilters
 import com.pbaltazar.blindo.entities.filters.RatingFilters
@@ -20,11 +24,10 @@ import com.pbaltazar.blindo.utils.constants.DOWNLOADS_DIR
 import com.pbaltazar.blindo.utils.constants.LABELS_PROVIDER
 import com.pbaltazar.blindo.utils.constants.TALKBACK_ARRAY_PACKAGE_NAME
 import com.pbaltazar.blindo.utils.constants.TALKBACK_LABELS_ARRAY
-import timber.log.Timber
+import com.pbaltazar.blindo.utils.log.BlindoLogger
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStreamWriter
-import java.util.*
 
 const val MONTHLY_LONG_VALUE = 2592000
 
@@ -32,10 +35,10 @@ const val MONTHLY_LONG_VALUE = 2592000
 fun Pack.getTalkbackInstallableFileUri(context: Context): Uri? =
     File(context.filesDir, "${DOWNLOADS_DIR}/${this.hash}.blp").let { packFile ->
         if (packFile.exists()) {
-            Timber.i("Retrieving file ${packFile.absolutePath}")
+            BlindoLogger.log.i("Retrieving file ${packFile.absolutePath}")
             FileProvider.getUriForFile(context, LABELS_PROVIDER, packFile)
         } else {
-            Timber.e("The pack file ${packFile} not exists")
+            BlindoLogger.log.e("The pack file ${packFile} not exists")
             null
         }
     }
@@ -44,7 +47,7 @@ fun Pack.getTalkbackInstallableFileUri(context: Context): Uri? =
 fun InstallablePack.saveTalkbackInstallableFile(context: Context): Uri? =
     File(context.filesDir, DOWNLOADS_DIR).let { dir ->
         if (dir.exists().not()) {
-            Timber.i("Creating downloads internal directory...")
+            BlindoLogger.log.i("Creating downloads internal directory...")
             dir.mkdir()
         }
         File(dir, "${this.pack.hash}.blp").let { packFile ->
@@ -56,14 +59,10 @@ fun InstallablePack.saveTalkbackInstallableFile(context: Context): Uri? =
         }
     }
 
-fun BlindoPurchase.toLocalMembership(): Membership = this.originalJson.toJson().let { json ->
-    Membership(
-        expireAt = Date((json.optLong("purchaseTime", (System.currentTimeMillis() / 1000)) + MONTHLY_LONG_VALUE).toLong()),
-        isCanceled = json.optBoolean("autoRenewing", true).not()
-    )
-}
+fun Membership.isActive(): Boolean = state.equals(MembershipState.SUBSCRIPTION_STATE_ACTIVE) ||
+    state.equals(MembershipState.SUBSCRIPTION_STATE_IN_GRACE_PERIOD) || state.equals(MembershipState.SUBSCRIPTION_STATE_CANCELED)
 
-fun Membership.isExpired(): Boolean = this.expireAt.before(Date(System.currentTimeMillis()))
+fun Membership.isExpired(): Boolean = state.equals(MembershipState.SUBSCRIPTION_STATE_EXPIRED)
 
 fun InstallablePack.countLabels(): Int {
     if (targetScreenreaders == SupportedScreenreadersEnum.TALKBACK) {
@@ -151,4 +150,30 @@ fun PackFilters.toGraphQlFilter(): PackFilter = PackFilter(
 fun RatingFilters.toGraphQLFilter(): RatingFilter = RatingFilter(
     commentIsNull = Optional.presentIfNotNull(commentIsNull),
     commentLanguageIn = Optional.presentIfNotNull(commentLanguageIn)
+)
+
+fun MembershipState.toReadableString(context: Context): String = context.getString(
+    when (this) {
+        MembershipState.SUBSCRIPTION_STATE_UNSPECIFIED -> R.string.membership__subscription_state_unspecified
+        MembershipState.SUBSCRIPTION_STATE_PENDING -> R.string.membership__subscription_state_pending
+        MembershipState.SUBSCRIPTION_STATE_ACTIVE -> R.string.membership__subscription_state_active
+        MembershipState.SUBSCRIPTION_STATE_PAUSED -> R.string.membership__subscription_state_paused
+        MembershipState.SUBSCRIPTION_STATE_IN_GRACE_PERIOD -> R.string.membership__subscription_state_in_grace_period
+        MembershipState.SUBSCRIPTION_STATE_ON_HOLD -> R.string.membership__subscription_state_on_hold
+        MembershipState.SUBSCRIPTION_STATE_CANCELED -> R.string.membership__subscription_state_canceled
+        MembershipState.SUBSCRIPTION_STATE_EXPIRED -> R.string.membership__subscription_state_expired
+    }
+)
+
+fun MembershipState.getInfoString(context: Context): String = context.getString(
+    when (this) {
+        MembershipState.SUBSCRIPTION_STATE_UNSPECIFIED -> R.string.membership__subscription_state_unspecified_info
+        MembershipState.SUBSCRIPTION_STATE_PENDING -> R.string.membership__subscription_state_pending_info
+        MembershipState.SUBSCRIPTION_STATE_ACTIVE -> R.string.membership__subscription_state_active_info
+        MembershipState.SUBSCRIPTION_STATE_PAUSED -> R.string.membership__subscription_state_paused_info
+        MembershipState.SUBSCRIPTION_STATE_IN_GRACE_PERIOD -> R.string.membership__subscription_state_in_grace_period_info
+        MembershipState.SUBSCRIPTION_STATE_ON_HOLD -> R.string.membership__subscription_state_on_hold_info
+        MembershipState.SUBSCRIPTION_STATE_CANCELED -> R.string.membership__subscription_state_canceled_info
+        MembershipState.SUBSCRIPTION_STATE_EXPIRED -> R.string.membership__subscription_state_expired_info
+    }
 )

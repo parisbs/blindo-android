@@ -12,9 +12,9 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Label
 import com.pbaltazar.blindo.utils.constants.*
+import com.pbaltazar.blindo.utils.log.BlindoLogger
 import org.json.JSONArray
 import org.json.JSONObject
-import timber.log.Timber
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,7 +33,7 @@ fun Uri.installTalkbackPack(view: View) {
         }
     } catch (e: Exception) {
         FirebaseCrashlytics.getInstance().recordException(e)
-        Timber.e(e)
+        BlindoLogger.log.e(e)
         Snackbar.make(
             view,
             e.localizedMessage ?: e.toString(),

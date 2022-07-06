@@ -171,27 +171,84 @@
     <string name="sli__sli_result">Found %1$d labels in %2$s for %3$d apps. Do you want to install it?</string>
     <string name="sli__unable_to_save">Unable to download and save your custom labels pack, verify if you have 10 MB or higher of free disk space in your internal memory and try again</string>
 
-    <string name="premium__title">Premium membership</string>
-    <string name="premium__introduction">Get access to premium features and enjoy the best accessibility experience in your Android without limits and help us to make the biggest accessibility community in the world!</string>
-    <string name="premium__benefit1">Take advantage of your labels backup and restore it only in one click, no more missing labels or hard transfering between devices, just press restore my backup and all your labels will be in your device in a few seconds</string>
-    <string name="premium__benefit2">Use our Smart Labels Installer (SLI) to automaticaly generate a custom labels pack with all available labels for your apps. Don\'t search one by one the best labels for your apps, run Blindo SLI and get a labels pack specialy generated for you with auto translates and more</string>
-    <string name="premium__benefit3">Do you wanna a labels pack but it\'s in other language?, translate and install it in just one click. Now you can search for labels packs in other languages to grow your labels collection and enjoy the most accessible experience in your Android</string>
-    <string name="premium__benefit4">Remove all the ads in Blindo and help us to continue developing and growing up our community</string>
-    <string name="premium__payment_info">Get a membership now by %1$s monthly</string>
-    <string name="premium__payment_period">This is a recurrent payment, every month %1$s will be charge to your payment method and you can cancel any time</string>
-    <string name="premium__payment_info_purchased">Your subscription is %1$s, press manage subscription if you want to cancel or change the payment method</string>
-    <string name="premium__payment_period_purchased">Your next payment will be processed at %1$s, if you cancel your subscription your membership will be available until this date and the payment won\'t processed</string>
-    <string name="premium__subs">Subscribe now!</string>
-    <string name="premium__manage_subs">Manage my subscription</string>
-    <string name="premium__disconnected">Error: Google Play Services is disconnected, please verify your internet connection and try again</string>
-    <string name="premium__feature_not_supported">Error: your Google Play Service don\'t support subscriptions, please update your Google Play Service and try again</string>
-    <string name="premium__service_unavailable">Error: Google Play Service is not available, verify that you have the latest version of Google Play Service and try again</string>
-    <string name="premium__unknown_error">Error: Google Play Services is not able to response, are you have a valid Google Play Services version installed\?</string>
-    <string name="premium__empty_skus">Not products available</string>
-    <string name="premium__canceled_by_user">You cancel the purchase</string>
-    <string name="premium__purchased_but_not_processed">Your purchase is complete but we still processing it, this don\'t affect your premium account but maybe you could wait some minutes to have a full access to premium features</string>
-    <string name="premium__status_active">active</string>
-    <string name="premium__status_canceled">canceled</string>
+    <!-- Memberships -->
+    <string name="membership__title">Memberships</string>
+    <string name="membership__subscription_info">%1$s by %2$s</string>
+    <string name="membership__subscription_notice">This is a recurrent subscription, %1$s will be charged to your payment method and you can cancel any time</string>
+    <string name="membership__subscribe_now">Subscribe now!</string>
+    <string name="membership__manage_subscription">Manage my subscription</string>
+    <string name="membership__billing_canceled_by_user">You cancel the purchase</string>
+    <string name="membership__billing_feature_not_supported">Error: your Google Play Service don\'t support subscriptions, please update your Google Play Service and try again</string>
+    <string name="membership__billing_service_unavailable">Error: Google Play Service is not available, verify that you have the latest version of Google Play Service and try again</string>
+    <string name="membership__billing_disconnected">Error: Google Play Services is disconnected, please verify your internet connection and try again</string>
+    <string name="membership__billing_no_products">Not products available</string>
+    <string name="membership__billing_not_processed">Your purchase is complete but we still processing it, this don\'t affect your premium account but maybe you could wait some minutes to have a full access to premium features. Try to restart Blindo to enforce to process your purchase</string>
+    <string name="membership__unique_phase">%1$s per %2$s</string>
+    <string name="membership__first_phase">the first %1$s %2$s</string>
+    <string name="membership__second_phase">the following %1$s %2$s</string>
+    <string name="membership__third_phase">finally the following %1$s %2$s</string>
+    <plurals name="membership__period_day">
+        <item quantity="one">day</item>
+        <item quantity="two">days</item>
+    </plurals>
+    <plurals name="membership__period_week">
+        <item quantity="one">week</item>
+        <item quantity="two">weeks</item>
+    </plurals>
+    <plurals name="membership__period_month">
+        <item quantity="one">month</item>
+        <item quantity="two">months</item>
+    </plurals>
+    <plurals name="membership__period_year">
+        <item quantity="one">year</item>
+        <item quantity="two">years</item>
+    </plurals>
+    <plurals name="membership__female_the">
+        <item quantity="one">the</item>
+        <item quantity="two">the</item>
+    </plurals>
+    <plurals name="membership__male_the">
+        <item quantity="one">the</item>
+        <item quantity="two">the</item>
+    </plurals>
+    <plurals name="membership__following">
+        <item quantity="one">following</item>
+        <item quantity="two">following</item>
+    </plurals>
+    <string-array name="membership__benefits_classic_membership">
+        <item>Restore your labels backup just with one click</item>
+        <item>Unlimited access to the Smart Labels Installer</item>
+        <item>Unlimited labels translations</item>
+        <item>No ads</item>
+    </string-array>
+    <string name="membership__current_subscription">You have a %1$s (%2$s)</string>
+    <string name="membership__current_subscription_expiration">Your next payment of will be processed at %1$s, if you cancel your membership it will be available til this date and the payment won\'t be processed</string>
+    <string name="membership__current_subscription_auto_resume_time">Your subscription is paused till %1$s</string>
+    <string name="membership__current_subscription_in_grace_period">Your subscription is in grace period, please update your payment method to avoid losing your benefits</string>
+    <string name="membership__current_subscription_canceled_by_user">You canceled your subscription, your benefits will be available till %1$s</string>
+    <string name="membership__current_subscription_canceled_by_system">Your subscription was canceled by the system, verify your payment method to avoid losing your benefits</string>
+    <string name="membership__current_subscription_canceled_by_developer">The Blindo support team canceled your subscription, your benefits will be available till %1$s</string>
+    <string name="membership__current_subscription_canceled_by_replacement">You replace your subscription</string>
+    <string name="membership__subscription_state_unspecified">Unknown</string>
+    <string name="membership__subscription_state_unspecified_info">Unspecified subscription state</string>
+    <string name="membership__subscription_state_pending">Pending</string>
+    <string name="membership__subscription_state_pending_info">Subscription was created but awaiting payment during signup. In this state, all items are awaiting payment</string>
+    <string name="membership__subscription_state_active">active</string>
+    <string name="membership__subscription_state_active_info">Subscription is active</string>
+    <string name="membership__subscription_state_paused">Paused</string>
+    <string name="membership__subscription_state_paused_info">Subscription is paused. The state is only available when the subscription is an auto renewing plan. In this state, all items are in paused state</string>
+    <string name="membership__subscription_state_in_grace_period">In grace period</string>
+    <string name="membership__subscription_state_in_grace_period_info">Subscription is in grace period. The state is only available when the subscription is an auto renewing plan. In this state, all items are in grace period</string>
+    <string name="membership__subscription_state_on_hold">On hold</string>
+    <string name="membership__subscription_state_on_hold_info">Subscription is on hold (suspended). The state is only available when the subscription is an auto renewing plan. In this state, all items are on hold</string>
+    <string name="membership__subscription_state_canceled">canceled</string>
+    <string name="membership__subscription_state_canceled_info">Subscription is canceled but not expired yet. The state is only available when the subscription is an auto renewing plan. All items will no longer be renewed automatically</string>
+    <string name="membership__subscription_state_expired">Expired</string>
+    <string name="membership__subscription_state_expired_info">Subscription is expired</string>
+    <string name="membership__subscription_purchase_acknowledged">Confirmed purchase</string>
+    <string name="membership__subscription_purchase_not_acknowledged">Unconfirmed purchase</string>
+    <string name="membership__subscription_purchase_start_at">Started at: %1$s</string>
+    <string name="membership__subscription_purchase_expire_at">Valid till: %1$s</string>
 
     <string name="ratingbars__total">Total</string>
     <string name="ratingbars__total_description">The total accessibility rating</string>

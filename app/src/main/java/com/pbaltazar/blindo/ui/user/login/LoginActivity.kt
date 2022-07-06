@@ -20,7 +20,7 @@ import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationContract
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.constants.TERMS_AND_CONDITIONS_LINK
 import com.pbaltazar.blindo.utils.extensions.toUiFormat
-import timber.log.Timber
+import com.pbaltazar.blindo.utils.log.BlindoLogger
 import java.util.*
 
 class LoginActivity : AuthenticableActivity() {
@@ -178,7 +178,7 @@ class LoginActivity : AuthenticableActivity() {
     }
 
     private fun setStepRegisterDeviceError(errorMessage: String) {
-        Timber.e(errorMessage)
+        BlindoLogger.log.e(errorMessage)
         signOut(false)
         currentStepText = getString(R.string.auth__device_error)
         currentStepNotice = errorMessage

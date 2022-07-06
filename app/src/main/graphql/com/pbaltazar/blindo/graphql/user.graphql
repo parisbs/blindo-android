@@ -12,6 +12,7 @@ query AuthenticateUser {
     id
     name
     picture
+    coinsLeft
     isPremium
   }
 }

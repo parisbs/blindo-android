@@ -34,9 +34,9 @@ import com.pbaltazar.blindo.utils.extensions.getTalkbackInstallableFileUri
 import com.pbaltazar.blindo.utils.extensions.installTalkbackPack
 import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.pbaltazar.blindo.utils.extensions.saveTalkbackInstallableFile
+import com.pbaltazar.blindo.utils.log.BlindoLogger
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 import java.util.*
 
 class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() {
@@ -195,7 +195,7 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
                 }
             }
             is PackDetailsViewModel.DownloadPackViewState.Error -> {
-                Timber.e(response.errorMessage)
+                BlindoLogger.log.e(response.errorMessage)
                 Snackbar.make(
                     installPack,
                     response.errorMessage,

@@ -14,8 +14,8 @@ import com.pbaltazar.blindo.data.device.BlindoApiDeviceGateway
 import com.pbaltazar.blindo.data.device.DeviceGateway
 import com.pbaltazar.blindo.data.localapp.LocalAppGateway
 import com.pbaltazar.blindo.data.localapp.PackageManagerLocalAppGateway
-import com.pbaltazar.blindo.data.membership.BlindoApiMembershipGateway
-import com.pbaltazar.blindo.data.membership.MembershipGateway
+import com.pbaltazar.blindo.data.purchase.BlindoApiPurchaseGateway
+import com.pbaltazar.blindo.data.purchase.PurchaseGateway
 import com.pbaltazar.blindo.data.pack.BlindoApiPackGateway
 import com.pbaltazar.blindo.data.pack.PackGateway
 import com.pbaltazar.blindo.data.rating.BlindoApiRatingGateway
@@ -99,8 +99,8 @@ val dataModule = module {
         )
     }
 
-    single<MembershipGateway> {
-        BlindoApiMembershipGateway(
+    single<PurchaseGateway> {
+        BlindoApiPurchaseGateway(
             get(named(BASIC_APOLLITO_CLIENT))
         )
     }

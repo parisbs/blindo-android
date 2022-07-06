@@ -58,8 +58,6 @@ const val LABELS_PROVIDER = "${BuildConfig.APPLICATION_ID}.providers.LabelsProvi
 const val TALKBACK_PACKAGE = "com.google.android.marvin.talkback"
 const val TALKBACK_IMPORT_LABELS = "com.google.android.accessibility.talkback.labeling.LabelImportActivity"
 
-const val MONTHLY_SUBSCRIPTION_SKU = "blindo_monthly_subscription"
-
 const val MANAGE_SUBS_URI = "https://play.google.com/store/account/subscriptions?sku=%s&package=%s"
 
 const val TALKBACK_LABELS_ARRAY = "labels_array"

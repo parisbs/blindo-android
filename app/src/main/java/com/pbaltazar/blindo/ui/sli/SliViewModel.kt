@@ -13,8 +13,8 @@ import com.pbaltazar.blindo.entities.responses.AuthenticationProviderResponse
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.usecases.MutationLaunchSli
 import com.pbaltazar.blindo.utils.authentication.provider.AuthenticationProvider
+import com.pbaltazar.blindo.utils.log.BlindoLogger
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import kotlin.coroutines.CoroutineContext
 
 class SliViewModel(
@@ -36,7 +36,7 @@ class SliViewModel(
                 installedApps.postValue(LocalApps.Success(apps))
             } ?: installedApps.postValue(LocalApps.Empty)
         } catch (e: Exception) {
-            Timber.e(e)
+            BlindoLogger.log.e(e)
             installedApps.postValue(LocalApps.Error(e.localizedMessage ?: e.toString()))
         }
     }

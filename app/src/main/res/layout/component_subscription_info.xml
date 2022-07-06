@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="com.pbaltazar.blindo.components.subscriptions.SubscriptionInfo">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        />
+
+    <ListView
+        android:id="@+id/benefits"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_components_margin"
+        android:layout_marginStart="@dimen/regular"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/offersContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_components_margin"
+        android:layout_marginStart="@dimen/regular"
+        app:singleSelection="true"
+        app:layout_constraintTop_toBottomOf="@id/benefits"
+        />
+
+</merge>

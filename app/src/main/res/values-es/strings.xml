@@ -192,38 +192,84 @@ de nuevo con otras configuraciones</string>
     <string name="sli__unable_to_save">No pudimos descargar e importar tu paquete de etiquetas personalizado, verifica que cuentes con al menos 10 MB o
 más de espacio libre en tu almacenamiento interno y vuelve a intentarlo</string>
 
-    <string name="premium__title">Membresía premium</string>
-    <string name="premium__introduction">Accede a las funciones premium y disfruta de la mejor experiencia en accesibilidad sin límites al mismo tiempo
-que nos ayudas a crear la más grande comunidad de accesibilidad en el mundo!</string>
-    <string name="premium__benefit1">Aprovecha el respaldo de tus etiquetas restaurándolas con un solo toque, no más etiquetas perdidas ni tardadas transferencias
-entre dispositivos, solo restaura tu respaldo y todas tus etiquetas se descargarán e instalarán en tu dispositivo en unos pocos segundos</string>
-    <string name="premium__benefit2">Utiliza nuestro Instalador Inteligente de Etiquetas (SLI) para generar automáticamente un paquete de etiquetas personalizado
-con todas las etiquetas disponibles para tus apps instaladas. Ya no busques uno por uno los mejores paquetes para tus apps, solo corre nuestro SLI y en
-cuestión de segundos obtén un paquete de etiquetas especialmente generado para tí con traducciones automáticas y más</string>
-    <string name="premium__benefit3">Te gustó un paquete de etiquetas pero está en otro idioma?, tradúcelo e instálalo en un solo toque. Ahora puedes buscar
-etiquetas sin preocuparte por el idioma en el que fueron creadas y haz crecer tu colección de etiquetas</string>
-    <string name="premium__benefit4">Oculta todos los anuncios de Blindoy ayúdanos a mantener y hacer crecer nuestra comunidad</string>
-    <string name="premium__payment_info">Obten tu membresía premium por %1$s al mes</string>
-    <string name="premium__payment_period">La membresía es una suscripción con pago recurrente, cada mes %1$s serán cargados a tu forma de pago pudiendo
-cancelar tu subscripción en cualquier momento</string>
-    <string name="premium__payment_info_purchased">Tu subscripción está %1$s, presiona administrar mi suscripción si quieres cancelar tu subscripción o
-cambiar tu forma de pago</string>
-    <string name="premium__payment_period_purchased">Tú siguiente pago será procesado el %1$s, si cancelas tu membresía la misma estará disponible hasta
-esta fecha y el siguiente pago ya no será procesado</string>
-    <string name="premium__subs">Subscribirme ahora!</string>
-    <string name="premium__manage_subs">Administrar mi subscripción</string>
-    <string name="premium__disconnected">Error: Los servicios de Google están desconectados, por favor verifica tu conexión a internet e intenta de nuevo</string>
-    <string name="premium__feature_not_supported">Error: los Servicios de Google no soportan las subscripciones, por favor actualiza tus Servicios de Google
-e intenta nuevamente</string>
-    <string name="premium__service_unavailable">Error: los Servicios de Google no están disponibles, verifica que tengas instalada la última versión de
-los Servicios de Google y vuelve a intentarlo</string>
-    <string name="premium__unknown_error">Error: Los servicios de Google no puede responder, tienes una versión de los servicios de Google válida instalada\?</string>
-    <string name="premium__empty_skus">Ningún producto disponible para la compra</string>
-    <string name="premium__canceled_by_user">Calaste la compra</string>
-    <string name="premium__purchased_but_not_processed">Completaste tu compra pero seguimos procesándola, esto no afecta tu membresía pero podrías necesitar
-esperar algunos minutos antes de tener acceso completo a las funciones premium, puedes intentar reiniciar Blindo para forzar el procesamiento de tu membresía</string>
-    <string name="premium__status_active">activa</string>
-    <string name="premium__status_canceled">cancelada</string>
+    <!-- Memberships -->
+    <string name="membership__title">Membresías</string>
+    <string name="membership__subscription_info">%1$s por %2$s</string>
+    <string name="membership__subscription_notice">Esta es una suscripción recurrente, %1$s serán cargados a tu forma de pago y pueddes cancelar en cualquier momento</string>
+    <string name="membership__subscribe_now">Subscribirme ahora!</string>
+    <string name="membership__manage_subscription">Administrar mi subscripción</string>
+    <string name="membership__billing_canceled_by_user">Cancelaste la compra</string>
+    <string name="membership__billing_feature_not_supported">Error: los Servicios de Google no soportan las subscripciones, por favor actualiza tus Servicios de Google e intenta nuevamente</string>
+    <string name="membership__billing_service_unavailable">Error: los Servicios de Google no están disponibles, verifica que tengas instalada la última versión de los Servicios de Google y vuelve a intentarlo</string>
+    <string name="membership__billing_disconnected">Error: Los servicios de Google están desconectados, por favor verifica tu conexión a internet e intenta de nuevo</string>
+    <string name="membership__billing_no_products">Ningún producto disponible para la compra</string>
+    <string name="membership__billing_not_processed">Completaste tu compra pero seguimos procesándola, esto no afecta tu membresía pero podrías necesitar esperar algunos minutos antes de tener acceso completo a las funciones premium, puedes intentar reiniciar Blindo para forzar el procesamiento de tu membresía</string>
+    <string name="membership__unique_phase">%1$s cada %2$s</string>
+    <string name="membership__first_phase">%3$s %4$s %1$s %2$s</string>
+    <string name="membership__second_phase">%3$s %4$s %1$s %2$s</string>
+    <string name="membership__third_phase">finalmente %3$s %4$s %1$s %2$s</string>
+    <plurals name="membership__period_day">
+        <item quantity="one">día</item>
+        <item quantity="two">días</item>
+    </plurals>
+    <plurals name="membership__period_week">
+        <item quantity="one">semana</item>
+        <item quantity="two">semanas</item>
+    </plurals>
+    <plurals name="membership__period_month">
+        <item quantity="one">mes</item>
+        <item quantity="two">meses</item>
+    </plurals>
+    <plurals name="membership__period_year">
+        <item quantity="one">año</item>
+        <item quantity="two">años</item>
+    </plurals>
+    <plurals name="membership__female_the">
+        <item quantity="one">la</item>
+        <item quantity="two">las</item>
+    </plurals>
+    <plurals name="membership__male_the">
+        <item quantity="one">el</item>
+        <item quantity="two">los</item>
+    </plurals>
+    <plurals name="membership__following">
+        <item quantity="one">siguiente</item>
+        <item quantity="two">siguientes</item>
+    </plurals>
+    <string-array name="membership__benefits_classic_membership">
+        <item>Restaura la copia de seguridad de tus etiquetas con un solo click</item>
+        <item>Acceso ilimitado al Instalador Inteligente de Etiquetas (SLI)</item>
+        <item>Traducciones de etiquetas ilimitadas</item>
+        <item>Sin publicidad</item>
+    </string-array>
+    <string name="membership__current_subscription">Tienes una %1$s (%2$s)</string>
+    <string name="membership__current_subscription_expiration">Tú siguiente pago será procesado el %1$s, si cancelas tu membresía la misma estará disponible hasta esta fecha y el siguiente pago ya no será procesado</string>
+    <string name="membership__current_subscription_auto_resume_time">Tu subscripción está pausada hasta el %1$s</string>
+    <string name="membership__current_subscription_in_grace_period">Tu subscripción está en periodo de gracia, por favor actualiza tu método  de pago para evitar perder tus beneficios</string>
+    <string name="membership__current_subscription_canceled_by_user">Cancelaste tu subscripción, tus beneficios estarán disponibles hasta el %1$s</string>
+    <string name="membership__current_subscription_canceled_by_system">Tu subscripción fue cancelada por el sistema, verifica tu método de pago para evitar perder tus beneficios</string>
+    <string name="membership__current_subscription_canceled_by_developer">El equipo de soporte de Blindo canceló tu subscripción, tus beneficios estarán disponibles hasta el %1$s</string>
+    <string name="membership__current_subscription_canceled_by_replacement">Remplazaste esta subscripción</string>
+    <string name="membership__subscription_state_unspecified">Desconocido</string>
+    <string name="membership__subscription_state_unspecified_info">Estado de suscripción no especificado</string>
+    <string name="membership__subscription_state_pending">Pendiente</string>
+    <string name="membership__subscription_state_pending_info">La suscripción fue creada pero está pendiente de pago durante el registro. En este estado, todos los artículos están pendientes de pago</string>
+    <string name="membership__subscription_state_active">activa</string>
+    <string name="membership__subscription_state_active_info">La subscripción está activa</string>
+    <string name="membership__subscription_state_paused">Pausada</string>
+    <string name="membership__subscription_state_paused_info">La suscripción está en pausa. Este estado sólo está disponible cuando la suscripción es un plan de renovación automática. En este estado, todos los artículos están en estado de pausa</string>
+    <string name="membership__subscription_state_in_grace_period">En periodo de gracia</string>
+    <string name="membership__subscription_state_in_grace_period_info">La suscripción está en periodo de gracia. Este estado sólo está disponible cuando la suscripción es un plan de renovación automática. En este estado, todos los artículos están en periodo de gracia</string>
+    <string name="membership__subscription_state_on_hold">En espera</string>
+    <string name="membership__subscription_state_on_hold_info">La suscripción está en espera (suspendida). Este estado sólo está disponible cuando la suscripción es un plan de renovación automática. En este estado, todos los artículos están en espera</string>
+    <string name="membership__subscription_state_canceled">cancelada</string>
+    <string name="membership__subscription_state_canceled_info">La suscripción se ha cancelado pero aún no ha caducado. El estado sólo está disponible cuando la suscripción es un plan de renovación automática. Todos los artículos ya no serán renovados de forma automática</string>
+    <string name="membership__subscription_state_expired">Vencida</string>
+    <string name="membership__subscription_state_expired_info">La suscripción ha caducado</string>
+    <string name="membership__subscription_purchase_acknowledged">Compra confirmada</string>
+    <string name="membership__subscription_purchase_not_acknowledged">Compra sin confirmar</string>
+    <string name="membership__subscription_purchase_start_at">Inició: %1$s</string>
+    <string name="membership__subscription_purchase_expire_at">Válida hasta: %1$s</string>
 
     <string name="ratingbars__total">Total</string>
     <string name="ratingbars__total_description">La calificación de accesibilidad total</string>

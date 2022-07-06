@@ -13,7 +13,7 @@ val useCasesModule = module {
     factory { MutationDownloadPack(get()) }
     factory { MutationImageDescription(get()) }
     factory { MutationLaunchSli(get()) }
-    factory { MutationProcessMembership(get()) }
+    factory { MutationProcessPurchase(get()) }
     factory { MutationProcessPacks(get()) }
     factory { MutationUpdateRating(get()) }
     factory { MutationUpdateDevice(get()) }

@@ -17,8 +17,8 @@ import com.pbaltazar.blindo.usecases.MutationProcessPacks
 import com.pbaltazar.blindo.utils.authentication.provider.AuthenticationProvider
 import com.pbaltazar.blindo.utils.constants.TALKBACK_LABELS_ARRAY
 import com.pbaltazar.blindo.utils.extensions.toLabelsList
+import com.pbaltazar.blindo.utils.log.BlindoLogger
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.coroutines.CoroutineContext
@@ -55,7 +55,7 @@ class UploadPackViewModel(
                 }
             }
         } catch (e: Exception) {
-            Timber.e(e)
+            BlindoLogger.log.e(e)
             labelsList.postValue(
                 LabelsViewState.Error(
                     e.localizedMessage ?: e.toString()

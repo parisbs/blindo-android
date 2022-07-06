@@ -2,6 +2,7 @@ package com.pbaltazar.blindo.data.user
 
 import com.apollographql.apollo3.api.Optional
 import com.blindo.apollito.api.ApollitoClient
+import com.blindo.apollito.api.constants.FetchPolicy
 import com.blindo.apollito.models.Response
 import com.pbaltazar.blindo.data.ApiHelpers
 import com.pbaltazar.blindo.entities.User
@@ -26,7 +27,8 @@ class BlindoApiUserGateway(
             GetUserQuery(
                 sub = sub
             ),
-            idToken
+            idToken,
+            FetchPolicy.NETWORK_ONLY
         ).let { response ->
             when (response) {
                 is Response.Success -> response.data.getUser?.let { user ->
@@ -39,7 +41,8 @@ class BlindoApiUserGateway(
     override suspend fun authenticateUser(userInput: UserInput): ApiResponse<User> =
         blindoApiClient.query(
             AuthenticateUserQuery(),
-            userInput.idToken
+            userInput.idToken,
+            FetchPolicy.NETWORK_ONLY
         ).let { response ->
             when (response) {
                 is Response.Success -> response.data.authenticateUser?.let { user ->

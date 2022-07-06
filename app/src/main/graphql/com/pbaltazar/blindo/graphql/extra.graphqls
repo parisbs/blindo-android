@@ -13,5 +13,4 @@ extend type Query @fieldPolicy(forField: "listPacks", keyArgs: "filters sort fir
 
 extend type Query @fieldPolicy(forField: "listRatings", keyArgs: "filters sort first after")
 
-extend type Query @fieldPolicy(forField: "getUser", keyArgs: "sub")
 extend type Query @fieldPolicy(forField: "getPublicUser", keyArgs: "id")

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TextAppearance.Material3.TitleMedium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_components_margin"
+        android:focusable="true"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/orderId"
+        style="@style/TextAppearance.Material3.TitleSmall"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_components_margin"
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        />
+
+    <TextView
+        android:id="@+id/purchasedAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_components_margin"
+        app:layout_constraintTop_toBottomOf="@id/orderId"
+        />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_components_margin"
+        app:layout_constraintTop_toBottomOf="@id/purchasedAt"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

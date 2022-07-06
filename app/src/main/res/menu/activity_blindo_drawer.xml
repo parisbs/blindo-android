@@ -30,9 +30,9 @@
         android:title="@string/sli__title" />
 
     <item
-        android:id="@+id/navPremium"
+        android:id="@+id/navMembership"
         android:icon="@drawable/ic_card_membership_black_24dp"
-        android:title="@string/premium__title" />
+        android:title="@string/membership__title" />
 
     <item
         android:id="@+id/navTutorial"

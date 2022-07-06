@@ -9,7 +9,7 @@ import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.entities.errors.AuthenticationProviderException
 import com.pbaltazar.blindo.entities.responses.AuthenticationProviderResponse
 import com.pbaltazar.blindo.utils.extensions.toApiModel
-import timber.log.Timber
+import com.pbaltazar.blindo.utils.log.BlindoLogger
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -29,7 +29,7 @@ class FirebaseAuthenticationProvider(
                     } else {
                         task.exception?.also { e ->
                             firebaseCrashlytics.recordException(e)
-                            Timber.e(e)
+                            BlindoLogger.log.e(e)
                             continuation.resume(null)
                         } ?: continuation.resume(null)
                     }
@@ -46,7 +46,7 @@ class FirebaseAuthenticationProvider(
                     } else {
                         task.exception?.also { e ->
                             firebaseCrashlytics.recordException(e)
-                            Timber.e(e)
+                            BlindoLogger.log.e(e)
                             continuation.resume(
                                 AuthenticationProviderResponse.Error(
                                     AuthenticationProviderException.Error(e)
@@ -69,7 +69,7 @@ class FirebaseAuthenticationProvider(
                     } else {
                         task.exception?.also { e ->
                             firebaseCrashlytics.recordException(e)
-                            Timber.e(e)
+                            BlindoLogger.log.e(e)
                             continuation.resume(
                                 AuthenticationProviderResponse.Error(
                                     AuthenticationProviderException.Error(e)

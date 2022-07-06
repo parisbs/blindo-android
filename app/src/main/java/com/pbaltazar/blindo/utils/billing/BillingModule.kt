@@ -9,7 +9,7 @@ import org.koin.dsl.module
 val billingModule = module {
 
     single<BillingManager> {
-        PlayStoreManager(
+        PlayStoreBillingManager(
             get()
         )
     }

@@ -3,10 +3,12 @@ package com.pbaltazar.blindo.utils.extensions
 import com.pbaltazar.blindo.entities.*
 import com.pbaltazar.blindo.entities.connections.PackConnection
 import com.pbaltazar.blindo.entities.connections.RatingConnection
-import com.pbaltazar.blindo.entities.enums.ImageDescriptionLanguages
+import com.pbaltazar.blindo.entities.enums.*
+import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 import com.pbaltazar.blindo.graphql.*
 import com.pbaltazar.blindo.graphql.type.ImageDescriptionLanguagesEnum
 import com.pbaltazar.blindo.graphql.type.LabelInput
+import com.pbaltazar.blindo.graphql.type.PurchaseKindEnum
 import org.json.JSONObject
 
 fun AuthenticateUserQuery.AuthenticateUser.toApiModel(): User = User(
@@ -85,28 +87,28 @@ fun GetAppQuery.Node1.toApiModel(): Rating {
     )
 }
 
-    fun GetAppQuery.User1.toApiModel(): User = User(
-        id = id,
-        name = name,
-        picture = picture
-    )
+fun GetAppQuery.User1.toApiModel(): User = User(
+    id = id,
+    name = name,
+    picture = picture
+)
 
-    fun GetAppByPackageNameQuery.GetAppByPackageName.toApiModel(): App = App(
-        id = id,
-        packageIcon = packageIcon,
-        packageLabel = packageLabel,
-        category = category,
-        uiRating = uiRating?.toFloat(),
-        screenreadersRating = screenreadersRating?.toFloat(),
-        labelsRating = labelsRating?.toFloat(),
-        functionsRating = functionsRating?.toFloat(),
-        performanceRating = performanceRating?.toFloat(),
-        totalRating = totalRating.toFloat(),
-        numberOfRatings = numberOfRatings,
-        availablePacks = availablePacks,
-        packs = packs?.toApiModel(),
-        ratings = ratings?.toApiModel()
-    )
+fun GetAppByPackageNameQuery.GetAppByPackageName.toApiModel(): App = App(
+    id = id,
+    packageIcon = packageIcon,
+    packageLabel = packageLabel,
+    category = category,
+    uiRating = uiRating?.toFloat(),
+    screenreadersRating = screenreadersRating?.toFloat(),
+    labelsRating = labelsRating?.toFloat(),
+    functionsRating = functionsRating?.toFloat(),
+    performanceRating = performanceRating?.toFloat(),
+    totalRating = totalRating.toFloat(),
+    numberOfRatings = numberOfRatings,
+    availablePacks = availablePacks,
+    packs = packs?.toApiModel(),
+    ratings = ratings?.toApiModel()
+)
 
 fun GetAppByPackageNameQuery.Packs.toApiModel(): PackConnection = PackConnection(
     packs = edges.mapNotNull { it?.node?.toApiModel() },
@@ -264,44 +266,44 @@ fun ListPacksQuery.Node.toApiModel(): Pack = Pack(
         updatedAt = updatedAt
     )
 
-    fun ListPacksQuery.User.toApiModel(): User =     User(
-        id = id,
-        name = name,
-        picture = picture
-    )
+fun ListPacksQuery.User.toApiModel(): User =     User(
+    id = id,
+    name = name,
+    picture = picture
+)
 
-    fun ListPacksQuery.App.toApiModel(): App = App(
-        id = id,
-        packageName = packageName,
-        packageIcon = packageIcon,
-        packageLabel = packageLabel,
-        category = category
-    )
+fun ListPacksQuery.App.toApiModel(): App = App(
+    id = id,
+    packageName = packageName,
+    packageIcon = packageIcon,
+    packageLabel = packageLabel,
+    category = category
+)
 
-    fun ListRatingsQuery.Node.toApiModel(): Rating {
-        val totalRating: Double = ((ui + screenreaders + labels + functions + performance) / 5).toDouble()
-        return Rating(
-            id = id,
-            ui = ui,
-            screenreaders = screenreaders,
-            labels = labels,
-            functions = functions,
-            performance = performance,
-            total = totalRating.toFloat(),
-            comment = comment,
-            commentLanguage = commentLanguage,
-            createdAt = createdAt,
-            updatedAt = updatedAt,
-            user = user?.toApiModel(),
-            app = app?.toApiModel()
-        )
-    }
-
-    fun ListRatingsQuery.User.toApiModel(): User = User(
+fun ListRatingsQuery.Node.toApiModel(): Rating {
+    val totalRating: Double = ((ui + screenreaders + labels + functions + performance) / 5).toDouble()
+    return Rating(
         id = id,
-        name = name,
-        picture = picture
+        ui = ui,
+        screenreaders = screenreaders,
+        labels = labels,
+        functions = functions,
+        performance = performance,
+        total = totalRating.toFloat(),
+        comment = comment,
+        commentLanguage = commentLanguage,
+        createdAt = createdAt,
+        updatedAt = updatedAt,
+        user = user?.toApiModel(),
+        app = app?.toApiModel()
     )
+}
+
+fun ListRatingsQuery.User.toApiModel(): User = User(
+    id = id,
+    name = name,
+    picture = picture
+)
 
 fun ListRatingsQuery.App.toApiModel(): App = App(
     id = id,
@@ -311,33 +313,33 @@ fun ListRatingsQuery.App.toApiModel(): App = App(
     category = category
 )
 
-    fun CreateUserMutation.User.toApiModel(): User = User(
-        id = id,
-        name = name,
-        picture = picture
-    )
+fun CreateUserMutation.User.toApiModel(): User = User(
+    id = id,
+    name = name,
+    picture = picture
+)
 
-    fun GetUserQuery.GetUser.toApiModel(): User = User(
-        id = id,
-        name = name,
-        picture = picture,
-        isPremium = isPremium
-    )
+fun GetUserQuery.GetUser.toApiModel(): User = User(
+    id = id,
+    name = name,
+    picture = picture,
+    isPremium = isPremium
+)
 
-    fun GetDeviceQuery.GetDevice.toApiModel(): Device = Device(
-        id = id,
-        name = name,
-        language = language,
-        country = country
-    )
+fun GetDeviceQuery.GetDevice.toApiModel(): Device = Device(
+    id = id,
+    name = name,
+    language = language,
+    country = country
+)
 
-    fun CreateDeviceMutation.Device.toApiModel(): Device = Device(
-        id = id,
-        hardwareFingerprint = hardwareFingerprint,
-        name = name,
-        language = language,
-        country = country
-    )
+fun CreateDeviceMutation.Device.toApiModel(): Device = Device(
+    id = id,
+    hardwareFingerprint = hardwareFingerprint,
+    name = name,
+    language = language,
+    country = country
+)
 
 fun UpdateDeviceMutation.Device.toApiModel(): Device = Device(
     id = id,
@@ -351,65 +353,106 @@ fun CreateRatingMutation.Rating.toApiModel(): Rating = Rating(
         id = id
     )
 
-    fun UpdateRatingMutation.Rating.toApiModel(): Rating = Rating(
-        id = id
+fun UpdateRatingMutation.Rating.toApiModel(): Rating = Rating(
+    id = id
+)
+
+fun DownloadPackMutation.DownloadPack.toApiModel(request: InstallablePack): InstallablePack = InstallablePack(
+    pack = request.pack,
+    targetScreenreaders = targetScreenreader,
+    translateTo = translateTo,
+    installable = installablePack ?: JSONObject()
+)
+
+fun PurchaseKindEnum.toBlindoModel(): ProductType = ProductType.valueOf(name)
+
+fun GetMembershipQuery.GetMembership.toApiModel(): Membership = Membership(
+    id = id,
+    productId = idProduct,
+    state = MembershipState.valueOf(state.name),
+    isAutoRenew = isAutoRenew,
+    cancellationContext = cancellationContext?.let { MembershipCancellationContext.valueOf(it.name) },
+    autoResumeTime = autoResumeTime,
+    expireAt = expireAt,
+    purchases = purchases?.edges?.mapNotNull { it?.node?.toBlindoModel() }
     )
 
-    fun DownloadPackMutation.DownloadPack.toApiModel(request: InstallablePack): InstallablePack = InstallablePack(
-        pack = request.pack,
-        targetScreenreaders = targetScreenreader,
-        translateTo = translateTo,
-        installable = installablePack ?: JSONObject()
-    )
+fun GetMembershipQuery.Node.toBlindoModel(): Purchase = Purchase(
+    id = id,
+    kind = kind.toBlindoModel(),
+    orderId = idOrder,
+    purchasedAt = startAt,
+    startAt = startAt,
+    expireAt = expireAt,
+    isAcknowledged = isAcknowledged
+)
 
-    fun GetMembershipQuery.GetMembership.toApiModel(): Membership = Membership(
-        id = id,
-        expireAt = expireAt,
-        isCanceled = isCanceled,
-        cancelReason = cancelReason,
-        token = token
-    )
+fun ProcessPurchaseMutation.ProcessPurchase.toBlindoModel(): ProcessPurchaseResult = ProcessPurchaseResult(
+    coin = coin?.toBlindoModel(),
+    membership = membership?.toBlindoModel()
+)
 
-    fun ProcessMembershipMutation.Membership.toApiModel(): Membership = Membership(
-        id = id,
-        expireAt = expireAt,
-        isCanceled = isCanceled,
-        cancelReason = cancelReason,
-        token = token
-    )
+fun ProcessPurchaseMutation.Coin.toBlindoModel(): Coin = Coin(
+    id = id,
+    productId = idProduct,
+    state = CoinState.valueOf(state.name),
+    type = CoinType.valueOf(type.name),
+    isConsumed = isConsumed
+)
 
-    fun UpdateUserMutation.User.toApiModel(): User = User(
-        id = id,
-        name = name,
-        picture = picture,
-        isPremium = isPremium
-    )
+fun ProcessPurchaseMutation.Membership.toBlindoModel(): Membership = Membership(
+    id = id,
+    productId = idProduct,
+    state = MembershipState.valueOf(state.name),
+    isAutoRenew = isAutoRenew,
+    cancellationContext = cancellationContext?.let { MembershipCancellationContext.valueOf(it.name) },
+    autoResumeTime = autoResumeTime,
+    expireAt = expireAt,
+    purchases = purchases?.edges?.mapNotNull { it?.node?.toBlindoModel() }
+)
 
-    fun LaunchSliMutation.LaunchSli.toApiModel(): InstallablePack = InstallablePack(
-        targetScreenreaders = targetScreenreader,
-        translateTo = targetLanguage,
-        installable = installablePack ?: JSONObject()
-    )
+fun ProcessPurchaseMutation.Node.toBlindoModel(): Purchase = Purchase(
+    id = id,
+    kind = kind.toBlindoModel(),
+    orderId = idOrder,
+    purchasedAt = startAt,
+    startAt = startAt,
+    expireAt = expireAt,
+    isAcknowledged = isAcknowledged
+)
 
-    fun Label.toLabelInput(): LabelInput = LabelInput(
-        packageName = packageName,
-        packageVersion = packageVersion,
-        packageSignature = packageSignature,
-        viewName = viewName,
-        labelText = labelText,
-        language = language
-    )
+fun UpdateUserMutation.User.toApiModel(): User = User(
+    id = id,
+    name = name,
+    picture = picture,
+    isPremium = isPremium
+)
 
-    fun ProcessPacksMutation.ProcessPacks.toApiModel(): ProcessPacksResult = ProcessPacksResult(
-        createdOrUpdated = createdOrUpdated,
-        skipedOrDuplicated = skipedOrDuplicated,
-        withErrors = withErrors
-    )
+fun LaunchSliMutation.LaunchSli.toApiModel(): InstallablePack = InstallablePack(
+    targetScreenreaders = targetScreenreader,
+    translateTo = targetLanguage,
+    installable = installablePack ?: JSONObject()
+)
 
-    fun DownloadBackupMutation.DownloadBackup.toApiModel(): InstallablePack = InstallablePack(
-        targetScreenreaders = targetScreenreader,
-        installable = installablePack ?: JSONObject()
-    )
+fun Label.toLabelInput(): LabelInput = LabelInput(
+    packageName = packageName,
+    packageVersion = packageVersion,
+    packageSignature = packageSignature,
+    viewName = viewName,
+    labelText = labelText,
+    language = language
+)
+
+fun ProcessPacksMutation.ProcessPacks.toApiModel(): ProcessPacksResult = ProcessPacksResult(
+    createdOrUpdated = createdOrUpdated,
+    skipedOrDuplicated = skipedOrDuplicated,
+    withErrors = withErrors
+)
+
+fun DownloadBackupMutation.DownloadBackup.toApiModel(): InstallablePack = InstallablePack(
+    targetScreenreaders = targetScreenreader,
+    installable = installablePack ?: JSONObject()
+)
 
 fun GetPublicUserQuery.GetPublicUser.toApiModel(id: String): User = User(
     id = id,
