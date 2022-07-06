@@ -47,8 +47,7 @@ class BlindoApiPurchaseGateway(
                         ProductType.SUBSCRIPTION -> PurchaseKindEnum.SUBSCRIPTION
                     },
                     idProduct = processPurchaseInput.productId,
-                    token = processPurchaseInput.token,
-                    isAcknowledged = processPurchaseInput.isAcknowledged
+                    token = processPurchaseInput.token
                 ),
                 purchasesSort = listOf(PurchaseSortEnum.CREATED_AT_DESC),
                 purchasesFirst = processPurchaseInput.purchasesFirst

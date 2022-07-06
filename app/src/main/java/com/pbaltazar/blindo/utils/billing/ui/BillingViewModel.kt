@@ -115,8 +115,7 @@ class BillingViewModel(
     private fun getProcessPurchaseInput(purchase: Purchase): ProcessPurchaseInput = ProcessPurchaseInput(
         kind = purchase.type,
         productId = purchase.productId,
-        token = purchase.token,
-        isAcknowledged = purchase.isAcknowledged
+        token = purchase.token
     )
 
     fun sendInAppPurchaseToApi(purchase: Purchase) = viewModelScope.launch(backgroundDispatcher) {
