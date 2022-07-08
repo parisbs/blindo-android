@@ -15,6 +15,8 @@ interface BillingManager {
 
     fun purchasesFlow(): Flow<BillingResponse<List<Purchase>>>
 
+    fun consumptionFlow(): Flow<BillingResponse<Boolean>>
+
     fun startConnection()
 
     fun closeConnection()
@@ -24,4 +26,6 @@ interface BillingManager {
     suspend fun launchBilling(activity: AppCompatActivity, products: List<Product>): BillingResponse<Boolean>
 
     fun askForPurchases(productType: ProductType)
+
+    fun consumePurchase(token: String)
 }

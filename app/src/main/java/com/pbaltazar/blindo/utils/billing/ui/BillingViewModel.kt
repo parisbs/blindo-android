@@ -20,7 +20,6 @@ import com.pbaltazar.blindo.usecases.MutationProcessPurchase
 import com.pbaltazar.blindo.usecases.QueryGetMembership
 import com.pbaltazar.blindo.utils.authentication.provider.AuthenticationProvider
 import com.pbaltazar.blindo.utils.billing.BillingManager
-import com.pbaltazar.blindo.utils.extensions.isActive
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
@@ -54,7 +53,12 @@ class BillingViewModel(
 
     val purchases: LiveData<Purchases> = billingManager.purchasesFlow().map {
         when (val billingResponse = it) {
-            is BillingResponse.Success -> Purchases.Success(billingResponse.data)
+            is BillingResponse.Success -> Purchases.Success(
+                billingResponse.data.filter { purchase ->
+                    inAppsToPurchase.mapNotNull { it.id }.contains(purchase.productId) ||
+                        subscriptionsToPurchase.mapNotNull { it.id }.contains(purchase.productId)
+                }
+            )
             is BillingResponse.Error -> when (val billingException= billingResponse.error) {
                 is BillingException.EmptyResponse -> Purchases.Empty
                 is BillingException.CanceledByUser -> Purchases.CanceledByUser
@@ -67,6 +71,20 @@ class BillingViewModel(
         }
     }.asLiveData()
 
+    val consumption: LiveData<Consumption> = billingManager.consumptionFlow().map {
+        when (val billingResponse = it) {
+            is BillingResponse.Success -> Consumption.Success
+            is BillingResponse.Error -> when (val billingException = billingResponse.error) {
+                is BillingException.FeatureNotSupported -> Consumption.FeatureNotSupported
+                is BillingException.InstanceError -> Consumption.Error(billingException.error)
+                is BillingException.ServiceUnavailable -> Consumption.ServiceUnavailable
+                is BillingException.Disconnected -> Consumption.Disconnected
+                is BillingException.UnknownError -> Consumption.Error(billingException.error)
+                else -> Consumption.Disconnected
+            }
+        }
+    }.asLiveData()
+
     private val _coins = MutableLiveData<PurchasedCoin>()
     val coins: LiveData<PurchasedCoin> get() = _coins
 
@@ -74,6 +92,9 @@ class BillingViewModel(
     val membership: LiveData<PurchasedMembership> get() = _membership
 
     private val inAppsToPurchase: List<InApp> = listOf(
+        InApp(
+            id = "blindo_coins_100"
+        ),
         InApp(
             id = "blindo_coins_500"
         )
@@ -123,6 +144,7 @@ class BillingViewModel(
             when (val tokenResponse = authenticationProvider.getIdToken()) {
                 is AuthenticationProviderResponse.Success -> when (val apiResponse = mutationProcessPurchase(getProcessPurchaseInput(purchase), tokenResponse.data)) {
                     is ApiResponse.Success -> apiResponse.data.coin?.also { coin ->
+                        _coins.postValue(PurchasedCoin.Success(coin))
                     } ?: _coins.postValue(PurchasedCoin.Empty)
                     is ApiResponse.Error -> when (val apiError = apiResponse.error) {
                         is ApiException.EmptyResponse -> _coins.postValue(PurchasedCoin.Empty)
@@ -210,6 +232,8 @@ class BillingViewModel(
 
     fun askForPurchases(productType: ProductType) = billingManager.askForPurchases(productType)
 
+    fun consumePurchase(token: String) = billingManager.consumePurchase(token)
+
     sealed class BillingConnection {
         object Connected : BillingConnection()
         object Disconnected : BillingConnection()
@@ -237,9 +261,16 @@ class BillingViewModel(
         object Disconnected: Purchases()
     }
 
+    sealed class Consumption {
+        object Success: Consumption()
+        object FeatureNotSupported: Consumption()
+        class Error(val reason: String): Consumption()
+        object ServiceUnavailable: Consumption()
+        object Disconnected: Consumption()
+    }
+
     sealed class PurchasedCoin {
         class Success(val coin: Coin): PurchasedCoin()
-        class NotConsumed(val coin: Coin): PurchasedCoin()
         object Empty: PurchasedCoin()
         class Error(val reason: String): PurchasedCoin()
         object NotSignedIn : PurchasedCoin()

@@ -44,6 +44,8 @@ open class AuthenticableActivity : AppCompatActivity(),
 
     fun updateUser(user: User) = authenticationViewModel.updateUser(user)
 
+    fun updateUserCoinsBalance() = authenticationViewModel.updateLocalUserCoinsBalance()
+
     fun setIsUserPremium(isUserPremium: Boolean) = authenticationViewModel.setIsUserPremium(isUserPremium)
 
     fun subscribeIsValidationEmailSent() = authenticationViewModel.isValidationEmailSent.observe(this, Observer {

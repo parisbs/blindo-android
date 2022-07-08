@@ -12,6 +12,7 @@ data class User(
     val email: String = "",
     val name: String = "",
     val picture: String? = null,
+    val coinsLeft: Int = 0,
     val isVerified: Boolean = false,
     val isPremium: Boolean = false,
     val numberOfPacks: String = "0",
@@ -26,6 +27,7 @@ data class User(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString(),
+        parcel.readInt() ?: 0,
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
         parcel.readString() ?: "0",
@@ -41,6 +43,7 @@ data class User(
         parcel.writeString(email)
         parcel.writeString(name)
         parcel.writeString(picture)
+        parcel.writeInt(coinsLeft)
         parcel.writeByte(if (isVerified) 1 else 0)
         parcel.writeByte(if (isPremium) 1 else 0)
         parcel.writeString(numberOfPacks)
@@ -63,6 +66,7 @@ data class User(
             TextUtils.equals(this.email, otherUser.email) &&
             TextUtils.equals(this.name, otherUser.name) &&
             TextUtils.equals(this.picture, otherUser.picture) &&
+            this.coinsLeft.equals(otherUser.coinsLeft) &&
             this.isVerified.equals(otherUser.isVerified) &&
             this.isPremium.equals(otherUser.isPremium)
     } ?: false

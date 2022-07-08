@@ -12,6 +12,7 @@ query ListCoins(
       node {
         id
         idProduct
+        token
         state
         type
         isConsumed
@@ -47,6 +48,7 @@ query ListMemberships(
       node {
         id
         idProduct
+        token
         state
         isAutoRenew
         cancellationContext
@@ -83,6 +85,7 @@ query GetMembership(
   getMembership {
     id
     idProduct
+    token
     state
     isAutoRenew
     cancellationContext
@@ -117,6 +120,7 @@ mutation ProcessPurchase(
     membership {
       id
       idProduct
+      token
       state
       isAutoRenew
       cancellationContext
@@ -141,6 +145,7 @@ mutation ProcessPurchase(
     coin {
       id
       idProduct
+      token
       state
       type
       isConsumed

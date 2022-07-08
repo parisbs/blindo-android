@@ -77,6 +77,7 @@ class BlindoActivity : AuthenticableActivity() {
     private val adsFreeScreens: List<Int> = listOf(
         R.id.navTutorial,
         R.id.navAdsSettings,
+        R.id.navCoins,
         R.id.navMembership,
         R.id.navAbout,
         R.id.dialogRequiresAuth,
@@ -130,6 +131,8 @@ class BlindoActivity : AuthenticableActivity() {
         setupUi()
         subscribeUser()
         subscribePurchases()
+        subscribeConsumption()
+        subscribeCoins()
         subscribeMembership()
         subscribeBillingConnection()
         subscribeIsValidationEmailSent()
@@ -264,9 +267,7 @@ class BlindoActivity : AuthenticableActivity() {
         when (val response = it) {
             is BillingViewModel.Purchases.Success -> response.purchases.also { purchases ->
                 purchases.forEach { purchase ->
-                    if (purchase.isAcknowledged.not()) {
-                        billingViewModel.sendSubscriptionPurchaseToApi(purchase)
-                    }
+                    billingViewModel.sendPurchaseToApi(purchase)
                 }
             }
             is BillingViewModel.Purchases.Empty -> {}
@@ -275,6 +276,32 @@ class BlindoActivity : AuthenticableActivity() {
             is BillingViewModel.Purchases.FeatureNotSupported -> processError(R.string.membership__billing_feature_not_supported)
             is BillingViewModel.Purchases.ServiceUnavailable -> processError(R.string.membership__billing_service_unavailable)
             is BillingViewModel.Purchases.Disconnected -> processError(R.string.membership__billing_disconnected)
+        }
+    })
+
+    private fun subscribeConsumption() = billingViewModel.consumption.observe(this, Observer {
+        when (val response = it) {
+            is BillingViewModel.Consumption.Success -> Unit
+            is BillingViewModel.Consumption.FeatureNotSupported -> processError(R.string.membership__billing_feature_not_supported)
+            is BillingViewModel.Consumption.Error -> processError(response.reason)
+            is BillingViewModel.Consumption.ServiceUnavailable -> processError(R.string.membership__billing_service_unavailable)
+            is BillingViewModel.Consumption.Disconnected -> processError(R.string.membership__billing_disconnected)
+        }
+    })
+
+    private fun subscribeCoins() = billingViewModel.coins.observe(this, Observer {
+        when (val response = it) {
+            is BillingViewModel.PurchasedCoin.Success -> response.coin.also { coin ->
+                if (coin.isConsumed.not() && coin.latestPurchase.isAcknowledged) {
+                    billingViewModel.consumePurchase(coin.token)
+                    updateUserCoinsBalance()
+                }
+            }
+            is BillingViewModel.PurchasedCoin.Error -> {
+                BlindoLogger.log.e(response.reason)
+                processError(response.reason)
+            }
+            else -> BlindoLogger.log.e(response.toString())
         }
     })
 

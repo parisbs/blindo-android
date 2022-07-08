@@ -28,7 +28,8 @@ class AuthenticationViewModel(
     private val mutationUpdateUser: MutationUpdateUser,
     private val queryGetDevice: QueryGetDevice,
     private val mutationCreateDevice: MutationCreateDevice,
-    private val mutationUpdateDevice: MutationUpdateDevice
+    private val mutationUpdateDevice: MutationUpdateDevice,
+    private val queryGetUserCoinsBalance: QueryGetUserCoinsBalance
 ) : ViewModel() {
 
     private val currentUser = MutableLiveData<User?>()
@@ -293,6 +294,23 @@ class AuthenticationViewModel(
         }
     }
 
+    fun updateLocalUserCoinsBalance() = viewModelScope.launch(backgroundDispatcher) {
+        authenticationProvider.getUser()?.also {
+            when (val tokenResponse = authenticationProvider.getIdToken()) {
+                is AuthenticationProviderResponse.Success -> when (val apiResponse = queryGetUserCoinsBalance(
+                    UserInput(
+                        id = "",
+                        idToken = tokenResponse.data
+                    )
+                )) {
+                    is ApiResponse.Success -> setUserCoinsLeft(apiResponse.data)
+                    is ApiResponse.Error -> Unit
+                }
+                is AuthenticationProviderResponse.Error -> Unit
+            }
+        }
+    }
+
     private fun signIn(user: User) {
         authenticationLocal.getLocalAccount()?.also { localUser ->
             if (localUser.equals(user).not()) {
@@ -308,6 +326,8 @@ class AuthenticationViewModel(
 
     private fun updateLocalAccount(user: User) =
         setUser(authenticationLocal.updateLocalAccount(user) ?: user)
+
+    fun setUserCoinsLeft(coinsLeft: Int) = setUser(authenticationLocal.setLocalAccountCoinsLeft(coinsLeft))
 
     fun setIsUserPremium(isUserPremium: Boolean) = setUser(authenticationLocal.setLocalAccountIsPremium(isUserPremium))
 

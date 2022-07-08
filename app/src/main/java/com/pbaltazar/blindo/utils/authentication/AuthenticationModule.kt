@@ -2,12 +2,12 @@ package com.pbaltazar.blindo.utils.authentication
 
 import android.accounts.AccountManager
 import com.google.firebase.auth.FirebaseAuth
+import com.pbaltazar.blindo.utils.BACKGROUND_DISPATCHER
 import com.pbaltazar.blindo.utils.authentication.local.AuthenticationLocal
 import com.pbaltazar.blindo.utils.authentication.local.BlindoAuthenticationLocal
 import com.pbaltazar.blindo.utils.authentication.provider.AuthenticationProvider
 import com.pbaltazar.blindo.utils.authentication.provider.FirebaseAuthenticationProvider
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
-import com.pbaltazar.blindo.utils.BACKGROUND_DISPATCHER
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -42,6 +42,7 @@ val authenticationModule = module {
         AuthenticationViewModel(
             get(named(BACKGROUND_DISPATCHER)),
         get(),
+            get(),
             get(),
             get(),
             get(),

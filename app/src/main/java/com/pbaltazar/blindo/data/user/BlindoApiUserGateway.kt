@@ -22,22 +22,6 @@ class BlindoApiUserGateway(
     private val blindoApiClient: ApollitoClient
 ) : ApiHelpers, UserGateway {
 
-    override suspend fun getUser(sub: String, idToken: String): ApiResponse<User> =
-        blindoApiClient.query(
-            GetUserQuery(
-                sub = sub
-            ),
-            idToken,
-            FetchPolicy.NETWORK_ONLY
-        ).let { response ->
-            when (response) {
-                is Response.Success -> response.data.getUser?.let { user ->
-                    ApiResponse.Success(user.toApiModel())
-                } ?: ApiResponse.Error(ApiException.EmptyResponse)
-                is Response.Failure -> processErrors(response.error)
-            }
-        }
-
     override suspend fun authenticateUser(userInput: UserInput): ApiResponse<User> =
         blindoApiClient.query(
             AuthenticateUserQuery(),
@@ -47,6 +31,20 @@ class BlindoApiUserGateway(
             when (response) {
                 is Response.Success -> response.data.authenticateUser?.let { user ->
                     ApiResponse.Success(user.toApiModel())
+                } ?: ApiResponse.Error(ApiException.EmptyResponse)
+                is Response.Failure -> processErrors(response.error)
+            }
+        }
+
+    override suspend fun getUserCoinsBalance(userInput: UserInput): ApiResponse<Int> =
+        blindoApiClient.query(
+            GetUserCoinsBalanceQuery(),
+            userInput.idToken,
+            FetchPolicy.NETWORK_ONLY
+        ).let { response ->
+            when (response) {
+                is Response.Success -> response.data.authenticateUser?.let { user ->
+                    ApiResponse.Success(user.coinsLeft)
                 } ?: ApiResponse.Error(ApiException.EmptyResponse)
                 is Response.Failure -> processErrors(response.error)
             }

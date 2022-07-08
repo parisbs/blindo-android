@@ -6,9 +6,9 @@ import com.pbaltazar.blindo.entities.responses.ApiResponse
 
 interface UserGateway {
 
-    suspend fun getUser(sub: String, idToken: String): ApiResponse<User>
-
     suspend fun authenticateUser(userInput: UserInput): ApiResponse<User>
+
+    suspend fun getUserCoinsBalance(userInput: UserInput): ApiResponse<Int>
 
     suspend fun getPublicUser(userInput: UserInput): ApiResponse<User>
 

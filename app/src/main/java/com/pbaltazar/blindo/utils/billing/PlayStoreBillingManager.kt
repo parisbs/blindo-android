@@ -2,10 +2,7 @@ package com.pbaltazar.blindo.utils.billing
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
-import com.android.billingclient.api.BillingClient
-import com.android.billingclient.api.BillingClientStateListener
-import com.android.billingclient.api.BillingResult
-import com.android.billingclient.api.queryProductDetails
+import com.android.billingclient.api.*
 import com.pbaltazar.blindo.entities.errors.BillingException
 import com.pbaltazar.blindo.entities.purchases.Product
 import com.pbaltazar.blindo.entities.purchases.Purchase
@@ -30,6 +27,7 @@ class PlayStoreBillingManager(
 
     private val connectionChannel: Channel<BillingResponse<Boolean>> = Channel(Channel.UNLIMITED)
     private val purchasesChannel: Channel<BillingResponse<List<Purchase>>> = Channel(Channel.UNLIMITED)
+    private val consumptionChannel: Channel<BillingResponse<Boolean>> = Channel(Channel.UNLIMITED)
 
     init {
         billingClient = BillingClient.newBuilder(context)
@@ -58,6 +56,8 @@ class PlayStoreBillingManager(
     override fun connectionStateFlow(): Flow<BillingResponse<Boolean>> = connectionChannel.receiveAsFlow()
 
     override fun purchasesFlow(): Flow<BillingResponse<List<Purchase>>> = purchasesChannel.receiveAsFlow()
+
+    override fun consumptionFlow(): Flow<BillingResponse<Boolean>> = consumptionChannel.receiveAsFlow()
 
     override fun startConnection() {
             billingClient.startConnection(object: BillingClientStateListener {
@@ -128,6 +128,26 @@ class PlayStoreBillingManager(
                     BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> purchasesChannel.trySend(BillingResponse.Error(BillingException.ServiceUnavailable))
                 BillingClient.BillingResponseCode.SERVICE_DISCONNECTED -> purchasesChannel.trySend(BillingResponse.Error(BillingException.Disconnected))
                 else -> purchasesChannel.trySend(BillingResponse.Error(BillingException.UnknownError(billingResult.debugMessage)))
+            }
+        }
+    }
+
+    override fun consumePurchase(token: String) {
+        billingClient.consumeAsync(
+            ConsumeParams.newBuilder()
+                .setPurchaseToken(token)
+                .build()
+        ) { billingResult, purchaseToken ->
+            when (billingResult.responseCode) {
+                BillingClient.BillingResponseCode.OK -> consumptionChannel.trySend(BillingResponse.Success(true))
+                BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED -> consumptionChannel.trySend(BillingResponse.Error(BillingException.FeatureNotSupported))
+                BillingClient.BillingResponseCode.ERROR,
+                BillingClient.BillingResponseCode.DEVELOPER_ERROR -> consumptionChannel.trySend(BillingResponse.Error(BillingException.InstanceError(billingResult.debugMessage)))
+                BillingClient.BillingResponseCode.SERVICE_UNAVAILABLE,
+                BillingClient.BillingResponseCode.BILLING_UNAVAILABLE,
+                BillingClient.BillingResponseCode.SERVICE_TIMEOUT -> consumptionChannel.trySend(BillingResponse.Error(BillingException.ServiceUnavailable))
+                BillingClient.BillingResponseCode.SERVICE_DISCONNECTED -> consumptionChannel.trySend(BillingResponse.Error(BillingException.Disconnected))
+                else -> consumptionChannel.trySend(BillingResponse.Error(BillingException.UnknownError(billingResult.debugMessage)))
             }
         }
     }

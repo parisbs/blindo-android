@@ -15,6 +15,7 @@ fun AuthenticateUserQuery.AuthenticateUser.toApiModel(): User = User(
     id = id,
     name = name,
     picture = picture,
+    coinsLeft = coinsLeft,
     isPremium = isPremium
 )
 
@@ -319,13 +320,6 @@ fun CreateUserMutation.User.toApiModel(): User = User(
     picture = picture
 )
 
-fun GetUserQuery.GetUser.toApiModel(): User = User(
-    id = id,
-    name = name,
-    picture = picture,
-    isPremium = isPremium
-)
-
 fun GetDeviceQuery.GetDevice.toApiModel(): Device = Device(
     id = id,
     name = name,
@@ -369,6 +363,7 @@ fun PurchaseKindEnum.toBlindoModel(): ProductType = ProductType.valueOf(name)
 fun GetMembershipQuery.GetMembership.toApiModel(): Membership = Membership(
     id = id,
     productId = idProduct,
+    token = token,
     state = MembershipState.valueOf(state.name),
     isAutoRenew = isAutoRenew,
     cancellationContext = cancellationContext?.let { MembershipCancellationContext.valueOf(it.name) },
@@ -395,14 +390,27 @@ fun ProcessPurchaseMutation.ProcessPurchase.toBlindoModel(): ProcessPurchaseResu
 fun ProcessPurchaseMutation.Coin.toBlindoModel(): Coin = Coin(
     id = id,
     productId = idProduct,
+    token = token,
     state = CoinState.valueOf(state.name),
     type = CoinType.valueOf(type.name),
-    isConsumed = isConsumed
+    isConsumed = isConsumed,
+    latestPurchase = latestPurchase.toBlindoModel()
+)
+
+fun ProcessPurchaseMutation.LatestPurchase.toBlindoModel(): Purchase = Purchase(
+    id = id,
+    kind = kind.toBlindoModel(),
+    orderId = idOrder,
+    purchasedAt = purchasedAt,
+    startAt = purchasedAt,
+    expireAt = purchasedAt,
+    isAcknowledged = isAcknowledged
 )
 
 fun ProcessPurchaseMutation.Membership.toBlindoModel(): Membership = Membership(
     id = id,
     productId = idProduct,
+    token = token,
     state = MembershipState.valueOf(state.name),
     isAutoRenew = isAutoRenew,
     cancellationContext = cancellationContext?.let { MembershipCancellationContext.valueOf(it.name) },

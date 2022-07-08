@@ -4108,6 +4108,22 @@
               "deprecationReason": null
             },
             {
+              "name": "token",
+              "description": "The coin purchase token.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "latestPurchase",
               "description": "The latest purchase associated with this coin.",
               "args": [],
@@ -5025,6 +5041,22 @@
                 "kind": "SCALAR",
                 "name": "DateTime",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "token",
+              "description": "The membership purchase token.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null

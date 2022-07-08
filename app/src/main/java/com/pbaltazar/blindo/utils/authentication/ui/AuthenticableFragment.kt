@@ -11,6 +11,18 @@ abstract class AuthenticableFragment<VB : ViewBinding> : BlindoFragment<VB>(),
 
     private val authenticationViewModel: AuthenticationViewModel by sharedViewModel()
 
+    val authenticableActivity: AuthenticableActivity? get() {
+        if (requireActivity() is AuthenticableActivity) {
+            return requireActivity() as AuthenticableActivity
+        } else {
+            return null
+        }
+    }
+
+    val requireAuthenticableActivity: AuthenticableActivity get() {
+        return authenticableActivity ?: throw NullPointerException("Parent AuthenticableActivity is null.")
+    }
+
     private var user: User? = null
 
     val loginScreen = registerForActivityResult(AuthenticationContract()) { signedUser ->
@@ -43,6 +55,8 @@ abstract class AuthenticableFragment<VB : ViewBinding> : BlindoFragment<VB>(),
     })
 
     fun updateUser(user: User) = authenticationViewModel.updateUser(user)
+
+    fun setUserCoinsLeft(coinsLeft: Int) = authenticationViewModel.setUserCoinsLeft(coinsLeft)
 
     fun setIsUserPremium(isUserPremium: Boolean) = authenticationViewModel.setIsUserPremium(isUserPremium)
 

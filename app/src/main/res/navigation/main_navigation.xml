@@ -206,6 +206,22 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navCoins"
+        android:name="com.pbaltazar.blindo.ui.coins.CoinsFragment"
+        android:label="@string/coins__title"
+        tools:layout="@layout/fragment_coins">
+        <action
+            android:id="@+id/actionFromCoinsToRequiresAuth"
+            app:destination="@id/dialogRequiresAuth"
+            app:popUpTo="@id/navCoins"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
+    <fragment
         android:id="@+id/navMembership"
         android:name="com.pbaltazar.blindo.ui.membership.MembershipFragment"
         android:label="@string/membership__title"

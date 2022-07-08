@@ -17,6 +17,7 @@ class BlindoAuthenticationLocal(
     private val EMAIL = "email"
     private val NAME = "name"
     private val PICTURE = "picture"
+    private val COINS_LEFT = "coinsLeft"
     private val IS_VERIFIED = "isVerified"
     private val IS_PREMIUM = "isPremium"
 
@@ -30,6 +31,7 @@ class BlindoAuthenticationLocal(
             extra.putString(EMAIL, user.email)
             extra.putString(NAME, user.name)
             extra.putString(PICTURE, user.picture)
+            extra.putInt(COINS_LEFT, user.coinsLeft)
             extra.putString(IS_VERIFIED, user.isVerified.toString())
             extra.putString(IS_PREMIUM, user.isPremium.toString())
             accountManager.addAccountExplicitly(account, user.id, extra)
@@ -45,6 +47,9 @@ class BlindoAuthenticationLocal(
             email = accountManager.getUserData(account, EMAIL),
             name = accountManager.getUserData(account, NAME),
             picture = accountManager.getUserData(account, PICTURE),
+            coinsLeft = accountManager.getUserData(account, COINS_LEFT).let { coinsLeft ->
+                coinsLeft?.toInt() ?: 0
+            },
             isVerified = accountManager.getUserData(account, IS_VERIFIED).toBoolean(),
             isPremium = accountManager.getUserData(account, IS_PREMIUM).toBoolean()
         )
@@ -58,6 +63,7 @@ class BlindoAuthenticationLocal(
         accountManager.setUserData(account, EMAIL, user.email)
         accountManager.setUserData(account, NAME, user.name)
         accountManager.setUserData(account, PICTURE, user.picture)
+        accountManager.setUserData(account, COINS_LEFT, user.coinsLeft.toString())
         accountManager.setUserData(account, IS_PREMIUM, user.isPremium.toString())
         getLocalAccount()
     }
@@ -66,6 +72,13 @@ class BlindoAuthenticationLocal(
         context.getString(R.string.account_type)
     ).lastOrNull()?.let { account ->
         accountManager.setUserData(account, IS_VERIFIED, isVerified.toString())
+        getLocalAccount()
+    }
+
+    override fun setLocalAccountCoinsLeft(coinsLeft: Int): User? = accountManager.getAccountsByType(
+        context.getString(R.string.account_type)
+    ).lastOrNull()?.let { account ->
+        accountManager.setUserData(account, COINS_LEFT, coinsLeft.toString())
         getLocalAccount()
     }
 

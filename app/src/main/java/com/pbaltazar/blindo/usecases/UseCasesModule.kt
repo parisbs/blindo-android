@@ -32,7 +32,7 @@ val useCasesModule = module {
     factory { QueryGetPublicUser(get()) }
     factory { QueryGetPublicUserPacks(get()) }
     factory { QueryGetPublicUserRatings(get()) }
-    factory { QueryGetUser(get()) }
+    factory { QueryGetUserCoinsBalance(get()) }
     factory { QueryListApps(get()) }
     factory { QueryListPacks(get()) }
     factory { QueryListRatings(get()) }

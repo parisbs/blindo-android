@@ -12,6 +12,8 @@ interface AuthenticationLocal {
 
     fun setLocalAccountIsVerified(isVerified: Boolean): User?
 
+    fun setLocalAccountCoinsLeft(coinsLeft: Int): User?
+
     fun setLocalAccountIsPremium(isPremium: Boolean): User?
 
     fun unregisterLocalAccount()

@@ -171,6 +171,7 @@
     <string name="sli__sli_result">Found %1$d labels in %2$s for %3$d apps. Do you want to install it?</string>
     <string name="sli__unable_to_save">Unable to download and save your custom labels pack, verify if you have 10 MB or higher of free disk space in your internal memory and try again</string>
 
+    <!-- Purchases -->
     <!-- Memberships -->
     <string name="membership__title">Memberships</string>
     <string name="membership__subscription_info">%1$s by %2$s</string>
@@ -249,6 +250,26 @@
     <string name="membership__subscription_purchase_not_acknowledged">Unconfirmed purchase</string>
     <string name="membership__subscription_purchase_start_at">Started at: %1$s</string>
     <string name="membership__subscription_purchase_expire_at">Valid till: %1$s</string>
+    <!-- Coins -->
+    <string name="coins__title">Coins</string>
+    <plurals name="coins__current_coins">
+        <item quantity="zero">You are out of coins</item>
+        <item quantity="one">You have 1 coin</item>
+        <item quantity="two">You have %1$d coins</item>
+        <item quantity="other">You are out of coins</item>
+    </plurals>
+    <string name="coins__history">Coins purchases history</string>
+    <plurals name="coins__purchase_success">
+        <item quantity="one">Congrats, 1 coin was added to your account</item>
+        <item quantity="two">Congrats, %1$d coins were added to your account</item>
+    </plurals>
+    <plurals name="coins__low_availability">
+        <item quantity="zero">You are out of coins, would you like to buy more?</item>
+        <item quantity="one">You only have 1 coin left, would you like to buy more?</item>
+        <item quantity="two">You only have %1$d coins left, would you like to buy more?</item>
+    </plurals>
+    <string name="coins__buy_more">Yes, buy more!</string>
+    <string name="coins__no_buy_more">No thanks, maybe later</string>
 
     <string name="ratingbars__total">Total</string>
     <string name="ratingbars__total_description">The total accessibility rating</string>

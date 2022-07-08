@@ -192,6 +192,7 @@ de nuevo con otras configuraciones</string>
     <string name="sli__unable_to_save">No pudimos descargar e importar tu paquete de etiquetas personalizado, verifica que cuentes con al menos 10 MB o
 más de espacio libre en tu almacenamiento interno y vuelve a intentarlo</string>
 
+    <!-- Purchases -->
     <!-- Memberships -->
     <string name="membership__title">Membresías</string>
     <string name="membership__subscription_info">%1$s por %2$s</string>
@@ -270,6 +271,26 @@ más de espacio libre en tu almacenamiento interno y vuelve a intentarlo</string
     <string name="membership__subscription_purchase_not_acknowledged">Compra sin confirmar</string>
     <string name="membership__subscription_purchase_start_at">Inició: %1$s</string>
     <string name="membership__subscription_purchase_expire_at">Válida hasta: %1$s</string>
+    <!-- Coins -->
+    <string name="coins__title">Monedas</string>
+    <plurals name="coins__current_coins">
+        <item quantity="zero">No tienes monedas</item>
+        <item quantity="one">Tienes 1 moneda</item>
+        <item quantity="two">Tienes %1$d monedas</item>
+        <item quantity="other">No tienes monedas</item>
+    </plurals>
+    <string name="coins__history">Historial de compras de monedas</string>
+    <plurals name="coins__purchase_success">
+        <item quantity="one">Felicidades, 1 moneda fue agregada a tu cuenta</item>
+        <item quantity="two">Felicidades, %1$d monedas fueron agregadas a tu cuenta</item>
+    </plurals>
+    <plurals name="coins__low_availability">
+        <item quantity="zero">Ya no tienes monedas, ¿te gustaría comprar más?</item>
+        <item quantity="one">Solo te queda 1 moneda, ¿te gustaría comprar más?</item>
+        <item quantity="two">Solo te quedan %1$d monedas, ¿te gustaría comprar más?</item>
+    </plurals>
+    <string name="coins__buy_more">Si, comprar más!</string>
+    <string name="coins__no_buy_more">No gracias, quizá después</string>
 
     <string name="ratingbars__total">Total</string>
     <string name="ratingbars__total_description">La calificación de accesibilidad total</string>

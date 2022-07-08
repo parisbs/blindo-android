@@ -15,13 +15,13 @@ import androidx.constraintlayout.widget.Group
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.components.subscriptions.SubscriptionInfo
 import com.pbaltazar.blindo.databinding.FragmentMembershipBinding
 import com.pbaltazar.blindo.entities.Membership
 import com.pbaltazar.blindo.entities.enums.MembershipCancellationContext
 import com.pbaltazar.blindo.entities.enums.MembershipState
+import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 import com.pbaltazar.blindo.entities.purchases.subscriptions.Subscription
 import com.pbaltazar.blindo.entities.purchases.subscriptions.SubscriptionOffer
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
@@ -177,7 +177,8 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribeAuth()
-        subscribeProducts()
+        subscribeSubscriptions()
+        billingViewModel.askForPurchases(ProductType.SUBSCRIPTION)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -223,7 +224,7 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
         }
     })
 
-    private fun subscribeProducts() = billingViewModel.subscriptions.observe(this, Observer {
+    private fun subscribeSubscriptions() = billingViewModel.subscriptions.observe(this, Observer {
         when (val response = it) {
             is BillingViewModel.AvailableProducts.Success -> response.products.mapNotNull { it as Subscription }.also { subscriptions ->
                 if (membershipAdapter.itemCount > 0) {

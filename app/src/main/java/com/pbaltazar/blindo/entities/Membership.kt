@@ -7,6 +7,7 @@ import java.util.*
 data class Membership(
     val id: String,
     val productId: String,
+    val token: String,
     val state: MembershipState,
     val isAutoRenew: Boolean,
     val cancellationContext: MembershipCancellationContext? = null,
