@@ -27,7 +27,7 @@
         android:layout_marginStart="@dimen/default_components_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:contentDescription="@string/coins__history"
-        android:visibility="gone"
+        android:src="@drawable/ic_history_black_24dp"
         app:layout_goneMarginEnd="@dimen/activity_horizontal_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

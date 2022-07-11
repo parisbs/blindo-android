@@ -7,6 +7,8 @@ import com.pbaltazar.blindo.entities.Membership
 import com.pbaltazar.blindo.entities.errors.ApiException
 import com.pbaltazar.blindo.entities.errors.AuthenticationProviderException
 import com.pbaltazar.blindo.entities.errors.BillingException
+import com.pbaltazar.blindo.entities.filters.sorts.CoinSort
+import com.pbaltazar.blindo.entities.inputs.ListCoinsInput
 import com.pbaltazar.blindo.entities.inputs.ProcessPurchaseInput
 import com.pbaltazar.blindo.entities.purchases.Product
 import com.pbaltazar.blindo.entities.purchases.Purchase
@@ -18,16 +20,20 @@ import com.pbaltazar.blindo.entities.responses.AuthenticationProviderResponse
 import com.pbaltazar.blindo.entities.responses.BillingResponse
 import com.pbaltazar.blindo.usecases.MutationProcessPurchase
 import com.pbaltazar.blindo.usecases.QueryGetMembership
+import com.pbaltazar.blindo.usecases.QueryListCoins
 import com.pbaltazar.blindo.utils.authentication.provider.AuthenticationProvider
 import com.pbaltazar.blindo.utils.billing.BillingManager
+import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class BillingViewModel(
     private val backgroundDispatcher: CoroutineContext,
+    private val userPreferences: UserPreferences,
     private val authenticationProvider: AuthenticationProvider,
     private val billingManager: BillingManager,
+    private val queryListCoins: QueryListCoins,
     private val queryGetMembership: QueryGetMembership,
     private val mutationProcessPurchase: MutationProcessPurchase
 ) : ViewModel() {
@@ -88,6 +94,9 @@ class BillingViewModel(
     private val _coins = MutableLiveData<PurchasedCoin>()
     val coins: LiveData<PurchasedCoin> get() = _coins
 
+    private val _coinsHistory = MutableLiveData<CoinsHistory>()
+    val coinsHistory: LiveData<CoinsHistory> get() = _coinsHistory
+
     private val _membership = MutableLiveData<PurchasedMembership>()
     val membership: LiveData<PurchasedMembership> get() = _membership
 
@@ -111,6 +120,34 @@ class BillingViewModel(
     fun startConnection() = billingManager.startConnection()
 
     fun closeConnection() = billingManager.closeConnection()
+
+    private fun getListCoinsInput(idToken: String): ListCoinsInput = ListCoinsInput(
+        sort = listOf(CoinSort.CREATED_AT_DESC),
+        first = 50,
+        idToken = idToken
+    )
+
+    fun getCoinsHistory() = viewModelScope.launch(backgroundDispatcher) {
+        authenticationProvider.getUser()?.also {
+            when (val tokenResponse = authenticationProvider.getIdToken()) {
+                is AuthenticationProviderResponse.Success -> when (val apiResponse = queryListCoins(getListCoinsInput(tokenResponse.data))) {
+                    is ApiResponse.Success -> apiResponse.data.also { coins ->
+                        _coinsHistory.postValue(CoinsHistory.Success(coins))
+                    }
+                    is ApiResponse.Error -> when (val apiException = apiResponse.error) {
+                        is ApiException.EmptyResponse -> _coinsHistory.postValue(CoinsHistory.Empty)
+                        is ApiException.WithErrors -> _coinsHistory.postValue(CoinsHistory.Error(apiException.errorsList.joinToString("\n")))
+                        is ApiException.CallFailure -> _coinsHistory.postValue(CoinsHistory.Error(apiException.error.localizedMessage ?: apiException.error.toString()))
+                    }
+                }
+                is AuthenticationProviderResponse.Error -> when (val tokenError = tokenResponse.error) {
+                    is AuthenticationProviderException.Error -> _coinsHistory.postValue(CoinsHistory.Error(tokenError.error.localizedMessage ?: tokenError.error.toString()))
+                    is AuthenticationProviderException.NotSignedIn -> _coinsHistory.postValue(CoinsHistory.NotSignedIn)
+                    else -> _coinsHistory.postValue(CoinsHistory.InvalidIdToken)
+                }
+            }
+        } ?: _coinsHistory.postValue(CoinsHistory.NotSignedIn)
+    }
 
     fun getMembership() = viewModelScope.launch(backgroundDispatcher) {
         authenticationProvider.getUser()?.also {
@@ -275,6 +312,14 @@ class BillingViewModel(
         class Error(val reason: String): PurchasedCoin()
         object NotSignedIn : PurchasedCoin()
         object InvalidIdToken : PurchasedCoin()
+    }
+
+    sealed class CoinsHistory {
+        class Success(val coins: List<Coin>): CoinsHistory()
+        object Empty: CoinsHistory()
+        class Error(val reason: String): CoinsHistory()
+        object NotSignedIn: CoinsHistory()
+        object InvalidIdToken: CoinsHistory()
     }
 
     sealed class PurchasedMembership {

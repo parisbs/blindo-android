@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -45,7 +46,7 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
     private lateinit var subscribeNow: Button
 
     private val membershipAdapter: MembershipAdapter = MembershipAdapter(this as SubscriptionInfo.OnOfferSelectedListener)
-    private val purchaseAdapter: PurchaseAdapter = PurchaseAdapter()
+    private val membershipPurchasesAdapter: MembershipPurchasesAdapter = MembershipPurchasesAdapter()
 
     private var membership: Membership? = null
     set(value) {
@@ -66,13 +67,13 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
                 visible()
             }
             subscriptionsContainer.apply {
-                if (purchaseAdapter.itemCount > 0) {
-                    purchaseAdapter.clearItems()
+                if (membershipPurchasesAdapter.itemCount > 0) {
+                    membershipPurchasesAdapter.clearItems()
                 }
                 m.purchases?.also { purchases ->
-                    purchaseAdapter.appendItems(purchases)
+                    membershipPurchasesAdapter.appendItems(purchases)
                 }
-                adapter = purchaseAdapter
+                adapter = membershipPurchasesAdapter
             }
             subscriptionNotice.apply {
                 visible()
@@ -178,7 +179,6 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
         super.onCreate(savedInstanceState)
         subscribeAuth()
         subscribeSubscriptions()
-        billingViewModel.askForPurchases(ProductType.SUBSCRIPTION)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -204,6 +204,15 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
         if (membershipAdapter.itemCount < 1) {
             billingViewModel.getAvailableSubscriptions()
         }
+    }
+
+    override fun getMenuResId(): Int = R.menu.membership
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.menuRestoreSubscriptions -> {
+            billingViewModel.askForPurchases(ProductType.SUBSCRIPTION)
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     override fun onSubscribeUser() {

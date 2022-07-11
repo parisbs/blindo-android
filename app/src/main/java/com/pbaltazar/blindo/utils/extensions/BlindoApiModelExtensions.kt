@@ -623,3 +623,23 @@ fun ImageDescriptionMutation.ImageDescription.toApiModel(): ImageDescription = I
     imageText = imageText,
     left = left
 )
+
+fun ListCoinsQuery.Node.toBlindoModel(): Coin = Coin(
+    id = id,
+    productId = idProduct,
+    token = token,
+    state = CoinState.valueOf(state.name),
+    type = CoinType.valueOf(type.name),
+    isConsumed = isConsumed,
+    latestPurchase = latestPurchase.toBlindoModel()
+)
+
+fun ListCoinsQuery.LatestPurchase.toBlindoModel(): Purchase = Purchase(
+    id = id,
+    kind = ProductType.valueOf(kind.name),
+    orderId = idOrder,
+    purchasedAt = purchasedAt,
+    startAt = purchasedAt,
+    expireAt = purchasedAt,
+    isAcknowledged = isAcknowledged
+)

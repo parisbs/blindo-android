@@ -176,11 +176,18 @@ class SplashFragment : AuthenticableFragment<FragmentSplashBinding>() {
 
     private fun verifyIsFirstRunAndPrivacyPolicyAccepted() {
         if (splashViewModel.isFirstRun.not()) {
-            if (splashViewModel.isPrivacyPolicyAccepted) {
-                findNavController().navigate(
-                    SplashFragmentDirections.actionFromSplashToHome()
-                )
+            if (splashViewModel.isVisionIntroduced) {
+                if (splashViewModel.isPrivacyPolicyAccepted) {
+                    findNavController().navigate(
+                        SplashFragmentDirections.actionFromSplashToHome()
+                    )
+                } else {
+                    findNavController().navigate(
+                        SplashFragmentDirections.actionFromSplashToTutorial(6)
+                    )
+                }
             } else {
+                splashViewModel.resetIsPrivacyPolicyAccepted()
                 findNavController().navigate(
                     SplashFragmentDirections.actionFromSplashToTutorial(5)
                 )

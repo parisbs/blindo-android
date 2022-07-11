@@ -27,19 +27,39 @@
         />
 
     <TextView
-        android:id="@+id/purchasedAt"
+        android:id="@+id/isAcknowledged"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/default_components_margin"
+        android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/orderId"
         />
 
-    <TextView
-        android:id="@+id/status"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_components_margin"
-        app:layout_constraintTop_toBottomOf="@id/purchasedAt"
-        />
+        android:focusable="true"
+        app:layout_constraintTop_toBottomOf="@id/isAcknowledged">
+
+        <TextView
+            android:id="@+id/purchaseType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/purchasedAt"
+            />
+
+        <TextView
+            android:id="@+id/purchasedAt"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/default_components_margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/purchaseType"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

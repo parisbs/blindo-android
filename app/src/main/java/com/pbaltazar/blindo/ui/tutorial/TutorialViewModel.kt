@@ -3,6 +3,7 @@ package com.pbaltazar.blindo.ui.tutorial
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.pbaltazar.blindo.utils.constants.IS_VISION_INTRODUCED
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 
 class TutorialViewModel(
@@ -32,4 +33,6 @@ class TutorialViewModel(
     fun acceptPrivacyPolicy() {
         userPreferences.acceptPrivacyPolicy()
     }
+
+    fun setIsVisionIntroduced(isIntroduced: Boolean) = userPreferences.setBoolean(IS_VISION_INTRODUCED, isIntroduced)
 }

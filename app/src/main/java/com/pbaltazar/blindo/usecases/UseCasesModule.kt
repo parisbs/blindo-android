@@ -34,6 +34,7 @@ val useCasesModule = module {
     factory { QueryGetPublicUserRatings(get()) }
     factory { QueryGetUserCoinsBalance(get()) }
     factory { QueryListApps(get()) }
+    factory { QueryListCoins(get()) }
     factory { QueryListPacks(get()) }
     factory { QueryListRatings(get()) }
 }

@@ -69,7 +69,7 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
 
     override fun onSubscribeUser() {
         getUser()?.also {
-            if (currentStep == 6) {
+            if (currentStep == 7) {
                 tutorialViewModel.setStep(currentStep + 1)
             }
         }
@@ -87,24 +87,25 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
             2 -> setStep(currentStep, R.string.tutorial__step_app_details)
             3 -> setStep(currentStep, R.string.tutorial__step_local_apps)
             4 -> setStep(currentStep, R.string.tutorial__step_sli)
-            5 -> if (isPrivacyPolicyAccepted) {
+            5 -> setStep(currentStep, R.string.vision__introduce)
+            6 -> if (isPrivacyPolicyAccepted) {
                 tutorialViewModel.setStep(currentStep + 1)
             } else {
                 setStep(currentStep, R.string.tutorial__step_privacy_policy_terms_conditions, R.string.tutorial__action_accept)
             }
-            6 -> if (getUser() != null) {
+            7 -> if (getUser() != null) {
                 tutorialViewModel.setStep(currentStep + 1)
             } else {
                 setStep(currentStep, R.string.tutorial__step_account, R.string.tutorial__action_sign_in)
             }
-            7 -> getUser()?.also { user ->
+            8 -> getUser()?.also { user ->
                 if (user.isPremium) {
                     setStep(currentStep + 1, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
                 } else {
                     setStep(currentStep, R.string.tutorial__step_premium, R.string.tutorial__action_get_premium)
                 }
             } ?: setStep(currentStep + 1, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
-            8 -> setStep(currentStep, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
+            9 -> setStep(currentStep, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
         }
     })
 
@@ -151,6 +152,7 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
                     }
                     text = getString(label)
                     setOnClickListener {
+                        tutorialViewModel.setIsVisionIntroduced(true)
                         tutorialViewModel.acceptPrivacyPolicy()
                         tutorialViewModel.setStep(step + 1)
                     }
@@ -163,7 +165,7 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
                     omitButton.apply {
                         visibility = View.VISIBLE
                         setOnClickListener {
-                            tutorialViewModel.setStep(8)
+                            tutorialViewModel.setStep(9)
                         }
                     }
                 }
@@ -177,7 +179,7 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
                     omitButton.apply {
                         visibility = View.VISIBLE
                         setOnClickListener {
-                            tutorialViewModel.setStep(8)
+                            tutorialViewModel.setStep(9)
                         }
                     }
                 }

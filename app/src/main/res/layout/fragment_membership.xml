@@ -26,6 +26,8 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginStart="@dimen/default_components_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:contentDescription="@string/membership__history"
+        android:src="@drawable/ic_history_black_24dp"
         app:layout_goneMarginBottom="@dimen/activity_vertical_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

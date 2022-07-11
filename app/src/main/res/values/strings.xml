@@ -13,6 +13,12 @@
     <string name="vision__service_summary">
         Take the accessibility to the next level by describing any element with a simple screenshot.
     </string>
+    <string name="vision__introduce">
+        Take the accessibility to the next level by describing any element with a simple screenshot.\n
+        Just enable the Blindo Vision accessibility service, take a screenshot and Blindo Vision will crop the screen element where the accessibility focus is,
+        then Blindo Vision will use AI models to recognize the text (OCR) and describe the image to you.\n
+        Blindo Vision requires an internet connection and Blindo coins to spend, 1 coin per screenshot
+    </string>
     <string name="vision__image_description_title">Image description</string>
     <string name="vision__loading_title">Analizing image, please wait...</string>
     <string name="vision__error_title">Unable to analize image</string>
@@ -90,6 +96,7 @@
         <item>Device info like your device ID, manufacturer, model and other device properties to associate it to your Blindo account</item>
         <item>Installed apps info including app public names and package names, only collected when you use the Smart Labels Installer (SLI) to generate your custom labels pack</item>
         <item>Accessibility services info including the package name of all your installed accessibility services rewardless if they are assistive software or not to generate label packs with the correct format</item>
+        <item>Screenshots to run OCR and image description. Screenshots are sent to the server and are stored temporarily without any data linking them to you</item>
     </array>
     <string name="tutorial__action_omit">Omit</string>
     <string name="tutorial__action_next">Next</string>
@@ -174,6 +181,7 @@
     <!-- Purchases -->
     <!-- Memberships -->
     <string name="membership__title">Memberships</string>
+    <string name="membership__restore_subscriptions">Restore subscriptions</string>
     <string name="membership__subscription_info">%1$s by %2$s</string>
     <string name="membership__subscription_notice">This is a recurrent subscription, %1$s will be charged to your payment method and you can cancel any time</string>
     <string name="membership__subscribe_now">Subscribe now!</string>
@@ -190,31 +198,31 @@
     <string name="membership__third_phase">finally the following %1$s %2$s</string>
     <plurals name="membership__period_day">
         <item quantity="one">day</item>
-        <item quantity="two">days</item>
+        <item quantity="other">days</item>
     </plurals>
     <plurals name="membership__period_week">
         <item quantity="one">week</item>
-        <item quantity="two">weeks</item>
+        <item quantity="other">weeks</item>
     </plurals>
     <plurals name="membership__period_month">
         <item quantity="one">month</item>
-        <item quantity="two">months</item>
+        <item quantity="other">months</item>
     </plurals>
     <plurals name="membership__period_year">
         <item quantity="one">year</item>
-        <item quantity="two">years</item>
+        <item quantity="other">years</item>
     </plurals>
     <plurals name="membership__female_the">
         <item quantity="one">the</item>
-        <item quantity="two">the</item>
+        <item quantity="other">the</item>
     </plurals>
     <plurals name="membership__male_the">
         <item quantity="one">the</item>
-        <item quantity="two">the</item>
+        <item quantity="other">the</item>
     </plurals>
     <plurals name="membership__following">
         <item quantity="one">following</item>
-        <item quantity="two">following</item>
+        <item quantity="other">following</item>
     </plurals>
     <string-array name="membership__benefits_classic_membership">
         <item>Restore your labels backup just with one click</item>
@@ -223,6 +231,7 @@
         <item>No ads</item>
     </string-array>
     <string name="membership__current_subscription">You have a %1$s (%2$s)</string>
+    <string name="membership__history">Membership history</string>
     <string name="membership__current_subscription_expiration">Your next payment of will be processed at %1$s, if you cancel your membership it will be available til this date and the payment won\'t be processed</string>
     <string name="membership__current_subscription_auto_resume_time">Your subscription is paused till %1$s</string>
     <string name="membership__current_subscription_in_grace_period">Your subscription is in grace period, please update your payment method to avoid losing your benefits</string>
@@ -252,22 +261,29 @@
     <string name="membership__subscription_purchase_expire_at">Valid till: %1$s</string>
     <!-- Coins -->
     <string name="coins__title">Coins</string>
+    <string name="coins__process_purchases">Process purchases</string>
+    <string name="coins__no_coins">You are out of coins</string>
     <plurals name="coins__current_coins">
-        <item quantity="zero">You are out of coins</item>
-        <item quantity="one">You have 1 coin</item>
-        <item quantity="two">You have %1$d coins</item>
-        <item quantity="other">You are out of coins</item>
+        <item quantity="zero">@string/coins__no_coins</item>
+        <item quantity="one">You have 1 coin left</item>
+        <item quantity="other">You have %1$d coins left</item>
     </plurals>
     <string name="coins__history">Coins purchases history</string>
+    <string name="coins__coins_to_purchase">Show coins to purchase</string>
+    <string name="coins__purchase_state_pending">Pending payment</string>
+    <string name="coins__purchase_state_purchased">Purchased</string>
+    <string name="coins__purchase_state_canceled">Canceled</string>
+    <string name="coins__acknowledged">Acknowledged</string>
+    <string name="coins__not_acknowledged">Not acknowledged</string>
+    <string name="coins__type_standard">Standar purchase</string>
+    <string name="coins__type_promo">Promo redeemed</string>
+    <string name="coins__type_rewarded">Rewarded</string>
+    <string name="coins__type_test">Blindo tester</string>
     <plurals name="coins__purchase_success">
         <item quantity="one">Congrats, 1 coin was added to your account</item>
-        <item quantity="two">Congrats, %1$d coins were added to your account</item>
+        <item quantity="other">Congrats, %1$d coins were added to your account</item>
     </plurals>
-    <plurals name="coins__low_availability">
-        <item quantity="zero">You are out of coins, would you like to buy more?</item>
-        <item quantity="one">You only have 1 coin left, would you like to buy more?</item>
-        <item quantity="two">You only have %1$d coins left, would you like to buy more?</item>
-    </plurals>
+    <string name="coins__would_you_like_to_buy_more">Would you like to buy more?</string>
     <string name="coins__buy_more">Yes, buy more!</string>
     <string name="coins__no_buy_more">No thanks, maybe later</string>
 

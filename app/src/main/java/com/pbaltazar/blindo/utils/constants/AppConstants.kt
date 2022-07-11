@@ -14,6 +14,7 @@ const val ADS_CLIENT_ID = "com.google.android.gms.ads.MobileAds"
 const val ADS_CONSENT_STATUS = "adsConsentStatus"
 const val IS_FIRST_TIME = "isFirstTime"
 const val IS_PRIVACY_POLICY_ACCEPTED = "isPrivacyPolicyAccepted"
+const val IS_VISION_INTRODUCED = "isVisionIntroduced"
 
 const val APPS_PAGE_SIZE = "appsPageSize"
 const val APP_SORT = "appsort"

@@ -12,6 +12,12 @@
     <string name="vision__service_summary">
         Lleva la accesibilidad a un nivel superior describiendo cualquier elemento con una simple captura de pantalla.
     </string>
+    <string name="vision__introduce">
+        Lleva la accesibilidad a un nivel superior describiendo cualquier elemento con una simple captura de pantalla.\n
+        Basta con activar el servicio de accesibilidad de Blindo Vision, hacer una captura de pantalla y Blindo Vision recortará el elemento de la pantalla en el que se encuentra el foco de  accesibilidad,
+        entonces Blindo Vision utilizará modelos de IA para reconocer el texto (OCR) y describirte la imagen.\n
+        Blindo Vision requiere una conexión a Internet y monedas Blindo para gastar, 1 moneda por captura de pantalla.
+    </string>
     <string name="vision__image_description_title">Descripción de Imagen</string>
     <string name="vision__loading_title">Analizando imagen, espera un momento por favor...</string>
     <string name="vision__error_title">No se puede analizar la imagen</string>
@@ -99,6 +105,7 @@ a tu idioma, utilizar el SLI sin límites, ocultar todos los anuncios de Blindo 
         <item>Información del dispositivo como el ID de tu dispositivo, fabricante, modelo y otras propiedades del dispositivo para asociarlos a tu cuenta de Blindo</item>
         <item>Información de apps instaladas incluyendo el nombre público y el nombre del paquete de las apps, solo se recolecta cuando usas  el Instalador Inteligente de Etiquetas (SLI) para generar el paquete pesonalizado de etiquetas</item>
         <item>Información de los servicios de accesibilidad incluyendo el nombre del paquete de todos tus servicios de accesibilidad instalados sin importar si realmente son software de asistencia o no para generar los paquetes de etiquetas en el formato indicado</item>
+        <item>Capturas de pantalla para ejecutar el OCR y la descripción de imagenes. Las capturas de pantalla se envían al servidor y se almacenan temporalmente sin ningún dato que las vincule contigo</item>
     </array>
     <string name="tutorial__action_omit">Omitir</string>
     <string name="tutorial__step_finish">Disfruta Blindo y colabora con nosotros para mejorar la accesibilidad en Android, puedes ver este tutorial en
@@ -195,6 +202,7 @@ más de espacio libre en tu almacenamiento interno y vuelve a intentarlo</string
     <!-- Purchases -->
     <!-- Memberships -->
     <string name="membership__title">Membresías</string>
+    <string name="membership__restore_subscriptions">Restaurar subscripciones</string>
     <string name="membership__subscription_info">%1$s por %2$s</string>
     <string name="membership__subscription_notice">Esta es una suscripción recurrente, %1$s serán cargados a tu forma de pago y pueddes cancelar en cualquier momento</string>
     <string name="membership__subscribe_now">Subscribirme ahora!</string>
@@ -211,31 +219,31 @@ más de espacio libre en tu almacenamiento interno y vuelve a intentarlo</string
     <string name="membership__third_phase">finalmente %3$s %4$s %1$s %2$s</string>
     <plurals name="membership__period_day">
         <item quantity="one">día</item>
-        <item quantity="two">días</item>
+        <item quantity="other">días</item>
     </plurals>
     <plurals name="membership__period_week">
         <item quantity="one">semana</item>
-        <item quantity="two">semanas</item>
+        <item quantity="other">semanas</item>
     </plurals>
     <plurals name="membership__period_month">
         <item quantity="one">mes</item>
-        <item quantity="two">meses</item>
+        <item quantity="other">meses</item>
     </plurals>
     <plurals name="membership__period_year">
         <item quantity="one">año</item>
-        <item quantity="two">años</item>
+        <item quantity="other">años</item>
     </plurals>
     <plurals name="membership__female_the">
         <item quantity="one">la</item>
-        <item quantity="two">las</item>
+        <item quantity="other">las</item>
     </plurals>
     <plurals name="membership__male_the">
         <item quantity="one">el</item>
-        <item quantity="two">los</item>
+        <item quantity="other">los</item>
     </plurals>
     <plurals name="membership__following">
         <item quantity="one">siguiente</item>
-        <item quantity="two">siguientes</item>
+        <item quantity="other">siguientes</item>
     </plurals>
     <string-array name="membership__benefits_classic_membership">
         <item>Restaura la copia de seguridad de tus etiquetas con un solo click</item>
@@ -244,6 +252,7 @@ más de espacio libre en tu almacenamiento interno y vuelve a intentarlo</string
         <item>Sin publicidad</item>
     </string-array>
     <string name="membership__current_subscription">Tienes una %1$s (%2$s)</string>
+    <string name="membership__history">Historial de membresias</string>
     <string name="membership__current_subscription_expiration">Tú siguiente pago será procesado el %1$s, si cancelas tu membresía la misma estará disponible hasta esta fecha y el siguiente pago ya no será procesado</string>
     <string name="membership__current_subscription_auto_resume_time">Tu subscripción está pausada hasta el %1$s</string>
     <string name="membership__current_subscription_in_grace_period">Tu subscripción está en periodo de gracia, por favor actualiza tu método  de pago para evitar perder tus beneficios</string>
@@ -273,22 +282,29 @@ más de espacio libre en tu almacenamiento interno y vuelve a intentarlo</string
     <string name="membership__subscription_purchase_expire_at">Válida hasta: %1$s</string>
     <!-- Coins -->
     <string name="coins__title">Monedas</string>
+    <string name="coins__process_purchases">Procesar compras</string>
+    <string name="coins__no_coins">No tienes monedas</string>
     <plurals name="coins__current_coins">
-        <item quantity="zero">No tienes monedas</item>
-        <item quantity="one">Tienes 1 moneda</item>
-        <item quantity="two">Tienes %1$d monedas</item>
-        <item quantity="other">No tienes monedas</item>
+        <item quantity="zero">@string/coins__no_coins</item>
+        <item quantity="one">Te queda 1 moneda</item>
+        <item quantity="other">Te quedan %1$d monedas</item>
     </plurals>
     <string name="coins__history">Historial de compras de monedas</string>
+    <string name="coins__coins_to_purchase">Mostrar monedas para comprar</string>
+    <string name="coins__purchase_state_pending">Pendiente de pago</string>
+    <string name="coins__purchase_state_purchased">Pagada</string>
+    <string name="coins__purchase_state_canceled">Cancelada</string>
+    <string name="coins__acknowledged">Confirmada</string>
+    <string name="coins__not_acknowledged">No confirmada</string>
+    <string name="coins__type_standard">Compra estandar</string>
+    <string name="coins__type_promo">Promo canjeada</string>
+    <string name="coins__type_rewarded">Recompensado</string>
+    <string name="coins__type_test">Blindo tester</string>
     <plurals name="coins__purchase_success">
         <item quantity="one">Felicidades, 1 moneda fue agregada a tu cuenta</item>
-        <item quantity="two">Felicidades, %1$d monedas fueron agregadas a tu cuenta</item>
+        <item quantity="other">Felicidades, %1$d monedas fueron agregadas a tu cuenta</item>
     </plurals>
-    <plurals name="coins__low_availability">
-        <item quantity="zero">Ya no tienes monedas, ¿te gustaría comprar más?</item>
-        <item quantity="one">Solo te queda 1 moneda, ¿te gustaría comprar más?</item>
-        <item quantity="two">Solo te quedan %1$d monedas, ¿te gustaría comprar más?</item>
-    </plurals>
+    <string name="coins__would_you_like_to_buy_more">¿Te gustaría comprar más?</string>
     <string name="coins__buy_more">Si, comprar más!</string>
     <string name="coins__no_buy_more">No gracias, quizá después</string>
 
