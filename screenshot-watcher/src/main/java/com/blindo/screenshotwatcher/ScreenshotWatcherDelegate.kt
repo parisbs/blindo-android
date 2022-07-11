@@ -13,6 +13,7 @@ import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.blindo.screenshotwatcher.exceptions.PermissionException
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
@@ -38,12 +39,16 @@ class ScreenshotWatcherDelegate(
     @Suppress("unused")
     constructor(
         context: Context,
-        onScreenCaptured: (uri: Uri) -> Unit
+        onScreenCaptured: (uri: Uri?, screenCapturedFailure: Throwable?) -> Unit
     ) : this(
         WeakReference(context),
         object : ScreenshotWatcherListener {
             override fun onScreenCaptured(uri: Uri) {
-                onScreenCaptured(uri)
+                onScreenCaptured(uri, null)
+            }
+
+            override fun onScreenCapturedFailure(throwable: Throwable) {
+                onScreenCaptured(null, throwable)
             }
         }
     )
@@ -100,7 +105,8 @@ class ScreenshotWatcherDelegate(
                 }
             }
         } else {
-            Log.w(TAG, "Read external storage permission required")
+            Log.e(TAG, "Read external storage permission required")
+            listener.onScreenCapturedFailure(PermissionException("Read external storage permission required."))
         }
     }
 
@@ -136,6 +142,7 @@ class ScreenshotWatcherDelegate(
             }
         } catch (e: Exception) {
             Log.e(TAG, e.message ?: "")
+            listener.onScreenCapturedFailure(e)
         }
         return null
     }
@@ -159,5 +166,6 @@ class ScreenshotWatcherDelegate(
 
     interface ScreenshotWatcherListener {
         fun onScreenCaptured(uri: Uri)
+        fun onScreenCapturedFailure(throwable: Throwable)
     }
 }

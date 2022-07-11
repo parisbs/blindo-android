@@ -84,6 +84,8 @@ class BlindoVisionService : AccessibilityService(),
         }
     }
 
+    override fun onScreenCapturedFailure(throwable: Throwable) = BlindoLogger.log.e(throwable)
+
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         // Do nothing
     }
