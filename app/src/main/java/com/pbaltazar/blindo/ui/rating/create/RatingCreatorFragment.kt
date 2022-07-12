@@ -3,9 +3,11 @@ package com.pbaltazar.blindo.ui.rating.create
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.RatingBar
@@ -41,6 +43,7 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
     private lateinit var commentText: EditText
     private lateinit var ratingContinue: Button
 
+    private var alreadyCheckForUserRating: Boolean = false
     private var isUpdate: Boolean = false
     private var currentRatingId: String = ""
     private var isReadyToContinue: Boolean = false
@@ -55,6 +58,9 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ratingCreatorViewModel.setTargetApp(ratingCreatorFragmentArgs.app)
+        subscribeAuth()
+        subscribeUserRating()
+        subscribeCreation()
     }
 
     override fun onAttach(context: Context) {
@@ -79,25 +85,26 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
         performanceRatingBar = binding!!.ratingBars.performanceRatingBar
         commentText = binding!!.commentText
         ratingContinue = binding!!.ratingContinue
-        setupUi()
         return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        subscribeAuth()
+        setupUi()
         subscribeUser()
-        subscribeUserRating()
-        subscribeCreation()
     }
 
-    override fun onSubscribeUser() {
-        getUser()?.also { user ->
-            if (isUpdate.not()) {
+    override fun onResume() {
+        super.onResume()
+        if (alreadyCheckForUserRating.not()) {
+            alreadyCheckForUserRating = true
+            getUser()?.also { user ->
                 ratingCreatorFragmentArgs.rating?.also { rating ->
-                    rating.user?.id?.takeIf { it == user.id }?.also {
+                    if (TextUtils.equals(rating.user?.id ?: "", user.id)) {
                         ratingCreatorViewModel.setUserRating(rating)
-                    } ?: findNavController().popBackStack()
+                    } else {
+                        findNavController().popBackStack()
+                    }
                 } ?: ratingCreatorViewModel.getUserRating(
                     RatingInput(
                         appId = ratingCreatorFragmentArgs.app.id,
@@ -106,7 +113,11 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
                     )
                 )
             }
-        } ?: run {
+        }
+    }
+
+    override fun onSubscribeUser() {
+        if (getUser() == null) {
             findNavController().navigate(
                 RatingCreatorFragmentDirections.actionFromCommentCreatorToRequiresAuth()
             )
@@ -115,7 +126,7 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
         if (it.not()) {
-            loginScreen.launch(Unit)
+            requireAuthenticableActivity.loginScreen.launch(Unit)
         } else {
             findNavController().popBackStack()
         }
@@ -144,10 +155,12 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
                 ).show()
                 isReadyToContinue = true
                 ratingContinue.apply {
-                    text = getString(R.string.ratingcreator__finish)
                     setOnClickListener {
                         findNavController().popBackStack()
                     }
+                    text = getString(R.string.ratingcreator__finish)
+                    requestFocus()
+                    sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
                 }
             }
             is RatingCreatorViewModel.RatingCreatorViewState.Error -> {
