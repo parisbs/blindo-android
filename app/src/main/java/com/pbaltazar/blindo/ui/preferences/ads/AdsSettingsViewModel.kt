@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.ads.settings
+package com.pbaltazar.blindo.ui.preferences.ads
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

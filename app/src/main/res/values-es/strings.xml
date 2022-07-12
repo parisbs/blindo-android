@@ -37,10 +37,22 @@
     <string name="permissions__continue">Continuar</string>
 
     <!-- Settings -->
+    <string name="settings__title">Configuración</string>
+    <string name="settings__category_ads">Anuncios</string>
+    <string name="settings__category_others">Otros</string>
+    <!-- Cache Settings -->
     <string name="settings__clear_cache_title">Limpiar caché</string>
+    <string name="settings__clear_cache_summary">Limpia el caché de red. Recomendado cuando Blindo tiene problemas para detectar membresías, monedas o actualizaciones de contenido</string>
     <string name="settings__clear_cache_message">¿Seguro que quieres limpiar el caché de Blindo?, esta acción no se puede deshacer</string>
     <string name="settings__clear_cache_continue">Continuar</string>
     <string name="settings__clear_cache_cancel">Cancelar</string>
+    <!-- Search History Settings -->
+    <string name="settings__clear_search_history_title">Eliminar historial de búsqueda</string>
+    <string name="settings__clear_search_history_summary">Elimina tu historial de búsquedas. Este historial está almacenado unicamente en tu dispositivo</string>
+    <string name="settings__clear_search_history_message">¿Seguro que quieres eliminar todo tu historial de búsqueda?, esta acción no se puede deshacer</string>
+    <string name="settings__clear_search_history_clear">Eliminar</string>
+    <string name="settings__clear_search_history_no">No</string>
+    <!-- Vision Settings -->
     <string name="settings__vision_activity_title">Preferencias para Blindo Vision</string>
     <string name="settings__vision_general_category">General</string>
     <string name="settings__vision_language_title">Idioma</string>
@@ -50,10 +62,6 @@
     <string name="search__app_title">Buscando \"%1$s\"</string>
     <string name="search__app_hint">Busca por nombre de paquete o nombre de la app</string>
     <string name="search__voice_prompt_text">Di el nombre de una app o una palabra clave para buscar en Blindo</string>
-    <string name="search__clear_search_history_title">Eliminar historial de búsqueda</string>
-    <string name="search__clear_search_history_message">¿Seguro que quieres eliminar todo tu historial de búsqueda?, esta acción no se puede deshacer</string>
-    <string name="search__clear_button">Eliminar</string>
-    <string name="search__no_button">No</string>
 
     <!-- Notifications -->
     <string name="messaging__channel_updates">Actualizaciones</string>

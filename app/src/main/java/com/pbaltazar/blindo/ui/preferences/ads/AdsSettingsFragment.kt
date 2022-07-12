@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.ads.settings
+package com.pbaltazar.blindo.ui.preferences.ads
 
 import android.os.Bundle
 import android.view.LayoutInflater

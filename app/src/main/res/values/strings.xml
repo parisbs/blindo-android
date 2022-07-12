@@ -38,10 +38,22 @@
     <string name="permissions__continue">Continue</string>
 
     <!-- Settings -->
+    <string name="settings__title">Settings</string>
+    <string name="settings__category_ads">Ads</string>
+    <string name="settings__category_others">Others</string>
+    <!-- Cache Settings -->
     <string name="settings__clear_cache_title">Clear cache</string>
+    <string name="settings__clear_cache_summary">Clear the network cache. Recommended when Blindo has problems detecting memberships, coins or content updates</string>
     <string name="settings__clear_cache_message">Do you want to clear the Blindo\'s cache?, this action cannot be undone</string>
     <string name="settings__clear_cache_continue">Continue</string>
     <string name="settings__clear_cache_cancel">Cancel</string>
+    <!-- Search History Settings -->
+    <string name="settings__clear_search_history_title">Clear search history</string>
+    <string name="settings__clear_search_history_summary">Clear your search history. This history is just storaged in your device</string>
+    <string name="settings__clear_search_history_message">Do you want to clear all your search history?, this action cannot be undone</string>
+    <string name="settings__clear_search_history_clear">Clear</string>
+    <string name="settings__clear_search_history_no">No</string>
+    <!-- Vision Settings -->
     <string name="settings__vision_activity_title">Blindo Vision Preferences</string>
     <string name="settings__vision_general_category">General</string>
     <string name="settings__vision_language_title">Language</string>
@@ -51,10 +63,6 @@
     <string name="search__app_title">Searching for \"%1$s\"</string>
     <string name="search__app_hint">Search by package name or app name</string>
     <string name="search__voice_prompt_text">Say an app name or keyword to search on Blindo</string>
-    <string name="search__clear_search_history_title">Clear search history</string>
-    <string name="search__clear_search_history_message">Do you want to clear all your search history?, this action cannot be undone</string>
-    <string name="search__clear_button">Clear</string>
-    <string name="search__no_button">No</string>
 
     <!-- Notifications -->
     <string name="messaging__channel_updates">Updates</string>

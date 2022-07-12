@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:title="@string/vision__service_name">
+
+        <Preference
+            app:key="vision"
+            app:title="@string/settings__vision_activity_title"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/settings__category_ads">
+
+        <Preference
+            app:key="adsSettings"
+            app:title="@string/ads_settings_title"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/settings__category_others">
+
+        <Preference
+            app:key="clearCache"
+            app:title="@string/settings__clear_cache_title"
+            app:summary="@string/settings__clear_cache_summary"
+            />
+
+        <Preference
+            app:key="clearSearchHistory"
+            app:title="@string/settings__clear_search_history_title"
+            app:summary="@string/settings__clear_search_history_summary"
+            />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

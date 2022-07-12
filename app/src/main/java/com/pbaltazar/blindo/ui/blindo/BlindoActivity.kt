@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
 import android.widget.TextView
@@ -66,6 +67,7 @@ class BlindoActivity : AuthenticableActivity() {
     private lateinit var headerUserProfile: TextView
     private lateinit var headerSignOut: TextView
     private lateinit var searchBox: SearchView
+    private var searchMenuItem: MenuItem? = null
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var emailVerificationMessage: Snackbar
@@ -74,16 +76,23 @@ class BlindoActivity : AuthenticableActivity() {
     private var isAdBannerLoaded: Boolean = false
 
     private var currentDestinationId: Int = 0
+    private val preferencesScreens: List<Int> = listOf(
+        R.id.settingsEntryPoint,
+        R.id.settingsBlindoVision,
+        R.id.settingsAds
+    )
     private val adsFreeScreens: List<Int> = listOf(
-        R.id.navTutorial,
-        R.id.navAdsSettings,
         R.id.navCoins,
         R.id.navMembership,
+        R.id.settingsEntryPoint,
+        R.id.settingsBlindoVision,
+        R.id.settingsAds,
+        R.id.navTutorial,
         R.id.navAbout,
-        R.id.dialogRequiresAuth,
-        R.id.dialogRequiresPremium,
         R.id.dialogClearSearchHistory,
         R.id.dialogClearCache,
+        R.id.dialogRequiresAuth,
+        R.id.dialogRequiresPremium,
         R.id.navVisionResults
     )
 
@@ -160,9 +169,11 @@ class BlindoActivity : AuthenticableActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.blindo, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchMenuItem = menu.findItem(R.id.searchApps)
         searchBox = (menu.findItem(R.id.searchApps).actionView as SearchView).apply {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
+        hideSearchBoxInPreferencesScreens()
         return true
     }
 
@@ -353,9 +364,15 @@ class BlindoActivity : AuthenticableActivity() {
             else -> {
                 isWaitingForSplash = false
                 toolbar.visible()
-                refreshAdsBanner(destination.id)
-                refreshUi(destination.id)
+                refreshAdsBanner(currentDestinationId)
+                refreshUi(currentDestinationId)
             }
+        }
+    }
+
+    private fun hideSearchBoxInPreferencesScreens() {
+        if (preferencesScreens.contains(currentDestinationId)) {
+            searchMenuItem?.setVisible(false)
         }
     }
 

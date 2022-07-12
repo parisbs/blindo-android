@@ -62,7 +62,7 @@
                 <data android:mimeType="application/json" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.preferences.BlindoVisionPreferencesActivity"
+        <activity android:name=".ui.preferences.vision.BlindoVisionPreferencesActivity"
             android:label="@string/settings__vision_activity_title"
             android:exported="false" />
         <activity

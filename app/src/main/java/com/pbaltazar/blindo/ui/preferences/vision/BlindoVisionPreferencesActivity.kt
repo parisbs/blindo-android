@@ -1,4 +1,4 @@
-package com.pbaltazar.blindo.ui.preferences
+package com.pbaltazar.blindo.ui.preferences.vision
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

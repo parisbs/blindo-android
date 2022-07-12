@@ -238,31 +238,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navAdsSettings"
-        android:name="com.pbaltazar.blindo.ui.ads.settings.AdsSettingsFragment"
-        android:label="@string/ads_settings_title"
-        tools:layout="@layout/fragment_ads_settings">
-        <argument
-            android:name="consentStatus"
-            app:argType="string"
-            app:nullable="true"
-            android:defaultValue="@null" />
-        <argument
-            android:name="closeAfterUpdate"
-            app:argType="boolean"
-            android:defaultValue="true"/>
-        <action
-            android:id="@+id/actionFromAdsSettingsToPremium"
-            app:destination="@id/navMembership"
-            app:popUpTo="@id/navAdsSettings"
-            app:launchSingleTop="true"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out" />
-    </fragment>
-
-    <fragment
         android:id="@+id/navAbout"
         android:name="com.pbaltazar.blindo.ui.about.AboutFragment"
         android:label="@string/about__title"
@@ -367,7 +342,7 @@
             app:exitAnim="@anim/fade_out" />
         <action
             android:id="@+id/actionFromPackDetailsToAdsSettings"
-            app:destination="@id/navAdsSettings"
+            app:destination="@id/settingsAds"
             app:popUpTo="@id/navPackDetails"
             app:popUpToInclusive="true"
             app:launchSingleTop="true"
@@ -480,6 +455,79 @@
         tools:layout="@layout/fragment_vision_results">
     </fragment>
 
+    <fragment
+        android:id="@+id/settingsEntryPoint"
+        android:name="com.pbaltazar.blindo.ui.preferences.EntryPointPreferencesFragment"
+        android:label="@string/settings__title">
+        <action
+            android:id="@+id/goToBlindoVisionSettings"
+            app:destination="@id/settingsBlindoVision"
+            app:popUpTo="@id/settingsEntryPoint"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            />
+        <action
+            android:id="@+id/goToAdsSettings"
+            app:destination="@id/settingsAds"
+            app:popUpTo="@id/settingsEntryPoint"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            />
+        <action
+            android:id="@+id/clearCache"
+            app:destination="@id/dialogClearCache"
+            app:popUpTo="@id/settingsEntryPoint"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            />
+        <action
+            android:id="@+id/clearSearchHistory"
+            app:destination="@id/dialogClearSearchHistory"
+            app:popUpTo="@id/settingsEntryPoint"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsBlindoVision"
+        android:name="com.pbaltazar.blindo.ui.preferences.vision.BlindoVisionPreferencesFragment"
+        android:label="@string/settings__vision_activity_title">
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsAds"
+        android:name="com.pbaltazar.blindo.ui.preferences.ads.AdsSettingsFragment"
+        android:label="@string/ads_settings_title"
+        tools:layout="@layout/fragment_ads_settings">
+        <argument
+            android:name="consentStatus"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="closeAfterUpdate"
+            app:argType="boolean"
+            android:defaultValue="true"/>
+        <action
+            android:id="@+id/actionFromAdsSettingsToPremium"
+            app:destination="@id/navMembership"
+            app:popUpTo="@id/settingsAds"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+    </fragment>
+
     <action
         android:id="@+id/actionGlobalToFilters"
         app:destination="@id/dialogFilters"
@@ -509,7 +557,7 @@
 
     <action
         android:id="@+id/actionGlobalToAdsSettings"
-        app:destination="@id/navAdsSettings"
+        app:destination="@id/settingsAds"
         app:launchSingleTop="true"
         app:popEnterAnim="@anim/fade_in"
         app:popExitAnim="@anim/fade_out"

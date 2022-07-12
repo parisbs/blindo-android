@@ -2,7 +2,7 @@ package com.pbaltazar.blindo
 
 import android.app.Application
 import com.pbaltazar.blindo.data.dataModule
-import com.pbaltazar.blindo.ui.ads.adsModule
+import com.pbaltazar.blindo.ui.preferences.ads.adsModule
 import com.pbaltazar.blindo.ui.app.appModule
 import com.pbaltazar.blindo.ui.filter.filterModule
 import com.pbaltazar.blindo.ui.home.homeModule

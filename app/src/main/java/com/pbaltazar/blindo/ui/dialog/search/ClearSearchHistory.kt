@@ -14,10 +14,10 @@ class ClearSearchHistory : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog = activity?.let {
         AlertDialog.Builder(it)
-            .setTitle(R.string.search__clear_search_history_title)
-            .setMessage(R.string.search__clear_search_history_message)
+            .setTitle(R.string.settings__clear_search_history_title)
+            .setMessage(R.string.settings__clear_search_history_message)
             .setPositiveButton(
-                R.string.search__clear_button,
+                R.string.settings__clear_search_history_clear,
                 DialogInterface.OnClickListener { _, _ ->
                     SearchRecentSuggestions(it, RecentSearchesProvider.AUTHORITY, RecentSearchesProvider.MODE)
                         .clearHistory()
@@ -25,7 +25,7 @@ class ClearSearchHistory : DialogFragment() {
                 }
             )
             .setNegativeButton(
-                R.string.search__no_button,
+                R.string.settings__clear_search_history_no,
                 DialogInterface.OnClickListener { _, _ ->
                     findNavController().popBackStack()
                 }

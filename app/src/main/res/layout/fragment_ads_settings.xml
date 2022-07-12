@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.ads.settings.AdsSettingsFragment">
+    tools:context=".ui.preferences.ads.AdsSettingsFragment">
 
     <TextView
         android:id="@+id/currentStatus"
