@@ -49,10 +49,11 @@ class BlindoVisionService : AccessibilityService(),
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        screenshotWatcherDelegate = ScreenshotWatcherDelegate(this, this)
+        screenshotWatcherDelegate = ScreenshotWatcherDelegate(this, this as ScreenshotWatcherDelegate.ScreenshotWatcherListener)
         BlindoVisionBridge.listener = this as BlindoVisionServiceListener
 
-        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            BlindoLogger.log.i("Requesting read external storage permission")
             Intent(this, PermissionsActivity::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(this)

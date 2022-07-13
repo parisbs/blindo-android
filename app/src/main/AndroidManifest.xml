@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="com.android.vending.BILLING" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".Blindo"
@@ -23,13 +24,14 @@
             android:name=".ui.blindo.BlindoActivity"
             android:exported="true"
             android:label="@string/title_activity_blindo"
-            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -37,7 +39,10 @@
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
+
+            <nav-graph android:value="@navigation/main_navigation" />
         </activity>
+
         <activity
             android:name=".ui.user.login.LoginActivity"
             android:excludeFromRecents="true"
@@ -49,6 +54,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.pack.upload.UploadPackActivity"
             android:exported="true"
@@ -62,14 +68,19 @@
                 <data android:mimeType="application/json" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.preferences.vision.BlindoVisionPreferencesActivity"
+
+        <activity
+            android:name=".ui.preferences.vision.BlindoVisionPreferencesActivity"
             android:label="@string/settings__vision_activity_title"
-            android:exported="false" />
+            android:exported="false">
+        </activity>
+
         <activity
             android:name=".ui.permissions.PermissionsActivity"
             android:label="@string/permissions__activity_title"
             android:excludeFromRecents="true"
-            android:exported="false" />
+            android:exported="true">
+        </activity>
 
         <service
             android:name=".utils.authentication.local.system.AccountAuthenticatorService"
@@ -103,8 +114,11 @@
         <service
             android:name=".services.BlindoVisionService"
             android:label="@string/vision__service_name"
+            android:description="@string/vision__introduce"
+            android:enabled="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:settingsActivity=".ui.preferences.BlindoVisionPreferencesActivity"
+            android:settingsActivity=".ui.preferences.vision.BlindoVisionPreferencesActivity"
+            android:directBootAware="true"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />

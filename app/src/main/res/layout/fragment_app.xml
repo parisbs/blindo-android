@@ -16,24 +16,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.viewpager.widget.ViewPager
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/appTabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:tabMinWidth="@dimen/min_a11y_touch_target_size"
+            app:tabMode="auto"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabIndicatorHeight="@dimen/big"
+            />
+
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/appViewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/appTabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                app:tabMinWidth="@dimen/min_a11y_touch_target_size"
-                app:tabMode="auto"
-                app:tabIndicatorAnimationMode="elastic"
-                app:tabIndicatorHeight="@dimen/big"
-                />
-
-        </androidx.viewpager.widget.ViewPager>
+            android:layout_height="fill_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

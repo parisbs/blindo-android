@@ -10,7 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentAppBinding
 import com.pbaltazar.blindo.entities.App
@@ -29,7 +31,7 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
     private val appFragmentArgs: AppFragmentArgs by navArgs()
 
     private lateinit var appViewState: ViewState
-    private lateinit var appViewPager: ViewPager
+    private lateinit var appViewPager: ViewPager2
     private lateinit var appTabs: TabLayout
     private lateinit var pagerAdapter: AppPagerAdapter
 
@@ -169,22 +171,15 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
     })
 
     private fun setupViewPager() {
-        pagerAdapter = AppPagerAdapter(requireContext(), childFragmentManager)
-        appTabs.setupWithViewPager(
-            appViewPager.apply {
-                adapter = pagerAdapter
+        pagerAdapter = AppPagerAdapter(this)
+        appViewPager.adapter = pagerAdapter
+        TabLayoutMediator(appTabs, appViewPager) { tab, position ->
+            when (position) {
+                0 -> { tab.text = getString(R.string.appdetails__details_tab) }
+                1 -> { tab.text = getString(R.string.appdetails__packs_tab, currentApp?.availablePacks ?: 0) }
+                2 -> { tab.text = getString(R.string.appdetails__comments_tab, currentApp?.numberOfRatings ?: 0) }
             }
-        )
-        appTabs.apply {
-            getTabAt(1)?.text = getString(
-                R.string.appdetails__packs_tab,
-                currentApp?.availablePacks ?: 0
-            )
-            getTabAt(2)?.text = getString(
-                R.string.appdetails__comments_tab,
-                currentApp?.numberOfRatings ?: 0
-            )
-        }
+        }.attach()
         appTabs.getTabAt(appViewModel.getSelectedTab())?.also { tab ->
             if (tab.position != appViewModel.getSelectedTab()) {
                 appTabs.selectTab(tab)

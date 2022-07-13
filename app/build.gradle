@@ -127,6 +127,7 @@ dependencies {
     implementation libraries.material.material
     implementation libraries.androidx.constraintLayout
     implementation libraries.androidx.recyclerView
+    implementation libraries.androidx.viewPager2
     implementation libraries.androidx.navigationFragmentKtx
     implementation libraries.androidx.navigationUiKtx
     implementation libraries.lifecycle.runtime
