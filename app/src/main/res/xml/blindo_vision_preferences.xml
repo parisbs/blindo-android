@@ -9,10 +9,19 @@
         <DropDownPreference
             app:key="language"
             app:title="@string/settings__vision_language_title"
-            app:entries="@array/language_entries"
-            app:entryValues="@array/language_values"
-            app:defaultValue="ENGLISH"
             app:summary="@string/settings__vision_language_summary"
+            app:entries="@array/vision__language_entries"
+            app:entryValues="@array/vision__language_values"
+            app:defaultValue="ENGLISH"
+            />
+
+        <ListPreference
+            app:key="autoDiscardNotifications"
+            app:title="@string/settings__vision_auto_discard_notifications_title"
+            app:summary="@string/settings__vision_auto_discard_notifications_summary"
+            app:entries="@array/vision__auto_discard_notifications_entries"
+            app:entryValues="@array/vision__auto_discard_notifications_values"
+            app:defaultValue="15"
             />
 
     </PreferenceCategory>

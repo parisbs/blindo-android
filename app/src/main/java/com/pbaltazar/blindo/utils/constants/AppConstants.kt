@@ -3,6 +3,11 @@ package com.pbaltazar.blindo.utils.constants
 import com.pbaltazar.blindo.BuildConfig
 import com.pbaltazar.blindo.R
 
+const val ACTIONS_HOST = "actions"
+const val REQUEST_PERMISSIONS_ACTION = "requestPermissions"
+const val VISION_ANALISIS_ACTION = "visionAnalisis"
+
+const val VISION_NOTIFICATION_CHANNEL = "visionNotificationChannel"
 const val UPDATES_CHANNEL = "blindoUpdatesChannel"
 
 const val NO_PERSONALIZED_ADS = "npa"

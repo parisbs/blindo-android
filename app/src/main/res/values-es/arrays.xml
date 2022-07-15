@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Language Preference -->
-    <string-array name="language_entries">
+    <!-- Vision Settings -->
+    <string-array name="vision__language_entries">
         <item>Inglés</item>
         <item>Español</item>
         <item>Japonés</item>
         <item>Portugués</item>
         <item>Chino Simplificado</item>
+    </string-array>
+
+    <string-array name="vision__auto_discard_notifications_entries">
+        <item>Nunca descartar</item>
+        <item>Después de 15 segundos</item>
+        <item>Después de 30 segundos</item>
+        <item>Después de 45 segundos</item>
+        <item>Después de 60 segundos</item>
     </string-array>
 
 </resources>

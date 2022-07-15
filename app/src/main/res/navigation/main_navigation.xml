@@ -16,7 +16,6 @@
             app:destination="@id/navHome"
             app:popUpTo="@id/navSplash"
             app:popUpToInclusive="true"
-            app:launchSingleTop="true"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
@@ -24,6 +23,15 @@
         <action
             android:id="@+id/actionFromSplashToTutorial"
             app:destination="@id/navTutorial"
+            app:popUpTo="@id/navSplash"
+            app:popUpToInclusive="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromSplashToVisionResults"
+            app:destination="@id/navVisionResults"
             app:popUpTo="@id/navSplash"
             app:popUpToInclusive="true"
             app:launchSingleTop="true"
@@ -449,6 +457,13 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navPermissions"
+        android:name="com.pbaltazar.blindo.ui.permissions.PermissionsFragment"
+        android:label="@string/permissions__activity_title"
+        tools:layout="@layout/fragment_permissions">
+    </fragment>
+
+    <fragment
         android:id="@+id/navVisionResults"
         android:name="com.pbaltazar.blindo.ui.vision.VisionResultsFragment"
         android:label="@string/vision__image_description_title"
@@ -559,6 +574,22 @@
         android:id="@+id/actionGlobalToAdsSettings"
         app:destination="@id/settingsAds"
         app:launchSingleTop="true"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out" />
+
+    <action
+        android:id="@+id/actionGlobalToPermissions"
+        app:destination="@id/navPermissions"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out" />
+
+    <action
+        android:id="@+id/actionGlobalToVisionResults"
+        app:destination="@id/navVisionResults"
         app:popEnterAnim="@anim/fade_in"
         app:popExitAnim="@anim/fade_out"
         app:enterAnim="@anim/fade_in"

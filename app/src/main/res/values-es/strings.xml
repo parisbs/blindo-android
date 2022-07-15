@@ -27,6 +27,7 @@
     <string name="vision__confidence">Precisión: %1$s</string>
     <string name="vision__text">Texto: %1$s</string>
     <string name="vision__tags">Etiquetas: %1$s</string>
+    <string name="vision__screenshot_detected">Captura de pantalla detectada, toca para describirla</string>
 
     <!-- Permissions -->
     <string name="permissions__activity_title">Permisos para Blindo Vision</string>
@@ -57,6 +58,8 @@
     <string name="settings__vision_general_category">General</string>
     <string name="settings__vision_language_title">Idioma</string>
     <string name="settings__vision_language_summary">Selecciona el idioma para las descripciones de imagen</string>
+    <string name="settings__vision_auto_discard_notifications_title">Auto descartar notificaciones</string>
+    <string name="settings__vision_auto_discard_notifications_summary">Segundos para auto descartar las notificaciones de detección de capturas de pantalla</string>
 
     <!-- Search -->
     <string name="search__app_title">Buscando \"%1$s\"</string>

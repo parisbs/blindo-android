@@ -22,14 +22,26 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".ui.blindo.BlindoActivity"
-            android:exported="true"
             android:label="@string/title_activity_blindo"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTop"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:scheme="blindoapp"
+                    android:host="actions"
+                    android:pathPattern="/.*" />
             </intent-filter>
 
             <intent-filter>
@@ -57,9 +69,9 @@
 
         <activity
             android:name=".ui.pack.upload.UploadPackActivity"
-            android:exported="true"
             android:label="@string/title_activity_upload_pack"
-            android:theme="@style/AppTheme.NoActionBar" >
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -72,14 +84,15 @@
         <activity
             android:name=".ui.preferences.vision.BlindoVisionPreferencesActivity"
             android:label="@string/settings__vision_activity_title"
-            android:exported="false">
-        </activity>
-
-        <activity
-            android:name=".ui.permissions.PermissionsActivity"
-            android:label="@string/permissions__activity_title"
-            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.accessibilityservice.SERVICE_SETTINGS" />
+            </intent-filter>
         </activity>
 
         <service
@@ -113,13 +126,14 @@
 
         <service
             android:name=".services.BlindoVisionService"
+            android:icon="@drawable/ic_blindo_192dp"
             android:label="@string/vision__service_name"
             android:description="@string/vision__introduce"
             android:enabled="true"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:settingsActivity=".ui.preferences.vision.BlindoVisionPreferencesActivity"
             android:directBootAware="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
 
@@ -134,9 +148,10 @@
         <provider
             android:name=".utils.search.RecentSearchesProvider"
             android:authorities="com.pbaltazar.blindo.utils.search.RecentSearchesProvider" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.providers.LabelsProvider"
+                android:authorities="${applicationId}.providers.LabelsProvider"
             android:exported="false"
             android:grantUriPermissions="true" >
             <meta-data

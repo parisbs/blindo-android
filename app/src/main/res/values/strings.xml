@@ -28,6 +28,7 @@
     <string name="vision__confidence">Confidence: %1$s</string>
     <string name="vision__text">Text: %1$s</string>
     <string name="vision__tags">Tags: %1$s</string>
+    <string name="vision__screenshot_detected">Screenshot detected, touch to describe it</string>
 
     <!-- Permissions -->
     <string name="permissions__activity_title">Blindo Vision Permissions</string>
@@ -58,6 +59,8 @@
     <string name="settings__vision_general_category">General</string>
     <string name="settings__vision_language_title">Language</string>
     <string name="settings__vision_language_summary">Select the language for the image descriptions</string>
+    <string name="settings__vision_auto_discard_notifications_title">Auto discard notifications</string>
+    <string name="settings__vision_auto_discard_notifications_summary">Seconds to wait to auto discard the screenshot detection notifications</string>
 
     <!-- Search -->
     <string name="search__app_title">Searching for \"%1$s\"</string>

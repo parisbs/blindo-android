@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Language Preference -->
-    <string-array name="language_entries">
+    <!-- Vision Settings -->
+    <string-array name="vision__language_values" translatable="false">
+        <item>ENGLISH</item>
+        <item>SPANISH</item>
+        <item>JAPANESE</item>
+        <item>PORTUGUESE</item>
+        <item>SIMPLIFIED_CHINESE</item>
+    </string-array>
+
+    <string-array name="vision__language_entries">
         <item>English</item>
         <item>Spanish</item>
         <item>Japanese</item>
@@ -10,12 +18,20 @@
         <item>Simplified Chinese</item>
     </string-array>
 
-    <string-array name="language_values">
-        <item>ENGLISH</item>
-        <item>SPANISH</item>
-        <item>JAPANESE</item>
-        <item>PORTUGUESE</item>
-        <item>SIMPLIFIED_CHINESE</item>
+    <string-array name="vision__auto_discard_notifications_values" translatable="false">
+        <item>0</item>
+        <item>15</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+    </string-array>
+
+    <string-array name="vision__auto_discard_notifications_entries">
+        <item>Never discard</item>
+        <item>After 15 seconds</item>
+        <item>After 30 seconds</item>
+        <item>After 45 seconds</item>
+        <item>After 60 seconds</item>
     </string-array>
 
 </resources>

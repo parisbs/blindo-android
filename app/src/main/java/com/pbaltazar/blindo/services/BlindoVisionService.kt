@@ -2,7 +2,7 @@ package com.pbaltazar.blindo.services
 
 import android.Manifest
 import android.accessibilityservice.AccessibilityService
-import android.content.Intent
+import android.app.NotificationManager
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -10,19 +10,30 @@ import android.graphics.Rect
 import android.net.Uri
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import androidx.core.app.NotificationCompat
 import androidx.navigation.NavDeepLinkBuilder
 import com.blindo.screenshotwatcher.ScreenshotWatcherDelegate
+import com.blindo.screenshotwatcher.exceptions.PermissionException
 import com.pbaltazar.blindo.R
-import com.pbaltazar.blindo.ui.permissions.PermissionsActivity
+import com.pbaltazar.blindo.utils.constants.VISION_NOTIFICATION_CHANNEL
 import com.pbaltazar.blindo.utils.log.BlindoLogger
+import com.pbaltazar.blindo.utils.notifications.NotificationsManager
+import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import com.pbaltazar.blindo.utils.vision.BlindoVisionBridge
 import com.pbaltazar.blindo.utils.vision.BlindoVisionServiceListener
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 class BlindoVisionService : AccessibilityService(),
+    KoinComponent,
     ScreenshotWatcherDelegate.ScreenshotWatcherListener,
     BlindoVisionServiceListener {
 
+    private val userPreferences: UserPreferences by inject()
         private lateinit var screenshotWatcherDelegate: ScreenshotWatcherDelegate
+
+        private val MISSING_PERMISSIONS_NOTIFICATION_ID = 9999
+    private val SCREENSHOT_DETECTED_NOTIFICATION_ID = 8888
 
         private var latestNodeScreenshot: Bitmap? = null
         private var isWatching: Boolean = false
@@ -52,15 +63,39 @@ class BlindoVisionService : AccessibilityService(),
         screenshotWatcherDelegate = ScreenshotWatcherDelegate(this, this as ScreenshotWatcherDelegate.ScreenshotWatcherListener)
         BlindoVisionBridge.listener = this as BlindoVisionServiceListener
 
+        NotificationsManager.initialize(this)
+        if (NotificationsManager.isInitialized) {
+            NotificationsManager.createNotificationChannel(
+                VISION_NOTIFICATION_CHANNEL,
+                getString(R.string.vision__service_name),
+                getString(R.string.vision__service_summary),
+                NotificationManager.IMPORTANCE_MAX
+            )
+        }
+
         if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            BlindoLogger.log.i("Requesting read external storage permission")
-            Intent(this, PermissionsActivity::class.java).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                startActivity(this)
-            }
+            showMissingPermissionsNotification()
         }
 
         startScreenshotWatcher()
+    }
+
+    private fun showMissingPermissionsNotification() {
+        NavDeepLinkBuilder(this)
+            .setGraph(R.navigation.main_navigation)
+            .addDestination(R.id.navPermissions)
+            .createPendingIntent().apply {
+                NotificationsManager.createSimpleNotification(
+                    icon = R.drawable.ic_blindo_192dp,
+                    title = getString(R.string.permissions__activity_title),
+                    body = getString(R.string.permissions__summary),
+                    channelId = VISION_NOTIFICATION_CHANNEL,
+                    priority = NotificationCompat.PRIORITY_MAX,
+                    pendingIntent = this
+                ).also { notification ->
+                    NotificationsManager.notify(MISSING_PERMISSIONS_NOTIFICATION_ID, notification)
+                }
+            }
     }
 
     override fun onScreenCaptured(uri: Uri) {
@@ -72,12 +107,24 @@ class BlindoVisionService : AccessibilityService(),
                     var bounds: Rect = Rect()
                     node.getBoundsInScreen(bounds)
                     latestNodeScreenshot = Bitmap.createBitmap(fullScreenshot, bounds.left, bounds.top, bounds.width(), bounds.height())
-                    val pendingIntent = NavDeepLinkBuilder(this@BlindoVisionService)
+                    NavDeepLinkBuilder(this@BlindoVisionService)
                         .setGraph(R.navigation.main_navigation)
                         .setDestination(R.id.navVisionResults)
-                        .createPendingIntent()
-                    pendingIntent.send()
-                    stopScreenshotWatcher()
+                        .createPendingIntent().apply {
+                            NotificationsManager.createSimpleNotification(
+                                icon = R.drawable.ic_blindo_192dp,
+                                title = getString(R.string.vision__service_name),
+                                body = getString(R.string.vision__screenshot_detected),
+                                channelId = VISION_NOTIFICATION_CHANNEL,
+                                priority = NotificationCompat.PRIORITY_MAX,
+                                pendingIntent = this,
+                                timeOutAfterMillis = userPreferences.getString("autoDiscardNotifications", "15").let { timeOut ->
+                                    if (timeOut.toInt() > 0) (timeOut.toInt() * 1000).toLong() else null
+                                }
+                            ).also { notification ->
+                                NotificationsManager.notify(SCREENSHOT_DETECTED_NOTIFICATION_ID, notification)
+                            }
+                        }
                 }
             }
         } catch (e: Exception) {
@@ -85,7 +132,10 @@ class BlindoVisionService : AccessibilityService(),
         }
     }
 
-    override fun onScreenCapturedFailure(throwable: Throwable) = BlindoLogger.log.e(throwable)
+    override fun onScreenCapturedFailure(throwable: Throwable) {
+        if (throwable is PermissionException) showMissingPermissionsNotification()
+        else BlindoLogger.log.e(throwable)
+    }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         // Do nothing
@@ -96,7 +146,7 @@ class BlindoVisionService : AccessibilityService(),
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         stopScreenshotWatcher()
+        super.onDestroy()
     }
 }

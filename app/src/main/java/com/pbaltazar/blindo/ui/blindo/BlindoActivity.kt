@@ -38,7 +38,10 @@ import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
+import com.pbaltazar.blindo.utils.constants.ACTIONS_HOST
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
+import com.pbaltazar.blindo.utils.constants.REQUEST_PERMISSIONS_ACTION
+import com.pbaltazar.blindo.utils.constants.VISION_ANALISIS_ACTION
 import com.pbaltazar.blindo.utils.extensions.gone
 import com.pbaltazar.blindo.utils.extensions.isActive
 import com.pbaltazar.blindo.utils.extensions.visible
@@ -93,6 +96,7 @@ class BlindoActivity : AuthenticableActivity() {
         R.id.dialogClearCache,
         R.id.dialogRequiresAuth,
         R.id.dialogRequiresPremium,
+        R.id.navPermissions,
         R.id.navVisionResults
     )
 
@@ -212,6 +216,20 @@ class BlindoActivity : AuthenticableActivity() {
                 navController.navigate(
                     MainNavigationDirections.actionGlobalToSearch(query)
                 )
+            }
+            Intent.ACTION_VIEW -> intent.data?.also { uri ->
+                when (uri.host ?: "") {
+                    ACTIONS_HOST -> uri.path?.also { path ->
+                        when (path) {
+                            REQUEST_PERMISSIONS_ACTION -> navController.navigate(
+                                MainNavigationDirections.actionGlobalToPermissions()
+                            )
+                            VISION_ANALISIS_ACTION -> navController.navigate(
+                                MainNavigationDirections.actionGlobalToVisionResults()
+                            )
+                        }
+                    }
+                }
             }
             else -> Unit
         }
