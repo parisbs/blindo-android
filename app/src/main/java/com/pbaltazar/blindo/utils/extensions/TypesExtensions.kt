@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.view.View
-import com.blindo.apollito.utils.extensions.toJson
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.pbaltazar.blindo.entities.App
@@ -109,20 +108,4 @@ fun Float.toRatingString(locale: Locale = Locale.getDefault()): String = Decimal
     it.minimumFractionDigits = 1
     it.maximumFractionDigits = 1
     it.format(this.toDouble())
-}
-
-fun String.toBlindoReceipt(): JSONObject = this.toJson().let { receipt ->
-    JSONObject()
-        .put(
-            RECEIPT_ORIGIN_KEY,
-            receipt.optString(RECEIPT_PACKAGENAME_KEY)
-        )
-        .put(
-            RECEIPT_SKU_KEY,
-            receipt.optString(RECEIPT_PRODUCTID_KEY)
-        )
-        .put(
-            RECEIPT_TOKEN_KEY,
-            receipt.optString(RECEIPT_PURCHASETOKEN_KEY)
-        )
 }

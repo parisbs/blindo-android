@@ -1,11 +1,9 @@
 package com.pbaltazar.blindo.utils.constants
 
 import com.pbaltazar.blindo.BuildConfig
-import com.pbaltazar.blindo.R
 
 const val ACTIONS_HOST = "actions"
 const val REQUEST_PERMISSIONS_ACTION = "requestPermissions"
-const val VISION_ANALISIS_ACTION = "visionAnalisis"
 
 const val VISION_NOTIFICATION_CHANNEL = "visionNotificationChannel"
 const val UPDATES_CHANNEL = "blindoUpdatesChannel"
@@ -21,14 +19,8 @@ const val IS_FIRST_TIME = "isFirstTime"
 const val IS_PRIVACY_POLICY_ACCEPTED = "isPrivacyPolicyAccepted"
 const val IS_VISION_INTRODUCED = "isVisionIntroduced"
 
-const val APPS_PAGE_SIZE = "appsPageSize"
-const val APP_SORT = "appsort"
-const val APP_TOTAL_RATING_RANGE_CHECKED = "appTotalRatingRangeChecked"
-const val APP_TOTAL_RATING_RANGE_BEGIN = "appTotalRatingRangeBegin"
-const val APP_TOTAL_RATING_RANGE_END = "appTotalRatingRangeEnd"
-const val COMMENTS_PAGE_SIZE = "commentsPageSize"
-const val COMMENT_SORT = "commentSort"
-const val PAGE_SIZE = "pageSize"
+const val VISION_LANGUAGE = "vision__language"
+const val VISION_AUTO_DISCARD_NOTIFICATIONS = "vision__autoDiscardNotifications"
 
 const val DEFAULT_ADS_CONSENT_STATUS = "UNKNOWN"
 
@@ -36,26 +28,12 @@ const val TERMS_AND_CONDITIONS_LINK = "https://blindoapp.com/terms-and-condition
 
 const val AUTH_CANCELED_ON_DIALOG = "authCanceledOnDialog"
 
-const val ARGUMENT_SHOW_NAVIGATE_UP = "showNavigateUp"
 const val ARGUMENT_CONSENT_STATUS = "consentStatus"
 const val ARGUMENT_QUERY = "query"
 const val ARGUMENT_REQUIRE_REFRESH_FILTERS = "requireRefreshFilters"
 const val ARGUMENT_APP = "app"
 const val ARGUMENT_PACK = "pack"
 const val ARGUMENT_RATING = "rating"
-
-val APP_DETAILS_TAB_TITLES = arrayOf(
-    R.string.appdetails__details_tab,
-    R.string.appdetails__packs_tab,
-    R.string.appdetails__comments_tab
-)
-
-const val RECEIPT_ORIGIN_KEY = "origin"
-const val RECEIPT_SKU_KEY = "sku"
-const val RECEIPT_TOKEN_KEY = "token"
-const val RECEIPT_PACKAGENAME_KEY = "packageName"
-const val RECEIPT_PRODUCTID_KEY = "productId"
-const val RECEIPT_PURCHASETOKEN_KEY = "purchaseToken"
 
 const val INTERTITIAL_ADS_MINIMUM_VISUALIZATION = 15000L
 

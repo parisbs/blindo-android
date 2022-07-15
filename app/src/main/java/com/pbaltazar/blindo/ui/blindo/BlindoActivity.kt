@@ -41,7 +41,6 @@ import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.ACTIONS_HOST
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.constants.REQUEST_PERMISSIONS_ACTION
-import com.pbaltazar.blindo.utils.constants.VISION_ANALISIS_ACTION
 import com.pbaltazar.blindo.utils.extensions.gone
 import com.pbaltazar.blindo.utils.extensions.isActive
 import com.pbaltazar.blindo.utils.extensions.visible
@@ -223,9 +222,6 @@ class BlindoActivity : AuthenticableActivity() {
                         when (path) {
                             REQUEST_PERMISSIONS_ACTION -> navController.navigate(
                                 MainNavigationDirections.actionGlobalToPermissions()
-                            )
-                            VISION_ANALISIS_ACTION -> navController.navigate(
-                                MainNavigationDirections.actionGlobalToVisionResults()
                             )
                         }
                     }

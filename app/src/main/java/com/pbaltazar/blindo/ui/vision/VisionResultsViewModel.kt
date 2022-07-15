@@ -14,6 +14,7 @@ import com.pbaltazar.blindo.entities.responses.ApiResponse
 import com.pbaltazar.blindo.entities.responses.AuthenticationProviderResponse
 import com.pbaltazar.blindo.usecases.MutationImageDescription
 import com.pbaltazar.blindo.utils.authentication.provider.AuthenticationProvider
+import com.pbaltazar.blindo.utils.constants.VISION_LANGUAGE
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import com.pbaltazar.blindo.utils.vision.BlindoVisionBridge
 import kotlinx.coroutines.launch
@@ -34,7 +35,7 @@ class VisionResultsViewModel(
     val imageAnalisis: LiveData<ImageAnalisis> get() = analisis
 
     private fun getImageDescriptionLanguage(): ImageDescriptionLanguages =
-        userPreferences.getString("language", "ENGLISH").let { language ->
+        userPreferences.getString(VISION_LANGUAGE, "ENGLISH").let { language ->
             ImageDescriptionLanguages.valueOf(language)
         }
 

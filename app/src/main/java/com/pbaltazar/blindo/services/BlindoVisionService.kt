@@ -15,6 +15,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.blindo.screenshotwatcher.ScreenshotWatcherDelegate
 import com.blindo.screenshotwatcher.exceptions.PermissionException
 import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.utils.constants.VISION_AUTO_DISCARD_NOTIFICATIONS
 import com.pbaltazar.blindo.utils.constants.VISION_NOTIFICATION_CHANNEL
 import com.pbaltazar.blindo.utils.log.BlindoLogger
 import com.pbaltazar.blindo.utils.notifications.NotificationsManager
@@ -118,7 +119,7 @@ class BlindoVisionService : AccessibilityService(),
                                 channelId = VISION_NOTIFICATION_CHANNEL,
                                 priority = NotificationCompat.PRIORITY_MAX,
                                 pendingIntent = this,
-                                timeOutAfterMillis = userPreferences.getString("autoDiscardNotifications", "15").let { timeOut ->
+                                timeOutAfterMillis = userPreferences.getString(VISION_AUTO_DISCARD_NOTIFICATIONS, "15").let { timeOut ->
                                     if (timeOut.toInt() > 0) (timeOut.toInt() * 1000).toLong() else null
                                 }
                             ).also { notification ->
