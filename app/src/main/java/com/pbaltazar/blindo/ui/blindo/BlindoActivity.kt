@@ -46,7 +46,8 @@ import com.pbaltazar.blindo.utils.extensions.gone
 import com.pbaltazar.blindo.utils.extensions.isActive
 import com.pbaltazar.blindo.utils.extensions.visible
 import com.pbaltazar.blindo.utils.log.BlindoLogger
-import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
+import com.pbaltazar.blindo.utils.messaging.MessagingManager
+import com.pbaltazar.blindo.utils.notifications.NotificationsManager
 import com.pbaltazar.blindo.utils.updates.UpdateManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -54,7 +55,6 @@ class BlindoActivity : AuthenticableActivity() {
 
     private val adsViewModel: AdsViewModel by viewModel()
     private val billingViewModel: BillingViewModel by viewModel()
-    private val messagingViewModel: MessagingViewModel by viewModel()
     private var binding: ActivityBlindoBinding? = null
 
     private lateinit var drawerLayout: DrawerLayout
@@ -107,9 +107,11 @@ class BlindoActivity : AuthenticableActivity() {
         toolbar = binding!!.appBar.toolbar
         setSupportActionBar(toolbar)
 
-        adsViewModel.initializeAdsManager(this)
         AnalyticsManager.initialize()
+        NotificationsManager.initialize(this)
+        adsViewModel.initializeAdsManager(this)
         UpdateManager.initialize(this)
+        MessagingManager.initialize(this)
 
         drawerLayout = binding!!.drawerLayout
         blindocoordinator = binding!!.appBar.blindocoordinator
@@ -151,7 +153,6 @@ class BlindoActivity : AuthenticableActivity() {
         subscribeIsValidationEmailSent()
         subscribeAdsConsentStatus()
         subscribeAdsSettings()
-        subscribeMessagingToken()
     }
 
     override fun onResume() {
@@ -354,19 +355,6 @@ class BlindoActivity : AuthenticableActivity() {
         reason,
         Snackbar.LENGTH_LONG
     ).show()
-
-    private fun subscribeMessagingToken() = messagingViewModel.messagingToken.observe(this, Observer {
-        when (val response = it) {
-            is MessagingViewModel.MessagingToken.Success -> getDevice()?.also { device ->
-                updateDevice(
-                    device.copy(
-                        gcmToken = response.token
-                    )
-                )
-            }
-            is MessagingViewModel.MessagingToken.Error -> {}
-        }
-    })
 
     private fun onDestinationChangedListener(controller: NavController, destination: NavDestination, arguments: Bundle?) {
         currentDestinationId = destination.id
