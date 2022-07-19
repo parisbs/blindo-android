@@ -7,6 +7,6 @@
         android:id="@+id/menuProcessPurchases"
         android:title="@string/coins__process_purchases"
         android:orderInCategory="1"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
 
 </menu>

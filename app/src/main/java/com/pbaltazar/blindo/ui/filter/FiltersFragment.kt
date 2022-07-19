@@ -71,8 +71,8 @@ class FiltersFragment : BlindoFragment<FragmentFiltersBinding>(),
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         filtersViewModel.unregisterOnUserPreferencesChangeListener(this as OnUserPreferencesChangeListener)
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

@@ -65,11 +65,6 @@ class AppRatingsFragment : FilterableFragment<FragmentAppRatingsBinding>() {
         subscribeRatings()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
-    }
-
     override fun onResume() {
         super.onResume()
         if (currentApp == null && requiresRefresh.not()) {

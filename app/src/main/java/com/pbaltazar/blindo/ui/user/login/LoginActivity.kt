@@ -85,9 +85,9 @@ class LoginActivity : AuthenticableActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         signInScreen.unregister()
         binding = null
+        super.onDestroy()
     }
 
     override fun onSubscribeUser(user: User?) {

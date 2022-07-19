@@ -67,8 +67,8 @@ class UploadPackActivity : AuthenticableActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         binding = null
+        super.onDestroy()
     }
 
     override fun onSubscribeUser(user: User?) {

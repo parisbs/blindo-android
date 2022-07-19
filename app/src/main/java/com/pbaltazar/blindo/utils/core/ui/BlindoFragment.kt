@@ -29,8 +29,8 @@ abstract class BlindoFragment<VB: ViewBinding> : Fragment(),
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         binding = null
+        super.onDestroyView()
     }
 
     fun hasMenuRes(): Boolean =
