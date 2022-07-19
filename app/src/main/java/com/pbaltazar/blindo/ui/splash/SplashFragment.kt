@@ -10,11 +10,10 @@ import androidx.navigation.fragment.findNavController
 import com.pbaltazar.blindo.MainNavigationDirections
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentSplashBinding
-import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
+import com.pbaltazar.blindo.utils.billing.ui.BilleableFragment
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.extensions.isActive
@@ -22,16 +21,14 @@ import com.pbaltazar.blindo.utils.log.BlindoLogger
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class SplashFragment : AuthenticableFragment<FragmentSplashBinding>() {
+class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
 
     private val splashViewModel: SplashViewModel by viewModel()
     private val adsViewModel: AdsViewModel by sharedViewModel()
-    private val billingViewModel: BillingViewModel by sharedViewModel()
 
     private lateinit var loadingText: TextView
 
     private var isInitFlowInitialized: Boolean = false
-    private var isAskingForPurchases: Boolean = false
     private var isAdsFlowInitialized: Boolean = false
 
     override val isSearchable: Boolean
@@ -56,27 +53,27 @@ class SplashFragment : AuthenticableFragment<FragmentSplashBinding>() {
         }
     }
 
-    private fun subscribeBillingConnection() = billingViewModel.isConnected.observe(this, Observer {
-        when (val connection = it) {
+    override fun onBillingConnection(billingConnection: BillingViewModel.BillingConnection) {
+        when (billingConnection) {
             is BillingViewModel.BillingConnection.Connected -> if (getUser() == null) {
                 subscribeAuthentication()
                 authenticateUser()
             } else {
                 subscribeMembership()
-                billingViewModel.getMembership()
+                getMembership()
             }
             is BillingViewModel.BillingConnection.Disconnected -> showErrorLoading(getString(R.string.membership__billing_disconnected))
-            is BillingViewModel.BillingConnection.Error -> showErrorLoading(connection.reason)
+            is BillingViewModel.BillingConnection.Error -> showErrorLoading(billingConnection.reason)
             is BillingViewModel.BillingConnection.ServiceUnavailable -> showErrorLoading(getString(R.string.membership__billing_service_unavailable))
             is BillingViewModel.BillingConnection.FeatureNotSupported -> showErrorLoading(getString(R.string.membership__billing_feature_not_supported))
         }
-    })
+    }
 
     override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
         when (userAuthentication) {
             is AuthenticationViewModel.UserAuthentication.Success -> {
                 subscribeMembership()
-                billingViewModel.getMembership()
+                getMembership()
             }
             else -> {
                 subscribeAdsConsentStatus()
@@ -85,9 +82,9 @@ class SplashFragment : AuthenticableFragment<FragmentSplashBinding>() {
         }
     }
 
-    private fun subscribeMembership() = billingViewModel.membership.observe(this, Observer {
-        when (val response = it) {
-            is BillingViewModel.PurchasedMembership.Success -> response.membership.also { membership ->
+    override fun onMembershipPurchased(purchasedMembership: BillingViewModel.PurchasedMembership) {
+        when (purchasedMembership) {
+            is BillingViewModel.PurchasedMembership.Success -> purchasedMembership.membership.also { membership ->
                 if (membership.isActive()) {
                     setIsUserPremium(true)
                     verifyIsFirstRunAndPrivacyPolicyAccepted()
@@ -95,23 +92,15 @@ class SplashFragment : AuthenticableFragment<FragmentSplashBinding>() {
                     setIsUserPremium(false)
                     subscribeAdsConsentStatus()
                     adsViewModel.updateAdsConsentStatus()
-                    if (isAskingForPurchases.not()) {
-                        isAskingForPurchases = true
-                        billingViewModel.askForPurchases(ProductType.SUBSCRIPTION)
-                    }
                 }
             }
             else -> {
                 setIsUserPremium(false)
                 subscribeAdsConsentStatus()
                 adsViewModel.updateAdsConsentStatus()
-                if (isAskingForPurchases.not()) {
-                    isAskingForPurchases = true
-                    billingViewModel.askForPurchases(ProductType.SUBSCRIPTION)
-                }
             }
         }
-    })
+    }
 
     private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this, Observer {
         when (it) {

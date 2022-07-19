@@ -253,7 +253,7 @@ class BillingViewModel(
         }
     }
 
-    fun getAvailableProducts(productType: ProductType) = viewModelScope.launch(backgroundDispatcher) {
+    private fun getAvailableProducts(productType: ProductType) = viewModelScope.launch(backgroundDispatcher) {
         when (productType) {
             ProductType.INAPP -> getAvailableInApps()
             ProductType.SUBSCRIPTION -> getAvailableSubscriptions()

@@ -33,28 +33,23 @@ import com.pbaltazar.blindo.MainNavigationDirections
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityBlindoBinding
 import com.pbaltazar.blindo.entities.User
-import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
-import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
+import com.pbaltazar.blindo.utils.billing.ui.BilleableActivity
 import com.pbaltazar.blindo.utils.constants.ACTIONS_HOST
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.constants.REQUEST_PERMISSIONS_ACTION
 import com.pbaltazar.blindo.utils.extensions.gone
-import com.pbaltazar.blindo.utils.extensions.isActive
 import com.pbaltazar.blindo.utils.extensions.visible
-import com.pbaltazar.blindo.utils.log.BlindoLogger
 import com.pbaltazar.blindo.utils.messaging.MessagingManager
 import com.pbaltazar.blindo.utils.notifications.NotificationsManager
 import com.pbaltazar.blindo.utils.updates.UpdateManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BlindoActivity : AuthenticableActivity() {
+class BlindoActivity : BilleableActivity() {
 
     private val adsViewModel: AdsViewModel by viewModel()
-    private val billingViewModel: BillingViewModel by viewModel()
     private var binding: ActivityBlindoBinding? = null
 
     private lateinit var drawerLayout: DrawerLayout
@@ -145,11 +140,6 @@ class BlindoActivity : AuthenticableActivity() {
 
         setupUi()
         subscribeUser()
-        subscribePurchases()
-        subscribeConsumption()
-        subscribeCoins()
-        subscribeMembership()
-        subscribeBillingConnection()
         subscribeIsValidationEmailSent()
         subscribeAdsConsentStatus()
         subscribeAdsSettings()
@@ -157,18 +147,12 @@ class BlindoActivity : AuthenticableActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (billingViewModel.isServiceConnected().not()) {
-            billingViewModel.startConnection()
-        }
         UpdateManager.checkForUpdates()
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         binding = null
-        if (billingViewModel.isServiceConnected()) {
-            billingViewModel.closeConnection()
-        }
+        super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -279,74 +263,6 @@ class BlindoActivity : AuthenticableActivity() {
             headerSignOut.visibility = View.GONE
         }
     }
-
-    private fun subscribeBillingConnection() = billingViewModel.isConnected.observe(this, Observer {
-        when (it) {
-            is BillingViewModel.BillingConnection.Connected -> if (isWaitingForSplash.not()) {
-                billingViewModel.askForPurchases(ProductType.SUBSCRIPTION)
-            }
-            is BillingViewModel.BillingConnection.Error -> BlindoLogger.log.e(it.reason)
-            else -> BlindoLogger.log.e(it.toString())
-        }
-    })
-
-    private fun subscribePurchases() = billingViewModel.purchases.observe(this, Observer {
-        when (val response = it) {
-            is BillingViewModel.Purchases.Success -> response.purchases.also { purchases ->
-                purchases.forEach { purchase ->
-                    billingViewModel.sendPurchaseToApi(purchase)
-                }
-            }
-            is BillingViewModel.Purchases.Empty -> {}
-            is BillingViewModel.Purchases.CanceledByUser -> processError(R.string.membership__billing_canceled_by_user)
-            is BillingViewModel.Purchases.Error -> processError(response.reason)
-            is BillingViewModel.Purchases.FeatureNotSupported -> processError(R.string.membership__billing_feature_not_supported)
-            is BillingViewModel.Purchases.ServiceUnavailable -> processError(R.string.membership__billing_service_unavailable)
-            is BillingViewModel.Purchases.Disconnected -> processError(R.string.membership__billing_disconnected)
-        }
-    })
-
-    private fun subscribeConsumption() = billingViewModel.consumption.observe(this, Observer {
-        when (val response = it) {
-            is BillingViewModel.Consumption.Success -> Unit
-            is BillingViewModel.Consumption.FeatureNotSupported -> processError(R.string.membership__billing_feature_not_supported)
-            is BillingViewModel.Consumption.Error -> processError(response.reason)
-            is BillingViewModel.Consumption.ServiceUnavailable -> processError(R.string.membership__billing_service_unavailable)
-            is BillingViewModel.Consumption.Disconnected -> processError(R.string.membership__billing_disconnected)
-        }
-    })
-
-    private fun subscribeCoins() = billingViewModel.coins.observe(this, Observer {
-        when (val response = it) {
-            is BillingViewModel.PurchasedCoin.Success -> response.coin.also { coin ->
-                if (coin.isConsumed.not() && coin.latestPurchase.isAcknowledged) {
-                    billingViewModel.consumePurchase(coin.token)
-                    updateUserCoinsBalance()
-                }
-            }
-            is BillingViewModel.PurchasedCoin.Error -> {
-                BlindoLogger.log.e(response.reason)
-                processError(response.reason)
-            }
-            else -> BlindoLogger.log.e(response.toString())
-        }
-    })
-
-    private fun subscribeMembership() = billingViewModel.membership.observe(this, Observer {
-        when (val response = it) {
-            is BillingViewModel.PurchasedMembership.Success -> response.membership.also { membership ->
-                setIsUserPremium(membership.isActive())
-            }
-            is BillingViewModel.PurchasedMembership.Error -> {
-                setIsUserPremium(false)
-                BlindoLogger.log.e(response.reason)
-            }
-            else -> {
-                setIsUserPremium(false)
-                BlindoLogger.log.e(response.toString())
-            }
-        }
-    })
 
     private fun processError(@StringRes reason: Int) = processError(getString(reason))
 

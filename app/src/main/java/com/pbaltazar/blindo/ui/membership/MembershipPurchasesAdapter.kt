@@ -10,7 +10,6 @@ import com.blindoapp.uitools.recyclerview.ViewHolder
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ItemMembershipPurchaseBinding
 import com.pbaltazar.blindo.entities.Purchase
-import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 
 class MembershipPurchasesAdapter : Adapter<Purchase>() {
 
@@ -33,15 +32,7 @@ class MembershipPurchasesAdapter : Adapter<Purchase>() {
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
-        R.layout.item_membership_purchase -> MembershipPurchaseViewHolder(
-            ItemMembershipPurchaseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
-        else -> super.onCreateViewHolder(parent, viewType)
-    }
-
-    override fun getItemViewType(position: Int): Int = when (items[position].kind) {
-        ProductType.SUBSCRIPTION -> R.layout.item_membership_purchase
-        else -> throw IllegalArgumentException("Invalid product type.")
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = MembershipPurchaseViewHolder(
+        ItemMembershipPurchaseBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    )
 }

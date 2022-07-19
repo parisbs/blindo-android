@@ -27,16 +27,15 @@ import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 import com.pbaltazar.blindo.entities.purchases.subscriptions.Subscription
 import com.pbaltazar.blindo.entities.purchases.subscriptions.SubscriptionOffer
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
+import com.pbaltazar.blindo.utils.billing.ui.BilleableFragment
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG
 import com.pbaltazar.blindo.utils.constants.MANAGE_SUBS_URI
 import com.pbaltazar.blindo.utils.extensions.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
+class MembershipFragment : BilleableFragment<FragmentMembershipBinding>(),
     SubscriptionInfo.OnOfferSelectedListener {
-
-    private val billingViewModel: BillingViewModel by sharedViewModel()
 
     private lateinit var currentSubscription: TextView
     private lateinit var changeSubscription: ImageButton
@@ -166,10 +165,7 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
                 subscriptionInfo.getSubscription()?.also { subscription ->
                     subscription.selectedOffer = subscriptionOffer
                     setOnClickListener { _ ->
-                        billingViewModel.launchPurchase(
-                            requireActivity() as AppCompatActivity,
-                            listOf(subscription)
-                        )
+                        launchPurchase(listOf(subscription))
                     }
                 }
             }
@@ -179,7 +175,7 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribeAuth()
-        subscribeSubscriptions()
+        subscribeSubscriptionsToPurchase()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -203,14 +199,14 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
     override fun onResume() {
         super.onResume()
         if (membershipAdapter.itemCount < 1) {
-            billingViewModel.getAvailableSubscriptions()
+            getSubscriptionsToPurchase()
         }
     }
 
     override fun getMenuResId(): Int = R.menu.membership
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.menuRestoreSubscriptions -> {
-            billingViewModel.askForPurchases(ProductType.SUBSCRIPTION)
+            askForNewSubscriptionPurchases()
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -233,9 +229,9 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
         }
     })
 
-    private fun subscribeSubscriptions() = billingViewModel.subscriptions.observe(this, Observer {
-        when (val response = it) {
-            is BillingViewModel.AvailableProducts.Success -> response.products.mapNotNull { it as Subscription }.also { subscriptions ->
+    override fun onSubscriptionsToPurchase(availableProducts: BillingViewModel.AvailableProducts) {
+        when (availableProducts) {
+            is BillingViewModel.AvailableProducts.Success -> availableProducts.products.mapNotNull { it as Subscription }.also { subscriptions ->
                 if (membershipAdapter.itemCount > 0) {
                     membershipAdapter.clearItems()
                 }
@@ -245,13 +241,13 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
             is BillingViewModel.AvailableProducts.Empty -> processError(R.string.membership__billing_no_products)
             is BillingViewModel.AvailableProducts.FeatureNotSupported -> processError(R.string.membership__billing_feature_not_supported)
             is BillingViewModel.AvailableProducts.ServiceUnavailable -> processError(R.string.membership__billing_service_unavailable)
-            is BillingViewModel.AvailableProducts.Error -> processError(response.reason)
+            is BillingViewModel.AvailableProducts.Error -> processError(availableProducts.reason)
         }
-    })
+    }
 
-    private fun subscribeMembership() = billingViewModel.membership.observe(this, Observer {
-        when (val response = it) {
-            is BillingViewModel.PurchasedMembership.Success -> response.membership.also { m ->
+    override fun onMembershipPurchased(purchasedMembership: BillingViewModel.PurchasedMembership) {
+        when (purchasedMembership) {
+            is BillingViewModel.PurchasedMembership.Success -> purchasedMembership.membership.also { m ->
                 if (m.isExpired()) {
                     membership = null
                 } else {
@@ -263,7 +259,7 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
             }
             is BillingViewModel.PurchasedMembership.Error -> {
                 membership = null
-                processError(response.reason)
+                processError(purchasedMembership.reason)
             }
             is BillingViewModel.PurchasedMembership.NotSignedIn -> {
                 membership = null
@@ -272,7 +268,7 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
                 membership = null
             }
         }
-    })
+    }
 
     private fun processError(@StringRes errorMessage: Int) = processError(getString(errorMessage))
 
