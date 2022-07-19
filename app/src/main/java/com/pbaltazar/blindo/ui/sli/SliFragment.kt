@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentSliBinding
 import com.pbaltazar.blindo.entities.Pack
+import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
@@ -62,8 +63,8 @@ class SliFragment : AuthenticableFragment<FragmentSliBinding>() {
         setupUi()
     }
 
-    override fun onSubscribeUser() {
-        if (getUser() == null) {
+    override fun onSubscribeUser(user: User?) {
+        if (user == null) {
             findNavController().navigate(
                 SliFragmentDirections.actionFromSliToRequiresAuth()
             )
@@ -73,7 +74,7 @@ class SliFragment : AuthenticableFragment<FragmentSliBinding>() {
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
         AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
         if (it.not()) {
-            loginScreen.launch(Unit)
+            launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }

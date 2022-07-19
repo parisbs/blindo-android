@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentRatingCreatorBinding
 import com.pbaltazar.blindo.entities.Rating
+import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG
@@ -116,8 +117,8 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
         }
     }
 
-    override fun onSubscribeUser() {
-        if (getUser() == null) {
+    override fun onSubscribeUser(user: User?) {
+        if (user == null) {
             findNavController().navigate(
                 RatingCreatorFragmentDirections.actionFromCommentCreatorToRequiresAuth()
             )
@@ -126,7 +127,7 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
         if (it.not()) {
-            requireAuthenticableActivity.loginScreen.launch(Unit)
+            launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }

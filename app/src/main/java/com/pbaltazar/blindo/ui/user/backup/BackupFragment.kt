@@ -104,7 +104,7 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
         AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
         if (it.not()) {
-            loginScreen.launch(Unit)
+            launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }

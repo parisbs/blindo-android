@@ -79,16 +79,15 @@ class CoinsFragment : AuthenticableFragment<FragmentCoinsBinding>() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    override fun onSubscribeUser() {
-        super.onSubscribeUser()
-        getUser()?.also { user: User ->
-            if (user.coinsLeft < 1) {
+    override fun onSubscribeUser(user: User?) {
+        user?.also { currentUser ->
+            if (currentUser.coinsLeft < 1) {
                 currentCoins.text = ""
             } else {
                 currentCoins.text = resources.getQuantityString(
                     com.pbaltazar.blindo.R.plurals.coins__current_coins,
-                    user.coinsLeft,
-                    user.coinsLeft
+                    currentUser.coinsLeft,
+                    currentUser.coinsLeft
                 )
             }
         } ?: findNavController().navigate(
@@ -100,7 +99,7 @@ class CoinsFragment : AuthenticableFragment<FragmentCoinsBinding>() {
         AUTH_CANCELED_ON_DIALOG
     )?.observe(this, Observer {
         if (it.not()) {
-            requireAuthenticableActivity.loginScreen.launch(Unit)
+            launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }

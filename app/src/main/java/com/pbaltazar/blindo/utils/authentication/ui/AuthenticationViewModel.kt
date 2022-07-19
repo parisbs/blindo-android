@@ -32,48 +32,48 @@ class AuthenticationViewModel(
     private val queryGetUserCoinsBalance: QueryGetUserCoinsBalance
 ) : ViewModel() {
 
-    private val currentUser = MutableLiveData<User?>()
-    val user: LiveData<User?> get() = currentUser
+    private val _user = MutableLiveData<User?>()
+    val user: LiveData<User?> get() = _user
 
-    private val authenticationResult = MutableLiveData<UserAuthentication>()
-    val authentication: LiveData<UserAuthentication> get() = authenticationResult
+    private val _authentication = MutableLiveData<UserAuthentication>()
+    val authentication: LiveData<UserAuthentication> get() = _authentication
 
-    private val updateResult = MutableLiveData<UserUpdate>()
-    val userUpdate: LiveData<UserUpdate> get() = updateResult
+    private val _userUpdates = MutableLiveData<UserUpdate>()
+    val userUpdates: LiveData<UserUpdate> get() = _userUpdates
 
-    private val idToken = MutableLiveData<AuthenticationProviderResponse<String>>()
-    val refreshedIdToken: LiveData<AuthenticationProviderResponse<String>> get() = idToken
+    private val _idToken = MutableLiveData<AuthenticationProviderResponse<String>>()
+    val idToken: LiveData<AuthenticationProviderResponse<String>> get() = _idToken
 
-    private val verifiedStatus = MutableLiveData<Boolean>()
-    val isAccountVerified: LiveData<Boolean> get() = verifiedStatus
+    private val _isAccountVerified = MutableLiveData<Boolean>()
+    val isAccountVerified: LiveData<Boolean> get() = _isAccountVerified
 
-    private val sendResult = MutableLiveData<Boolean>()
-    val isValidationEmailSent: LiveData<Boolean> get() = sendResult
+    private val _isValidationEmailSent = MutableLiveData<Boolean>()
+    val isValidationEmailSent: LiveData<Boolean> get() = _isValidationEmailSent
 
-    private val currentDevice = MutableLiveData<Device?>()
-    val device: LiveData<Device?> get() = currentDevice
+    private val _device = MutableLiveData<Device?>()
+    val device: LiveData<Device?> get() = _device
 
-    private val deviceAuthenticationResult = MutableLiveData<DeviceAuthentication>()
-    val deviceAuthentication: LiveData<DeviceAuthentication> get() = deviceAuthenticationResult
+    private val _deviceRegistration = MutableLiveData<DeviceRegistration>()
+    val deviceRegistration: LiveData<DeviceRegistration> get() = _deviceRegistration
 
-    private val deviceUpdateResult = MutableLiveData<DeviceUpdate>()
-    val deviceUpdate: LiveData<DeviceUpdate> get() = deviceUpdateResult
+    private val _deviceUpdates = MutableLiveData<DeviceUpdate>()
+    val deviceUpdates: LiveData<DeviceUpdate> get() = _deviceUpdates
 
-    fun getRefreshedIdToken() = viewModelScope.launch(backgroundDispatcher) {
-        idToken.postValue(authenticationProvider.getIdToken())
+    fun refreshIdToken() = viewModelScope.launch(backgroundDispatcher) {
+        _idToken.postValue(authenticationProvider.getIdToken())
     }
 
-    fun setUser(user: User?) = currentUser.postValue(user)
+    fun setUser(user: User?) = _user.postValue(user)
 
     fun authenticateUser() = viewModelScope.launch(backgroundDispatcher) {
         authenticationProvider.getUser()?.also { providerAccount ->
             when (val tokenResponse = authenticationProvider.getIdToken()) {
                 is AuthenticationProviderResponse.Success -> authenticateUserOnServer(providerAccount, tokenResponse.data)
                 is AuthenticationProviderResponse.Error -> when (val tokenError = tokenResponse.error) {
-                    is AuthenticationProviderException.Empty -> authenticationResult.postValue(UserAuthentication.InvalidIdToken)
+                    is AuthenticationProviderException.Empty -> _authentication.postValue(UserAuthentication.InvalidIdToken)
                     is AuthenticationProviderException.NotSignedIn -> signOut()
-                    is AuthenticationProviderException.UnknownError -> authenticationResult.postValue(UserAuthentication.UnknownError)
-                    is AuthenticationProviderException.Error -> authenticationResult.postValue(
+                    is AuthenticationProviderException.UnknownError -> _authentication.postValue(UserAuthentication.UnknownError)
+                    is AuthenticationProviderException.Error -> _authentication.postValue(
                         UserAuthentication.NetworkEror(
                             tokenError.error
                         )
@@ -96,8 +96,8 @@ class AuthenticationViewModel(
             )
             is ApiResponse.Error -> when (val apiError = apiResponse.error) {
                 is ApiException.EmptyResponse -> registerUser(user, idToken)
-                is ApiException.WithErrors -> authenticationResult.postValue(UserAuthentication.BadRequest(apiError.errorsList))
-                is ApiException.CallFailure -> authenticationResult.postValue(UserAuthentication.NetworkEror(apiError.error))
+                is ApiException.WithErrors -> _authentication.postValue(UserAuthentication.BadRequest(apiError.errorsList))
+                is ApiException.CallFailure -> _authentication.postValue(UserAuthentication.NetworkEror(apiError.error))
             }
         }
     }
@@ -112,9 +112,9 @@ class AuthenticationViewModel(
                 )
             )
             is ApiResponse.Error -> when (val apiError = apiResponse.error) {
-                is ApiException.EmptyResponse -> authenticationResult.postValue(UserAuthentication.NoUserFound)
-                is ApiException.WithErrors -> authenticationResult.postValue(UserAuthentication.BadRequest(apiError.errorsList))
-                is ApiException.CallFailure -> authenticationResult.postValue(UserAuthentication.NetworkEror(apiError.error))
+                is ApiException.EmptyResponse -> _authentication.postValue(UserAuthentication.NoUserFound)
+                is ApiException.WithErrors -> _authentication.postValue(UserAuthentication.BadRequest(apiError.errorsList))
+                is ApiException.CallFailure -> _authentication.postValue(UserAuthentication.NetworkEror(apiError.error))
             }
         }
     }
@@ -133,13 +133,13 @@ class AuthenticationViewModel(
                             tokenResponse.data
                         )
                         is AuthenticationProviderResponse.Error -> when (val tokenError = tokenResponse.error) {
-                            is AuthenticationProviderException.Empty -> updateResult.postValue(UserUpdate.InvalidIdToken)
+                            is AuthenticationProviderException.Empty -> _userUpdates.postValue(UserUpdate.InvalidIdToken)
                             is AuthenticationProviderException.NotSignedIn -> {
-                                updateResult.postValue(UserUpdate.NotSignedIn)
+                                _userUpdates.postValue(UserUpdate.NotSignedIn)
                                 signOut(false)
                             }
-                            is AuthenticationProviderException.UnknownError -> updateResult.postValue(UserUpdate.UnknownError)
-                            is AuthenticationProviderException.Error -> updateResult.postValue(
+                            is AuthenticationProviderException.UnknownError -> _userUpdates.postValue(UserUpdate.UnknownError)
+                            is AuthenticationProviderException.Error -> _userUpdates.postValue(
                                 UserUpdate.NetworkEror(
                                     tokenError.error
                                 )
@@ -147,14 +147,14 @@ class AuthenticationViewModel(
                         }
                     }
                 } ?: run {
-                    updateResult.postValue(UserUpdate.NotSignedIn)
+                    _userUpdates.postValue(UserUpdate.NotSignedIn)
                     signOut(false)
                 }
             } else {
-                updateResult.postValue(UserUpdate.Success(user))
+                _userUpdates.postValue(UserUpdate.Success(user))
             }
         } ?: run {
-            updateResult.postValue(UserUpdate.NotSignedIn)
+            _userUpdates.postValue(UserUpdate.NotSignedIn)
             signOut(false)
         }
     }
@@ -167,20 +167,20 @@ class AuthenticationViewModel(
                     email = user.email,
                     isVerified = user.isVerified
                 ))
-                updateResult.postValue(UserUpdate.Success(user))
+                _userUpdates.postValue(UserUpdate.Success(user))
             }
             is ApiResponse.Error -> when (val apiError = apiResponse.error) {
-                is ApiException.EmptyResponse -> updateResult.postValue(UserUpdate.NoUserFound)
-                is ApiException.WithErrors -> updateResult.postValue(UserUpdate.BadRequest(apiError.errorsList))
-                is ApiException.CallFailure -> updateResult.postValue(UserUpdate.NetworkEror(apiError.error))
+                is ApiException.EmptyResponse -> _userUpdates.postValue(UserUpdate.NoUserFound)
+                is ApiException.WithErrors -> _userUpdates.postValue(UserUpdate.BadRequest(apiError.errorsList))
+                is ApiException.CallFailure -> _userUpdates.postValue(UserUpdate.NetworkEror(apiError.error))
             }
         }
     }
 
     fun sendVerificationEmail() = viewModelScope.launch(backgroundDispatcher) {
         when (val response = authenticationProvider.sendVerificationEmail()) {
-            is AuthenticationProviderResponse.Success -> sendResult.postValue(response.data)
-            is AuthenticationProviderResponse.Error -> sendResult.postValue(false)
+            is AuthenticationProviderResponse.Success -> _isValidationEmailSent.postValue(response.data)
+            is AuthenticationProviderResponse.Error -> _isValidationEmailSent.postValue(false)
         }
     }
 
@@ -188,38 +188,38 @@ class AuthenticationViewModel(
         authenticationLocal.setLocalAccountIsVerified(
             authenticationProvider.getUser()?.isVerified ?: false
         )?.also { refreshedUser ->
-            verifiedStatus.postValue(refreshedUser.isVerified)
+            _isAccountVerified.postValue(refreshedUser.isVerified)
             setUser(refreshedUser)
         }
     }
 
-    fun setDevice(device: Device?) = currentDevice.postValue(device)
+    private fun setDevice(device: Device?) = _device.postValue(device)
 
-    fun authenticateDevice(device: Device) = viewModelScope.launch(backgroundDispatcher) {
+    fun registerDevice(device: Device) = viewModelScope.launch(backgroundDispatcher) {
         authenticationProvider.getUser()?.also {
             when (val tokenResponse = authenticationProvider.getIdToken()) {
                 is AuthenticationProviderResponse.Success -> getDeviceFromServer(device, tokenResponse.data)
                 is AuthenticationProviderResponse.Error -> when (val tokenError = tokenResponse.error) {
                     is AuthenticationProviderException.Empty -> {
-                        deviceAuthenticationResult.postValue(DeviceAuthentication.NotAuthenticated)
+                        _deviceRegistration.postValue(DeviceRegistration.NotAuthenticated)
                         cleanLocalUserData()
                     }
                     is AuthenticationProviderException.NotSignedIn -> {
-                        deviceAuthenticationResult.postValue(DeviceAuthentication.NotAuthenticated)
+                        _deviceRegistration.postValue(DeviceRegistration.NotAuthenticated)
                         cleanLocalUserData()
                     }
                     is AuthenticationProviderException.UnknownError -> {
-                        deviceAuthenticationResult.postValue(DeviceAuthentication.NotAuthenticated)
+                        _deviceRegistration.postValue(DeviceRegistration.NotAuthenticated)
                         cleanLocalUserData()
                     }
                     is AuthenticationProviderException.Error -> {
-                        deviceAuthenticationResult.postValue(DeviceAuthentication.NetworkError(tokenError.error))
+                        _deviceRegistration.postValue(DeviceRegistration.NetworkError(tokenError.error))
                         cleanLocalUserData()
                     }
                 }
             }
         } ?: run {
-            deviceAuthenticationResult.postValue(DeviceAuthentication.NotAuthenticated)
+            _deviceRegistration.postValue(DeviceRegistration.NotAuthenticated)
             signOut(false)
         }
     }
@@ -228,16 +228,16 @@ class AuthenticationViewModel(
         when (val apiResponse = queryGetDevice(device.hardwareFingerprint, idToken)) {
             is ApiResponse.Success -> apiResponse.data.also { device ->
                 setDevice(device)
-                deviceAuthenticationResult.postValue(DeviceAuthentication.Success(device))
+                _deviceRegistration.postValue(DeviceRegistration.Success(device))
             }
             is ApiResponse.Error -> when (val  apiError = apiResponse.error) {
                 is ApiException.EmptyResponse -> registerDeviceOnServer(device, idToken)
                 is ApiException.WithErrors -> {
-                    deviceAuthenticationResult.postValue(DeviceAuthentication.BadRequest(apiError.errorsList))
+                    _deviceRegistration.postValue(DeviceRegistration.BadRequest(apiError.errorsList))
                     cleanLocalUserData()
                 }
                 is ApiException.CallFailure -> {
-                    deviceAuthenticationResult.postValue(DeviceAuthentication.NetworkError(apiError.error))
+                    _deviceRegistration.postValue(DeviceRegistration.NetworkError(apiError.error))
                     cleanLocalUserData()
                 }
             }
@@ -247,20 +247,20 @@ class AuthenticationViewModel(
     private fun registerDeviceOnServer(device: Device, idToken: String) = viewModelScope.launch(backgroundDispatcher) {
         when (val apiResponse = mutationCreateDevice(device, idToken)) {
             is ApiResponse.Success -> apiResponse.data.also { device ->
-                deviceAuthenticationResult.postValue(DeviceAuthentication.Success(device))
+                _deviceRegistration.postValue(DeviceRegistration.Success(device))
                 setDevice(device)
             }
             is ApiResponse.Error -> when (val apiError = apiResponse.error) {
                 is ApiException.EmptyResponse -> {
-                    deviceAuthenticationResult.postValue(DeviceAuthentication.NotAuthenticated)
+                    _deviceRegistration.postValue(DeviceRegistration.NotAuthenticated)
                     cleanLocalUserData()
                 }
                 is ApiException.WithErrors -> {
-                    deviceAuthenticationResult.postValue(DeviceAuthentication.BadRequest(apiError.errorsList))
+                    _deviceRegistration.postValue(DeviceRegistration.BadRequest(apiError.errorsList))
                     cleanLocalUserData()
                 }
                 is ApiException.CallFailure -> {
-                    deviceAuthenticationResult.postValue(DeviceAuthentication.NetworkError(apiError.error))
+                    _deviceRegistration.postValue(DeviceRegistration.NetworkError(apiError.error))
                     cleanLocalUserData()
                 }
             }
@@ -272,24 +272,24 @@ class AuthenticationViewModel(
             when (val tokenResponse = authenticationProvider.getIdToken()) {
                 is AuthenticationProviderResponse.Success -> updateDeviceOnServer(device, tokenResponse.data)
                 is AuthenticationProviderResponse.Error -> when (val tokenError = tokenResponse.error) {
-                    is AuthenticationProviderException.NotSignedIn -> deviceUpdateResult.postValue(DeviceUpdate.NotSignedIn)
-                    is AuthenticationProviderException.Error -> deviceUpdateResult.postValue(DeviceUpdate.NetworkError(tokenError.error))
-                    else -> deviceUpdateResult.postValue(DeviceUpdate.InvalidIdToken)
+                    is AuthenticationProviderException.NotSignedIn -> _deviceUpdates.postValue(DeviceUpdate.NotSignedIn)
+                    is AuthenticationProviderException.Error -> _deviceUpdates.postValue(DeviceUpdate.NetworkError(tokenError.error))
+                    else -> _deviceUpdates.postValue(DeviceUpdate.InvalidIdToken)
                 }
             }
-        } ?: deviceUpdateResult.postValue(DeviceUpdate.NotSignedIn)
+        } ?: _deviceUpdates.postValue(DeviceUpdate.NotSignedIn)
     }
 
     private fun updateDeviceOnServer(device: Device, idToken: String) = viewModelScope.launch(backgroundDispatcher) {
         when (val apiResponse = mutationUpdateDevice(device, idToken)) {
             is ApiResponse.Success -> apiResponse.data.also { device ->
-                deviceUpdateResult.postValue(DeviceUpdate.Success(device))
+                _deviceUpdates.postValue(DeviceUpdate.Success(device))
                 setDevice(device)
             }
             is ApiResponse.Error -> when (val apiException = apiResponse.error) {
-                is ApiException.EmptyResponse -> deviceUpdateResult.postValue(DeviceUpdate.Empty)
-                is ApiException.WithErrors -> deviceUpdateResult.postValue(DeviceUpdate.BadRequest(apiException.errorsList))
-                is ApiException.CallFailure -> deviceUpdateResult.postValue(DeviceUpdate.NetworkError(apiException.error))
+                is ApiException.EmptyResponse -> _deviceUpdates.postValue(DeviceUpdate.Empty)
+                is ApiException.WithErrors -> _deviceUpdates.postValue(DeviceUpdate.BadRequest(apiException.errorsList))
+                is ApiException.CallFailure -> _deviceUpdates.postValue(DeviceUpdate.NetworkError(apiException.error))
             }
         }
     }
@@ -320,7 +320,7 @@ class AuthenticationViewModel(
             authenticationLocal.registerLocalAccount(user)
         }
         setUser(user)
-        authenticationResult.postValue(UserAuthentication.Success(user))
+        _authentication.postValue(UserAuthentication.Success(user))
         AnalyticsManager.registerLoginEvent(user.getAuthenticationMethod())
     }
 
@@ -335,7 +335,7 @@ class AuthenticationViewModel(
         authenticationProvider.signOut()
         cleanLocalUserData()
         if (propagateSignOutStateToViewModel) {
-            authenticationResult.postValue(UserAuthentication.NotSignedIn)
+            _authentication.postValue(UserAuthentication.NotSignedIn)
         }
     }
 
@@ -364,12 +364,12 @@ class AuthenticationViewModel(
         class NetworkEror(val throwable: Throwable) : UserUpdate()
     }
 
-    sealed class DeviceAuthentication {
-        class Success(val device: Device) : DeviceAuthentication()
-        class BadRequest(val errors: List<String>) : DeviceAuthentication()
-        object NotAuthenticated : DeviceAuthentication()
-        object InvalidIdToken : DeviceAuthentication()
-        class NetworkError(val throwable: Throwable) : DeviceAuthentication()
+    sealed class DeviceRegistration {
+        class Success(val device: Device) : DeviceRegistration()
+        class BadRequest(val errors: List<String>) : DeviceRegistration()
+        object NotAuthenticated : DeviceRegistration()
+        object InvalidIdToken : DeviceRegistration()
+        class NetworkError(val throwable: Throwable) : DeviceRegistration()
     }
 
     sealed class DeviceUpdate {

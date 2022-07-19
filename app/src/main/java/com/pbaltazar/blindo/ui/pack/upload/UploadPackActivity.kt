@@ -14,6 +14,7 @@ import com.google.android.gms.ads.LoadAdError
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityUploadPackBinding
 import com.pbaltazar.blindo.entities.Label
+import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
@@ -70,13 +71,13 @@ class UploadPackActivity : AuthenticableActivity() {
         binding = null
     }
 
-    override fun onSubscribeUser() {
-        getUser()?.also { user ->
+    override fun onSubscribeUser(user: User?) {
+        user?.also { currentUser ->
             supportActionBar?.subtitle = getString(
                 R.string.uploadpack__user,
-                user.name
+                currentUser.name
             )
-            if (user.isPremium.not()) {
+            if (currentUser.isPremium.not()) {
                 adsViewModel.updateAdsConsentStatus()
             } else {
                 adBanner.visibility = View.GONE
@@ -85,7 +86,7 @@ class UploadPackActivity : AuthenticableActivity() {
                 }
             }
         } ?: run {
-            loginScreen.launch(Unit)
+            launchLoginScreen()
         }
     }
 

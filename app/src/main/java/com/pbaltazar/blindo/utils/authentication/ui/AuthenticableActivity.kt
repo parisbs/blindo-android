@@ -11,26 +11,24 @@ open class AuthenticableActivity : AppCompatActivity(),
 
     private val authenticationViewModel: AuthenticationViewModel by viewModel()
 
-    private var user: User? = null
-    private var device: Device? = null
-
-    val loginScreen = registerForActivityResult(AuthenticationContract()) { signedUser ->
-        setUser(signedUser)
+    private val loginScreen = registerForActivityResult(AuthenticationContract()) { signedUser ->
+        authenticationViewModel.setUser(signedUser)
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         loginScreen.unregister()
+        super.onDestroy()
     }
 
+    fun launchLoginScreen() {
+        loginScreen.launch(Unit)
+    }
+
+    fun getUser(): User? = authenticationViewModel.user.value
+
     fun subscribeUser() = authenticationViewModel.user.observe(this, Observer {
-        user = it
-        onSubscribeUser()
+        onSubscribeUser(it)
     })
-
-    fun getUser(): User? = user
-
-    fun setUser(user: User?) = authenticationViewModel.setUser(user)
 
     fun subscribeAuthentication() = authenticationViewModel.authentication.observe(this, Observer {
         onSubscribeAuthentication(it)
@@ -38,11 +36,13 @@ open class AuthenticableActivity : AppCompatActivity(),
 
     fun authenticateUser() = authenticationViewModel.authenticateUser()
 
-    fun subscribeUserUpdate() = authenticationViewModel.userUpdate.observe(this, Observer {
-        onSubscribeUserUpdate(it)
+    fun subscribeUserUpdates() = authenticationViewModel.userUpdates.observe(this, Observer {
+        onSubscribeUserUpdates(it)
     })
 
     fun updateUser(user: User) = authenticationViewModel.updateUser(user)
+
+    fun setUserCoinsLeft(coinsLeft: Int) = authenticationViewModel.setUserCoinsLeft(coinsLeft)
 
     fun updateUserCoinsBalance() = authenticationViewModel.updateLocalUserCoinsBalance()
 
@@ -56,21 +56,20 @@ open class AuthenticableActivity : AppCompatActivity(),
 
     fun propagateVerifiedStatus() = authenticationViewModel.propagateVerifiedStatus()
 
+    fun getDevice(): Device? = authenticationViewModel.device.value
+
     fun subscribeDevice() = authenticationViewModel.device.observe(this, Observer {
-        device = it
-        onSubscribeDevice()
+        onSubscribeDevice(it)
     })
 
-    fun getDevice(): Device? = device
-
-    fun subscribeDeviceAuthentication() = authenticationViewModel.deviceAuthentication.observe(this, Observer {
-        onSubscribeDeviceAuthentication(it)
+    fun subscribeDeviceRegistration() = authenticationViewModel.deviceRegistration.observe(this, Observer {
+        onSubscribeDeviceRegistration(it)
     })
 
-    fun authenticateDevice(device: Device) = authenticationViewModel.authenticateDevice(device)
+    fun registerDevice(device: Device) = authenticationViewModel.registerDevice(device)
 
-    fun subscribeDeviceUpdate() = authenticationViewModel.deviceUpdate.observe(this, Observer {
-        onSubscribeDeviceUpdate(it)
+    fun subscribeDeviceUpdates() = authenticationViewModel.deviceUpdates.observe(this, Observer {
+        onSubscribeDeviceUpdates(it)
     })
 
     fun updateDevice(device: Device) = authenticationViewModel.updateDevice(device)

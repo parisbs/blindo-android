@@ -23,42 +23,30 @@ abstract class AuthenticableFragment<VB : ViewBinding> : BlindoFragment<VB>(),
         return authenticableActivity ?: throw NullPointerException("Parent AuthenticableActivity is null.")
     }
 
-    private var user: User? = null
+    fun launchLoginScreen() = requireAuthenticableActivity.launchLoginScreen()
 
-    val loginScreen = registerForActivityResult(AuthenticationContract()) { signedUser ->
-        setUser(signedUser)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        loginScreen.unregister()
-    }
+    fun getUser(): User? = requireAuthenticableActivity.getUser()
 
     fun subscribeUser() = authenticationViewModel.user.observe(this, Observer {
-        user = it
         authenticationViewModel.propagateVerifiedStatus()
-        onSubscribeUser()
+        onSubscribeUser(it)
     })
-
-    fun getUser(): User? = user
-
-    fun setUser(user: User?) = authenticationViewModel.setUser(user)
 
     fun subscribeAuthentication() = authenticationViewModel.authentication.observe(this, Observer {
         onSubscribeAuthentication(it)
     })
 
-    fun authenticateUser() = authenticationViewModel.authenticateUser()
+    fun authenticateUser() = requireAuthenticableActivity.authenticateUser()
 
-    fun subscribeUserUpdate() = authenticationViewModel.userUpdate.observe(this, Observer {
-        onSubscribeUserUpdate(it)
+    fun subscribeUserUpdates() = authenticationViewModel.userUpdates.observe(this, Observer {
+        onSubscribeUserUpdates(it)
     })
 
-    fun updateUser(user: User) = authenticationViewModel.updateUser(user)
+    fun updateUser(user: User) = requireAuthenticableActivity.updateUser(user)
 
-    fun setUserCoinsLeft(coinsLeft: Int) = authenticationViewModel.setUserCoinsLeft(coinsLeft)
+    fun setUserCoinsLeft(coinsLeft: Int) = requireAuthenticableActivity.setUserCoinsLeft(coinsLeft)
 
-    fun setIsUserPremium(isUserPremium: Boolean) = authenticationViewModel.setIsUserPremium(isUserPremium)
+    fun setIsUserPremium(isUserPremium: Boolean) = requireAuthenticableActivity.setIsUserPremium(isUserPremium)
 
-    fun signOut(propagateSignOutStateToViewModel: Boolean = true) = authenticationViewModel.signOut(propagateSignOutStateToViewModel)
+    fun signOut(propagateSignOutStateToViewModel: Boolean = true) = requireAuthenticableActivity.signOut(propagateSignOutStateToViewModel)
 }

@@ -23,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentPackDetailsBinding
 import com.pbaltazar.blindo.entities.InstallablePack
+import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
@@ -112,26 +113,25 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
         super.onViewCreated(view, savedInstanceState)
         subscribeAuth()
         setupUi()
-        setUser(getUser())
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
         AUTH_CANCELED_ON_DIALOG)?.observe(viewLifecycleOwner, Observer {
         if (it.not()) {
-            (requireActivity() as AuthenticableActivity).loginScreen.launch(Unit)
+            launchLoginScreen()
         }
     })
 
-    override fun onSubscribeUser() {
+    override fun onSubscribeUser(user: User?) {
         installPack.isEnabled = true
-        getUser()?.also { user ->
+        user?.also { currentUser ->
             if (packDetailsFragmentArgs.pack.language == language) {
                 translateCheckBox.isEnabled = false
             } else {
                 translateCheckBox.apply {
                     setOnCheckedChangeListener { _, isChecked ->
                         if (isChecked) {
-                            if (user.isPremium) {
+                            if (currentUser.isPremium) {
                                 translateTo = true
                             } else {
                                 translateTo= false
@@ -147,7 +147,7 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
                     isEnabled = true
                 }
             }
-            if (user.isPremium.not()) {
+            if (currentUser.isPremium.not()) {
                 adsViewModel.updateAdsConsentStatus()
             }
             installPack.setOnClickListener {

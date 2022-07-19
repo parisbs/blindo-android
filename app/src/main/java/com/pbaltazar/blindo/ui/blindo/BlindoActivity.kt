@@ -32,6 +32,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.MainNavigationDirections
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityBlindoBinding
+import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
@@ -231,8 +232,8 @@ class BlindoActivity : AuthenticableActivity() {
         }
     }
 
-    override fun onSubscribeUser() {
-        getUser()?.also { currentUser ->
+    override fun onSubscribeUser(user: User?) {
+        user?.also { currentUser ->
             headerSignIn.visibility = View.GONE
             headerUserPicture.apply {
                 Glide.with(this@BlindoActivity)
@@ -440,7 +441,7 @@ class BlindoActivity : AuthenticableActivity() {
 
     private fun setupUi() {
         headerSignIn.setOnClickListener {
-            loginScreen.launch(Unit)
+            launchLoginScreen()
         }
         emailVerificationMessage = Snackbar.make(
             blindocoordinator,

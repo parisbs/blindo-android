@@ -3,7 +3,10 @@ package com.pbaltazar.blindo.ui.user.profile
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -11,6 +14,7 @@ import android.widget.TextView
 import com.google.android.material.snackbar.Snackbar
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentMyProfileBinding
+import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 
@@ -51,7 +55,7 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         subscribeUser()
-        subscribeUserUpdate()
+        subscribeUserUpdates()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -92,19 +96,19 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
         }
     }
 
-    override fun onSubscribeUser() {
-        getUser()?.also { user ->
+    override fun onSubscribeUser(user: User?) {
+        user?.also { currentUser ->
             if (isEditing.not()) {
                 userCrown.apply {
-                    visibility = if (user.isPremium)
+                    visibility = if (currentUser.isPremium)
                         View.VISIBLE
                     else
                         View.GONE
                 }
-                userName.text = Editable.Factory.getInstance().newEditable(user.name)
-                userEmail.text = Editable.Factory.getInstance().newEditable(user.email)
+                userName.text = Editable.Factory.getInstance().newEditable(currentUser.name)
+                userEmail.text = Editable.Factory.getInstance().newEditable(currentUser.email)
                 isVerified.apply {
-                    text = if (user.isVerified)
+                    text = if (currentUser.isVerified)
                         getString(R.string.profile__verified)
                     else
                         getString(R.string.profile__not_verified)
@@ -113,7 +117,7 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
         }
     }
 
-    override fun onSubscribeUserUpdate(userUpdate: AuthenticationViewModel.UserUpdate) {
+    override fun onSubscribeUserUpdates(userUpdate: AuthenticationViewModel.UserUpdate) {
         when (userUpdate) {
             is AuthenticationViewModel.UserUpdate.Success -> processUpdateResult(getString(R.string.profile__update_success))
             is AuthenticationViewModel.UserUpdate.BadRequest -> processUpdateResult(getString(R.string.profile__updating_error, userUpdate.errors.joinToString(", ")))

@@ -15,6 +15,7 @@ import com.pbaltazar.blindo.BuildConfig
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityLoginBinding
 import com.pbaltazar.blindo.entities.Device
+import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationContract
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
@@ -80,7 +81,7 @@ class LoginActivity : AuthenticableActivity() {
         setupUi()
         subscribeUser()
         subscribeAuthentication()
-        subscribeDeviceAuthentication()
+        subscribeDeviceRegistration()
     }
 
     override fun onDestroy() {
@@ -89,10 +90,10 @@ class LoginActivity : AuthenticableActivity() {
         binding = null
     }
 
-    override fun onSubscribeUser() {
+    override fun onSubscribeUser(user: User?) {
         if (currentStep == 1) {
-            getUser()?.also { user ->
-                if (user.isVerified) {
+            user?.also { currentUser ->
+                if (currentUser.isVerified) {
                     setStepCongrats()
                 } else {
                     currentStepNotice = getString(
@@ -112,7 +113,7 @@ class LoginActivity : AuthenticableActivity() {
         when (val response = userAuthentication) {
             is AuthenticationViewModel.UserAuthentication.Success -> response.user.also {
                 setStepLoading()
-                authenticateDevice(
+                registerDevice(
                     Device(
                         hardwareFingerprint = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
                         name = if (Build.MODEL.lowercase().startsWith(Build.MANUFACTURER.lowercase()))
@@ -136,9 +137,9 @@ class LoginActivity : AuthenticableActivity() {
         }
     }
 
-    override fun onSubscribeDeviceAuthentication(deviceAuthentication: AuthenticationViewModel.DeviceAuthentication) {
-        when (val response = deviceAuthentication) {
-            is AuthenticationViewModel.DeviceAuthentication.Success -> {
+    override fun onSubscribeDeviceRegistration(deviceRegistration: AuthenticationViewModel.DeviceRegistration) {
+        when (val response = deviceRegistration) {
+            is AuthenticationViewModel.DeviceRegistration.Success -> {
                 getUser()?.also { authenticatedUser ->
                     if (authenticatedUser.isVerified) {
                         setStepCongrats()
@@ -148,8 +149,8 @@ class LoginActivity : AuthenticableActivity() {
                     }
                 }
             }
-            is AuthenticationViewModel.DeviceAuthentication.BadRequest -> setStepRegisterDeviceError(response.errors.joinToString(", "))
-            is AuthenticationViewModel.DeviceAuthentication.NetworkError -> setStepRegisterDeviceError(response.throwable.localizedMessage ?: response.throwable.toString())
+            is AuthenticationViewModel.DeviceRegistration.BadRequest -> setStepRegisterDeviceError(response.errors.joinToString(", "))
+            is AuthenticationViewModel.DeviceRegistration.NetworkError -> setStepRegisterDeviceError(response.throwable.localizedMessage ?: response.throwable.toString())
             else -> setStepRegisterDeviceError("Unable to register your device")
         }
     }

@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentTutorialBinding
+import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.constants.TERMS_AND_CONDITIONS_LINK
@@ -67,8 +68,8 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
         tutorialViewModel.setStep(tutorialFragmentArgs.step)
     }
 
-    override fun onSubscribeUser() {
-        getUser()?.also {
+    override fun onSubscribeUser(user: User?) {
+        user?.also {
             if (currentStep == 7) {
                 tutorialViewModel.setStep(currentStep + 1)
             }
@@ -160,7 +161,7 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
                 R.string.tutorial__action_sign_in -> {
                     text = getString(label)
                     setOnClickListener {
-                        loginScreen.launch(Unit)
+                        launchLoginScreen()
                     }
                     omitButton.apply {
                         visibility = View.VISIBLE

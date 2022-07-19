@@ -20,6 +20,7 @@ import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.components.subscriptions.SubscriptionInfo
 import com.pbaltazar.blindo.databinding.FragmentMembershipBinding
 import com.pbaltazar.blindo.entities.Membership
+import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.entities.enums.MembershipCancellationContext
 import com.pbaltazar.blindo.entities.enums.MembershipState
 import com.pbaltazar.blindo.entities.purchases.enums.ProductType
@@ -215,9 +216,8 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
         else -> super.onOptionsItemSelected(item)
     }
 
-    override fun onSubscribeUser() {
-        super.onSubscribeUser()
-        if (getUser() == null) {
+    override fun onSubscribeUser(user: User?) {
+        if (user == null) {
             findNavController().navigate(
                 MembershipFragmentDirections.actionFromMembershipToRequiresAuth()
             )
@@ -227,7 +227,7 @@ class MembershipFragment : AuthenticableFragment<FragmentMembershipBinding>(),
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
         AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
         if (it.not()) {
-            loginScreen.launch(Unit)
+            launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }
