@@ -172,7 +172,7 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
                     )
                 } else {
                     findNavController().navigate(
-                        SplashFragmentDirections.actionFromSplashToTutorial(6)
+                        SplashFragmentDirections.actionFromSplashToTutorial(8)
                     )
                 }
             } else {

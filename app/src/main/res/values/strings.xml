@@ -19,6 +19,25 @@
         then Blindo Vision will use AI models to recognize the text (OCR) and describe the image to you.\n
         Blindo Vision requires an internet connection and Blindo coins to spend, 1 coin per screenshot
     </string>
+    <string name="vision__how_to_use">
+        With Blindo Vision enabled a notification will bring up when a screenshot is detected,
+        just tap it to describe the screen reader focused element, remember that you need Blindo coins to run the image analisis.
+        You can configure the language and the notifications timeout in Blindo Navigation Drawer -\> Settings -\> Blindo Vision Settings
+    </string>
+    <string name="vision__permissions_notice">
+        As Blindo Vision needs access to the screenshots in order to provide the image description we need you to grant us some permissions:
+    </string>
+    <string-array name="vision__permissions_description">
+        <item>Read media content from external storage, to recover screenshots</item>
+        <item>Internet access to be able to send the screenshots to our servers for analysis, remember that they are stored temporarily without any data that can be linked to you</item>
+    </string-array>
+    <string name="vision__grant_permissions">Grant permissions</string>
+    <string name="vision__later">Maybe later</string>
+    <string name="vision__ready_to_enable">
+        Great, you are ready to enable Blindo Vision, do you want to go to accessibility settings to do it?
+    </string>
+    <string name="vision__enable_now">Enable Blindo Vision</string>
+    <string name="vision__unable_to_open_accessibility_settings">Unable to open accessibility settings, you must enable Blindo Vision manualy</string>
     <string name="vision__image_description_title">Image description</string>
     <string name="vision__loading_title">Analizing image, please wait...</string>
     <string name="vision__error_title">Unable to analize image</string>

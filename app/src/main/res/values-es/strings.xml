@@ -18,6 +18,25 @@
         entonces Blindo Vision utilizará modelos de IA para reconocer el texto (OCR) y describirte la imagen.\n
         Blindo Vision requiere una conexión a Internet y monedas Blindo para gastar, 1 moneda por captura de pantalla.
     </string>
+    <string name="vision__how_to_use">
+        Con Blindo Vision activado una notificación se mostrará cuando una captura de pantalla sea detectada,
+        solo debes presionarla para describir el elemento enfocado por el lector de pantalla, recuerda que necesitas monedas Blindo para iniciar el análisis de imagen.
+        Puedes configurar el idioma y tiempo de espera de las notificaciones en el Panel Lateral de Navegación de Blindo -\> Configuración -\> Preferencias para Blindo Vision
+    </string>
+    <string name="vision__permissions_notice">
+        Como Blindo Vision necesita acceder a las capturas de pantalla para poder ofrecer la descripción de imagenes necesitamos que nos otorgues algunos permisos:
+    </string>
+    <string-array name="vision__permissions_description">
+        <item>Leer el contenido multimedia del almacenamiento externo, esto para recuperar las capturas de pantalla</item>
+        <item>Acceso a internet para poder enviar las capturas de pantalla a nuestros servidores para su análisis, recuerda que son almacenadas de forma temporal sin ningún dato que pueda vincularlas contigo</item>
+    </string-array>
+    <string name="vision__grant_permissions">Conceder permisos</string>
+    <string name="vision__later">Quizá después</string>
+    <string name="vision__ready_to_enable">
+        Genial, estás listo para activar Blindo Vision, quieres ir a la configuración de accesibilidad para hacerlo?
+    </string>
+    <string name="vision__enable_now">Activar Blindo Vision</string>
+    <string name="vision__unable_to_open_accessibility_settings">No es posible abrir la configuración de accesibilidad, deberás activar Blindo Vision manualmente</string>
     <string name="vision__image_description_title">Descripción de Imagen</string>
     <string name="vision__loading_title">Analizando imagen, espera un momento por favor...</string>
     <string name="vision__error_title">No se puede analizar la imagen</string>

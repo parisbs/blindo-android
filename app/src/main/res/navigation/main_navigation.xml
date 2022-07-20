@@ -69,6 +69,15 @@
             app:popExitAnim="@anim/fade_out"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/actionFromTutorialToPermissions"
+            app:destination="@id/navPermissions"
+            app:popUpTo="@id/navTutorial"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out" />
     </fragment>
 
     <fragment
@@ -461,6 +470,11 @@
         android:name="com.pbaltazar.blindo.ui.permissions.PermissionsFragment"
         android:label="@string/permissions__activity_title"
         tools:layout="@layout/fragment_permissions">
+        <argument
+            android:name="shouldReturnToApp"
+            app:argType="boolean"
+            android:defaultValue="false"
+            />
     </fragment>
 
     <fragment

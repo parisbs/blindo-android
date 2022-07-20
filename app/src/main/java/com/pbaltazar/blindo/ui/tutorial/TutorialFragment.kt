@@ -1,6 +1,9 @@
 package com.pbaltazar.blindo.ui.tutorial
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import android.text.TextUtils
 import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
@@ -11,13 +14,18 @@ import androidx.core.text.HtmlCompat
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentTutorialBinding
 import com.pbaltazar.blindo.entities.User
+import com.pbaltazar.blindo.utils.accessibility.AccessibilityCapabilities
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.constants.TERMS_AND_CONDITIONS_LINK
+import com.pbaltazar.blindo.utils.extensions.gone
+import com.pbaltazar.blindo.utils.extensions.invisible
+import com.pbaltazar.blindo.utils.extensions.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
@@ -68,9 +76,19 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
         tutorialViewModel.setStep(tutorialFragmentArgs.step)
     }
 
+    override fun onResume() {
+        super.onResume()
+        when (currentStep) {
+            7 -> if (AccessibilityCapabilities.isBlindoVisionEnabled()) {
+                tutorialViewModel.setStep(currentStep + 1)
+            }
+            else -> Unit
+        }
+    }
+
     override fun onSubscribeUser(user: User?) {
         user?.also {
-            if (currentStep == 7) {
+            if (currentStep == 9) {
                 tutorialViewModel.setStep(currentStep + 1)
             }
         }
@@ -89,39 +107,75 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
             3 -> setStep(currentStep, R.string.tutorial__step_local_apps)
             4 -> setStep(currentStep, R.string.tutorial__step_sli)
             5 -> setStep(currentStep, R.string.vision__introduce)
-            6 -> if (isPrivacyPolicyAccepted) {
+            6 -> setStep(currentStep, R.string.vision__how_to_use)
+            7 -> setStep(currentStep, R.string.vision__ready_to_enable, R.string.vision__enable_now)
+            8 -> if (isPrivacyPolicyAccepted) {
                 tutorialViewModel.setStep(currentStep + 1)
             } else {
                 setStep(currentStep, R.string.tutorial__step_privacy_policy_terms_conditions, R.string.tutorial__action_accept)
             }
-            7 -> if (getUser() != null) {
+            9 -> if (getUser() != null) {
                 tutorialViewModel.setStep(currentStep + 1)
             } else {
                 setStep(currentStep, R.string.tutorial__step_account, R.string.tutorial__action_sign_in)
             }
-            8 -> getUser()?.also { user ->
+            10 -> getUser()?.also { user ->
                 if (user.isPremium) {
                     setStep(currentStep + 1, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
                 } else {
                     setStep(currentStep, R.string.tutorial__step_premium, R.string.tutorial__action_get_premium)
                 }
             } ?: setStep(currentStep + 1, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
-            9 -> setStep(currentStep, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
+            11 -> setStep(currentStep, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
         }
     })
 
     private fun setStep(step: Int, description: Int, label: Int? = null) {
-        dataList.visibility = View.GONE
-        checkboxContainer.visibility = View.GONE
+        dataList.gone()
+        checkboxContainer.gone()
         stepInfo.apply {
             text = getString(description)
             requestFocus()
             sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
         }
+        omitButton.apply {
+            if (TextUtils.equals(text, getString(R.string.tutorial__action_omit)).not()) {
+                text = getString(R.string.tutorial__action_omit)
+            }
+            when (description) {
+                R.string.vision__introduce -> setOnClickListener {
+                    tutorialViewModel.setStep(8)
+                }
+                else -> Unit
+            }
+        }
         nextButton.apply {
             when (label) {
+                R.string.vision__enable_now -> {
+                    omitButton.apply {
+                        text = getString(R.string.vision__later)
+                        setOnClickListener {
+                            tutorialViewModel.setStep(step + 1)
+                        }
+                    }
+                    text = getString(label)
+                    setOnClickListener {
+                        Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS).apply {
+                            if (resolveActivity(requireActivity().packageManager) == null) {
+                                nextButton.isEnabled = false
+                                Snackbar.make(
+                                    nextButton,
+                                    getString(R.string.vision__unable_to_open_accessibility_settings),
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                            } else {
+                                startActivity(this)
+                            }
+                        }
+                    }
+                }
                 R.string.tutorial__action_accept -> {
-                    omitButton.visibility = View.GONE
+                    omitButton.gone()
                     checkboxText.apply {
                         movementMethod = LinkMovementMethod.getInstance()
                         text = HtmlCompat.fromHtml(
@@ -142,12 +196,12 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
                         ).also { arrayAdapter ->
                             arrayAdapter.addAll(it.toList())
                             dataList.apply {
-                                visibility = View.VISIBLE
+                                visible()
                                 adapter = arrayAdapter
                             }
                         }
                     }
-                    checkboxContainer.visibility = View.VISIBLE
+                    checkboxContainer.visible()
                     checkBox.setOnCheckedChangeListener { _, isChecked ->
                         isEnabled = isChecked
                     }
@@ -164,9 +218,9 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
                         launchLoginScreen()
                     }
                     omitButton.apply {
-                        visibility = View.VISIBLE
+                        visible()
                         setOnClickListener {
-                            tutorialViewModel.setStep(9)
+                            tutorialViewModel.setStep(11)
                         }
                     }
                 }
@@ -178,15 +232,15 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
                         )
                     }
                     omitButton.apply {
-                        visibility = View.VISIBLE
+                        visible()
                         setOnClickListener {
-                            tutorialViewModel.setStep(9)
+                            tutorialViewModel.setStep(11)
                         }
                     }
                 }
                 R.string.tutorial__action_finish -> {
                     tutorialViewModel.disableFirstRun()
-                    omitButton.visibility = View.INVISIBLE
+                    omitButton.invisible()
                     text = getString(label)
                     setOnClickListener {
                         AnalyticsManager.registerEventWithoutParams(FirebaseAnalytics.Event.TUTORIAL_COMPLETE)
