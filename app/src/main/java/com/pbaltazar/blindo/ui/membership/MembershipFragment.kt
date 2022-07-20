@@ -30,7 +30,6 @@ import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.billing.ui.BilleableFragment
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG
-import com.pbaltazar.blindo.utils.constants.MANAGE_SUBS_URI
 import com.pbaltazar.blindo.utils.extensions.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -124,17 +123,7 @@ class MembershipFragment : BilleableFragment<FragmentMembershipBinding>(),
             manageSubscription.apply {
                 visible()
                 setOnClickListener {
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(
-                            MANAGE_SUBS_URI.format(
-                                m.productId,
-                                requireActivity().packageName
-                            )
-                        )
-                    ).apply {
-                        startActivity(this)
-                    }
+                    launchSubscriptionManagementPage(m.productId)
                 }
             }
             subscribeNow.invisible()

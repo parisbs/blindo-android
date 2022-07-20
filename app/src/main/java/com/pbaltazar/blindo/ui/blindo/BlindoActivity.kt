@@ -33,10 +33,12 @@ import com.pbaltazar.blindo.MainNavigationDirections
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityBlindoBinding
 import com.pbaltazar.blindo.entities.User
+import com.pbaltazar.blindo.entities.purchases.Purchase
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.billing.ui.BilleableActivity
+import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.ACTIONS_HOST
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.constants.REQUEST_PERMISSIONS_ACTION
@@ -95,6 +97,8 @@ class BlindoActivity : BilleableActivity() {
         R.id.navVisionResults
     )
 
+    private val recentPurchases: MutableList<Purchase> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBlindoBinding.inflate(layoutInflater)
@@ -107,6 +111,7 @@ class BlindoActivity : BilleableActivity() {
         adsViewModel.initializeAdsManager(this)
         UpdateManager.initialize(this)
         MessagingManager.initialize(this)
+        registerPurchasesNotificationChannel()
 
         drawerLayout = binding!!.drawerLayout
         blindocoordinator = binding!!.appBar.blindocoordinator
@@ -261,6 +266,53 @@ class BlindoActivity : BilleableActivity() {
             headerUserName.visibility = View.GONE
             headerUserProfile.visibility = View.GONE
             headerSignOut.visibility = View.GONE
+        }
+    }
+
+    override fun onNewPurchases(purchases: BillingViewModel.Purchases) {
+        super.onNewPurchases(purchases)
+        recentPurchases.clear()
+        when (purchases) {
+            is BillingViewModel.Purchases.Success -> purchases.purchases.also { newPurchases ->
+                newPurchases.forEach { purchase ->
+                    if (recentPurchases.contains(purchase).not()) {
+                        recentPurchases.add(purchase)
+                    }
+                }
+            }
+            else -> Unit
+        }
+    }
+
+    override fun onCoinsPurchased(purchasedCoin: BillingViewModel.PurchasedCoin) {
+        super.onCoinsPurchased(purchasedCoin)
+        when (purchasedCoin) {
+            is BillingViewModel.PurchasedCoin.Success -> purchasedCoin.coin.also { coin ->
+                if (currentDestinationId.equals(R.id.navCoins).not()) {
+                    val expectedPurchase: Purchase? = recentPurchases.filter { it.token.equals(coin.token) }.takeUnless { it.isEmpty() }?.first()
+                    if (expectedPurchase != null) {
+                        recentPurchases.remove(expectedPurchase)
+                        showNewCoinsNotification(coin)
+                    }
+                }
+            }
+            else -> Unit
+        }
+    }
+
+    override fun onMembershipPurchased(purchasedMembership: BillingViewModel.PurchasedMembership) {
+        super.onMembershipPurchased(purchasedMembership)
+        when (purchasedMembership) {
+            is BillingViewModel.PurchasedMembership.Success -> purchasedMembership.membership.also { membership ->
+                if (currentDestinationId.equals(R.id.navMembership).not()) {
+                    val expectedPurchase: Purchase? = recentPurchases.filter { it.token.equals(membership.token) }.takeUnless { it.isEmpty() }?.first()
+                    if (expectedPurchase != null) {
+                        recentPurchases.remove(expectedPurchase)
+                        showNewMembershipNotification(membership)
+                    }
+                }
+            }
+            else -> Unit
         }
     }
 

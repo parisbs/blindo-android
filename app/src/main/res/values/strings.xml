@@ -68,8 +68,17 @@
     <string name="search__voice_prompt_text">Say an app name or keyword to search on Blindo</string>
 
     <!-- Notifications -->
-    <string name="messaging__channel_updates">Updates</string>
-    <string name="messaging__channel_updates_description">Notifications about updates and new features</string>
+    <!-- Purchases Notifications -->
+    <string name="notification__purchases_channel_title">Purchases</string>
+    <string name="notification__purchases_channel_description">Notifications about new purchases and subscription changes</string>
+    <string name="notification__purchases_new_coins_title">Coins purchased</string>
+    <string name="notification__purchases_new_coins_body">Your payment was confirmed and %1$d coins were added to your account</string>
+    <string name="notification__purchases_new_membership_title">Membership purchased</string>
+    <string name="notification__purchases_new_membership_body">Your payment was confirmed and your %1$s is active</string>
+    <string name="notification__purchases_new_membership_classic">Classic Membership</string>
+    <!-- Updates Notifications -->
+    <string name="notification__updates_channel_title">Updates</string>
+    <string name="notification__updates_channel_description">Notifications about updates and new features</string>
 
     <!-- Ads Settings -->
     <string name="ads_settings_title">Ads Settings</string>

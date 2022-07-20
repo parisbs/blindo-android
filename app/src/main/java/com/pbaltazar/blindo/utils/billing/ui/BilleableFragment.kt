@@ -2,6 +2,8 @@ package com.pbaltazar.blindo.utils.billing.ui
 
 import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
+import com.pbaltazar.blindo.entities.Coin
+import com.pbaltazar.blindo.entities.Membership
 import com.pbaltazar.blindo.entities.purchases.Product
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -96,4 +98,10 @@ abstract class BilleableFragment<VB : ViewBinding> : AuthenticableFragment<VB>()
     fun subscribeMembership() = billingViewModel.membership.observe(this, Observer {
         onMembershipPurchased(it)
     })
-    }
+
+    fun launchSubscriptionManagementPage(productId: String) = requireBilleableActivity.launchSubscriptionManagementPage(productId)
+
+    fun showNewCoinsNotification(coin: Coin) = requireBilleableActivity.showNewCoinsNotification(coin)
+
+    fun showNewMembershipNotification(membership: Membership) = requireBilleableActivity.showNewMembershipNotification(membership)
+}

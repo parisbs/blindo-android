@@ -5,8 +5,9 @@ import com.pbaltazar.blindo.BuildConfig
 const val ACTIONS_HOST = "actions"
 const val REQUEST_PERMISSIONS_ACTION = "requestPermissions"
 
+const val PURCHASES_NOTIFICATION_CHANNEL = "purchasesNotificationChannel"
 const val VISION_NOTIFICATION_CHANNEL = "visionNotificationChannel"
-const val UPDATES_CHANNEL = "blindoUpdatesChannel"
+const val UPDATES_NOTIFICATION_CHANNEL = "updatesNotificationChannel"
 
 const val NO_PERSONALIZED_ADS = "npa"
 const val NO_PERSONALIZED_ADS_YES = "1"
@@ -41,8 +42,6 @@ const val DOWNLOADS_DIR = "downloads"
 const val LABELS_PROVIDER = "${BuildConfig.APPLICATION_ID}.providers.LabelsProvider"
 const val TALKBACK_PACKAGE = "com.google.android.marvin.talkback"
 const val TALKBACK_IMPORT_LABELS = "com.google.android.accessibility.talkback.labeling.LabelImportActivity"
-
-const val MANAGE_SUBS_URI = "https://play.google.com/store/account/subscriptions?sku=%s&package=%s"
 
 const val TALKBACK_LABELS_ARRAY = "labels_array"
 const val TALKBACK_ARRAY_PACKAGE_NAME = "package_name"

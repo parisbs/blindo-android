@@ -1,19 +1,34 @@
 package com.pbaltazar.blindo.utils.billing.ui
 
+import android.app.NotificationManager
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.lifecycle.Observer
+import androidx.navigation.NavDeepLinkBuilder
+import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.entities.Coin
+import com.pbaltazar.blindo.entities.Membership
 import com.pbaltazar.blindo.entities.purchases.Product
 import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
+import com.pbaltazar.blindo.utils.constants.PURCHASES_NOTIFICATION_CHANNEL
 import com.pbaltazar.blindo.utils.extensions.isActive
+import com.pbaltazar.blindo.utils.extensions.numberOfCoins
 import com.pbaltazar.blindo.utils.log.BlindoLogger
+import com.pbaltazar.blindo.utils.notifications.NotificationsManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 open class BilleableActivity : AuthenticableActivity(),
     BillingListener {
 
     private val billingViewModel: BillingViewModel by viewModel()
+
+    companion object {
+        const val SUBSCRIPTION_MANAGEMENT_URI = "https://play.google.com/store/account/subscriptions?sku=%s&package=%s"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +56,18 @@ open class BilleableActivity : AuthenticableActivity(),
             closeBillingConnection()
         }
         super.onDestroy()
+    }
+
+    fun registerPurchasesNotificationChannel() {
+        if (NotificationsManager.isInitialized.not()) {
+            NotificationsManager.initialize(this)
+        }
+        NotificationsManager.createNotificationChannel(
+            PURCHASES_NOTIFICATION_CHANNEL,
+            getString(R.string.notification__purchases_channel_title),
+            getString(R.string.notification__purchases_channel_description),
+            NotificationManager.IMPORTANCE_HIGH
+        )
     }
 
     val isBillingConnected: Boolean get() {
@@ -174,4 +201,70 @@ open class BilleableActivity : AuthenticableActivity(),
     private fun subscribeMembership() = billingViewModel.membership.observe(this, Observer {
         onMembershipPurchased(it)
     })
+
+    fun launchSubscriptionManagementPage(productId: String) {
+        Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(
+                SUBSCRIPTION_MANAGEMENT_URI.format(
+                    productId,
+                    packageName
+                )
+            )
+        ).apply {
+            startActivity(this)
+        }
+    }
+
+    fun showNewCoinsNotification(coin: Coin) {
+        if (NotificationsManager.isInitialized.not()) {
+            return
+        }
+        NavDeepLinkBuilder(this)
+            .setGraph(R.navigation.main_navigation)
+            .addDestination(R.id.navCoins)
+            .createPendingIntent().also { pendingIntent ->
+                NotificationsManager.createSimpleNotification(
+                    icon = R.drawable.ic_blindo_192dp,
+                    title = getString(R.string.notification__purchases_new_coins_title),
+                    body = getString(
+                        R.string.notification__purchases_new_coins_body,
+                        coin.numberOfCoins()
+                    ),
+                    channelId = PURCHASES_NOTIFICATION_CHANNEL,
+                    priority = NotificationCompat.PRIORITY_HIGH,
+                    pendingIntent = pendingIntent
+                ).also { notification ->
+                    NotificationsManager.notify(coin.hashCode(), notification)
+                }
+            }
+    }
+
+    fun showNewMembershipNotification(membership: Membership) {
+        if (NotificationsManager.isInitialized.not()) {
+            return
+        }
+        NavDeepLinkBuilder(this)
+            .setGraph(R.navigation.main_navigation)
+            .addDestination(R.id.navMembership)
+            .createPendingIntent().also { pendingIntent ->
+                NotificationsManager.createSimpleNotification(
+                    icon = R.drawable.ic_blindo_192dp,
+                    title = getString(R.string.notification__purchases_new_membership_title),
+                    getString(
+                        R.string.notification__purchases_new_membership_body,
+                        membership.productId.let { when (it) {
+                            "blindo_monthly_subscription", "blindo_membership" -> getString(R.string.notification__purchases_new_membership_classic)
+                            else -> getString(R.string.notification__purchases_new_membership_classic)
+                        } }
+                    )
+                ,
+                    channelId = PURCHASES_NOTIFICATION_CHANNEL,
+                    priority = NotificationCompat.PRIORITY_HIGH,
+                    pendingIntent = pendingIntent
+                ).also { notification ->
+                    NotificationsManager.notify(membership.hashCode(), notification)
+                }
+            }
+    }
 }

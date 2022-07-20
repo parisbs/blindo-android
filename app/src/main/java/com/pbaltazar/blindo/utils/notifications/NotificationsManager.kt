@@ -40,8 +40,8 @@ object NotificationsManager {
         title: String,
         body: String,
         channelId: String,
-        priority: Int,
-        pendingIntent: PendingIntent,
+        priority: Int = NotificationCompat.PRIORITY_DEFAULT,
+        pendingIntent: PendingIntent? = null,
         autoCancel: Boolean = true,
         timeOutAfterMillis: Long? = null
     ): Notification {
@@ -51,8 +51,10 @@ object NotificationsManager {
                 .setContentTitle(title)
                 .setContentText(body)
                 .setPriority(priority)
-                .setContentIntent(pendingIntent)
                 .setAutoCancel(autoCancel)
+            pendingIntent?.also {
+                notification.setContentIntent(it)
+            }
             timeOutAfterMillis?.also {
                 notification.setTimeoutAfter(it)
             }

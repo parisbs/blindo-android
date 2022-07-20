@@ -175,3 +175,5 @@ fun MembershipState.getInfoString(context: Context): String = context.getString(
         MembershipState.SUBSCRIPTION_STATE_EXPIRED -> R.string.membership__subscription_state_expired_info
     }
 )
+
+fun Coin.numberOfCoins(): Int = productId.split("_").lastOrNull()?.toInt() ?: 0

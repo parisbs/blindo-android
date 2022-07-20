@@ -4,7 +4,7 @@ import android.app.NotificationManager
 import android.content.Context
 import com.google.firebase.messaging.FirebaseMessaging
 import com.pbaltazar.blindo.R
-import com.pbaltazar.blindo.utils.constants.UPDATES_CHANNEL
+import com.pbaltazar.blindo.utils.constants.UPDATES_NOTIFICATION_CHANNEL
 import com.pbaltazar.blindo.utils.notifications.NotificationsManager
 
 object MessagingManager {
@@ -27,9 +27,9 @@ object MessagingManager {
             throw RuntimeException("NotificationsManager is not initialized.")
         }
         NotificationsManager.createNotificationChannel(
-            UPDATES_CHANNEL,
-            context.getString(R.string.messaging__channel_updates),
-            context.getString(R.string.messaging__channel_updates_description),
+            UPDATES_NOTIFICATION_CHANNEL,
+            context.getString(R.string.notification__updates_channel_title),
+            context.getString(R.string.notification__updates_channel_description),
             NotificationManager.IMPORTANCE_DEFAULT
         )
     }
