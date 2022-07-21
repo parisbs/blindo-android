@@ -27,7 +27,6 @@ import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG
 import com.pbaltazar.blindo.utils.constants.INTERTITIAL_ADS_MINIMUM_VISUALIZATION
@@ -195,7 +194,7 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
                 }
             }
             is PackDetailsViewModel.DownloadPackViewState.Error -> {
-                BlindoLogger.log.e(response.errorMessage)
+                BlindoLogger.e(response.errorMessage)
                 Snackbar.make(
                     installPack,
                     response.errorMessage,

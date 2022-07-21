@@ -55,7 +55,7 @@ class UploadPackViewModel(
                 }
             }
         } catch (e: Exception) {
-            BlindoLogger.log.e(e)
+            BlindoLogger.e(e)
             labelsList.postValue(
                 LabelsViewState.Error(
                     e.localizedMessage ?: e.toString()

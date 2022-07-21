@@ -1,12 +1,10 @@
 package com.blindo.screenshotwatcher
 
 import android.Manifest
-import android.annotation.TargetApi
 import android.content.Context
 import android.content.pm.PackageManager
 import android.database.ContentObserver
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
@@ -17,7 +15,6 @@ import com.blindo.screenshotwatcher.exceptions.PermissionException
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.flow.internal.ChannelFlow
 import java.lang.ref.WeakReference
 
 class ScreenshotWatcherDelegate(
@@ -47,8 +44,8 @@ class ScreenshotWatcherDelegate(
                 onScreenCaptured(uri, null)
             }
 
-            override fun onScreenCapturedFailure(throwable: Throwable) {
-                onScreenCaptured(null, throwable)
+            override fun onScreenCapturedFailure(t: Throwable) {
+                onScreenCaptured(null, t)
             }
         }
     )
@@ -166,6 +163,6 @@ class ScreenshotWatcherDelegate(
 
     interface ScreenshotWatcherListener {
         fun onScreenCaptured(uri: Uri)
-        fun onScreenCapturedFailure(throwable: Throwable)
+        fun onScreenCapturedFailure(t: Throwable)
     }
 }

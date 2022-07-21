@@ -32,7 +32,7 @@ fun Uri.installTalkbackPack(view: View) {
         }
     } catch (e: Exception) {
         FirebaseCrashlytics.getInstance().recordException(e)
-        BlindoLogger.log.e(e)
+        BlindoLogger.e(e)
         Snackbar.make(
             view,
             e.localizedMessage ?: e.toString(),

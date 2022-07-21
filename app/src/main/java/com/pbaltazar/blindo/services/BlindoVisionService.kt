@@ -129,13 +129,13 @@ class BlindoVisionService : AccessibilityService(),
                 }
             }
         } catch (e: Exception) {
-            BlindoLogger.log.e(e)
+            BlindoLogger.e(e)
         }
     }
 
-    override fun onScreenCapturedFailure(throwable: Throwable) {
-        if (throwable is PermissionException) showMissingPermissionsNotification()
-        else BlindoLogger.log.e(throwable)
+    override fun onScreenCapturedFailure(t: Throwable) {
+        if (t is PermissionException) showMissingPermissionsNotification()
+        else BlindoLogger.e(t)
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {

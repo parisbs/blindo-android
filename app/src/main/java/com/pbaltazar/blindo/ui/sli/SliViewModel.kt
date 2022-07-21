@@ -36,7 +36,7 @@ class SliViewModel(
                 installedApps.postValue(LocalApps.Success(apps))
             } ?: installedApps.postValue(LocalApps.Empty)
         } catch (e: Exception) {
-            BlindoLogger.log.e(e)
+            BlindoLogger.e(e)
             installedApps.postValue(LocalApps.Error(e.localizedMessage ?: e.toString()))
         }
     }

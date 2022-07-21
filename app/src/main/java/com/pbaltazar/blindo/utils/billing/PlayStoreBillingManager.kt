@@ -87,7 +87,7 @@ class PlayStoreBillingManager(
     }
 
     override fun closeConnection() {
-        BlindoLogger.log.e("Billing service disconnected by scope")
+        BlindoLogger.i("Billing service disconnected.")
         isConnected = false
         billingClient.endConnection()
     }

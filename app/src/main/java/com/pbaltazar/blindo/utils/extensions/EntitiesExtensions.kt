@@ -13,7 +13,6 @@ import com.pbaltazar.blindo.entities.filters.PackFilters
 import com.pbaltazar.blindo.entities.filters.RatingFilters
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.entities.filters.common.IntRange
-import com.pbaltazar.blindo.graphql.ListCoinsQuery
 import com.pbaltazar.blindo.graphql.type.AppFilter
 import com.pbaltazar.blindo.graphql.type.PackFilter
 import com.pbaltazar.blindo.graphql.type.RatingFilter
@@ -33,10 +32,10 @@ const val MONTHLY_LONG_VALUE = 2592000
 fun Pack.getTalkbackInstallableFileUri(context: Context): Uri? =
     File(context.filesDir, "${DOWNLOADS_DIR}/${this.hash}.blp").let { packFile ->
         if (packFile.exists()) {
-            BlindoLogger.log.i("Retrieving file ${packFile.absolutePath}")
+            BlindoLogger.i("Retrieving file ${packFile.absolutePath}")
             FileProvider.getUriForFile(context, LABELS_PROVIDER, packFile)
         } else {
-            BlindoLogger.log.e("The pack file ${packFile} not exists")
+            BlindoLogger.e("The pack file ${packFile} not exists")
             null
         }
     }
@@ -45,7 +44,7 @@ fun Pack.getTalkbackInstallableFileUri(context: Context): Uri? =
 fun InstallablePack.saveTalkbackInstallableFile(context: Context): Uri? =
     File(context.filesDir, DOWNLOADS_DIR).let { dir ->
         if (dir.exists().not()) {
-            BlindoLogger.log.i("Creating downloads internal directory...")
+            BlindoLogger.i("Creating downloads internal directory...")
             dir.mkdir()
         }
         File(dir, "${this.pack.hash}.blp").let { packFile ->

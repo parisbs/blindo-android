@@ -179,7 +179,7 @@ class LoginActivity : AuthenticableActivity() {
     }
 
     private fun setStepRegisterDeviceError(errorMessage: String) {
-        BlindoLogger.log.e(errorMessage)
+        BlindoLogger.e(errorMessage)
         signOut(false)
         currentStepText = getString(R.string.auth__device_error)
         currentStepNotice = errorMessage

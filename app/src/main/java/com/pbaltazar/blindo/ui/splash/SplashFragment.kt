@@ -189,7 +189,7 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
     }
 
     private fun showErrorLoading(reason: String) {
-        BlindoLogger.log.e(reason)
+        BlindoLogger.e(reason)
         loadingText.text = getString(
             R.string.ads__current_status,
             reason

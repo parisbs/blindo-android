@@ -32,7 +32,7 @@ object NotificationsManager {
                 setDescription(description)
                 notificationManager.createNotificationChannel(this)
             }
-        } else BlindoLogger.log.e("NotificationsManager is not initialized.")
+        } else BlindoLogger.e("NotificationsManager is not initialized.")
     }
 
     fun createSimpleNotification(

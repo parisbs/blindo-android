@@ -40,10 +40,10 @@ object UpdateManager {
                 processAppUpdateInfo(appUpdateInfo)
             }.addOnFailureListener { exception ->
                 FirebaseCrashlytics.getInstance().recordException(exception)
-                BlindoLogger.log.e(exception)
+                BlindoLogger.e(exception)
             }
         } catch (e: Exception) {
-            BlindoLogger.log.e(e)
+            BlindoLogger.e(e)
         }
     }
 
@@ -52,17 +52,17 @@ object UpdateManager {
             verifyIsInitialized()
             when (appUpdateInfo.updateAvailability()) {
                 UpdateAvailability.UPDATE_AVAILABLE -> {
-                    BlindoLogger.log.i("Update available: version ${appUpdateInfo.availableVersionCode()}")
+                    BlindoLogger.i("Update available: version ${appUpdateInfo.availableVersionCode()}")
                     if (appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
                         startUpdateFlow(appUpdateInfo, AppUpdateType.IMMEDIATE)
                     }
                 }
-                UpdateAvailability.UPDATE_NOT_AVAILABLE -> BlindoLogger.log.i("Last version installed")
+                UpdateAvailability.UPDATE_NOT_AVAILABLE -> BlindoLogger.i("Last version installed")
                 UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS -> startUpdateFlow(appUpdateInfo, AppUpdateType.IMMEDIATE)
                 else -> throw RuntimeException("Unknown update state")
             }
         } catch (e: Exception) {
-            BlindoLogger.log.e(e)
+            BlindoLogger.e(e)
         }
     }
 
@@ -76,7 +76,7 @@ object UpdateManager {
                 UPDATE_CHECKER_CODE
             )
         } catch (e: Exception) {
-            BlindoLogger.log.e(e)
+            BlindoLogger.e(e)
         }
     }
 }

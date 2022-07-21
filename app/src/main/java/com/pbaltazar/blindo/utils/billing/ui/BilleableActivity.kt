@@ -81,8 +81,8 @@ open class BilleableActivity : AuthenticableActivity(),
     override fun onBillingConnection(billingConnection: BillingViewModel.BillingConnection) {
         when (billingConnection) {
             is BillingViewModel.BillingConnection.Connected -> askForNewPurchases()
-            is BillingViewModel.BillingConnection.Error -> BlindoLogger.log.e(billingConnection.reason)
-            else -> BlindoLogger.log.e(billingConnection.toString())
+            is BillingViewModel.BillingConnection.Error -> BlindoLogger.e(billingConnection.reason)
+            else -> BlindoLogger.e(billingConnection.toString())
         }
     }
 

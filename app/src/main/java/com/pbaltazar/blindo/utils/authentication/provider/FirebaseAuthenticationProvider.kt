@@ -29,7 +29,7 @@ class FirebaseAuthenticationProvider(
                     } else {
                         task.exception?.also { e ->
                             firebaseCrashlytics.recordException(e)
-                            BlindoLogger.log.e(e)
+                            BlindoLogger.e(e)
                             continuation.resume(null)
                         } ?: continuation.resume(null)
                     }
@@ -46,7 +46,7 @@ class FirebaseAuthenticationProvider(
                     } else {
                         task.exception?.also { e ->
                             firebaseCrashlytics.recordException(e)
-                            BlindoLogger.log.e(e)
+                            BlindoLogger.e(e)
                             continuation.resume(
                                 AuthenticationProviderResponse.Error(
                                     AuthenticationProviderException.Error(e)
@@ -69,7 +69,7 @@ class FirebaseAuthenticationProvider(
                     } else {
                         task.exception?.also { e ->
                             firebaseCrashlytics.recordException(e)
-                            BlindoLogger.log.e(e)
+                            BlindoLogger.e(e)
                             continuation.resume(
                                 AuthenticationProviderResponse.Error(
                                     AuthenticationProviderException.Error(e)
