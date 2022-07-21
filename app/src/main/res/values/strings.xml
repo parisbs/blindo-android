@@ -410,6 +410,7 @@
 
     <string name="backup__title">My labels</string>
     <string name="backup__empty">You don\'t have any pack yet</string>
+    <string name="backup__downloading_message">Downloading your backup, please wait. Talkback will ask to install it in a moment...</string>
 
     <string name="about__title">About</string>
     <string name="about__blindo_version">Blindo App version %1$s revision %2$d</string>

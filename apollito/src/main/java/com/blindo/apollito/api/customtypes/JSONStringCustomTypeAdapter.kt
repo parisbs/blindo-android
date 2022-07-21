@@ -11,7 +11,7 @@ class JSONStringCustomTypeAdapter : Adapter<JSONObject> {
 
     override fun fromJson(reader: JsonReader, customScalarAdapters: CustomScalarAdapters): JSONObject =
         try {
-            reader.toString().toJson()
+            reader.nextString()?.toJson() ?: JSONObject()
         } catch (e: Exception) {
             throw RuntimeException(e)
         }

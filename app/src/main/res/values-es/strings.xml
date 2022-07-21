@@ -438,6 +438,7 @@ con la comunidad de Blindo, eres lo máximo!</string>
 
     <string name="backup__title">Mis etiquetas</string>
     <string name="backup__empty">No tienes ningún paquete de etiquetas todavía</string>
+    <string name="backup__downloading_message">Descargando tu copia de seguridad, por favor espera. Talkback lo instalará en un momento...</string>
 
     <string name="about__title">Acerca de</string>
     <string name="about__blindo_version">Blindo App versión %1$s revisión %2$d</string>

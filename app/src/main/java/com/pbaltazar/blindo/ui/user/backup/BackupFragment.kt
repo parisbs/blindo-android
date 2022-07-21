@@ -1,7 +1,10 @@
 package com.pbaltazar.blindo.ui.user.backup
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +31,7 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
 
     private lateinit var backupViewState: ViewState
     private lateinit var backupRecycler: RecyclerView
+    private var downloadBackupMenuItem: MenuItem? = null
 
     private val backupAdapter: BackupAdapter =
         BackupAdapter({ pack ->
@@ -80,6 +84,9 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
                         if (backupAdapter.itemCount == 0) {
                         showMessage(getString(R.string.backup__empty))
                     } else {
+                        downloadBackupMenuItem = item
+                            item.isEnabled = false
+                        showMessage(getString(R.string.backup__downloading_message))
                         backupViewModel.downloadBackup(SupportedScreenreadersEnum.TALKBACK)
                     }
                     }
@@ -142,6 +149,7 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
     private fun subscribeBackup() = backupViewModel.backup.observe(this, Observer {
         when (val response = it) {
             is BackupViewModel.InstallableBackup.Success -> {
+                downloadBackupMenuItem?.isEnabled = true
                 response.installablePack.copy(
                     pack = Pack(
                         hash = response.installablePack.installable.hashCode().toString()
