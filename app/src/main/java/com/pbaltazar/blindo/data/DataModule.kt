@@ -14,10 +14,10 @@ import com.pbaltazar.blindo.data.device.BlindoApiDeviceGateway
 import com.pbaltazar.blindo.data.device.DeviceGateway
 import com.pbaltazar.blindo.data.localapp.LocalAppGateway
 import com.pbaltazar.blindo.data.localapp.PackageManagerLocalAppGateway
-import com.pbaltazar.blindo.data.purchase.BlindoApiPurchaseGateway
-import com.pbaltazar.blindo.data.purchase.PurchaseGateway
 import com.pbaltazar.blindo.data.pack.BlindoApiPackGateway
 import com.pbaltazar.blindo.data.pack.PackGateway
+import com.pbaltazar.blindo.data.purchase.BlindoApiPurchaseGateway
+import com.pbaltazar.blindo.data.purchase.PurchaseGateway
 import com.pbaltazar.blindo.data.rating.BlindoApiRatingGateway
 import com.pbaltazar.blindo.data.rating.RatingGateway
 import com.pbaltazar.blindo.data.user.BlindoApiUserGateway
@@ -34,7 +34,7 @@ const val EXTENDED_TIMEOUT_APOLLITO_CLIENT = "extendedTimeoutApollitoClient"
 
 val dataModule = module {
 
-    single<ApollitoClient>(named(BASIC_APOLLITO_CLIENT)) {
+    single(named(BASIC_APOLLITO_CLIENT)) {
         ApollitoClient.Builder()
             .context(get())
             .serverUrl(BuildConfig.SERVER_URL)
@@ -54,7 +54,7 @@ val dataModule = module {
             .build()
     }
 
-    single<ApollitoClient>(named(EXTENDED_TIMEOUT_APOLLITO_CLIENT)) {
+    single(named(EXTENDED_TIMEOUT_APOLLITO_CLIENT)) {
         ApollitoClient.Builder()
             .context(get())
             .serverUrl(BuildConfig.SERVER_URL)
@@ -95,7 +95,7 @@ val dataModule = module {
 
     single<LocalAppGateway> {
         PackageManagerLocalAppGateway(
-            get(named(BASIC_APOLLITO_CLIENT))
+            get()
         )
     }
 

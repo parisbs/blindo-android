@@ -27,7 +27,7 @@ class LocalAppsFragment : BlindoFragment<FragmentLocalAppsBinding>() {
         })
 
     override val isSearchable: Boolean
-        get() = true
+        get() = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
