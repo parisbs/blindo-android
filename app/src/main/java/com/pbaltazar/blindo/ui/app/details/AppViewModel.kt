@@ -139,7 +139,6 @@ class AppViewModel(
         }
 
     fun getAppRatingsFilters(): RatingFilters = RatingFilters(
-        commentIsNull = getAppRatingsWithComment().not(),
         commentLanguageIn = getAppRatingsInLanguages()
     )
 
