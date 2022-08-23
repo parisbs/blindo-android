@@ -1,10 +1,12 @@
 package com.blindo.screenshotwatcher
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.database.ContentObserver
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.os.Handler
 import android.os.Looper
@@ -14,7 +16,9 @@ import androidx.core.content.ContextCompat
 import com.blindo.screenshotwatcher.exceptions.PermissionException
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import java.lang.ref.WeakReference
 
 class ScreenshotWatcherDelegate(
@@ -66,10 +70,10 @@ class ScreenshotWatcherDelegate(
 
     fun stopScreenshotWatcher() {
         job?.cancel()
-        debugLog("Screenshot watching stoped")
+        debugLog("Screenshot watching stopped")
     }
 
-    fun createContentObserverFlow() = channelFlow {
+    private fun createContentObserverFlow() = channelFlow {
         val contentObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
             override fun onChange(selfChange: Boolean, uri: Uri?) {
                 uri?.let { _ ->
@@ -119,8 +123,13 @@ class ScreenshotWatcherDelegate(
     }
 
     private fun getPublicScreenshotDirectoryName(): String =
-        Environment.DIRECTORY_SCREENSHOTS
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            Environment.DIRECTORY_SCREENSHOTS
+        } else {
+            "${Environment.DIRECTORY_PICTURES}/Screenshots"
+        }
 
+    @SuppressLint("Range")
     private fun getFilePathFromContentResolver(context: Context, uri: Uri): String? {
         try {
             context.contentResolver.query(
