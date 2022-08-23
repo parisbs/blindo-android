@@ -1,5 +1,6 @@
 package com.blindo.apollito.api.constants
 
+@Suppress("unused")
 enum class TimeUnit(
     val javaTimeUnit: java.util.concurrent.TimeUnit,
     val millisFactor: Long

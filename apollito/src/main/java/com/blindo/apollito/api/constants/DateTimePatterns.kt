@@ -1,5 +1,6 @@
 package com.blindo.apollito.api.constants
 
+@Suppress("unused")
 enum class DateTimePatterns(
     val pattern: String
 ) {

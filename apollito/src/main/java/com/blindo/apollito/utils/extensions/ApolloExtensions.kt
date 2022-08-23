@@ -22,17 +22,17 @@ internal fun <D: Operation.Data> ApolloResponse<D>.processResponse(isDebug: Bool
         if (isDebug) {
             Log.e(
                 ApollitoClient.TAG,
-                errors?.mapNotNull { it.toReadableLog() }?.takeUnless { it.isNullOrEmpty() }?.toString() ?: "Empty errors list",
+                errors?.map { it.toReadableLog() }?.takeUnless { it.isEmpty() }?.toString() ?: "Empty errors list",
             )
         }
         Response.Failure(
             ResponseWithErrors(
-                errors ?: emptyList<Error>()
+                errors ?: emptyList()
             )
         )
     }
 
-fun Error.toReadableLog(): String = "$message"
+fun Error.toReadableLog(): String = message
 
 fun Map<String, Any?>.toReadableLog(locations: List<Error.Location>): String {
     var details = ""
@@ -42,10 +42,10 @@ fun Map<String, Any?>.toReadableLog(locations: List<Error.Location>): String {
         locations.getOrNull(current)?.also { location ->
             description += " (${location.line}:${location.column})"
         }
-        if (details.isNullOrEmpty()) {
-            details += description
+        details += if (details.isEmpty()) {
+            description
         } else {
-            details += ", $description"
+            ", $description"
         }
         current += 1
     }

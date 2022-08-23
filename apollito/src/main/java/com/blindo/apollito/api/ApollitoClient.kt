@@ -25,6 +25,7 @@ import com.blindo.apollito.utils.extensions.processResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
+@Suppress("unused")
 class ApollitoClient private constructor(
     private val apolloClient: ApolloClient,
     private val defaultFetchPolicy: FetchPolicy,
@@ -54,8 +55,8 @@ class ApollitoClient private constructor(
         }
 
         fun connectionTimeOut(value: Long, timeUnit: TimeUnit) = apply {
-            this.timeOutValue = value
-            this.timeOutUnit = timeOutUnit
+            timeOutValue = value
+            timeOutUnit = timeUnit
         }
 
         fun cacheConfiguration(cacheConfiguration: CacheConfiguration) = apply {
@@ -74,7 +75,7 @@ class ApollitoClient private constructor(
             if (this.context == null) {
                 throw ExpectedParameterError("$this requires a context")
             }
-            val graphqlServerUrl = this.serverUrl?.let { it } ?: throw ExpectedParameterError("$this requires a server url")
+            val graphqlServerUrl = this.serverUrl ?: throw ExpectedParameterError("$this requires a server url")
             val apolloClient = ApolloClient.Builder()
                 .okHttpClient(this.getOkHttpClient())
                 .serverUrl(graphqlServerUrl)
@@ -89,7 +90,7 @@ class ApollitoClient private constructor(
                         )
                     )
                 )
-            customTypeAdapters?.takeUnless { it.isNullOrEmpty() }?.forEach { (customScalarType, adapter) ->
+            customTypeAdapters?.takeUnless { it.isEmpty() }?.forEach { (customScalarType, adapter) ->
                 apolloClient.addCustomScalarAdapter(customScalarType, adapter)
             }
             return ApollitoClient(

@@ -9,8 +9,8 @@ import com.blindo.apollito.utils.extensions.toDate
 import java.util.*
 
 class DateTimeCustomTypeAdapter(
-    val dateTimePattern: String,
-    val forceUtc: Boolean = false
+    private val dateTimePattern: String,
+    private val forceUtc: Boolean = false
 ) : Adapter<Date> {
 
     override fun fromJson(reader: JsonReader, customScalarAdapters: CustomScalarAdapters): Date =

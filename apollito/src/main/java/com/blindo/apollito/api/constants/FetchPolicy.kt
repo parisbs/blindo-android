@@ -1,5 +1,6 @@
 package com.blindo.apollito.api.constants
 
+@Suppress("unused")
 enum class FetchPolicy(
     val apolloFetchPolicy: com.apollographql.apollo3.cache.normalized.FetchPolicy
 ) {
