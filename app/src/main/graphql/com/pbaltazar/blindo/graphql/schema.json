@@ -12,7 +12,7 @@
         {
           "kind": "OBJECT",
           "name": "Query",
-          "description": "Query nodes\n\nSome queries require authentication and/or permissions, please send the authorization token through the request headers.",
+          "description": "Query nodes\n\nSome queries require authentication and/or permissions,\nplease send the authorization token through the request headers.",
           "fields": [
             {
               "name": "getApp",
@@ -632,7 +632,7 @@
             },
             {
               "name": "authenticateUser",
-              "description": "Authenticate an user on the API. Do not returns a token or something similar, just the user info. Requires authentication header.",
+              "description": "Authenticate an user on the API. Do not returns a token or something similar,just the user info. Requires authentication header.",
               "args": [],
               "type": {
                 "kind": "OBJECT",
@@ -717,9 +717,13 @@
               "description": "The last update datetime of this resource",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1381,9 +1385,13 @@
               "description": "The last update datetime of this resource",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1562,9 +1570,13 @@
               "description": "The last update datetime of this resource",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -2214,9 +2226,13 @@
               "description": "The last update datetime of this resource",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3143,9 +3159,13 @@
               "description": "The last update datetime of this resource",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -3305,6 +3325,34 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "User",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "totalRating",
+              "description": "The total rating of this review.",
+              "args": [],
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "Float",
+                  "ofType": null
+                }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "commentPreview",
+              "description": "The comment preview about the App of this rating.",
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -4036,9 +4084,13 @@
               "description": "The last update datetime of this resource",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4324,9 +4376,13 @@
               "description": "The last update datetime of this resource",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -4966,9 +5022,13 @@
               "description": "The last update datetime of this resource",
               "args": [],
               "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "DateTime",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -6516,7 +6576,7 @@
         {
           "kind": "OBJECT",
           "name": "Mutation",
-          "description": "Alter the nodes\n\n    Some mutations require authentication and/or permissions, please send the authorization token through the request headers.",
+          "description": "Alter the nodes\n\n    Some mutations require authentication and/or permissions,\n    please send the authorization token through the request headers.",
           "fields": [
             {
               "name": "createApp",
@@ -7320,26 +7380,6 @@
           "description": "Input to create a new label for a pack.",
           "fields": null,
           "inputFields": [
-            {
-              "name": "createdAt",
-              "description": "The first creation datetime of this resource.",
-              "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "updatedAt",
-              "description": "The last update datetime of this resource",
-              "type": {
-                "kind": "SCALAR",
-                "name": "DateTime",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
             {
               "name": "packageName",
               "description": "The package name of the app for this label.",
@@ -8219,7 +8259,7 @@
         {
           "kind": "OBJECT",
           "name": "UpdateUser",
-          "description": "Update the user, the authenticated user from the authentication header must be the same. Requires authentication.",
+          "description": "Update the user, the authenticated user from the authentication header must be the same.\nRequires authentication.",
           "fields": [
             {
               "name": "user",
