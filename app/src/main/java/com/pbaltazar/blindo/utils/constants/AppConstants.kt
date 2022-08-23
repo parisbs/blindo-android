@@ -2,9 +2,6 @@ package com.pbaltazar.blindo.utils.constants
 
 import com.pbaltazar.blindo.BuildConfig
 
-const val ACTIONS_HOST = "actions"
-const val REQUEST_PERMISSIONS_ACTION = "requestPermissions"
-
 const val PURCHASES_NOTIFICATION_CHANNEL = "purchasesNotificationChannel"
 const val VISION_NOTIFICATION_CHANNEL = "visionNotificationChannel"
 const val UPDATES_NOTIFICATION_CHANNEL = "updatesNotificationChannel"

@@ -2,28 +2,28 @@ package com.pbaltazar.blindo.ui.app.details
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentAppBinding
 import com.pbaltazar.blindo.entities.App
-import com.pbaltazar.blindo.ui.app.details.pages.AppViewModelListener
 import com.pbaltazar.blindo.ui.app.details.pages.AppPagerHelper
+import com.pbaltazar.blindo.ui.app.details.pages.AppViewModelListener
 import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
 import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AppFragment : BlindoFragment<FragmentAppBinding>() {
 
@@ -63,7 +63,7 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        currentApp = appFragmentArgs.app
+        currentApp = appFragmentArgs.app ?: App(packageName = appFragmentArgs.packageName)
         AppPagerHelper.appViewModelListener = object : AppViewModelListener {
             override fun getCurrentApp(): App? = currentApp
 
@@ -73,16 +73,10 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-            title = appFragmentArgs.app.packageLabel
-            subtitle = if (appFragmentArgs.app.category.isNullOrEmptyOrBlank().not())
-                appFragmentArgs.app.category
-            else
-                appFragmentArgs.app.packageName
-        }
+        updateActivityTitle()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAppBinding.inflate(inflater, container, false)
         appViewState = binding!!.appViewState
         appViewPager = binding!!.appViewPager
@@ -100,16 +94,14 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             R.id.navRatingCreator -> {
                 findNavController().navigate(
                     AppFragmentDirections.actionFromAppDetailsToCommentCreator(currentApp!!)
                 )
-                return true
+                true
             }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
@@ -137,7 +129,7 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
         } ?: findNavController().popBackStack()
     }
 
-    private fun subscribeAppDetails() = appViewModel.appDetails.observe(this, Observer {
+    private fun subscribeAppDetails() = appViewModel.appDetails.observe(viewLifecycleOwner, Observer {
         when (val response = it) {
             is AppViewModel.AppDetails.Success -> {
                 isFirstLaunch = false
@@ -158,6 +150,7 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
                         )
                     }
                 } ?: response.app
+                updateActivityTitle()
                 appViewState.setState(State.CONTENT)
                 setupViewPager()
             }
@@ -196,6 +189,16 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
             setOnRetryClickListener {
                 loadApp()
             }
+        }
+    }
+
+    private fun updateActivityTitle() {
+        (requireActivity() as AppCompatActivity).supportActionBar?.apply {
+            title = currentApp!!.packageLabel
+            subtitle = if (currentApp!!.category.isNullOrEmptyOrBlank().not())
+                currentApp!!.category
+            else
+                currentApp!!.packageName
         }
     }
 }

@@ -195,30 +195,17 @@ class BlindoActivity : BilleableActivity() {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        intent?.also { handleIntent(it) }
-    }
-
-    private fun handleIntent(intent: Intent) {
+    override fun onNewIntent(intent: Intent) {
         when (intent.action) {
             Intent.ACTION_SEARCH -> intent.getStringExtra(SearchManager.QUERY)?.also { query ->
                 navController.navigate(
                     MainNavigationDirections.actionGlobalToSearch(query)
                 )
             }
-            Intent.ACTION_VIEW -> intent.data?.also { uri ->
-                when (uri.host ?: "") {
-                    ACTIONS_HOST -> uri.path?.also { path ->
-                        when (path) {
-                            REQUEST_PERMISSIONS_ACTION -> navController.navigate(
-                                MainNavigationDirections.actionGlobalToPermissions()
-                            )
-                        }
-                    }
-                }
+            else -> {
+                super.onNewIntent(intent)
+                navController.handleDeepLink(intent)
             }
-            else -> Unit
         }
     }
 

@@ -94,7 +94,10 @@ class LocalAppsFragment : BlindoFragment<FragmentLocalAppsBinding>() {
 
     private fun onAppClickListener(app: App) {
         findNavController().navigate(
-            LocalAppsFragmentDirections.actionFromLocalAppsToAppDetails(app)
+            LocalAppsFragmentDirections.actionFromLocalAppsToAppDetails(
+                packageName = app.packageName,
+                app = app
+            )
         )
     }
 }

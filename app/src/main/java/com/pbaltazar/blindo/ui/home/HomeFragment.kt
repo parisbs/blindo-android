@@ -67,7 +67,10 @@ class HomeFragment : FilterableFragment<FragmentHomeBinding>() {
 
     private fun onAppClickListener(app: App) {
         findNavController().navigate(
-            HomeFragmentDirections.actionFromHomeToAppDetails(app)
+            HomeFragmentDirections.actionFromHomeToAppDetails(
+                packageName = app.packageName,
+                app = app
+            )
         )
     }
 }

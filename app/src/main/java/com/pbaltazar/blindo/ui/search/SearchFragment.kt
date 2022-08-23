@@ -83,7 +83,10 @@ class SearchFragment : BlindoFragment<FragmentSearchBinding>() {
 
     private fun onAppClickListener(app: App) {
         findNavController().navigate(
-            SearchFragmentDirections.actionFromSearchToAppDetails(app)
+            SearchFragmentDirections.actionFromSearchToAppDetails(
+                packageName = app.packageName,
+                app = app
+            )
         )
     }
 }

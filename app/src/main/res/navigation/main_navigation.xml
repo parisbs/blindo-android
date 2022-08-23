@@ -265,10 +265,17 @@
         android:id="@+id/navAppDetails"
         android:name="com.pbaltazar.blindo.ui.app.details.AppFragment"
         tools:layout="@layout/fragment_app">
+        <deepLink
+            app:uri="app.blindoapp.com/#/app/{packageName}" />
         <argument
             android:name="app"
             app:argType="com.pbaltazar.blindo.entities.App"
-            app:nullable="false"/>
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <argument
+            android:name="packageName"
+            app:argType="string"
+            app:nullable="false" />
         <action
             android:id="@+id/actionFromAppDetailsToCommentCreator"
             app:destination="@id/navCommentCreator"
@@ -470,6 +477,8 @@
         android:name="com.pbaltazar.blindo.ui.permissions.PermissionsFragment"
         android:label="@string/permissions__activity_title"
         tools:layout="@layout/fragment_permissions">
+        <deepLink
+            app:uri="blindoapp://actions/requestPermissions" />
         <argument
             android:name="shouldReturnToApp"
             app:argType="boolean"
