@@ -100,6 +100,7 @@ android {
     }
 
     compileOptions {
+        coreLibraryDesugaringEnabled = true
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
@@ -120,6 +121,8 @@ apollo {
 
 dependencies {
     implementation libraries.kotlin
+
+    coreLibraryDesugaring libraries.androidx.desugar
 
     implementation libraries.androidx.appcompat
     implementation libraries.androidx.ktx

@@ -16,6 +16,7 @@ kotlinVersion = "1.6.21"
     // Android libraries
     appcompatVersion = '1.4.2'
     constraintVersion = '2.1.4'
+    desugarVersion = '1.1.5'
     ktxVersion = '1.8.0'
     legacySupportVersion = "1.0.0"
     lifecycleVersion = '2.4.1'
@@ -27,7 +28,7 @@ kotlinVersion = "1.6.21"
     viewPager2Version = "1.0.0"
     designVersion = "1.0.0-rc01"
     materialVersion = '1.6.1'
-    coroutinesVersion = "1.6.2"
+    coroutinesVersion = "1.6.4"
 
     // Test
     coreTestingVersion = "2.0.1"
@@ -87,21 +88,22 @@ kotlinVersion = "1.6.21"
         // Android libraries
         androidx: [
             appcompat: "androidx.appcompat:appcompat:$appcompatVersion",
-            recyclerView: "androidx.recyclerview:recyclerview:$recyclerVersion",
             constraintLayout: "androidx.constraintlayout:constraintlayout:$constraintVersion",
+            desugar: "com.android.tools:desugar_jdk_libs:$desugarVersion",
             ktx: "androidx.core:core-ktx:$ktxVersion",
-            preferences: "androidx.preference:preference:$preferencesVersion",
-            preferencesKtx: "androidx.preference:preference-ktx:$preferencesVersion",
-            viewPager2: "androidx.viewpager2:viewpager2:$viewPager2Version",
             legacy: "androidx.legacy:legacy-support-v4:$legacySupportVersion",
             navigationFragment: "androidx.navigation:navigation-fragment:$navigationVersion",
-            navigationUi: "androidx.navigation:navigation-ui:$navigationVersion",
             navigationFragmentKtx: "androidx.navigation:navigation-fragment-ktx:$navigationVersion",
+            navigationUi: "androidx.navigation:navigation-ui:$navigationVersion",
             navigationUiKtx: "androidx.navigation:navigation-ui-ktx:$navigationVersion",
             paging: [
                 runtime: "androidx.paging:paging-runtime:$pagingVersion",
                 test: "androidx.paging:paging-common:$pagingVersion"
-            ]
+            ],
+            preferences: "androidx.preference:preference:$preferencesVersion",
+            preferencesKtx: "androidx.preference:preference-ktx:$preferencesVersion",
+            recyclerView: "androidx.recyclerview:recyclerview:$recyclerVersion",
+            viewPager2: "androidx.viewpager2:viewpager2:$viewPager2Version",
         ],
         material       : [
             material: "com.google.android.material:material:$materialVersion"
