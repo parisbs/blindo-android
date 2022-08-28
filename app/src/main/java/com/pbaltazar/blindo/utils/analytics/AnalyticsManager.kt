@@ -7,7 +7,7 @@ import com.google.firebase.ktx.Firebase
 
 object AnalyticsManager {
 
-    private lateinit var firebaseAnalitycs: FirebaseAnalytics
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var isInitialized: Boolean = false
 
     fun initialize() {
@@ -15,13 +15,13 @@ object AnalyticsManager {
         isInitialized = true
     }
 
-    fun isInitialized(): Boolean = isInitialized && this::firebaseAnalitycs.isInitialized
+    fun isInitialized(): Boolean = isInitialized && this::firebaseAnalytics.isInitialized
 
     fun registerEventWithoutParams(event: String) =
-        if (isInitialized()) firebaseAnalitycs.logEvent(event, null) else Unit
+        if (isInitialized()) firebaseAnalytics.logEvent(event, null) else Unit
 
     fun registerLoginEvent(method: String) = if (isInitialized())
-        firebaseAnalitycs.logEvent(FirebaseAnalytics.Event.LOGIN) {
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN) {
             param(FirebaseAnalytics.Param.METHOD, method)
         }
     else Unit

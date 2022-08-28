@@ -47,7 +47,7 @@ class PackDetailsViewModel(
                 }
             }
             is AuthenticationProviderResponse.Error -> when (val tokenError = tokenResponse.error) {
-                is AuthenticationProviderException.Empty -> installable.postValue(DownloadPackViewState.Error("Unable to retriieve user authorization token, empty response"))
+                is AuthenticationProviderException.Empty -> installable.postValue(DownloadPackViewState.Error("Unable to retrieve user authorization token, empty response"))
                 is AuthenticationProviderException.UnknownError -> installable.postValue(DownloadPackViewState.Error("Unable to retrieve user authorization token, unknown error"))
                 is AuthenticationProviderException.NotSignedIn -> installable.postValue(DownloadPackViewState.Error("The user appears as not signed in"))
                 is AuthenticationProviderException.Error -> installable.postValue(

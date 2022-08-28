@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +13,6 @@ import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Rating
 import com.pbaltazar.blindo.entities.connections.RatingConnection
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.entities.inputs.RatingInput
 import com.pbaltazar.blindo.ui.app.details.AppFragmentDirections
 import com.pbaltazar.blindo.ui.app.details.AppViewModel
 import com.pbaltazar.blindo.ui.app.details.pages.AppPagerHelper
@@ -30,9 +27,9 @@ class AppRatingsFragment : FilterableFragment<FragmentAppRatingsBinding>() {
 
     private lateinit var appRatingsViewState: ViewState
     private lateinit var appRatingsRecycler: RecyclerView
-    private val appRatingsAdapter: AppRatingsAdapter = AppRatingsAdapter({ rating ->
+    private val appRatingsAdapter: AppRatingsAdapter = AppRatingsAdapter { rating ->
         ratingOnClickListener(rating)
-    })
+    }
 
     private var currentApp: App? = null
     private var isLoading: Boolean = false
@@ -52,7 +49,7 @@ class AppRatingsFragment : FilterableFragment<FragmentAppRatingsBinding>() {
         currentApp = AppPagerHelper.appViewModelListener.getCurrentApp()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAppRatingsBinding.inflate(inflater, container, false)
         appRatingsViewState = binding!!.appRatingsViewState
         appRatingsRecycler = binding!!.appRatingsRecycler
@@ -70,7 +67,7 @@ class AppRatingsFragment : FilterableFragment<FragmentAppRatingsBinding>() {
         if (currentApp == null && requiresRefresh.not()) {
             currentApp = AppPagerHelper.appViewModelListener.getCurrentApp()
         }
-        if (currentApp?.numberOfRatings ?: 0 > 0 && currentApp?.ratings == null) {
+        if ((currentApp?.numberOfRatings ?: 0) > 0 && currentApp?.ratings == null) {
             loadRatings()
         } else {
             setupApp()
@@ -89,7 +86,7 @@ class AppRatingsFragment : FilterableFragment<FragmentAppRatingsBinding>() {
         }
     }
 
-    private fun subscribeRatings() = appViewModel.ratings.observe(this, Observer {
+    private fun subscribeRatings() = appViewModel.ratings.observe(viewLifecycleOwner) {
         when (val response = it) {
             is AppViewModel.RatingsList.Success -> {
                 if (requiresRefresh) {
@@ -128,7 +125,7 @@ class AppRatingsFragment : FilterableFragment<FragmentAppRatingsBinding>() {
             }
         }
         isLoading = false
-    })
+    }
 
     private fun loadRatings() {
         if (isLoading.not()) {

@@ -3,6 +3,7 @@ package com.pbaltazar.blindo.utils.log
 import com.pbaltazar.blindo.BuildConfig
 import timber.log.Timber
 
+@Suppress("unused")
 object BlindoLogger {
 
     private const val TAG = "BlindoApp"

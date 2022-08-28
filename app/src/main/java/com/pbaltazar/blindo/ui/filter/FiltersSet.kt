@@ -2,6 +2,7 @@ package com.pbaltazar.blindo.ui.filter
 
 import android.content.Context
 import android.content.res.TypedArray
+import androidx.annotation.ArrayRes
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.core.content.res.getResourceIdOrThrow
@@ -20,7 +21,7 @@ import kotlin.reflect.KClass
 enum class FiltersSet(
     @StringRes
     val title: Int,
-    @IdRes
+    @ArrayRes
     val arrayResId: Int,
     val showOrderBySection: Boolean,
     val autoAddCommonElements: Boolean,
@@ -92,10 +93,10 @@ enum class FiltersSet(
     fun getPreferencesKeyForPageSize(): String =
         "${this.name}__pageSize"
 
-    private fun getFilterTypedArray(context: Context, @IdRes id: Int): TypedArray? =
+    private fun getFilterTypedArray(context: Context, @ArrayRes id: Int): TypedArray? =
         getTypedArrayResource(context, arrayResId).let { typedArray ->
             var filter: TypedArray? = null
-            for (i in 0..(typedArray.length() - 1)) {
+            for (i in 0 until typedArray.length()) {
                 val filterCandidate: TypedArray = getTypedArrayResource(context, typedArray.getResourceIdOrThrow(i))
                 if (filterCandidate.getResourceIdOrThrow(1) == id) {
                     filter = filterCandidate
@@ -105,7 +106,7 @@ enum class FiltersSet(
             filter
         }
 
-    private fun getTypedArrayResource(context: Context, @IdRes id: Int): TypedArray =
+    private fun getTypedArrayResource(context: Context, @ArrayRes id: Int): TypedArray =
         context.resources.obtainTypedArray(id)
 
     private fun getResourceName(context: Context, @IdRes id: Int): String =

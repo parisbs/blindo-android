@@ -17,7 +17,7 @@ class UserProfilePagerAdapter(
     fragmentManager
 ) {
 
-    override fun titleResourceIdResolver(position: Int): Int = titles.get(position)
+    override fun titleResourceIdResolver(position: Int): Int = titles[position]
 
     override fun fragmentResolver(position: Int): Fragment = when (position) {
         0 -> UserPacksFragment()

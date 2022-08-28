@@ -9,5 +9,5 @@ object HomeComparator : DiffUtil.ItemCallback<App>() {
         TextUtils.equals(oldItem.id, newItem.id)
 
     override fun areContentsTheSame(oldItem: App, newItem: App): Boolean =
-        oldItem.equals(newItem)
+        oldItem == newItem
 }

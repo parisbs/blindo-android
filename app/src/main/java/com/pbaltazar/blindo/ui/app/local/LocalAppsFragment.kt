@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.pbaltazar.blindo.databinding.FragmentLocalAppsBinding
@@ -22,9 +21,9 @@ class LocalAppsFragment : BlindoFragment<FragmentLocalAppsBinding>() {
     private lateinit var localAppsRecycler: RecyclerView
 
     private val localAppsAdapter: LocalAppsAdapter =
-        LocalAppsAdapter({ app ->
+        LocalAppsAdapter { app ->
             onAppClickListener(app)
-        })
+        }
 
     override val isSearchable: Boolean
         get() = false
@@ -34,7 +33,7 @@ class LocalAppsFragment : BlindoFragment<FragmentLocalAppsBinding>() {
         subscribeApps()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLocalAppsBinding.inflate(inflater, container, false)
         localAppsViewState = binding!!.localAppsViewState
         localAppsRecycler = binding!!.localAppsRecycler
@@ -60,7 +59,7 @@ class LocalAppsFragment : BlindoFragment<FragmentLocalAppsBinding>() {
         localAppsViewModel.loadLocalApps()
     }
 
-    private fun subscribeApps() = localAppsViewModel.apps.observe(this, Observer {
+    private fun subscribeApps() = localAppsViewModel.apps.observe(this) {
         when (val response = it) {
             is LocalAppsViewModel.AppsViewState.Success -> {
                 if (localAppsAdapter.itemCount == 0) {
@@ -81,7 +80,7 @@ class LocalAppsFragment : BlindoFragment<FragmentLocalAppsBinding>() {
                 }
             }
         }
-    })
+    }
 
     private fun setupUi() {
         localAppsRecycler.apply {

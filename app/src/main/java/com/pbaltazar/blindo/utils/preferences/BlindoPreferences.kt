@@ -14,13 +14,12 @@ class BlindoPreferences(
     private val sharedPreferences: SharedPreferences
 ) : UserPreferences {
 
-    private val baseListener: SharedPreferences.OnSharedPreferenceChangeListener = object : SharedPreferences.OnSharedPreferenceChangeListener {
-        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
+    private val baseListener: SharedPreferences.OnSharedPreferenceChangeListener =
+        SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             listeners.forEach { onUserPreferencesChangeListener ->
                 onUserPreferencesChangeListener.onUserPreferencesChange(key)
             }
         }
-    }
     private val listeners: MutableList<OnUserPreferencesChangeListener> = mutableListOf()
 
     init {

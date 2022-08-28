@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
+@Suppress("unused")
 class BillingViewModel(
     private val backgroundDispatcher: CoroutineContext,
     private val userPreferences: UserPreferences,
@@ -57,15 +58,15 @@ class BillingViewModel(
     private val _subscriptions = MutableLiveData<AvailableProducts>()
     val subscriptions: LiveData<AvailableProducts> get() = _subscriptions
 
-    val purchases: LiveData<Purchases> = billingManager.purchasesFlow().map {
-        when (val billingResponse = it) {
+    val purchases: LiveData<Purchases> = billingManager.purchasesFlow().map { purchases ->
+        when (purchases) {
             is BillingResponse.Success -> Purchases.Success(
-                billingResponse.data.filter { purchase ->
-                    inAppsToPurchase.mapNotNull { it.id }.contains(purchase.productId) ||
-                        subscriptionsToPurchase.mapNotNull { it.id }.contains(purchase.productId)
+                purchases.data.filter { purchase ->
+                    inAppsToPurchase.map { it.id }.contains(purchase.productId) ||
+                        subscriptionsToPurchase.map { it.id }.contains(purchase.productId)
                 }
             )
-            is BillingResponse.Error -> when (val billingException= billingResponse.error) {
+            is BillingResponse.Error -> when (val billingException= purchases.error) {
                 is BillingException.EmptyResponse -> Purchases.Empty
                 is BillingException.CanceledByUser -> Purchases.CanceledByUser
                 is BillingException.InstanceError -> Purchases.Error(billingException.error)
@@ -235,6 +236,7 @@ class BillingViewModel(
                 is BillingException.ServiceUnavailable -> _inApps.postValue(AvailableProducts.ServiceUnavailable)
                 is BillingException.Disconnected -> _inApps.postValue(AvailableProducts.Disconnected)
                 is BillingException.UnknownError -> _inApps.postValue(AvailableProducts.Error(billingException.error))
+                else -> _inApps.postValue(AvailableProducts.Error(billingException.toString()))
             }
         }
     }
@@ -249,6 +251,7 @@ class BillingViewModel(
                 is BillingException.ServiceUnavailable -> _subscriptions.postValue(AvailableProducts.ServiceUnavailable)
                 is BillingException.Disconnected -> _subscriptions.postValue(AvailableProducts.Disconnected)
                 is BillingException.UnknownError -> _subscriptions.postValue(AvailableProducts.Error(billingException.error))
+                else -> _subscriptions.postValue(AvailableProducts.Error(billingException.toString()))
             }
         }
     }

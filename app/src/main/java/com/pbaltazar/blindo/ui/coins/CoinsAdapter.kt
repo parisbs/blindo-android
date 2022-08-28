@@ -1,5 +1,7 @@
 package com.pbaltazar.blindo.ui.coins
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
@@ -13,6 +15,7 @@ class CoinsAdapter(
     val onItemClickListener: (item: InApp) -> Unit
 ) : Adapter<InApp>() {
 
+    @SuppressLint("SetTextI18n")
     override fun bind(item: InApp, viewHolder: ViewHolder) {
         (viewHolder as CoinsViewHolder).itemBinding.apply {
             title.text = item.name
@@ -21,7 +24,9 @@ class CoinsAdapter(
             }
             root.apply {
                 ViewCompat.setAccessibilityHeading(this, true)
-                tooltipText = item.description
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    tooltipText = item.description
+                }
                 setOnClickListener { onItemClickListener(item) }
             }
         }

@@ -1,7 +1,6 @@
 package com.pbaltazar.blindo.ui.membership
 
-import android.content.Intent
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -11,9 +10,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.Group
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.pbaltazar.blindo.R
@@ -23,15 +20,12 @@ import com.pbaltazar.blindo.entities.Membership
 import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.entities.enums.MembershipCancellationContext
 import com.pbaltazar.blindo.entities.enums.MembershipState
-import com.pbaltazar.blindo.entities.purchases.enums.ProductType
 import com.pbaltazar.blindo.entities.purchases.subscriptions.Subscription
 import com.pbaltazar.blindo.entities.purchases.subscriptions.SubscriptionOffer
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.billing.ui.BilleableFragment
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG
 import com.pbaltazar.blindo.utils.extensions.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MembershipFragment : BilleableFragment<FragmentMembershipBinding>(),
     SubscriptionInfo.OnOfferSelectedListener {
@@ -53,16 +47,17 @@ class MembershipFragment : BilleableFragment<FragmentMembershipBinding>(),
         field?.also { m ->
             currentSubscription.apply {
                 val membershipName = if (membershipAdapter.itemCount > 0)
-                    membershipAdapter.items.filter { it.id.equals(m.productId) }.takeUnless { it.isEmpty() }?.first()?.let { subscription ->
-                        subscription.name
-                    } ?: m.productId
+                    membershipAdapter.items.filter { it.id == m.productId }.takeUnless { it.isEmpty() }?.first()?.name
+                        ?: m.productId
                 else m.productId
                 text = getString(
                     R.string.membership__current_subscription,
                     membershipName,
                     m.state.toReadableString(requireContext())
                 )
-                tooltipText = m.state.getInfoString(requireContext())
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    tooltipText = m.state.getInfoString(requireContext())
+                }
                 visible()
             }
             subscriptionsContainer.apply {
@@ -153,7 +148,7 @@ class MembershipFragment : BilleableFragment<FragmentMembershipBinding>(),
             selectedSubscriptionOffer?.also { subscriptionOffer ->
                 subscriptionInfo.getSubscription()?.also { subscription ->
                     subscription.selectedOffer = subscriptionOffer
-                    setOnClickListener { _ ->
+                    setOnClickListener {
                         launchPurchase(listOf(subscription))
                     }
                 }
@@ -167,7 +162,7 @@ class MembershipFragment : BilleableFragment<FragmentMembershipBinding>(),
         subscribeSubscriptionsToPurchase()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMembershipBinding.inflate(inflater, container, false)
         currentSubscription = binding!!.currentSubscription
         changeSubscription = binding!!.changeSubscription
@@ -210,17 +205,17 @@ class MembershipFragment : BilleableFragment<FragmentMembershipBinding>(),
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
-        AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
+        AUTH_CANCELED_ON_DIALOG)?.observe(this) {
         if (it.not()) {
             launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }
-    })
+    }
 
     override fun onSubscriptionsToPurchase(availableProducts: BillingViewModel.AvailableProducts) {
         when (availableProducts) {
-            is BillingViewModel.AvailableProducts.Success -> availableProducts.products.mapNotNull { it as Subscription }.also { subscriptions ->
+            is BillingViewModel.AvailableProducts.Success -> availableProducts.products.map { it as Subscription }.also { subscriptions ->
                 if (membershipAdapter.itemCount > 0) {
                     membershipAdapter.clearItems()
                 }
@@ -231,16 +226,17 @@ class MembershipFragment : BilleableFragment<FragmentMembershipBinding>(),
             is BillingViewModel.AvailableProducts.FeatureNotSupported -> processError(R.string.membership__billing_feature_not_supported)
             is BillingViewModel.AvailableProducts.ServiceUnavailable -> processError(R.string.membership__billing_service_unavailable)
             is BillingViewModel.AvailableProducts.Error -> processError(availableProducts.reason)
+            is BillingViewModel.AvailableProducts.Disconnected -> processError(R.string.membership__billing_disconnected)
         }
     }
 
     override fun onMembershipPurchased(purchasedMembership: BillingViewModel.PurchasedMembership) {
         when (purchasedMembership) {
             is BillingViewModel.PurchasedMembership.Success -> purchasedMembership.membership.also { m ->
-                if (m.isExpired()) {
-                    membership = null
+                membership = if (m.isExpired()) {
+                    null
                 } else {
-                    membership = m
+                    m
                 }
             }
             is BillingViewModel.PurchasedMembership.Empty -> {

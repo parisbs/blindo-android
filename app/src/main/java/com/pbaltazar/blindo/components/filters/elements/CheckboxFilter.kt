@@ -9,6 +9,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ComponentCheckboxFilterBinding
 
+@Suppress("unused")
 class CheckboxFilter @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -41,10 +42,10 @@ class CheckboxFilter @JvmOverloads constructor(
         checkBox = binding.checkbox
 
         attrs?.also {
-            val a = context.obtainStyledAttributes(it, R.styleable.FiltersCheckbox)
+            val a = context.obtainStyledAttributes(it, R.styleable.CheckboxFilter)
 
-            text = a.getString(R.styleable.FiltersCheckbox_android_text)
-            isChecked = a.getBoolean(R.styleable.FiltersCheckbox_android_checked, false)
+            text = a.getString(R.styleable.CheckboxFilter_android_text)
+            isChecked = a.getBoolean(R.styleable.CheckboxFilter_android_checked, false)
 
             a.recycle()
         }

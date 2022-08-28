@@ -32,11 +32,10 @@ class SearchFragment : BlindoFragment<FragmentSearchBinding>() {
     private lateinit var searchRecycler: RecyclerView
 
     private val searchAdapter: HomeAdapter = HomeAdapter(
-        HomeComparator,
-        { app ->
-            onAppClickListener(app)
-        }
-    )
+        HomeComparator
+    ) { app ->
+        onAppClickListener(app)
+    }
 
     override val isSearchable: Boolean
         get() = false
@@ -59,7 +58,7 @@ class SearchFragment : BlindoFragment<FragmentSearchBinding>() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         searchRecycler = binding!!.searchRecycler
         return binding!!.root
@@ -72,7 +71,7 @@ class SearchFragment : BlindoFragment<FragmentSearchBinding>() {
 
     private fun setupUi() {
         searchRecycler.adapter = searchAdapter.withLoadStateFooter(
-            footer = PaginationStateAdapter({ searchAdapter.retry() })
+            footer = PaginationStateAdapter { searchAdapter.retry() }
         )
         viewLifecycleOwner.lifecycleScope.launch {
             searchViewModel.searchResults.collectLatest { pagingData: PagingData<App> ->

@@ -19,6 +19,7 @@ import com.pbaltazar.blindo.entities.filters.common.IntRange
 import com.pbaltazar.blindo.utils.extensions.toFloatRange
 import com.pbaltazar.blindo.utils.extensions.toIntRange
 
+@Suppress("unused")
 class RangeFilter @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -77,13 +78,13 @@ class RangeFilter @JvmOverloads constructor(
         rangeSelector = binding.rangeSelector
 
         attrs?.also {
-            val  a = context.obtainStyledAttributes(it, R.styleable.FiltersRange)
+            val  a = context.obtainStyledAttributes(it, R.styleable.RangeFilter)
 
-            text = a.getString(R.styleable.FiltersRange_android_text) ?: ""
-            valueFrom = a.getFloat(R.styleable.FiltersRange_android_valueFrom, 0F)
-            valueTo = a.getFloat(R.styleable.FiltersRange_android_valueTo, 0F)
-            stepSize = a.getFloat(R.styleable.FiltersRange_android_stepSize, 0F)
-            isExpanded = a.getBoolean(R.styleable.FiltersRange_expanded, false)
+            text = a.getString(R.styleable.RangeFilter_android_text) ?: ""
+            valueFrom = a.getFloat(R.styleable.RangeFilter_android_valueFrom, 0F)
+            valueTo = a.getFloat(R.styleable.RangeFilter_android_valueTo, 0F)
+            stepSize = a.getFloat(R.styleable.RangeFilter_android_stepSize, 0F)
+            isExpanded = a.getBoolean(R.styleable.RangeFilter_expanded, false)
 
             a.recycle()
         }
@@ -113,14 +114,14 @@ class RangeFilter @JvmOverloads constructor(
                 super.onInitializeAccessibilityNodeInfo(host, info)
                 info.apply {
                     isCheckable = true
-                    if (isExpanded) {
+                    isChecked = if (isExpanded) {
                         removeAction(expandAction)
                         addAction(collapseAction)
-                        isChecked = true
+                        true
                     } else {
                         removeAction(collapseAction)
                         addAction(expandAction)
-                        isChecked = false
+                        false
                     }
                 }
             }

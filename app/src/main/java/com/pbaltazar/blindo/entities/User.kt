@@ -27,15 +27,14 @@ data class User(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString(),
-        parcel.readInt() ?: 0,
+        parcel.readInt(),
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
         parcel.readString() ?: "0",
         parcel.readString() ?: "0",
         parcel.readParcelable(PackConnection::class.java.classLoader),
         parcel.readParcelable(RatingConnection::class.java.classLoader)
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
@@ -66,8 +65,24 @@ data class User(
             TextUtils.equals(this.email, otherUser.email) &&
             TextUtils.equals(this.name, otherUser.name) &&
             TextUtils.equals(this.picture, otherUser.picture) &&
-            this.coinsLeft.equals(otherUser.coinsLeft) &&
-            this.isVerified.equals(otherUser.isVerified) &&
-            this.isPremium.equals(otherUser.isPremium)
+            this.coinsLeft == otherUser.coinsLeft &&
+            this.isVerified == otherUser.isVerified &&
+            this.isPremium == otherUser.isPremium
     } ?: false
+
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + sub.hashCode()
+        result = 31 * result + email.hashCode()
+        result = 31 * result + name.hashCode()
+        result = 31 * result + (picture?.hashCode() ?: 0)
+        result = 31 * result + coinsLeft
+        result = 31 * result + isVerified.hashCode()
+        result = 31 * result + isPremium.hashCode()
+        result = 31 * result + numberOfPacks.hashCode()
+        result = 31 * result + numberOfRatings.hashCode()
+        result = 31 * result + (packs?.hashCode() ?: 0)
+        result = 31 * result + (ratings?.hashCode() ?: 0)
+        return result
+    }
 }

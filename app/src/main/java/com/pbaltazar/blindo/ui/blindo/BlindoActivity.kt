@@ -15,7 +15,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
@@ -39,9 +38,7 @@ import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.billing.ui.BilleableActivity
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
-import com.pbaltazar.blindo.utils.constants.ACTIONS_HOST
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
-import com.pbaltazar.blindo.utils.constants.REQUEST_PERMISSIONS_ACTION
 import com.pbaltazar.blindo.utils.extensions.gone
 import com.pbaltazar.blindo.utils.extensions.visible
 import com.pbaltazar.blindo.utils.messaging.MessagingManager
@@ -136,12 +133,12 @@ class BlindoActivity : BilleableActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
-        headerSignIn = navView.getHeaderView(0).findViewById<TextView>(R.id.signIn)
-        headerUserPicture = navView.getHeaderView(0).findViewById<AppCompatImageView>(R.id.userPicture)
-        headerUserCrown = navView.getHeaderView(0).findViewById<AppCompatImageView>(R.id.userCrown)
-        headerUserName = navView.getHeaderView(0).findViewById<TextView>(R.id.userName)
-        headerUserProfile = navView.getHeaderView(0).findViewById<TextView>(R.id.userProfile)
-        headerSignOut = navView.getHeaderView(0).findViewById<TextView>(R.id.signOut)
+        headerSignIn = navView.getHeaderView(0).findViewById(R.id.signIn)
+        headerUserPicture = navView.getHeaderView(0).findViewById(R.id.userPicture)
+        headerUserCrown = navView.getHeaderView(0).findViewById(R.id.userCrown)
+        headerUserName = navView.getHeaderView(0).findViewById(R.id.userName)
+        headerUserProfile = navView.getHeaderView(0).findViewById(R.id.userProfile)
+        headerSignOut = navView.getHeaderView(0).findViewById(R.id.signOut)
 
         setupUi()
         subscribeUser()
@@ -260,11 +257,9 @@ class BlindoActivity : BilleableActivity() {
         super.onNewPurchases(purchases)
         recentPurchases.clear()
         when (purchases) {
-            is BillingViewModel.Purchases.Success -> purchases.purchases.also { newPurchases ->
-                newPurchases.forEach { purchase ->
-                    if (recentPurchases.contains(purchase).not()) {
-                        recentPurchases.add(purchase)
-                    }
+            is BillingViewModel.Purchases.Success -> purchases.purchases.onEach { purchase ->
+                if (recentPurchases.contains(purchase).not()) {
+                    recentPurchases.add(purchase)
                 }
             }
             else -> Unit
@@ -275,8 +270,8 @@ class BlindoActivity : BilleableActivity() {
         super.onCoinsPurchased(purchasedCoin)
         when (purchasedCoin) {
             is BillingViewModel.PurchasedCoin.Success -> purchasedCoin.coin.also { coin ->
-                if (currentDestinationId.equals(R.id.navCoins).not()) {
-                    val expectedPurchase: Purchase? = recentPurchases.filter { it.token.equals(coin.token) }.takeUnless { it.isEmpty() }?.first()
+                if ((currentDestinationId == R.id.navCoins).not()) {
+                    val expectedPurchase: Purchase? = recentPurchases.filter { it.token == coin.token }.takeUnless { it.isEmpty() }?.first()
                     if (expectedPurchase != null) {
                         recentPurchases.remove(expectedPurchase)
                         showNewCoinsNotification(coin)
@@ -291,8 +286,8 @@ class BlindoActivity : BilleableActivity() {
         super.onMembershipPurchased(purchasedMembership)
         when (purchasedMembership) {
             is BillingViewModel.PurchasedMembership.Success -> purchasedMembership.membership.also { membership ->
-                if (currentDestinationId.equals(R.id.navMembership).not()) {
-                    val expectedPurchase: Purchase? = recentPurchases.filter { it.token.equals(membership.token) }.takeUnless { it.isEmpty() }?.first()
+                if ((currentDestinationId == R.id.navMembership).not()) {
+                    val expectedPurchase: Purchase? = recentPurchases.filter { it.token == membership.token }.takeUnless { it.isEmpty() }?.first()
                     if (expectedPurchase != null) {
                         recentPurchases.remove(expectedPurchase)
                         showNewMembershipNotification(membership)
@@ -330,7 +325,7 @@ class BlindoActivity : BilleableActivity() {
 
     private fun hideSearchBoxInPreferencesScreens() {
         if (preferencesScreens.contains(currentDestinationId)) {
-            searchMenuItem?.setVisible(false)
+            searchMenuItem?.isVisible = false
         }
     }
 
@@ -390,15 +385,15 @@ class BlindoActivity : BilleableActivity() {
             blindocoordinator,
             getString(R.string.header__email_not_verified),
             Snackbar.LENGTH_INDEFINITE
-        ).setAction(getString(R.string.header__send_verification_email), {
-                sendVerificationEmail()
-            })
+        ).setAction(getString(R.string.header__send_verification_email)) {
+            sendVerificationEmail()
+        }
     }
 
-    private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this, Observer {
+    private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this) {
         when (it) {
             is AdsViewModel.AdsConsentStatus.Success -> when (val status = it.status) {
-                AdsManager.ConsentStatus.ADS_FREE -> if (getUser()?.isPremium?.not() ?: true) {
+                AdsManager.ConsentStatus.ADS_FREE -> if (getUser()?.isPremium?.not() != true) {
                     if (isWaitingForSplash.not()) {
                         navController.navigate(
                             MainNavigationDirections.actionGlobalToAdsSettings(status.name, false)
@@ -422,18 +417,21 @@ class BlindoActivity : BilleableActivity() {
                 }
             }
             is AdsViewModel.AdsConsentStatus.Failure -> navController.navigate(
-                MainNavigationDirections.actionGlobalToAdsSettings(AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name, false)
+                MainNavigationDirections.actionGlobalToAdsSettings(
+                    AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name,
+                    false
+                )
             )
         }
-    })
+    }
 
     private fun subscribeAdsSettings() =
         navController.currentBackStackEntry?.savedStateHandle?.getLiveData<AdsManager.ConsentStatus>(
-            ARGUMENT_CONSENT_STATUS)?.observe(this, Observer {
+            ARGUMENT_CONSENT_STATUS)?.observe(this) {
             if (isWaitingForSplash.not()) {
                 adsViewModel.setConsentStatus(AdsViewModel.AdsConsentStatus.Success(it))
             }
-        })
+        }
 
     override fun onIsValidationEmailSent(isValidationEmailSent: Boolean) {
         if (isValidationEmailSent) {

@@ -18,7 +18,7 @@ import com.pbaltazar.blindo.usecases.useCasesModule
 import com.pbaltazar.blindo.utils.ads.adsUtilsModule
 import com.pbaltazar.blindo.utils.authentication.authenticationModule
 import com.pbaltazar.blindo.utils.billing.billingModule
-import com.pbaltazar.blindo.utils.log.BlindoDebuger
+import com.pbaltazar.blindo.utils.log.BlindoDebugger
 import com.pbaltazar.blindo.utils.mainModule
 import com.pbaltazar.blindo.utils.messaging.messagingModule
 import com.pbaltazar.blindo.utils.preferences.preferencesModule
@@ -39,7 +39,7 @@ class Blindo : Application() {
     }
 
     private fun initializeLogger() {
-        Timber.plant(BlindoDebuger())
+        Timber.plant(BlindoDebugger())
     }
 
     private fun initializeDependencyInjection(application: Application) {

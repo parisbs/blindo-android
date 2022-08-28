@@ -1,7 +1,6 @@
 package com.pbaltazar.blindo.ui.dialog
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -21,18 +20,16 @@ class ClearCache : DialogFragment() {
             .setTitle(R.string.settings__clear_cache_title)
             .setMessage(R.string.settings__clear_cache_message)
             .setPositiveButton(
-                R.string.settings__clear_cache_continue,
-                DialogInterface.OnClickListener { _, _ ->
-                    blindoApiClient.apolloStore().clearAll()
-                    findNavController().popBackStack()
-                }
-            )
+                R.string.settings__clear_cache_continue
+            ) { _, _ ->
+                blindoApiClient.apolloStore().clearAll()
+                findNavController().popBackStack()
+            }
             .setNegativeButton(
-                R.string.settings__clear_cache_cancel,
-                DialogInterface.OnClickListener { _, _ ->
-                    findNavController().popBackStack()
-                }
-            )
+                R.string.settings__clear_cache_cancel
+            ) { _, _ ->
+                findNavController().popBackStack()
+            }
             .create()
     }
 }

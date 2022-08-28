@@ -26,7 +26,7 @@ class BlindoApiAppGateway(
         blindoApiClient.query(
             ListAppsQuery(
                 filters = Optional.presentIfNotNull(appInput.filters?.toGraphQLFilter()),
-                sort = appInput.sort.mapNotNull { it.apiEnum as AppSortEnum },
+                sort = appInput.sort.map { it.apiEnum as AppSortEnum },
                 first = appInput.pageSize,
                 after = Optional.presentIfNotNull(appInput.nextPageToken)
             )
@@ -48,10 +48,10 @@ class BlindoApiAppGateway(
             GetAppQuery(
                 id = appInput.id,
                 packsFirst = appInput.packInput.pageSize,
-                packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
+                packsSort = appInput.packInput.sort.map { it.apiEnum as PackSortEnum },
                 ratingsFilters = Optional.presentIfNotNull(appInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsFirst = appInput.ratingInput.pageSize,
-                ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }
+                ratingsSort = appInput.ratingInput.sort.map { it.apiEnum as RatingSortEnum }
             )
         ).let { response ->
                 when (response) {
@@ -67,10 +67,10 @@ class BlindoApiAppGateway(
             GetAppByPackageNameQuery(
                 packageName = appInput.packageName,
                 packsFirst = appInput.packInput.pageSize,
-                packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
+                packsSort = appInput.packInput.sort.map { it.apiEnum as PackSortEnum },
                 ratingsFilters = Optional.presentIfNotNull(appInput.ratingInput.filters?.toGraphQLFilter()),
                 ratingsFirst = appInput.ratingInput.pageSize,
-                ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }
+                ratingsSort = appInput.ratingInput.sort.map { it.apiEnum as RatingSortEnum }
             )
         ).let { response ->
             when (response) {

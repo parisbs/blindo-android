@@ -32,10 +32,10 @@ class LoginActivity : AuthenticableActivity() {
         when (result.resultCode) {
             Activity.RESULT_OK -> authenticateUser()
             else -> result.idpResponse?.also { response ->
-                setStepAutenticationErrors(
+                setStepAuthenticationErrors(
                     response.error?.localizedMessage ?: getString(R.string.auth__error_authentication)
                 )
-            } ?: setStepAutenticationErrors(getString(R.string.auth__error_authentication))
+            } ?: setStepAuthenticationErrors(getString(R.string.auth__error_authentication))
         }
     }
 
@@ -61,7 +61,7 @@ class LoginActivity : AuthenticableActivity() {
         authActionButton.text = field
     }
 
-    private val PROVIDERS = arrayListOf(
+    private val providers = arrayListOf(
         AuthUI.IdpConfig.EmailBuilder().setRequireName(true).build(),
         AuthUI.IdpConfig.GoogleBuilder().build(),
         AuthUI.IdpConfig.FacebookBuilder().build(),
@@ -110,35 +110,43 @@ class LoginActivity : AuthenticableActivity() {
     }
 
     override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
-        when (val response = userAuthentication) {
-            is AuthenticationViewModel.UserAuthentication.Success -> response.user.also {
+        when (userAuthentication) {
+            is AuthenticationViewModel.UserAuthentication.Success -> userAuthentication.user.also {
                 setStepLoading()
                 registerDevice(
                     Device(
                         hardwareFingerprint = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
                         name = if (Build.MODEL.lowercase().startsWith(Build.MANUFACTURER.lowercase()))
                             Build.MODEL.substring(Build.MANUFACTURER.length).let { model ->
-                                "${Build.MANUFACTURER.split("_").mapNotNull { manufacturerPart ->
-                                    manufacturerPart.lowercase().replaceFirstChar { it.uppercase() }
-                                }.joinToString(" ")} ${model.replaceFirst(Regex("^[-_\\s]"), "")}"
+                                "${
+                                    Build.MANUFACTURER.split("_").joinToString(" ") { manufacturer ->
+                                        manufacturer.lowercase().replaceFirstChar { it.uppercase() }
+                                    }
+                                } ${model.replaceFirst(Regex("^[-_\\s]"), "")}"
                             }
                         else
-                            "${Build.MANUFACTURER.split("_").mapNotNull { manufacturerPart ->
-                                manufacturerPart.lowercase().replaceFirstChar { it.uppercase() }
-                            }.joinToString(" ")} ${Build.MODEL}",
+                            "${
+                                Build.MANUFACTURER.split("_").joinToString(" ") { manufacturer ->
+                                    manufacturer.lowercase().replaceFirstChar { it.uppercase() }
+                                }
+                            } ${Build.MODEL}",
                         language = Locale.getDefault().language,
                         country = Locale.getDefault().country
                     )
                 )
             }
-            is AuthenticationViewModel.UserAuthentication.BadRequest -> setStepAutenticationErrors(response.errors.joinToString(", "))
-            is AuthenticationViewModel.UserAuthentication.NetworkEror -> setStepAutenticationErrors(response.throwable.localizedMessage ?: response.throwable.toString())
-            else -> setStepAutenticationErrors("Unable to sign in")
+            is AuthenticationViewModel.UserAuthentication.BadRequest -> setStepAuthenticationErrors(
+                userAuthentication.errors.joinToString(
+                    ", "
+                ))
+            is AuthenticationViewModel.UserAuthentication.NetworkError -> setStepAuthenticationErrors(
+                userAuthentication.throwable.localizedMessage ?: userAuthentication.throwable.toString())
+            else -> setStepAuthenticationErrors("Unable to sign in")
         }
     }
 
     override fun onSubscribeDeviceRegistration(deviceRegistration: AuthenticationViewModel.DeviceRegistration) {
-        when (val response = deviceRegistration) {
+        when (deviceRegistration) {
             is AuthenticationViewModel.DeviceRegistration.Success -> {
                 getUser()?.also { authenticatedUser ->
                     if (authenticatedUser.isVerified) {
@@ -149,8 +157,12 @@ class LoginActivity : AuthenticableActivity() {
                     }
                 }
             }
-            is AuthenticationViewModel.DeviceRegistration.BadRequest -> setStepRegisterDeviceError(response.errors.joinToString(", "))
-            is AuthenticationViewModel.DeviceRegistration.NetworkError -> setStepRegisterDeviceError(response.throwable.localizedMessage ?: response.throwable.toString())
+            is AuthenticationViewModel.DeviceRegistration.BadRequest -> setStepRegisterDeviceError(
+                deviceRegistration.errors.joinToString(
+                    ", "
+                ))
+            is AuthenticationViewModel.DeviceRegistration.NetworkError -> setStepRegisterDeviceError(
+                deviceRegistration.throwable.localizedMessage ?: deviceRegistration.throwable.toString())
             else -> setStepRegisterDeviceError("Unable to register your device")
         }
     }
@@ -166,7 +178,7 @@ class LoginActivity : AuthenticableActivity() {
         }
     }
 
-    private fun setStepAutenticationErrors(errorMessage: String) {
+    private fun setStepAuthenticationErrors(errorMessage: String) {
         currentStepText = getString(R.string.auth__error_authentication)
         currentStepNotice = errorMessage
         currentButtonLabel = getString(R.string.auth__retry_button)
@@ -227,7 +239,7 @@ class LoginActivity : AuthenticableActivity() {
             .createSignInIntentBuilder()
             .setLogo(R.mipmap.ic_launcher)
             .setTosAndPrivacyPolicyUrls(TERMS_AND_CONDITIONS_LINK, getString(R.string.privacy_policy_link))
-            .setAvailableProviders(PROVIDERS)
+            .setAvailableProviders(providers)
             .setIsSmartLockEnabled(BuildConfig.DEBUG.not())
             .build())
     }

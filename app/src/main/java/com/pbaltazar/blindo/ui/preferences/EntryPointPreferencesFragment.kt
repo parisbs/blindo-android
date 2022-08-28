@@ -19,7 +19,7 @@ class EntryPointPreferencesFragment : BlindoPreferencesFragment(R.xml.preference
 
     private fun setBlindoVision() {
         findPreference<Preference>("vision")?.apply {
-            setOnPreferenceClickListener { _ ->
+            setOnPreferenceClickListener {
                 findNavController().navigate(
                     EntryPointPreferencesFragmentDirections.goToBlindoVisionSettings()
                 )
@@ -30,7 +30,7 @@ class EntryPointPreferencesFragment : BlindoPreferencesFragment(R.xml.preference
 
     private fun setAdsSettings() {
         findPreference<Preference>("adsSettings")?.apply {
-            setOnPreferenceClickListener { _ ->
+            setOnPreferenceClickListener {
                 findNavController().navigate(
                     EntryPointPreferencesFragmentDirections.goToAdsSettings(closeAfterUpdate = false)
                 )
@@ -41,7 +41,7 @@ class EntryPointPreferencesFragment : BlindoPreferencesFragment(R.xml.preference
 
     private fun setClearCache() {
         findPreference<Preference>("clearCache")?.apply {
-            setOnPreferenceClickListener { _ ->
+            setOnPreferenceClickListener {
                 findNavController().navigate(
                     EntryPointPreferencesFragmentDirections.clearCache()
                 )
@@ -52,7 +52,7 @@ class EntryPointPreferencesFragment : BlindoPreferencesFragment(R.xml.preference
 
     private fun setClearSearchHistory() {
         findPreference<Preference>("clearSearchHistory")?.apply {
-            setOnPreferenceClickListener { _ ->
+            setOnPreferenceClickListener {
                 findNavController().navigate(
                     EntryPointPreferencesFragmentDirections.clearSearchHistory()
                 )

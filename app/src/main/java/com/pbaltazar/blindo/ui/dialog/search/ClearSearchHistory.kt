@@ -1,7 +1,6 @@
 package com.pbaltazar.blindo.ui.dialog.search
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.provider.SearchRecentSuggestions
 import androidx.appcompat.app.AlertDialog
@@ -17,19 +16,17 @@ class ClearSearchHistory : DialogFragment() {
             .setTitle(R.string.settings__clear_search_history_title)
             .setMessage(R.string.settings__clear_search_history_message)
             .setPositiveButton(
-                R.string.settings__clear_search_history_clear,
-                DialogInterface.OnClickListener { _, _ ->
-                    SearchRecentSuggestions(it, RecentSearchesProvider.AUTHORITY, RecentSearchesProvider.MODE)
-                        .clearHistory()
-                    findNavController().popBackStack()
-                }
-            )
+                R.string.settings__clear_search_history_clear
+            ) { _, _ ->
+                SearchRecentSuggestions(it, RecentSearchesProvider.AUTHORITY, RecentSearchesProvider.MODE)
+                    .clearHistory()
+                findNavController().popBackStack()
+            }
             .setNegativeButton(
-                R.string.settings__clear_search_history_no,
-                DialogInterface.OnClickListener { _, _ ->
-                    findNavController().popBackStack()
-                }
-            )
+                R.string.settings__clear_search_history_no
+            ) { _, _ ->
+                findNavController().popBackStack()
+            }
             .create()
     } ?: throw IllegalStateException("${requireContext()} must have non null activity")
 }

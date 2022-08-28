@@ -1,14 +1,17 @@
 package com.pbaltazar.blindo.components.filters.extensions
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Resources
 import android.content.res.TypedArray
+import android.os.Build
 import androidx.core.content.res.getFloatOrThrow
 import androidx.core.content.res.getResourceIdOrThrow
 import com.pbaltazar.blindo.components.filters.elements.CheckboxFilter
 import com.pbaltazar.blindo.components.filters.elements.OrderByElementFilter
 import com.pbaltazar.blindo.components.filters.elements.RangeFilter
 
+@SuppressLint("ResourceType")
 fun TypedArray.toFiltersOrderByElement(context: Context): OrderByElementFilter {
     if (length() < 3) {
         throw IllegalArgumentException("At least 3 values should be setted: filter type, ID and text.")
@@ -25,6 +28,7 @@ fun TypedArray.toFiltersOrderByElement(context: Context): OrderByElementFilter {
     }
 }
 
+@SuppressLint("ResourceType")
 fun TypedArray.toFiltersRange(context: Context): RangeFilter {
     if (length() < 6) {
         throw IllegalArgumentException("At least 6 values should be setted: filter type, ID, text, value from, value to and step size.")
@@ -36,17 +40,29 @@ fun TypedArray.toFiltersRange(context: Context): RangeFilter {
         id = getResourceIdOrThrow(1)
         text = resources.getString(this@toFiltersRange.getResourceIdOrThrow(2))
         valueFrom = try {
-            resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(3))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(3))
+            } else {
+                this@toFiltersRange.getFloatOrThrow(3)
+            }
         } catch (e: Resources.NotFoundException) {
             this@toFiltersRange.getFloatOrThrow(3)
         }
         valueTo = try {
-            resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(4))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(4))
+            } else {
+                this@toFiltersRange.getFloatOrThrow(4)
+            }
         } catch (e: Resources.NotFoundException) {
             this@toFiltersRange.getFloatOrThrow(4)
         }
         stepSize = try {
-            resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(5))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                resources.getFloat(this@toFiltersRange.getResourceIdOrThrow(5))
+            } else {
+                this@toFiltersRange.getFloatOrThrow(5)
+            }
         } catch (e: Resources.NotFoundException) {
             this@toFiltersRange.getFloatOrThrow(5)
         }
@@ -56,6 +72,7 @@ fun TypedArray.toFiltersRange(context: Context): RangeFilter {
     }
 }
 
+@SuppressLint("ResourceType")
 fun TypedArray.toFiltersCheckbox(context: Context): CheckboxFilter {
     if (length() < 3) {
         throw IllegalArgumentException("At least 3 values should be setted: filter type, ID and text.")

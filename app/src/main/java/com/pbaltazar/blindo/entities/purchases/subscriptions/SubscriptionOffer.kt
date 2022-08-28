@@ -10,5 +10,5 @@ class SubscriptionOffer(
     pricingPhases
 ) {
     fun getSubscriptionPricingPhases(): List<SubscriptionPricingPhase> =
-        super.pricingPhases.mapNotNull { it as SubscriptionPricingPhase }
+        super.pricingPhases.map { it as SubscriptionPricingPhase }
 }

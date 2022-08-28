@@ -55,7 +55,7 @@ class FiltersFragment : BlindoFragment<FragmentFiltersBinding>(),
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentFiltersBinding.inflate(inflater, container, false)
         filtersScreen = binding!!.appsPacksFilters
         return binding!!.root
@@ -104,7 +104,7 @@ class FiltersFragment : BlindoFragment<FragmentFiltersBinding>(),
                 key,
                 filtersSet.getOrderByDefault()
             ).split(",").forEach { item ->
-                (filtersSet.orderByEnum.java.enumConstants.filter { it.name.equals(item) }.takeIf { it.size == 1 }?.first() as? OrderByEnum)?.also { orderByEnum ->
+                (filtersSet.orderByEnum.java.enumConstants.filter { it.name == item }.takeIf { it.size == 1 }?.first() as? OrderByEnum)?.also { orderByEnum ->
                     filtersScreen.getOrderByElements().forEach { orderByElementFilter ->
                         if (orderByEnum.associatedIds().contains(orderByElementFilter.id)) {
                             orderBySelections.add(
@@ -124,7 +124,7 @@ class FiltersFragment : BlindoFragment<FragmentFiltersBinding>(),
     }
 
     private fun setSavedRangesValues() {
-        filtersScreen.getRangeElements().takeIf { it.size > 0 }?.forEach { rangeFilter ->
+        filtersScreen.getRangeElements().takeIf { it.isNotEmpty() }?.forEach { rangeFilter ->
             val key: String = filtersSet.getPreferencesKeyForTypeAndId(requireContext(), FiltersScreen.Companion.FilterType.RANGE_TYPE, rangeFilter.id)
             val isExpanded = filtersViewModel.getBoolean(key, filtersSet.isRangeCheckedDefault(requireContext(), rangeFilter.id))
             val range: FloatRange = filtersViewModel.getFloatRange(
@@ -138,7 +138,7 @@ class FiltersFragment : BlindoFragment<FragmentFiltersBinding>(),
     }
 
     private fun setSavedCheckboxesValues() {
-        filtersScreen.getCheckboxElements().takeIf { it.size > 0 }?.forEach { checkboxFilter ->
+        filtersScreen.getCheckboxElements().takeIf { it.isNotEmpty() }?.forEach { checkboxFilter ->
             val key = filtersSet.getPreferencesKeyForTypeAndId(requireContext(), FiltersScreen.Companion.FilterType.CHECKBOX_TYPE, checkboxFilter.id)
             val isChecked: Boolean = filtersViewModel.getBoolean(
                 key,
@@ -167,7 +167,7 @@ class FiltersFragment : BlindoFragment<FragmentFiltersBinding>(),
         filtersScreen.getOrderBySelections().mapNotNull { orderBySelection ->
             filtersSet.orderByEnum.java.enumConstants.mapNotNull { it as OrderByEnum }.filter {
                 it.associatedIds().contains(orderBySelection.elementId) &&
-                    it.getDirection().equals(orderBySelection.direction)
+                    it.getDirection() == orderBySelection.direction
             }.takeIf { it.size == 1 }
                 ?.first()?.getName()
         }.joinToString(",").also { orderByValue ->

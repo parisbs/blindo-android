@@ -24,8 +24,8 @@ class UserRatingsPagination(
             is ApiResponse.Success -> LoadResult.Page(
                 data = listOf(apiResponse.data),
                 prevKey = null,
-                nextKey = if (apiResponse.data.ratings?.hasNextPage ?: false)
-                    apiResponse.data.ratings?.nextPageToken
+                nextKey = if (apiResponse.data.ratings?.hasNextPage == true)
+                    apiResponse.data.ratings.nextPageToken
                 else null
             )
             is ApiResponse.Error -> when (val apiException = apiResponse.error) {

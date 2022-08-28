@@ -17,7 +17,7 @@ object UpdateManager {
     private var isInitialized: Boolean = false
 
     const val UPDATE_CHECKER_CODE = 8738
-    val UPDATE_FAILED = ActivityResult.RESULT_IN_APP_UPDATE_FAILED
+    const val UPDATE_FAILED = ActivityResult.RESULT_IN_APP_UPDATE_FAILED
 
     fun initialize(activity: Activity) {
         this.activity = activity

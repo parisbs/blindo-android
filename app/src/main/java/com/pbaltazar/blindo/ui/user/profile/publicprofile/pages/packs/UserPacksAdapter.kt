@@ -25,7 +25,7 @@ class UserPacksAdapter(
         getItem(position)?.also { item ->
             holder.itemBinding.apply {
                 ViewCompat.setAccessibilityHeading(packHeaderContainer, true)
-                val UNKNOWN_TEXT = root.context.getString(R.string.appcomment_unknown_author)
+                val unknownText = root.context.getString(R.string.appcomment_unknown_author)
 
                 appPackUserPicture.apply {
                     Glide.with(context)
@@ -38,8 +38,8 @@ class UserPacksAdapter(
                 appPackUserName.apply {
                     text = context.getString(
                         R.string.apppack__author,
-                        item.app?.packageLabel ?: UNKNOWN_TEXT,
-                        item.updatedAt?.toTimeAgo() ?: UNKNOWN_TEXT
+                        item.app?.packageLabel ?: unknownText,
+                        item.updatedAt?.toTimeAgo() ?: unknownText
                     )
                 }
 

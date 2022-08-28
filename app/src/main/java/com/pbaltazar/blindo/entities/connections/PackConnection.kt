@@ -14,8 +14,7 @@ data class PackConnection(
         parcel.createTypedArrayList(Pack),
         parcel.readByte() != 0.toByte(),
         parcel.readString()
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeTypedList(packs)

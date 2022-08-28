@@ -29,7 +29,7 @@ class PermissionsFragment : BlindoFragment<FragmentPermissionsBinding>() {
     override val isSearchable: Boolean
         get() = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentPermissionsBinding.inflate(inflater, container, false)
         permissionsViewState = binding!!.permissionsViewState
         summary = binding!!.summary
@@ -45,7 +45,7 @@ class PermissionsFragment : BlindoFragment<FragmentPermissionsBinding>() {
             }
         })
         acceptPermissions.apply {
-            setOnClickListener { _ ->
+            setOnClickListener {
                 requestPermissions(permissionsToGrant, permissionsRequestCode)
             }
         }
@@ -70,7 +70,7 @@ class PermissionsFragment : BlindoFragment<FragmentPermissionsBinding>() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         when (requestCode) {
             permissionsRequestCode -> if (grantResults.isNotEmpty()) {
-                var areGranted: Boolean = true
+                var areGranted = true
                 for (result in grantResults) {
                     if (result == PackageManager.PERMISSION_DENIED) {
                         areGranted = false

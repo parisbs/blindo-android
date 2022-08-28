@@ -8,11 +8,11 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.components.filters.FiltersScreen
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.filters.AppFilters
 import com.pbaltazar.blindo.entities.filters.sorts.AppSort
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.components.filters.FiltersScreen
 import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.pbaltazar.blindo.ui.home.HomePagination
 import com.pbaltazar.blindo.usecases.QueryListApps
@@ -38,24 +38,24 @@ class SearchViewModel(
         .cachedIn(viewModelScope)
 
     fun setQuery(query: String) {
-        if (isQueryPackageName(query)) {
-            searchInput = AppFilters(
+        searchInput = if (isQueryPackageName(query)) {
+            AppFilters(
                 packageName = query
             )
         } else if (isQueryAmbiguous(query)) {
-            searchInput = AppFilters(
+            AppFilters(
                 packageName = query,
                 packageLabel = query
             )
         } else {
-            searchInput = AppFilters(
+            AppFilters(
                 packageLabel = query
             )
         }
     }
 
     private fun isQueryPackageName(query: String): Boolean =
-        query.contains(Regex("^[A-Za-z]{1}[A-Za-z0-9_]*\\.[A-Za-z0-9_]+"))
+        query.contains(Regex("^[A-Za-z0-9]+\\.[A-Za-z0-9_]+"))
 
     private fun isQueryAmbiguous(query: String): Boolean =
         isQueryPackageName(query).not() && query.contains(Regex("\\s")).not()
@@ -74,9 +74,9 @@ class SearchViewModel(
                 R.id.filters_screen_order_by_type
             ),
             FiltersSet.APP.getOrderByDefault()
-        ).split(",").mapNotNull { AppSort.valueOf(it) }
+    ).split(",").map { AppSort.valueOf(it) }
 
-    fun getAppInput(): AppInput = AppInput(
+    private fun getAppInput(): AppInput = AppInput(
         filters = searchInput,
         sort = getAppSort(),
         pageSize = getAppsPageSize()

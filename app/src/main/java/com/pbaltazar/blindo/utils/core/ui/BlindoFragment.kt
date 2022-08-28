@@ -25,7 +25,7 @@ abstract class BlindoFragment<VB: ViewBinding> : Fragment(),
         if (hasMenuRes()) {
             inflater.inflate(getMenuResId(), menu)
         }
-        menu.findItem(R.id.searchApps).setVisible(isSearchable)
+        menu.findItem(R.id.searchApps).isVisible = isSearchable
     }
 
     override fun onDestroyView() {

@@ -19,17 +19,17 @@ class AboutFragment : BlindoFragment<FragmentAboutBinding>() {
 
     private lateinit var blindoIcon: ImageView
     private lateinit var blindoVersion: TextView
-    private lateinit var terms_conditions_privacy_policy: TextView
+    private lateinit var termsConditionsPrivacyPolicy: TextView
     private lateinit var contactUs: TextView
 
     override val isSearchable: Boolean
         get() = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAboutBinding.inflate(inflater, container, false)
         blindoIcon = binding!!.blindoIcon
         blindoVersion = binding!!.blindoVersion
-        terms_conditions_privacy_policy = binding!!.termsConditionsPrivacyPolicy
+        termsConditionsPrivacyPolicy = binding!!.termsConditionsPrivacyPolicy
         contactUs = binding!!.contactUs
         return binding!!.root
     }
@@ -49,7 +49,7 @@ class AboutFragment : BlindoFragment<FragmentAboutBinding>() {
             BuildConfig.VERSION_NAME,
             BuildConfig.VERSION_CODE
         )
-        terms_conditions_privacy_policy.apply {
+        termsConditionsPrivacyPolicy.apply {
             movementMethod = LinkMovementMethod.getInstance()
             text = HtmlCompat.fromHtml(
                 getString(

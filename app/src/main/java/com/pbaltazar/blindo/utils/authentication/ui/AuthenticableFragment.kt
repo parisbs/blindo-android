@@ -1,6 +1,5 @@
 package com.pbaltazar.blindo.utils.authentication.ui
 
-import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
@@ -12,10 +11,10 @@ abstract class AuthenticableFragment<VB : ViewBinding> : BlindoFragment<VB>(),
     private val authenticationViewModel: AuthenticationViewModel by sharedViewModel()
 
     val authenticableActivity: AuthenticableActivity? get() {
-        if (requireActivity() is AuthenticableActivity) {
-            return requireActivity() as AuthenticableActivity
+        return if (requireActivity() is AuthenticableActivity) {
+            requireActivity() as AuthenticableActivity
         } else {
-            return null
+            null
         }
     }
 
@@ -27,20 +26,20 @@ abstract class AuthenticableFragment<VB : ViewBinding> : BlindoFragment<VB>(),
 
     fun getUser(): User? = requireAuthenticableActivity.getUser()
 
-    fun subscribeUser() = authenticationViewModel.user.observe(this, Observer {
+    fun subscribeUser() = authenticationViewModel.user.observe(this) {
         authenticationViewModel.propagateVerifiedStatus()
         onSubscribeUser(it)
-    })
+    }
 
-    fun subscribeAuthentication() = authenticationViewModel.authentication.observe(this, Observer {
+    fun subscribeAuthentication() = authenticationViewModel.authentication.observe(this) {
         onSubscribeAuthentication(it)
-    })
+    }
 
     fun authenticateUser() = requireAuthenticableActivity.authenticateUser()
 
-    fun subscribeUserUpdates() = authenticationViewModel.userUpdates.observe(this, Observer {
+    fun subscribeUserUpdates() = authenticationViewModel.userUpdates.observe(this) {
         onSubscribeUserUpdates(it)
-    })
+    }
 
     fun updateUser(user: User) = requireAuthenticableActivity.updateUser(user)
 

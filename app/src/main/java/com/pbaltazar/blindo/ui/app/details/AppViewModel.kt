@@ -75,7 +75,7 @@ class AppViewModel(
         userPreferences.getString(
             FiltersSet.APP_PACKS.getPreferencesKeyForTypeAndId(context, FiltersScreen.Companion.FilterType.ORDER_BY_TYPE, R.id.filters_screen_order_by_type),
             FiltersSet.APP_PACKS.getOrderByDefault()
-        ).split(",").mapNotNull { PackSort.valueOf(it) }
+        ).split(",").map { PackSort.valueOf(it) }
 
     fun getAppPacksInLanguages(): List<String>? =
         userPreferences.getBoolean(
@@ -110,7 +110,7 @@ class AppViewModel(
         userPreferences.getString(
             FiltersSet.APP_RATINGS.getPreferencesKeyForTypeAndId(context, FiltersScreen.Companion.FilterType.ORDER_BY_TYPE, R.id.filters_screen_order_by_type),
             FiltersSet.APP_RATINGS.getOrderByDefault()
-        ).split(",").mapNotNull { RatingSort.valueOf(it) }
+        ).split(",").map { RatingSort.valueOf(it) }
 
     fun getAppRatingsWithComment(): Boolean =
         userPreferences.getBoolean(

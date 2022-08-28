@@ -57,7 +57,7 @@ class UserProfileFragment : BlindoFragment<FragmentUserProfileBinding>() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentUserProfileBinding.inflate(inflater, container, false)
         userProfileViewPager = binding!!.userProfileViewPager
         userProfileTabs = binding!!.userProfileTabs
@@ -73,7 +73,7 @@ class UserProfileFragment : BlindoFragment<FragmentUserProfileBinding>() {
     private fun refreshCounterBadges(tabIndex: Int, count: Int) {
         if (this@UserProfileFragment::userProfileTabs.isInitialized) {
             userProfileTabs.getTabAt(tabIndex)?.text = getString(
-                titles.get(tabIndex),
+                titles[tabIndex],
                 count
             )
         }

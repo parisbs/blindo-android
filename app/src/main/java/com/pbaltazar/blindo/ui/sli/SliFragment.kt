@@ -6,17 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Switch
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentSliBinding
 import com.pbaltazar.blindo.entities.Pack
 import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
-import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.constants.AUTH_CANCELED_ON_DIALOG
 import com.pbaltazar.blindo.utils.extensions.countApps
 import com.pbaltazar.blindo.utils.extensions.countLabels
@@ -29,9 +27,9 @@ class SliFragment : AuthenticableFragment<FragmentSliBinding>() {
 
     private val sliViewModel: SliViewModel by viewModel()
 
-    private lateinit var preferUserLabels: Switch
+    private lateinit var preferUserLabels: SwitchMaterial
     private lateinit var translateLabel: TextView
-    private lateinit var translate: Switch
+    private lateinit var translate: SwitchMaterial
     private lateinit var sliInfo: TextView
     private lateinit var sliAction: Button
 
@@ -47,7 +45,7 @@ class SliFragment : AuthenticableFragment<FragmentSliBinding>() {
         subscribeInstallablePack()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentSliBinding.inflate(inflater, container, false)
         preferUserLabels = binding!!.preferUserLabels
         translateLabel = binding!!.translateLabel
@@ -72,15 +70,15 @@ class SliFragment : AuthenticableFragment<FragmentSliBinding>() {
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
-        AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
+        AUTH_CANCELED_ON_DIALOG)?.observe(viewLifecycleOwner) {
         if (it.not()) {
             launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }
-    })
+    }
 
-    private fun subscribeInstalledApps() = sliViewModel.apps.observe(this, Observer {
+    private fun subscribeInstalledApps() = sliViewModel.apps.observe(this) {
         when (val response = it) {
             is SliViewModel.LocalApps.Success -> {
                 apps = response.apps
@@ -130,9 +128,9 @@ class SliFragment : AuthenticableFragment<FragmentSliBinding>() {
                 sliAction.isEnabled = false
             }
         }
-    })
+    }
 
-    private fun subscribeInstallablePack() = sliViewModel.installable.observe(this, Observer {
+    private fun subscribeInstallablePack() = sliViewModel.installable.observe(this) {
         when (val response = it) {
             is SliViewModel.SliResult.Success -> {
                 response.installablePack.copy(
@@ -179,7 +177,7 @@ class SliFragment : AuthenticableFragment<FragmentSliBinding>() {
                 }
             }
         }
-    })
+    }
 
     private fun setupUi() {
         if (Build.VERSION.SDK_INT >= 22) {

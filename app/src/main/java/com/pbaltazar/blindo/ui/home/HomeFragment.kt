@@ -24,11 +24,10 @@ class HomeFragment : FilterableFragment<FragmentHomeBinding>() {
     private lateinit var homeRecycler: RecyclerView
 
     private val homeAdapter: HomeAdapter = HomeAdapter(
-        HomeComparator,
-        { app ->
-            onAppClickListener(app)
-        }
-    )
+        HomeComparator
+    ) { app ->
+        onAppClickListener(app)
+    }
 
     override val isSearchable: Boolean
         get() = true
@@ -36,7 +35,7 @@ class HomeFragment : FilterableFragment<FragmentHomeBinding>() {
     override val filtersSet: FiltersSet
         get() = FiltersSet.APP
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         homeRecycler = binding!!.homeRecycler
         return binding!!.root
@@ -56,7 +55,7 @@ class HomeFragment : FilterableFragment<FragmentHomeBinding>() {
 
     private fun setupUi() {
         homeRecycler.adapter = homeAdapter.withLoadStateFooter(
-            footer = PaginationStateAdapter({ homeAdapter.retry() })
+            footer = PaginationStateAdapter { homeAdapter.retry() }
         )
         viewLifecycleOwner.lifecycleScope.launch {
             homeViewModel.apps.collectLatest { pagingData: PagingData<App> ->

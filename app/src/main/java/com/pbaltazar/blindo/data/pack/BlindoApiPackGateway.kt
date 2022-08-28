@@ -28,7 +28,7 @@ class BlindoApiPackGateway(
         blindoApiClient.query(
             GetAppPacksQuery(
                 id = appInput.id,
-                packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
+                packsSort = appInput.packInput.sort.map { it.apiEnum as PackSortEnum },
                 packsFirst = appInput.packInput.pageSize,
                 packsAfter = Optional.presentIfNotNull(appInput.packInput.nextPageToken)
             )
@@ -51,7 +51,7 @@ class BlindoApiPackGateway(
         blindoApiClient.query(
             GetAppPacksByPackageNameQuery(
                 packageName = appInput.packageName,
-                packsSort = appInput.packInput.sort.mapNotNull { it.apiEnum as PackSortEnum },
+                packsSort = appInput.packInput.sort.map { it.apiEnum as PackSortEnum },
                 packsFirst = appInput.packInput.pageSize,
                 packsAfter = Optional.presentIfNotNull(appInput.packInput.nextPageToken)
             )
@@ -79,13 +79,13 @@ class BlindoApiPackGateway(
                         userId = Optional.presentIfNotNull(packInput.userId.takeUnless { it.isNullOrEmptyOrBlank() })
                     )
                 ),
-                sort = Optional.presentIfNotNull(packInput.sort.mapNotNull { it.apiEnum as PackSortEnum }),
+                sort = Optional.presentIfNotNull(packInput.sort.map { it.apiEnum as PackSortEnum }),
                 first = Optional.presentIfNotNull(packInput.pageSize),
                 after = Optional.presentIfNotNull(packInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
-                is Response.Success -> response.data.listPacks?.edges?.takeUnless { it.isNullOrEmpty() }?.let { packs ->
+                is Response.Success -> response.data.listPacks?.edges?.takeUnless { it.isEmpty() }?.let { packs ->
                     ApiResponse.Success(
                         packs.mapNotNull { it?.node?.toApiModel() },
                         response.data.listPacks?.pageInfo?.hasNextPage ?: false,
@@ -177,7 +177,7 @@ class BlindoApiPackGateway(
         extendedTimeOutBlindoApiClient.mutate(
             ProcessPacksMutation(
                 input = ProcessPacksInput(
-                    labels = labels.mapNotNull { it.toLabelInput() }
+                    labels = labels.map { it.toLabelInput() }
                 )
             ),
             idToken

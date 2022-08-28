@@ -8,7 +8,7 @@ import com.pbaltazar.blindo.components.subscriptions.SubscriptionInfo
 import com.pbaltazar.blindo.entities.purchases.subscriptions.Subscription
 
 class MembershipAdapter(
-    val onOfferSelectedListener: SubscriptionInfo.OnOfferSelectedListener
+    private val onOfferSelectedListener: SubscriptionInfo.OnOfferSelectedListener
 ) : Adapter<Subscription>() {
 
     override fun bind(item: Subscription, viewHolder: ViewHolder) {

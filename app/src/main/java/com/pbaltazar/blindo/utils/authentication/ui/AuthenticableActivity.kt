@@ -1,7 +1,6 @@
 package com.pbaltazar.blindo.utils.authentication.ui
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import com.pbaltazar.blindo.entities.Device
 import com.pbaltazar.blindo.entities.User
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,19 +25,19 @@ open class AuthenticableActivity : AppCompatActivity(),
 
     fun getUser(): User? = authenticationViewModel.user.value
 
-    fun subscribeUser() = authenticationViewModel.user.observe(this, Observer {
+    fun subscribeUser() = authenticationViewModel.user.observe(this) {
         onSubscribeUser(it)
-    })
+    }
 
-    fun subscribeAuthentication() = authenticationViewModel.authentication.observe(this, Observer {
+    fun subscribeAuthentication() = authenticationViewModel.authentication.observe(this) {
         onSubscribeAuthentication(it)
-    })
+    }
 
     fun authenticateUser() = authenticationViewModel.authenticateUser()
 
-    fun subscribeUserUpdates() = authenticationViewModel.userUpdates.observe(this, Observer {
+    fun subscribeUserUpdates() = authenticationViewModel.userUpdates.observe(this) {
         onSubscribeUserUpdates(it)
-    })
+    }
 
     fun updateUser(user: User) = authenticationViewModel.updateUser(user)
 
@@ -48,9 +47,9 @@ open class AuthenticableActivity : AppCompatActivity(),
 
     fun setIsUserPremium(isUserPremium: Boolean) = authenticationViewModel.setIsUserPremium(isUserPremium)
 
-    fun subscribeIsValidationEmailSent() = authenticationViewModel.isValidationEmailSent.observe(this, Observer {
+    fun subscribeIsValidationEmailSent() = authenticationViewModel.isValidationEmailSent.observe(this) {
         onIsValidationEmailSent(it)
-    })
+    }
 
     fun sendVerificationEmail() = authenticationViewModel.sendVerificationEmail()
 
@@ -58,19 +57,19 @@ open class AuthenticableActivity : AppCompatActivity(),
 
     fun getDevice(): Device? = authenticationViewModel.device.value
 
-    fun subscribeDevice() = authenticationViewModel.device.observe(this, Observer {
+    fun subscribeDevice() = authenticationViewModel.device.observe(this) {
         onSubscribeDevice(it)
-    })
+    }
 
-    fun subscribeDeviceRegistration() = authenticationViewModel.deviceRegistration.observe(this, Observer {
+    fun subscribeDeviceRegistration() = authenticationViewModel.deviceRegistration.observe(this) {
         onSubscribeDeviceRegistration(it)
-    })
+    }
 
     fun registerDevice(device: Device) = authenticationViewModel.registerDevice(device)
 
-    fun subscribeDeviceUpdates() = authenticationViewModel.deviceUpdates.observe(this, Observer {
+    fun subscribeDeviceUpdates() = authenticationViewModel.deviceUpdates.observe(this) {
         onSubscribeDeviceUpdates(it)
-    })
+    }
 
     fun updateDevice(device: Device) = authenticationViewModel.updateDevice(device)
 

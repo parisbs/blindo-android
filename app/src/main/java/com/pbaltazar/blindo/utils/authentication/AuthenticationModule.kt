@@ -27,7 +27,7 @@ val authenticationModule = module {
         )
     }
 
-    single<FirebaseAuth> {
+    single {
         FirebaseAuth.getInstance()
     }
 

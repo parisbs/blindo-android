@@ -28,11 +28,10 @@ class UserRatingsFragment : BlindoFragment<FragmentUserRatingsBinding>() {
     private lateinit var userRatingsRecycler: RecyclerView
 
     private val userRatingsAdapter: UserRatingsAdapter = UserRatingsAdapter(
-        UserRatingsComparator,
-        { rating ->
-            onRatingClickListener(rating)
-        }
-    )
+        UserRatingsComparator
+    ) { rating ->
+        onRatingClickListener(rating)
+    }
 
     private var currentCounterBadge: Int = 0
 
@@ -44,7 +43,7 @@ class UserRatingsFragment : BlindoFragment<FragmentUserRatingsBinding>() {
         userProfileViewModel = UserProfilePagerHelper.userProfileViewModel
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentUserRatingsBinding.inflate(inflater, container, false)
         userRatingsRecycler = binding!!.userRatingsRecycler
         return binding!!.root
@@ -57,7 +56,7 @@ class UserRatingsFragment : BlindoFragment<FragmentUserRatingsBinding>() {
 
     private fun setupUi() {
         userRatingsRecycler.adapter = userRatingsAdapter.withLoadStateFooter(
-            footer = PaginationStateAdapter({ userRatingsAdapter.retry() })
+            footer = PaginationStateAdapter { userRatingsAdapter.retry() }
         )
 
         viewLifecycleOwner.lifecycleScope.launch {

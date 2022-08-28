@@ -1,6 +1,5 @@
 package com.pbaltazar.blindo.utils.billing.ui
 
-import androidx.lifecycle.Observer
 import androidx.viewbinding.ViewBinding
 import com.pbaltazar.blindo.entities.Coin
 import com.pbaltazar.blindo.entities.Membership
@@ -30,27 +29,27 @@ abstract class BilleableFragment<VB : ViewBinding> : AuthenticableFragment<VB>()
     override fun onBillingConnection(billingConnection: BillingViewModel.BillingConnection) {
     }
 
-    fun subscribeBillingConnection() = billingViewModel.isConnected.observe(this, Observer {
+    fun subscribeBillingConnection() = billingViewModel.isConnected.observe(this) {
         onBillingConnection(it)
-    })
+    }
 
     fun getInAppsToPurchase() = requireBilleableActivity.getInAppsToPurchase()
 
     override fun onInAppsToPurchase(availableProducts: BillingViewModel.AvailableProducts) {
     }
 
-    fun subscribeInAppsToPurchase() = billingViewModel.inApps.observe(this, Observer {
+    fun subscribeInAppsToPurchase() = billingViewModel.inApps.observe(this) {
         onInAppsToPurchase(it)
-    })
+    }
 
     fun getSubscriptionsToPurchase() = requireBilleableActivity.getSubscriptionsToPurchase()
 
     override fun onSubscriptionsToPurchase(availableProducts: BillingViewModel.AvailableProducts) {
     }
 
-    fun subscribeSubscriptionsToPurchase() = billingViewModel.subscriptions.observe(this, Observer {
+    fun subscribeSubscriptionsToPurchase() = billingViewModel.subscriptions.observe(this) {
         onSubscriptionsToPurchase(it)
-    })
+    }
 
     fun askForNewInAppPurchases() = requireBilleableActivity.askForNewInAppPurchases()
 
@@ -63,41 +62,41 @@ abstract class BilleableFragment<VB : ViewBinding> : AuthenticableFragment<VB>()
     override fun onNewPurchases(purchases: BillingViewModel.Purchases) {
     }
 
-    fun subscribePurchases() = billingViewModel.purchases.observe(this, Observer {
+    fun subscribePurchases() = billingViewModel.purchases.observe(this) {
         onNewPurchases(it)
-    })
+    }
 
     override fun onProductConsumption(consumption: BillingViewModel.Consumption) {
     }
 
-    fun subscribeConsumption() = billingViewModel.consumption.observe(this, Observer {
+    fun subscribeConsumption() = billingViewModel.consumption.observe(this) {
         onProductConsumption(it)
-    })
+    }
 
     override fun onCoinsPurchased(purchasedCoin: BillingViewModel.PurchasedCoin) {
     }
 
-    fun subscribeCoins() = billingViewModel.coins.observe(this, Observer {
+    fun subscribeCoins() = billingViewModel.coins.observe(this) {
         onCoinsPurchased(it)
-    })
+    }
 
     fun getCoinsHistory() = requireBilleableActivity.getCoinsHistory()
 
     override fun onCoinsHistory(coinsHistory: BillingViewModel.CoinsHistory) {
     }
 
-    fun subscribeCoinsHistory() = billingViewModel.coinsHistory.observe(this, Observer {
+    fun subscribeCoinsHistory() = billingViewModel.coinsHistory.observe(this) {
         onCoinsHistory(it)
-    })
+    }
 
     fun getMembership() = requireBilleableActivity.getMembership()
 
     override fun onMembershipPurchased(purchasedMembership: BillingViewModel.PurchasedMembership) {
     }
 
-    fun subscribeMembership() = billingViewModel.membership.observe(this, Observer {
+    fun subscribeMembership() = billingViewModel.membership.observe(this) {
         onMembershipPurchased(it)
-    })
+    }
 
     fun launchSubscriptionManagementPage(productId: String) = requireBilleableActivity.launchSubscriptionManagementPage(productId)
 

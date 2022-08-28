@@ -32,7 +32,7 @@ class SliViewModel(
 
     fun getInstalledApps() = viewModelScope.launch(backgroundDispatcher) {
         try {
-            context.packageManager.getInstalledApplications(0).mapNotNull { it.packageName }.takeUnless { it.isNullOrEmpty() }?.also { apps ->
+            context.packageManager.getInstalledApplications(0).mapNotNull { it.packageName }.takeUnless { it.isEmpty() }?.also { apps ->
                 installedApps.postValue(LocalApps.Success(apps))
             } ?: installedApps.postValue(LocalApps.Empty)
         } catch (e: Exception) {

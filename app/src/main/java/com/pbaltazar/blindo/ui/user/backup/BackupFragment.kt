@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,9 +33,9 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
     private var downloadBackupMenuItem: MenuItem? = null
 
     private val backupAdapter: BackupAdapter =
-        BackupAdapter({ pack ->
+        BackupAdapter { pack ->
             onPackClickListener(pack)
-        })
+        }
 
     private var sort: List<PackSort> = listOf(
         PackSort.UPDATED_AT_DESC
@@ -59,7 +58,7 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
         subscribeBackup()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentBackupBinding.inflate(inflater, container, false)
         backupViewState = binding!!.backupViewState
         backupRecycler = binding!!.backupRecycler
@@ -109,15 +108,15 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
-        AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
+    AUTH_CANCELED_ON_DIALOG)?.observe(viewLifecycleOwner) {
         if (it.not()) {
             launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }
-    })
+    }
 
-    private fun subscribePacks() = backupViewModel.packs.observe(this, Observer {
+    private fun subscribePacks() = backupViewModel.packs.observe(this) {
         isLoading = false
         when (val response = it) {
             is BackupViewModel.UserPacks.Success -> {
@@ -144,9 +143,9 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
                 }
             }
         }
-    })
+    }
 
-    private fun subscribeBackup() = backupViewModel.backup.observe(this, Observer {
+    private fun subscribeBackup() = backupViewModel.backup.observe(this) {
         when (val response = it) {
             is BackupViewModel.InstallableBackup.Success -> {
                 downloadBackupMenuItem?.isEnabled = true
@@ -161,7 +160,7 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
             is BackupViewModel.InstallableBackup.Empty -> showMessage(getString(R.string.backup__empty))
             is BackupViewModel.InstallableBackup.Error -> showMessage(response.errorMessage)
         }
-    })
+    }
 
     private fun setupUi() {
         backupRecycler.apply {

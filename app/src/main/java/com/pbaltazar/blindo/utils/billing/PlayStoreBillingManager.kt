@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 class PlayStoreBillingManager(
-    private val context: Context
+    context: Context
 ) : BillingManager {
 
     private var billingClient: BillingClient
@@ -97,7 +97,7 @@ class PlayStoreBillingManager(
             val billingResult = productDetailsResult.billingResult
             when (billingResult.responseCode) {
                 BillingClient.BillingResponseCode.OK -> productDetailsResult.productDetailsList?.takeUnless { it.isEmpty() }?.let { productDetailsList ->
-                    BillingResponse.Success(productDetailsList.mapNotNull { it.toBlindoModel() })
+                    BillingResponse.Success(productDetailsList.map { it.toBlindoModel() })
                 } ?: BillingResponse.Error(BillingException.EmptyResponse)
                 BillingClient.BillingResponseCode.DEVELOPER_ERROR,
                 BillingClient.BillingResponseCode.ERROR -> BillingResponse.Error(BillingException.InstanceError(billingResult.debugMessage))
@@ -117,7 +117,7 @@ class PlayStoreBillingManager(
         billingClient.queryPurchasesAsync(productType.toQueryPurchasesParams()) { billingResult, purchasesList ->
             when (billingResult.responseCode) {
                 BillingClient.BillingResponseCode.OK -> purchasesList.takeUnless { it.isEmpty() }?.also { purchases ->
-                    purchasesChannel.trySend(BillingResponse.Success(purchasesList.mapNotNull { it.toBlindoModel() }))
+                    purchasesChannel.trySend(BillingResponse.Success(purchases.mapNotNull { it.toBlindoModel() }))
                 } ?: purchasesChannel.trySend(BillingResponse.Error(BillingException.EmptyResponse))
                 BillingClient.BillingResponseCode.USER_CANCELED -> purchasesChannel.trySend(BillingResponse.Error(BillingException.CanceledByUser))
                 BillingClient.BillingResponseCode.DEVELOPER_ERROR,
@@ -137,7 +137,7 @@ class PlayStoreBillingManager(
             ConsumeParams.newBuilder()
                 .setPurchaseToken(token)
                 .build()
-        ) { billingResult, purchaseToken ->
+        ) { billingResult, _ ->
             when (billingResult.responseCode) {
                 BillingClient.BillingResponseCode.OK -> consumptionChannel.trySend(BillingResponse.Success(true))
                 BillingClient.BillingResponseCode.FEATURE_NOT_SUPPORTED -> consumptionChannel.trySend(BillingResponse.Error(BillingException.FeatureNotSupported))

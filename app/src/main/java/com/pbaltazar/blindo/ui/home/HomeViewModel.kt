@@ -8,12 +8,12 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.components.filters.FiltersScreen
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.filters.AppFilters
 import com.pbaltazar.blindo.entities.filters.common.FloatRange
 import com.pbaltazar.blindo.entities.filters.sorts.AppSort
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.components.filters.FiltersScreen
 import com.pbaltazar.blindo.ui.filter.FiltersSet
 import com.pbaltazar.blindo.usecases.QueryListApps
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
@@ -49,7 +49,7 @@ class HomeViewModel(
                 R.id.filters_screen_order_by_type
             ),
             FiltersSet.APP.getOrderByDefault()
-        ).split(",").mapNotNull { AppSort.valueOf(it) }
+        ).split(",").map { AppSort.valueOf(it) }
 
     private fun isTotalRangeChecked(): Boolean =
         userPreferences.getBoolean(
@@ -77,7 +77,7 @@ class HomeViewModel(
     else null
     )
 
-    fun getAppInput(): AppInput = AppInput(
+    private fun getAppInput(): AppInput = AppInput(
         filters = getAppFilters(),
         sort = getAppSort(),
         pageSize = getAppsPageSize()

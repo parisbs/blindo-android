@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentAppStatisticsBinding
 import com.pbaltazar.blindo.entities.App
@@ -18,7 +16,6 @@ import com.pbaltazar.blindo.utils.extensions.setExplainingTooltip
 import com.pbaltazar.blindo.utils.extensions.setValueWithAccessibilitySupport
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AppStatisticsFragment : BlindoFragment<FragmentAppStatisticsBinding>() {
 
@@ -81,7 +78,7 @@ class AppStatisticsFragment : BlindoFragment<FragmentAppStatisticsBinding>() {
         currentApp = AppPagerHelper.appViewModelListener.getCurrentApp()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAppStatisticsBinding.inflate(inflater, container, false)
         appStatisticsViewState = binding!!.appStatisticsViewState
         totalRating = binding!!.ratingBars.totalRating
@@ -108,14 +105,14 @@ class AppStatisticsFragment : BlindoFragment<FragmentAppStatisticsBinding>() {
     override fun onResume() {
         super.onResume()
         currentApp = AppPagerHelper.appViewModelListener.getCurrentApp()
-        if (currentApp?.numberOfRatings ?: 0 > 0 && currentApp?.uiRating == null) {
+        if ((currentApp?.numberOfRatings ?: 0) > 0 && currentApp?.uiRating == null) {
             loadAppStatistics()
         } else {
             setupApp()
         }
     }
 
-    private fun subscribeStatistics() = appViewModel.statistics.observe(this, Observer {
+    private fun subscribeStatistics() = appViewModel.statistics.observe(viewLifecycleOwner) {
         when (val response = it) {
             is AppViewModel.AppStatistics.Success -> {
                 currentApp = response.statistics
@@ -128,8 +125,8 @@ class AppStatisticsFragment : BlindoFragment<FragmentAppStatisticsBinding>() {
                 appStatisticsViewState.setState(State.ERROR)
             }
         }
-            isLoading = false
-        })
+        isLoading = false
+    }
 
     private fun loadAppStatistics() {
         if (isLoading.not()) {

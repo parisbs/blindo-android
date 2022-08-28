@@ -39,8 +39,7 @@ data class App(
         parcel.readInt(),
         parcel.readParcelable(PackConnection::class.java.classLoader),
         parcel.readParcelable(RatingConnection::class.java.classLoader)
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)

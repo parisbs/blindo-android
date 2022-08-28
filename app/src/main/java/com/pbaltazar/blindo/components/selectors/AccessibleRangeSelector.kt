@@ -3,7 +3,7 @@ package com.pbaltazar.blindo.components.selectors
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
+import android.view.View.OnClickListener
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -40,66 +40,64 @@ class AccessibleRangeSelector @JvmOverloads constructor(
     var valueTo: Float = 0F
     var stepSize: Float = 0F
 
-    private val buttonsListener: OnClickListener = object : OnClickListener {
-        override fun onClick(v: View) {
-            when (v.id) {
-                R.id.beginMinusButton -> {
-                    val newValue = currentBeginValue.minus(stepSize).toOneDecimalFloat()
-                    if (newValue < valueFrom) {
+    private val buttonsListener: OnClickListener = OnClickListener { v ->
+        when (v.id) {
+            R.id.beginMinusButton -> {
+                val newValue = currentBeginValue.minus(stepSize).toOneDecimalFloat()
+                if (newValue < valueFrom) {
+                    beginMinusButton.isEnabled = false
+                } else {
+                    if (newValue == valueFrom) {
                         beginMinusButton.isEnabled = false
-                    } else {
-                        if (newValue == valueFrom) {
-                            beginMinusButton.isEnabled = false
-                        }
-                        currentBeginValue = newValue
-                        regreshBeginValue()
                     }
-                }
-                R.id.beginPlusButton -> {
-                    val newValue = currentBeginValue.plus(stepSize).toOneDecimalFloat()
-                    if (newValue >= valueTo) {
-                        beginPlusButton.isEnabled = false
-                    } else if (newValue >= currentEndValue) {
-                        beginPlusButton.isEnabled = false
-                    } else {
-                        if (newValue == currentEndValue.minus(stepSize).toOneDecimalFloat()) {
-                            beginPlusButton.isEnabled = false
-                            endMinusButton.isEnabled = false
-                        }
-                        currentBeginValue = newValue
-                        regreshBeginValue()
-                    }
-                }
-                R.id.endMinusButton -> {
-                    val newValue = currentEndValue.minus(stepSize).toOneDecimalFloat()
-                    if (newValue <= valueFrom) {
-                        endMinusButton.isEnabled = false
-                    } else if (newValue <= currentBeginValue) {
-                        endMinusButton.isEnabled = false
-                    } else {
-                        if (newValue == currentBeginValue.plus(stepSize).toOneDecimalFloat()) {
-                            endMinusButton.isEnabled = false
-                            beginPlusButton.isEnabled = false
-                        }
-                        currentEndValue = newValue
-                        refreshEndValue()
-                    }
-                }
-                R.id.endPlusButton -> {
-                    val newValue = currentEndValue.plus(stepSize).toOneDecimalFloat()
-                    if (newValue > valueTo) {
-                        endPlusButton.isEnabled = false
-                    } else {
-                        if (newValue == valueTo) {
-                            endPlusButton.isEnabled = false
-                        }
-                        currentEndValue = newValue
-                        refreshEndValue()
-                    }
+                    currentBeginValue = newValue
+                    refreshBeginValue()
                 }
             }
-            refreshButtonsState()
+            R.id.beginPlusButton -> {
+                val newValue = currentBeginValue.plus(stepSize).toOneDecimalFloat()
+                if (newValue >= valueTo) {
+                    beginPlusButton.isEnabled = false
+                } else if (newValue >= currentEndValue) {
+                    beginPlusButton.isEnabled = false
+                } else {
+                    if (newValue == currentEndValue.minus(stepSize).toOneDecimalFloat()) {
+                        beginPlusButton.isEnabled = false
+                        endMinusButton.isEnabled = false
+                    }
+                    currentBeginValue = newValue
+                    refreshBeginValue()
+                }
+            }
+            R.id.endMinusButton -> {
+                val newValue = currentEndValue.minus(stepSize).toOneDecimalFloat()
+                if (newValue <= valueFrom) {
+                    endMinusButton.isEnabled = false
+                } else if (newValue <= currentBeginValue) {
+                    endMinusButton.isEnabled = false
+                } else {
+                    if (newValue == currentBeginValue.plus(stepSize).toOneDecimalFloat()) {
+                        endMinusButton.isEnabled = false
+                        beginPlusButton.isEnabled = false
+                    }
+                    currentEndValue = newValue
+                    refreshEndValue()
+                }
+            }
+            R.id.endPlusButton -> {
+                val newValue = currentEndValue.plus(stepSize).toOneDecimalFloat()
+                if (newValue > valueTo) {
+                    endPlusButton.isEnabled = false
+                } else {
+                    if (newValue == valueTo) {
+                        endPlusButton.isEnabled = false
+                    }
+                    currentEndValue = newValue
+                    refreshEndValue()
+                }
+            }
         }
+        refreshButtonsState()
     }
 
     private var currentBeginValue: Float = 0F
@@ -181,7 +179,7 @@ class AccessibleRangeSelector @JvmOverloads constructor(
         currentEndValue = valueTo
         beginMinusButton.isEnabled = false
         endPlusButton.isEnabled = false
-        regreshBeginValue()
+        refreshBeginValue()
         refreshEndValue()
     }
 
@@ -192,7 +190,7 @@ class AccessibleRangeSelector @JvmOverloads constructor(
         endPlusButton.setOnClickListener(buttonsListener)
     }
 
-    private fun regreshBeginValue() {
+    private fun refreshBeginValue() {
         beginValue.apply {
             text = currentBeginValue.toRatingString()
             contentDescription = "${beginLabel.text}: ${currentBeginValue.toRatingString()}"
@@ -208,14 +206,14 @@ class AccessibleRangeSelector @JvmOverloads constructor(
 
     fun setBeginValue(value: Float) {
         if (value < valueFrom) {
-            throw IllegalArgumentException("Begin value cannot be lower than ${valueFrom.toString()}")
+            throw IllegalArgumentException("Begin value cannot be lower than $valueFrom")
         } else if (value > valueTo) {
-            throw IllegalArgumentException("Begin value cannot be higher than ${valueTo.toString()}")
+            throw IllegalArgumentException("Begin value cannot be higher than $valueTo")
         } else if (value > currentEndValue) {
-            throw IllegalArgumentException("Begin value cannot be higher than the current end value: ${currentEndValue.toString()}")
+            throw IllegalArgumentException("Begin value cannot be higher than the current end value: $currentEndValue")
         } else {
             currentBeginValue = value.toOneDecimalFloat()
-            regreshBeginValue()
+            refreshBeginValue()
         }
     }
 
@@ -223,11 +221,11 @@ class AccessibleRangeSelector @JvmOverloads constructor(
 
     fun setEndValue(value: Float) {
         if (value < valueFrom) {
-            throw IllegalArgumentException("End value cannot be lower than ${valueFrom.toString()}")
+            throw IllegalArgumentException("End value cannot be lower than $valueFrom")
         } else if (value > valueTo) {
-            throw IllegalArgumentException("End value cannot be higher than ${valueTo.toString()}")
+            throw IllegalArgumentException("End value cannot be higher than $valueTo")
         } else if (value < currentBeginValue) {
-            throw IllegalArgumentException("End value cannot be lower than the current begin value: ${currentBeginValue.toString()}")
+            throw IllegalArgumentException("End value cannot be lower than the current begin value: $currentBeginValue")
         } else {
             currentEndValue = value.toOneDecimalFloat()
             refreshEndValue()

@@ -9,7 +9,6 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.core.view.ViewCompat
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -43,7 +42,7 @@ class CoinsFragment : BilleableFragment<FragmentCoinsBinding>() {
         subscribeInAppsToPurchase()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentCoinsBinding.inflate(inflater, container, false)
         currentCoins = binding!!.currentCoins
         history = binding!!.history
@@ -80,7 +79,7 @@ class CoinsFragment : BilleableFragment<FragmentCoinsBinding>() {
                 currentCoins.text = ""
             } else {
                 currentCoins.text = resources.getQuantityString(
-                    com.pbaltazar.blindo.R.plurals.coins__current_coins,
+                    R.plurals.coins__current_coins,
                     currentUser.coinsLeft,
                     currentUser.coinsLeft
                 )
@@ -92,17 +91,17 @@ class CoinsFragment : BilleableFragment<FragmentCoinsBinding>() {
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
         AUTH_CANCELED_ON_DIALOG
-    )?.observe(this, Observer {
+    )?.observe(this) {
         if (it.not()) {
             launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }
-    })
+    }
 
     override fun onInAppsToPurchase(availableProducts: BillingViewModel.AvailableProducts) {
         when (availableProducts) {
-            is BillingViewModel.AvailableProducts.Success -> availableProducts.products.mapNotNull { it as InApp }.also { inApps ->
+            is BillingViewModel.AvailableProducts.Success -> availableProducts.products.map { it as InApp }.also { inApps ->
                 if (coinsAdapter.itemCount > 0) {
                     coinsAdapter.clearItems()
                 }
@@ -157,7 +156,7 @@ class CoinsFragment : BilleableFragment<FragmentCoinsBinding>() {
         history.apply {
             setImageResource(R.drawable.ic_arrow_back_black_24dp)
             contentDescription = getString(R.string.coins__coins_to_purchase)
-            setOnClickListener { _ ->
+            setOnClickListener {
                 coinsContainer.adapter = coinsAdapter
                 setHistoryOnClickListenerWhenIsInCoinsToPurchase()
             }
@@ -168,7 +167,7 @@ class CoinsFragment : BilleableFragment<FragmentCoinsBinding>() {
         history.apply {
             setImageResource(R.drawable.ic_history_black_24dp)
             contentDescription = getString(R.string.coins__history)
-            setOnClickListener { _ ->
+            setOnClickListener {
                 getCoinsHistory()
             }
         }

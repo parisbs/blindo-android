@@ -37,8 +37,7 @@ data class Rating(
         parcel.readParcelable(App::class.java.classLoader),
         parcel.readString()?.toDate(DateTimePatterns.ISO8601_MICROS_TZ.pattern) ?: Date(System.currentTimeMillis()),
         parcel.readString()?.toDate(DateTimePatterns.ISO8601_MICROS_TZ.pattern)
-    ) {
-    }
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)

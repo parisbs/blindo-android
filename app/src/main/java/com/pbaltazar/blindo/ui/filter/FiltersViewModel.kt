@@ -6,6 +6,7 @@ import com.pbaltazar.blindo.entities.filters.common.IntRange
 import com.pbaltazar.blindo.utils.preferences.OnUserPreferencesChangeListener
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 
+@Suppress("unused")
 class FiltersViewModel(
     private val userPreferences : UserPreferences
 ) : ViewModel() {

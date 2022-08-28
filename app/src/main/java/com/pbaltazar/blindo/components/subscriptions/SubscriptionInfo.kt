@@ -1,22 +1,25 @@
 package com.pbaltazar.blindo.components.subscriptions
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.ListView
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.ViewCompat
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ComponentSubscriptionInfoBinding
-import com.pbaltazar.blindo.entities.Membership
 import com.pbaltazar.blindo.entities.purchases.subscriptions.Subscription
 import com.pbaltazar.blindo.entities.purchases.subscriptions.SubscriptionOffer
 import com.pbaltazar.blindo.entities.purchases.subscriptions.SubscriptionPricingPhase
 import java.time.Period
 
+@Suppress("unused")
 class SubscriptionInfo @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -41,7 +44,7 @@ class SubscriptionInfo @JvmOverloads constructor(
         offersContainer = binding.offersContainer
 
         setTitleFunctions()
-        offersContainer.setOnCheckedChangeListener { _, checkedId ->
+        offersContainer.setOnCheckedStateChangeListener { _, _ ->
             onOfferSelectedListener?.onOfferSelected(this, getSelectedOffer())
         }
     }
@@ -68,8 +71,8 @@ class SubscriptionInfo @JvmOverloads constructor(
         }
         title.text = subscription.name
         benefits.contentDescription = subscription.name
-        resources.getStringArray(subscription.benefitsResourceId)?.also { subscriptionBenefits ->
-            ArrayAdapter<String>(context, R.layout.item_text, subscriptionBenefits.toList()).apply {
+        resources.getStringArray(subscription.benefitsResourceId).also { subscriptionBenefits ->
+            ArrayAdapter(context, R.layout.item_text, subscriptionBenefits.toList()).apply {
                 benefits.adapter = this
             }
         }
@@ -80,7 +83,7 @@ class SubscriptionInfo @JvmOverloads constructor(
                 layoutParams = ChipGroup.LayoutParams(ChipGroup.LayoutParams.MATCH_PARENT, ChipGroup.LayoutParams.WRAP_CONTENT)
                 isCheckable = true
                 importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
-                text = subscriptionOffer.getSubscriptionPricingPhases()?.toFormatedPhases()
+                text = subscriptionOffer.getSubscriptionPricingPhases().toFormatedPhases()
                 offersContainer.addView(this)
                 offers.add(subscriptionOffer)
                 chips.add(this)
@@ -88,12 +91,13 @@ class SubscriptionInfo @JvmOverloads constructor(
         }
     }
 
+    @SuppressLint("StringFormatMatches")
     fun List<SubscriptionPricingPhase>.toFormatedPhases(): String {
         if (size < 1) {
             return ""
         }
         val formatedPhases = StringBuilder()
-        for (i in 0..(size - 1)) {
+        for (i in 0 until size) {
             val phase = get(i)
             val period = Period.parse(phase.billingPeriod)
             if (size == 1) {
@@ -141,10 +145,10 @@ class SubscriptionInfo @JvmOverloads constructor(
         return formatedPhases.toString()
     }
 
-    fun Period.weeks(): Int = ((days / 7) as Float).toInt()
+    fun Period.weeks(): Int = (days / 7)
 
     fun Period.hasExactWeeksButNotMonths(): Boolean =
-        if ((days % 7) == 0 && months < 1) true else false
+        (days % 7) == 0 && months < 1
 
     fun Period.getMaxExactAmmount(): Int = when {
         years > 0 -> years

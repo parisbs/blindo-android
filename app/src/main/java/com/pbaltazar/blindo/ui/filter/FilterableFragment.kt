@@ -1,10 +1,7 @@
 package com.pbaltazar.blindo.ui.filter
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.pbaltazar.blindo.MainNavigationDirections
@@ -38,7 +35,7 @@ abstract class FilterableFragment<VB : ViewBinding> : BlindoFragment<VB>() {
     }
 
     private fun subscribeFilters() = findNavController().currentBackStackEntry?.savedStateHandle
-        ?.getLiveData<Boolean>(ARGUMENT_REQUIRE_REFRESH_FILTERS)?.observe(this, Observer {
+        ?.getLiveData<Boolean>(ARGUMENT_REQUIRE_REFRESH_FILTERS)?.observe(this) {
             onFiltersChange(it)
-        })
+        }
 }

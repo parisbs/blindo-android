@@ -28,12 +28,12 @@
 
     <item name="filters_order_by_updated_at" type="id" />
 
-    <declare-styleable name="FiltersOrderByElement">
+    <declare-styleable name="OrderByElementFilter">
         <attr name="android:text" format="string" />
         <attr name="android:checked" format="boolean" />
     </declare-styleable>
 
-    <declare-styleable name="FiltersRange">
+    <declare-styleable name="RangeFilter">
         <attr name="android:text" format="string" />
         <attr name="expanded" format="boolean" />
         <attr name="android:valueFrom" format="float" />
@@ -41,7 +41,7 @@
         <attr name="android:stepSize" format="float" />
     </declare-styleable>
 
-    <declare-styleable name="FiltersCheckbox">
+    <declare-styleable name="CheckboxFilter">
         <attr name="android:text" format="string" />
         <attr name="android:checked" format="boolean" />
     </declare-styleable>

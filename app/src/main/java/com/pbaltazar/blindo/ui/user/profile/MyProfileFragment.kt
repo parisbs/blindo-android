@@ -58,7 +58,7 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
         subscribeUserUpdates()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentMyProfileBinding.inflate(inflater, container, false)
         userCrown = binding!!.userCrown
         userName = binding!!.userName
@@ -80,12 +80,12 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
             R.id.menuEditProfile -> {
                 item.apply {
                     isEditing = isEditing.not()
-                    if (isEditing) {
+                    title = if (isEditing) {
                         setIcon(R.drawable.ic_done_black_24dp)
-                        title = getString(R.string.profile__done)
+                        getString(R.string.profile__done)
                     } else {
                         setIcon(R.drawable.ic_input_black_24dp)
-                        title = getString(R.string.profile__edit)
+                        getString(R.string.profile__edit)
                     }
                 }
                 return true
@@ -121,7 +121,7 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
         when (userUpdate) {
             is AuthenticationViewModel.UserUpdate.Success -> processUpdateResult(getString(R.string.profile__update_success))
             is AuthenticationViewModel.UserUpdate.BadRequest -> processUpdateResult(getString(R.string.profile__updating_error, userUpdate.errors.joinToString(", ")))
-            is AuthenticationViewModel.UserUpdate.NetworkEror -> processUpdateResult(getString(R.string.profile__updating_error, userUpdate.throwable.localizedMessage))
+            is AuthenticationViewModel.UserUpdate.NetworkError -> processUpdateResult(getString(R.string.profile__updating_error, userUpdate.throwable.localizedMessage))
             else -> processUpdateResult(getString(R.string.profile__unknown_error_updating))
         }
     }
@@ -148,11 +148,7 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
             userEmail.accessibilityTraversalAfter = R.id.emailLabel
         }
         userName.setOnEditorActionListener { v, _, _ ->
-            if (v.text.length < 6) {
-                saveUser.isEnabled = false
-            } else {
-                saveUser.isEnabled = true
-            }
+            saveUser.isEnabled = v.text.length >= 6
             return@setOnEditorActionListener true
         }
         saveUser.setOnClickListener {

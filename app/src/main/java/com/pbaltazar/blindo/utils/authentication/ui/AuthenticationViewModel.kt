@@ -1,5 +1,6 @@
 package com.pbaltazar.blindo.utils.authentication.ui
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,7 @@ import com.pbaltazar.blindo.utils.extensions.getAuthenticationMethod
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
+@Suppress("unused")
 class AuthenticationViewModel(
     private val backgroundDispatcher: CoroutineContext,
     private val authenticationLocal : AuthenticationLocal,
@@ -74,7 +76,7 @@ class AuthenticationViewModel(
                     is AuthenticationProviderException.NotSignedIn -> signOut()
                     is AuthenticationProviderException.UnknownError -> _authentication.postValue(UserAuthentication.UnknownError)
                     is AuthenticationProviderException.Error -> _authentication.postValue(
-                        UserAuthentication.NetworkEror(
+                        UserAuthentication.NetworkError(
                             tokenError.error
                         )
                     )
@@ -97,7 +99,7 @@ class AuthenticationViewModel(
             is ApiResponse.Error -> when (val apiError = apiResponse.error) {
                 is ApiException.EmptyResponse -> registerUser(user, idToken)
                 is ApiException.WithErrors -> _authentication.postValue(UserAuthentication.BadRequest(apiError.errorsList))
-                is ApiException.CallFailure -> _authentication.postValue(UserAuthentication.NetworkEror(apiError.error))
+                is ApiException.CallFailure -> _authentication.postValue(UserAuthentication.NetworkError(apiError.error))
             }
         }
     }
@@ -114,14 +116,14 @@ class AuthenticationViewModel(
             is ApiResponse.Error -> when (val apiError = apiResponse.error) {
                 is ApiException.EmptyResponse -> _authentication.postValue(UserAuthentication.NoUserFound)
                 is ApiException.WithErrors -> _authentication.postValue(UserAuthentication.BadRequest(apiError.errorsList))
-                is ApiException.CallFailure -> _authentication.postValue(UserAuthentication.NetworkEror(apiError.error))
+                is ApiException.CallFailure -> _authentication.postValue(UserAuthentication.NetworkError(apiError.error))
             }
         }
     }
 
     fun updateUser(user: User) = viewModelScope.launch(backgroundDispatcher) {
         authenticationLocal.getLocalAccount()?.also { localAccount ->
-            if (localAccount.equals(user).not()) {
+            if ((localAccount == user).not()) {
                 authenticationProvider.getUser()?.also { providerAccount ->
                     when (val tokenResponse = authenticationProvider.getIdToken()) {
                         is AuthenticationProviderResponse.Success -> updateUserOnServer(
@@ -140,7 +142,7 @@ class AuthenticationViewModel(
                             }
                             is AuthenticationProviderException.UnknownError -> _userUpdates.postValue(UserUpdate.UnknownError)
                             is AuthenticationProviderException.Error -> _userUpdates.postValue(
-                                UserUpdate.NetworkEror(
+                                UserUpdate.NetworkError(
                                     tokenError.error
                                 )
                             )
@@ -172,11 +174,12 @@ class AuthenticationViewModel(
             is ApiResponse.Error -> when (val apiError = apiResponse.error) {
                 is ApiException.EmptyResponse -> _userUpdates.postValue(UserUpdate.NoUserFound)
                 is ApiException.WithErrors -> _userUpdates.postValue(UserUpdate.BadRequest(apiError.errorsList))
-                is ApiException.CallFailure -> _userUpdates.postValue(UserUpdate.NetworkEror(apiError.error))
+                is ApiException.CallFailure -> _userUpdates.postValue(UserUpdate.NetworkError(apiError.error))
             }
         }
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun sendVerificationEmail() = viewModelScope.launch(backgroundDispatcher) {
         when (val response = authenticationProvider.sendVerificationEmail()) {
             is AuthenticationProviderResponse.Success -> _isValidationEmailSent.postValue(response.data)
@@ -313,7 +316,7 @@ class AuthenticationViewModel(
 
     private fun signIn(user: User) {
         authenticationLocal.getLocalAccount()?.also { localUser ->
-            if (localUser.equals(user).not()) {
+            if ((localUser == user).not()) {
                 authenticationLocal.updateLocalAccount(user)
             }
         } ?: run {
@@ -351,7 +354,7 @@ class AuthenticationViewModel(
         object NotSignedIn : UserAuthentication()
         object InvalidIdToken : UserAuthentication()
         object UnknownError : UserAuthentication()
-        class NetworkEror(val throwable: Throwable) : UserAuthentication()
+        class NetworkError(val throwable: Throwable) : UserAuthentication()
     }
 
     sealed class UserUpdate {
@@ -361,7 +364,7 @@ class AuthenticationViewModel(
         object NotSignedIn : UserUpdate()
         object InvalidIdToken : UserUpdate()
         object UnknownError : UserUpdate()
-        class NetworkEror(val throwable: Throwable) : UserUpdate()
+        class NetworkError(val throwable: Throwable) : UserUpdate()
     }
 
     sealed class DeviceRegistration {

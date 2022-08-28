@@ -27,7 +27,7 @@
         app:layout_constraintStart_toEndOf="@id/preferUserLabelsLabel"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Switch
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/preferUserLabels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/translate" />
 
-    <Switch
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/translate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

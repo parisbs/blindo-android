@@ -11,15 +11,15 @@ interface ApiHelpers {
 
     fun processErrors(throwable: Throwable): ApiResponse.Error {
         FirebaseCrashlytics.getInstance().recordException(throwable)
-        when (throwable) {
+        return when (throwable) {
             is EmptyResponse -> {
-                return ApiResponse.Error(ApiException.EmptyResponse)
+                ApiResponse.Error(ApiException.EmptyResponse)
             }
             is ResponseWithErrors -> {
-                return ApiResponse.Error(ApiException.WithErrors(throwable.errors.mapNotNull { it.toHumanReadable() }))
+                ApiResponse.Error(ApiException.WithErrors(throwable.errors.map { it.toHumanReadable() }))
             }
             else -> {
-                return ApiResponse.Error(ApiException.CallFailure(throwable))
+                ApiResponse.Error(ApiException.CallFailure(throwable))
             }
         }
     }

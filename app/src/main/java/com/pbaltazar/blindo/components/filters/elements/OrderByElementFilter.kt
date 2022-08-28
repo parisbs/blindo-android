@@ -15,6 +15,7 @@ import com.pbaltazar.blindo.components.filters.entities.orderby.OrderByDirection
 import com.pbaltazar.blindo.components.filters.entities.orderby.OrderBySelection
 import com.pbaltazar.blindo.databinding.ComponentOrderByElementFilterBinding
 
+@Suppress("unused")
 class OrderByElementFilter @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -107,10 +108,10 @@ class OrderByElementFilter @JvmOverloads constructor(
         spinner = binding.spinner
 
         attrs?.also {
-            val  a = context.obtainStyledAttributes(it, R.styleable.FiltersOrderByElement)
+            val  a = context.obtainStyledAttributes(it, R.styleable.OrderByElementFilter)
 
-            text = a.getString(R.styleable.FiltersOrderByElement_android_text)
-            isChecked = a.getBoolean(R.styleable.FiltersOrderByElement_android_checked, false)
+            text = a.getString(R.styleable.OrderByElementFilter_android_text)
+            isChecked = a.getBoolean(R.styleable.OrderByElementFilter_android_checked, false)
 
             a.recycle()
         }

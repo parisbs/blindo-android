@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
@@ -129,7 +128,7 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
         } ?: findNavController().popBackStack()
     }
 
-    private fun subscribeAppDetails() = appViewModel.appDetails.observe(viewLifecycleOwner, Observer {
+    private fun subscribeAppDetails() = appViewModel.appDetails.observe(viewLifecycleOwner) {
         when (val response = it) {
             is AppViewModel.AppDetails.Success -> {
                 isFirstLaunch = false
@@ -161,7 +160,7 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
             }
         }
         isLoadingApp = false
-    })
+    }
 
     private fun setupViewPager() {
         pagerAdapter = AppPagerAdapter(this)
@@ -194,11 +193,11 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
 
     private fun updateActivityTitle() {
         (requireActivity() as AppCompatActivity).supportActionBar?.apply {
-            title = currentApp!!.packageLabel
-            subtitle = if (currentApp!!.category.isNullOrEmptyOrBlank().not())
-                currentApp!!.category
+            title = currentApp?.packageLabel
+            subtitle = if (currentApp?.category?.isNullOrEmptyOrBlank()?.not() == true)
+                currentApp?.category
             else
-                currentApp!!.packageName
+                currentApp?.packageName
         }
     }
 }

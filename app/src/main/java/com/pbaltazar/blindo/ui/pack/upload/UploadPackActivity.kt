@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import androidx.lifecycle.Observer
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
@@ -90,7 +89,7 @@ class UploadPackActivity : AuthenticableActivity() {
         }
     }
 
-    private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this, Observer {
+    private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this) {
         when (it) {
             is AdsViewModel.AdsConsentStatus.Success -> when (it.status) {
                 AdsManager.ConsentStatus.ADS_FREE -> {
@@ -114,9 +113,9 @@ class UploadPackActivity : AuthenticableActivity() {
                 send.isEnabled = false
             }
         }
-    })
+    }
 
-    private fun subscribeIsAdsClientInitialized() = adsViewModel.isAdsClientInitialized.observe(this, Observer {
+    private fun subscribeIsAdsClientInitialized() = adsViewModel.isAdsClientInitialized.observe(this) {
         if (it) {
             loadAds()
         } else {
@@ -126,9 +125,9 @@ class UploadPackActivity : AuthenticableActivity() {
             )
             send.isEnabled = false
         }
-    })
+    }
 
-    private fun subscribeLabels() = uploadPackViewModel.labels.observe(this, Observer {
+    private fun subscribeLabels() = uploadPackViewModel.labels.observe(this) {
         when (val response = it) {
             is UploadPackViewModel.LabelsViewState.Success -> {
                 isReady = true
@@ -158,15 +157,15 @@ class UploadPackActivity : AuthenticableActivity() {
             is UploadPackViewModel.LabelsViewState.Empty -> setErrorState(getString(R.string.uploadpack__resume_empty))
             is UploadPackViewModel.LabelsViewState.Error -> setErrorState(response.errorMessage)
         }
-    })
+    }
 
-    private fun subscribeProcessResult() = uploadPackViewModel.results.observe(this, Observer {
+    private fun subscribeProcessResult() = uploadPackViewModel.results.observe(this) {
         when (val response = it) {
             is UploadPackViewModel.ProcessPacksViewState.Success -> {
                 result.text = getString(
                     R.string.uploadpack__result_ok,
                     response.result.createdOrUpdated,
-                    response.result.skipedOrDuplicated,
+                    response.result.skippedOrDuplicated,
                     response.result.withErrors
                 )
                 send.apply {
@@ -180,7 +179,7 @@ class UploadPackActivity : AuthenticableActivity() {
             }
             is UploadPackViewModel.ProcessPacksViewState.Error -> setErrorOnProcessState(response.errorMessage)
         }
-    })
+    }
 
     private fun processIntent() {
         when {

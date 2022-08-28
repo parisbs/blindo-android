@@ -1,7 +1,6 @@
 package com.pbaltazar.blindo.ui.dialog.premium
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -15,19 +14,17 @@ class RequiresPremium : DialogFragment() {
             .setTitle(R.string.dialogrequirespremium__title)
             .setMessage(R.string.dialogrequirespremium__message)
             .setPositiveButton(
-                R.string.dialogrequirespremium__get_premium,
-                DialogInterface.OnClickListener { _, _ ->
-                    findNavController().navigate(
-                        RequiresPremiumDirections.actionFromRequiresPremiumToPremium()
-                    )
-                }
-            )
+                R.string.dialogrequirespremium__get_premium
+            ) { _, _ ->
+                findNavController().navigate(
+                    RequiresPremiumDirections.actionFromRequiresPremiumToPremium()
+                )
+            }
             .setNegativeButton(
-                R.string.dialogrequirespremium__later,
-                DialogInterface.OnClickListener { _, _ ->
-                    findNavController().popBackStack()
-                }
-            )
+                R.string.dialogrequirespremium__later
+            ) { _, _ ->
+                findNavController().popBackStack()
+            }
             .create()
     } ?: throw IllegalStateException("${requireContext()} must have non null activity")
 }

@@ -21,5 +21,5 @@ class Subscription(
     originalProductDetailsObject
 ) {
     fun getSubscriptionOffers(): List<SubscriptionOffer>? =
-        super.offers?.mapNotNull { it as SubscriptionOffer }
+        super.offers?.map { it as SubscriptionOffer }
 }

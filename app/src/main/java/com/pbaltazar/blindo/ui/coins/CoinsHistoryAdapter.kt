@@ -1,5 +1,6 @@
 package com.pbaltazar.blindo.ui.coins
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
@@ -18,11 +19,12 @@ class CoinsHistoryAdapter : Adapter<Coin>() {
 
     var coinsProducts: List<InApp> = emptyList()
 
+    @SuppressLint("SetTextI18n")
     override fun bind(item: Coin, viewHolder: ViewHolder) {
         (viewHolder as CoinsHistoryViewHolder).itemBinding.apply {
             title.apply {
                 ViewCompat.setAccessibilityHeading(this, true)
-                coinsProducts.filter { it.id.equals(item.productId) }.first()?.also { inApp ->
+                coinsProducts.first { it.id == item.productId }.also { inApp ->
                     text = inApp.name
                 }
             }
@@ -41,7 +43,7 @@ class CoinsHistoryAdapter : Adapter<Coin>() {
                     if (item.latestPurchase.isAcknowledged) R.string.coins__acknowledged
                 else R.string.coins__not_acknowledged
                 )
-                text = "${state} (${acknowledged})"
+                text = "$state (${acknowledged})"
             }
             purchaseType.apply {
                 text = root.context.getString(

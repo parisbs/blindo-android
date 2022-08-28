@@ -453,7 +453,7 @@ fun Label.toLabelInput(): LabelInput = LabelInput(
 
 fun ProcessPacksMutation.ProcessPacks.toApiModel(): ProcessPacksResult = ProcessPacksResult(
     createdOrUpdated = createdOrUpdated,
-    skipedOrDuplicated = skipedOrDuplicated,
+    skippedOrDuplicated = skipedOrDuplicated,
     withErrors = withErrors
 )
 

@@ -6,16 +6,18 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import androidx.annotation.ArrayRes
 import androidx.annotation.IdRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.getResourceIdOrThrow
 import androidx.core.view.ViewCompat
 import com.pbaltazar.blindo.R
-import com.pbaltazar.blindo.databinding.ComponentFiltersOrderBySectionBinding
 import com.pbaltazar.blindo.components.filters.elements.OrderByElementFilter
 import com.pbaltazar.blindo.components.filters.entities.orderby.OrderBySelection
 import com.pbaltazar.blindo.components.filters.extensions.toFiltersOrderByElement
+import com.pbaltazar.blindo.databinding.ComponentFiltersOrderBySectionBinding
 
+@Suppress("unused")
 class FiltersOrderBySection @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -38,7 +40,7 @@ class FiltersOrderBySection @JvmOverloads constructor(
     var autoAddCommonElements: Boolean = false
     set(value) {
         field = value
-        var requiresRefresh: Boolean = false
+        var requiresRefresh = false
         for (commonElement in commonElementFilters.reversed()) {
             if (field) {
                 if (elementFilters.contains(commonElement).not()) {
@@ -74,11 +76,11 @@ class FiltersOrderBySection @JvmOverloads constructor(
             val a = context.obtainStyledAttributes(it, R.styleable.FiltersOrderBySection)
 
             autoAddCommonElements = a.getBoolean(R.styleable.FiltersOrderBySection_autoAddCommonElements, false)
-            elementsArray = a.getResourceId(R.styleable.FiltersOrderBySection_elements, View.NO_ID).let {
-                if (it == View.NO_ID) {
+            elementsArray = a.getResourceId(R.styleable.FiltersOrderBySection_elements, View.NO_ID).let { resId ->
+                if (resId == View.NO_ID) {
                     null
                 } else {
-                    getElementsArray(it)
+                    getElementsArray(resId)
                 }
             }
 
@@ -86,7 +88,7 @@ class FiltersOrderBySection @JvmOverloads constructor(
         }
 
         elementsArray?.also {
-            for (i in 0..(it.length() - 1)) {
+            for (i in 0 until it.length()) {
                 addElement(
                     container.childCount,
                     getElementsArray(it.getResourceIdOrThrow(i)).toFiltersOrderByElement(context),
@@ -98,17 +100,17 @@ class FiltersOrderBySection @JvmOverloads constructor(
     }
 
     override fun onCheckedChanged(selection: OrderBySelection) {
-        elementFilters.filter { it.id == selection.elementId }.takeIf { it.size == 1 }?.first()?.also {
-            val selectedIds: List<Int> = selections.mapNotNull { it.id }
-            if (selectedIds.contains(it.id)) {
-                if (it.isChecked.not()) {
-                    selections.removeAt(selectedIds.indexOf(it.id))
-                    it.removeBadgePosition()
+        elementFilters.filter { it.id == selection.elementId }.takeIf { it.size == 1 }?.first()?.also { orderByElementFilter ->
+            val selectedIds: List<Int> = selections.map { it.id }
+            if (selectedIds.contains(orderByElementFilter.id)) {
+                if (orderByElementFilter.isChecked.not()) {
+                    selections.removeAt(selectedIds.indexOf(orderByElementFilter.id))
+                    orderByElementFilter.removeBadgePosition()
                 }
             } else {
-                if (it.isChecked) {
-                    selections.add(it)
-                    it.setPositionBadge(selections.size)
+                if (orderByElementFilter.isChecked) {
+                    selections.add(orderByElementFilter)
+                    orderByElementFilter.setPositionBadge(selections.size)
                 }
             }
         }
@@ -169,7 +171,7 @@ class FiltersOrderBySection @JvmOverloads constructor(
             }
         } ?: throw NullPointerException("The elementId no exists.")
 
-    fun getSelections(): List<OrderBySelection> = selections.mapNotNull { it.selection }
+    fun getSelections(): List<OrderBySelection> = selections.map { it.selection }
 
     fun setSelections(selections: List<OrderBySelection>) {
         this.selections.clear()
@@ -180,7 +182,7 @@ class FiltersOrderBySection @JvmOverloads constructor(
     }
 
     private fun refreshElements() = elementFilters.forEach { element ->
-            val selectionsIds: List<Int> = selections.mapNotNull { it.id }
+            val selectionsIds: List<Int> = selections.map { it.id }
             var currentPosition: Int = selections.size
             val currentChecked: Boolean = element.isChecked
             if (selectionsIds.contains(element.id)) {
@@ -206,6 +208,6 @@ class FiltersOrderBySection @JvmOverloads constructor(
     private fun getElementFromTypedArray(array: TypedArray): OrderByElementFilter =
         array.toFiltersOrderByElement(context)
 
-    private fun getElementsArray(@IdRes resId: Int): TypedArray =
+    private fun getElementsArray(@ArrayRes resId: Int): TypedArray =
         resources.obtainTypedArray(resId)
 }

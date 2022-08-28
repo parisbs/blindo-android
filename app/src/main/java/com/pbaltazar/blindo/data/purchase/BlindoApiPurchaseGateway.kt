@@ -30,7 +30,7 @@ class BlindoApiPurchaseGateway(
     override suspend fun listCoins(listCoinsInput: ListCoinsInput): ApiResponse<List<Coin>> =
         blindoApiClient.query(
             ListCoinsQuery(
-                sort = listCoinsInput.sort.mapNotNull {
+                sort = listCoinsInput.sort.map {
                     when (it) {
                         CoinSort.CREATED_AT_DESC -> CoinSortEnum.CREATED_AT_DESC
                     }
@@ -42,8 +42,9 @@ class BlindoApiPurchaseGateway(
             FetchPolicy.NETWORK_ONLY
         ).let { response ->
             when (response) {
-                is Response.Success -> response.data.listCoins?.edges?.filter { it != null }?.takeUnless { it.isEmpty() }?.let { coins ->
-                    ApiResponse.Success(coins.mapNotNull { it?.node?.toBlindoModel() })
+                is Response.Success -> response.data.listCoins?.edges?.filterNotNull()
+                    ?.takeUnless { it.isEmpty() }?.let { coins ->
+                    ApiResponse.Success(coins.mapNotNull { it.node?.toBlindoModel() })
                 } ?: ApiResponse.Error(ApiException.EmptyResponse)
                 is Response.Failure -> processErrors(response.error)
             }

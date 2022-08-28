@@ -15,6 +15,7 @@ import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
+@Suppress("unused")
 class AdsViewModel(
     private val backgroundDispatcher: CoroutineContext,
     private val userPreferences: UserPreferences

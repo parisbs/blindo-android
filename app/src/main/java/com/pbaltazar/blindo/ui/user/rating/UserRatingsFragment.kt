@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,9 +27,9 @@ class UserRatingsFragment : AuthenticableFragment<FragmentUserCommentsBinding>()
     private lateinit var userCommentsRecycler: RecyclerView
 
     private val userRatingsAdapter: UserRatingsAdapter =
-        UserRatingsAdapter({ rating ->
+        UserRatingsAdapter { rating ->
             onCommentClickListener(rating)
-        })
+        }
 
     private var sort: List<RatingSort> = listOf(
         RatingSort.UPDATED_AT_DESC
@@ -50,7 +49,7 @@ class UserRatingsFragment : AuthenticableFragment<FragmentUserCommentsBinding>()
         subscribeComments()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentUserCommentsBinding.inflate(inflater, container, false)
         userCommentsViewState = binding!!.userCommentsViewState
         userCommentsRecycler = binding!!.userCommentsRecycler
@@ -71,15 +70,15 @@ class UserRatingsFragment : AuthenticableFragment<FragmentUserCommentsBinding>()
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
-        AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
+        AUTH_CANCELED_ON_DIALOG)?.observe(viewLifecycleOwner) {
         if (it.not()) {
             launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }
-    })
+    }
 
-    private fun subscribeComments() = userRatingsViewModel.ratings.observe(this, Observer {
+    private fun subscribeComments() = userRatingsViewModel.ratings.observe(this) {
         isLoading = false
         when (val response = it) {
             is UserRatingsViewModel.UserRatings.Success -> {
@@ -106,7 +105,7 @@ class UserRatingsFragment : AuthenticableFragment<FragmentUserCommentsBinding>()
                 }
             }
         }
-    })
+    }
 
     private fun setupUi() {
         userCommentsRecycler.apply {

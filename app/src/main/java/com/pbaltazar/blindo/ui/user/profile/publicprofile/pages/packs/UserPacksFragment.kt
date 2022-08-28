@@ -28,11 +28,10 @@ class UserPacksFragment : BlindoFragment<FragmentUserPacksBinding>() {
     private lateinit var userPacksRecycler: RecyclerView
 
     private val userPacksAdapter: UserPacksAdapter = UserPacksAdapter(
-        UserPacksComparator,
-        { pack ->
-            onPackClickListener(pack)
-        }
-    )
+        UserPacksComparator
+    ) { pack ->
+        onPackClickListener(pack)
+    }
 
     private var currentCounterBadge: Int = 0
 
@@ -44,7 +43,7 @@ class UserPacksFragment : BlindoFragment<FragmentUserPacksBinding>() {
         userProfileViewModel = UserProfilePagerHelper.userProfileViewModel
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentUserPacksBinding.inflate(inflater, container, false)
         userPacksRecycler = binding!!.userPacksRecycler
         return binding!!.root
@@ -57,7 +56,7 @@ class UserPacksFragment : BlindoFragment<FragmentUserPacksBinding>() {
 
     private fun setupUi() {
         userPacksRecycler.adapter = userPacksAdapter.withLoadStateFooter(
-            footer = PaginationStateAdapter({ userPacksAdapter.retry() })
+            footer = PaginationStateAdapter { userPacksAdapter.retry() }
         )
 
         viewLifecycleOwner.lifecycleScope.launch {

@@ -16,7 +16,7 @@ class PackageManagerLocalAppGateway(
     @AddTrace(name = "loadingLocalApps", enabled = true)
     override suspend fun getLocalApps(): LocalAppsResponse<List<App>> =
         suspendCoroutine { continuation ->
-            context.packageManager.getInstalledApplications(0).takeUnless { it.isNullOrEmpty() }?.also { apps ->
+            context.packageManager.getInstalledApplications(0).takeUnless { it.isEmpty() }?.also { apps ->
                 continuation.resume(
                     LocalAppsResponse.Success(
                         apps.mapNotNull { it.toLocalModel(context) }.sortedBy { it.packageLabel }

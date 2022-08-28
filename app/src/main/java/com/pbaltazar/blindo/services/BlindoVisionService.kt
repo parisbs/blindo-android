@@ -8,6 +8,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.net.Uri
+import android.os.Build
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.app.NotificationCompat
@@ -22,9 +23,11 @@ import com.pbaltazar.blindo.utils.notifications.NotificationsManager
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import com.pbaltazar.blindo.utils.vision.BlindoVisionBridge
 import com.pbaltazar.blindo.utils.vision.BlindoVisionServiceListener
+import kotlinx.coroutines.FlowPreview
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
+@FlowPreview
 class BlindoVisionService : AccessibilityService(),
     KoinComponent,
     ScreenshotWatcherDelegate.ScreenshotWatcherListener,
@@ -33,8 +36,8 @@ class BlindoVisionService : AccessibilityService(),
     private val userPreferences: UserPreferences by inject()
         private lateinit var screenshotWatcherDelegate: ScreenshotWatcherDelegate
 
-        private val MISSING_PERMISSIONS_NOTIFICATION_ID = 9999
-    private val SCREENSHOT_DETECTED_NOTIFICATION_ID = 8888
+        private val missingPermissionsNotificationId = 9999
+    private val screenshotDetectedNotificationId = 8888
 
         private var latestNodeScreenshot: Bitmap? = null
         private var isWatching: Boolean = false
@@ -62,7 +65,7 @@ class BlindoVisionService : AccessibilityService(),
     override fun onServiceConnected() {
         super.onServiceConnected()
         screenshotWatcherDelegate = ScreenshotWatcherDelegate(this, this as ScreenshotWatcherDelegate.ScreenshotWatcherListener)
-        BlindoVisionBridge.listener = this as BlindoVisionServiceListener
+        BlindoVisionBridge.listener = this
 
         NotificationsManager.initialize(this)
         if (NotificationsManager.isInitialized) {
@@ -74,8 +77,10 @@ class BlindoVisionService : AccessibilityService(),
             )
         }
 
-        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            showMissingPermissionsNotification()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                showMissingPermissionsNotification()
+            }
         }
 
         startScreenshotWatcher()
@@ -94,7 +99,7 @@ class BlindoVisionService : AccessibilityService(),
                     priority = NotificationCompat.PRIORITY_MAX,
                     pendingIntent = this
                 ).also { notification ->
-                    NotificationsManager.notify(MISSING_PERMISSIONS_NOTIFICATION_ID, notification)
+                    NotificationsManager.notify(missingPermissionsNotificationId, notification)
                 }
             }
     }
@@ -105,7 +110,7 @@ class BlindoVisionService : AccessibilityService(),
                 findFocus(AccessibilityNodeInfo.FOCUS_ACCESSIBILITY)?.also { node ->
                     val fullScreenshot: Bitmap = BitmapFactory.decodeStream(this)
                     this.close()
-                    var bounds: Rect = Rect()
+                    val bounds = Rect()
                     node.getBoundsInScreen(bounds)
                     latestNodeScreenshot = Bitmap.createBitmap(fullScreenshot, bounds.left, bounds.top, bounds.width(), bounds.height())
                     NavDeepLinkBuilder(this@BlindoVisionService)
@@ -123,7 +128,7 @@ class BlindoVisionService : AccessibilityService(),
                                     if (timeOut.toInt() > 0) (timeOut.toInt() * 1000).toLong() else null
                                 }
                             ).also { notification ->
-                                NotificationsManager.notify(SCREENSHOT_DETECTED_NOTIFICATION_ID, notification)
+                                NotificationsManager.notify(screenshotDetectedNotificationId, notification)
                             }
                         }
                 }

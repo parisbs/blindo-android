@@ -34,9 +34,9 @@ class HomeAdapter(
                         .into(this)
                 }
                 appLabel.text = Html.fromHtml(item.packageLabel).toString()
-                appCategory.text = item.category.split("_").mapNotNull {
-                    it.lowercase().replaceFirstChar { it.uppercase() }
-                }.joinToString(" ")
+                appCategory.text = item.category.split("_").joinToString(" ") { category ->
+                    category.lowercase().replaceFirstChar { it.uppercase() }
+                }
                 appRating.apply {
                     val ratingsText = item.numberOfRatings.takeUnless { it == 0 }?.let { numberOfRatings ->
                         context.resources.getQuantityString(

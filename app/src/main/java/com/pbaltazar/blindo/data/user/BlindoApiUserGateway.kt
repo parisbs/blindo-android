@@ -55,10 +55,10 @@ class BlindoApiUserGateway(
             GetPublicUserQuery(
                 id = userInput.id,
                 packsFilters = Optional.presentIfNotNull(userInput.packInput.filters?.toGraphQlFilter()),
-                packsSort = userInput.packInput.sort.mapNotNull { PackSortEnum.valueOf(it.name) },
+                packsSort = userInput.packInput.sort.map { PackSortEnum.valueOf(it.name) },
                 packsFirst = userInput.packInput.pageSize,
                 ratingsFilters = Optional.presentIfNotNull(userInput.ratingInput.filters?.toGraphQLFilter()),
-                ratingsSort = userInput.ratingInput.sort.mapNotNull { RatingSortEnum.valueOf(it.name) },
+                ratingsSort = userInput.ratingInput.sort.map { RatingSortEnum.valueOf(it.name) },
                 ratingsFirst = userInput.ratingInput.pageSize
             )
         ).let { response ->
@@ -77,7 +77,7 @@ class BlindoApiUserGateway(
             GetPublicUserPacksQuery(
                 id = userInput.id,
                 packsFilters = Optional.presentIfNotNull(userInput.packInput.filters?.toGraphQlFilter()),
-                packsSort = userInput.packInput.sort.mapNotNull { PackSortEnum.valueOf(it.name) },
+                packsSort = userInput.packInput.sort.map { PackSortEnum.valueOf(it.name) },
                 packsFirst = userInput.packInput.pageSize,
                 packsAfter = Optional.presentIfNotNull(userInput.packInput.nextPageToken)
             )
@@ -97,7 +97,7 @@ class BlindoApiUserGateway(
             GetPublicUserRatingsQuery(
                 id = userInput.id,
                 ratingsFilters = Optional.presentIfNotNull(userInput.ratingInput.filters?.toGraphQLFilter()),
-                ratingsSort = userInput.ratingInput.sort.mapNotNull { RatingSortEnum.valueOf(it.name) },
+                ratingsSort = userInput.ratingInput.sort.map { RatingSortEnum.valueOf(it.name) },
                 ratingsFirst = userInput.ratingInput.pageSize,
                 ratingsAfter = Optional.presentIfNotNull(userInput.ratingInput.nextPageToken)
             )

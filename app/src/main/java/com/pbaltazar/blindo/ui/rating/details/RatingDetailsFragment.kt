@@ -49,7 +49,7 @@ class RatingDetailsFragment : BlindoFragment<FragmentRatingDetailsBinding>() {
         ratingDetailsViewModel.setTargetRating(ratingDetailsFragmentArgs.rating)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentRatingDetailsBinding.inflate(inflater, container, false)
         userPhoto = binding!!.userPhoto
         authorInfo = binding!!.authorInfo

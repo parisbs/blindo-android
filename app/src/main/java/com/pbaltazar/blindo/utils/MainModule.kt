@@ -14,7 +14,7 @@ val mainModule = module {
         Dispatchers.Default
     }
 
-    single<FirebaseCrashlytics> {
+    single {
         FirebaseCrashlytics.getInstance()
     }
 }

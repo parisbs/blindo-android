@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.*
 import androidx.core.text.HtmlCompat
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
@@ -54,7 +53,7 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
         subscribeStep()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentTutorialBinding.inflate(inflater, container, false)
         stepInfo = binding!!.stepInfo
         dataList = binding!!.dataList
@@ -94,11 +93,11 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
         }
     }
 
-    private fun subscribePrivacyPolicy() = tutorialViewModel.isPrivacyPolicyAccepted.observe(this, Observer {
+    private fun subscribePrivacyPolicy() = tutorialViewModel.isPrivacyPolicyAccepted.observe(this) {
         isPrivacyPolicyAccepted = it
-    })
+    }
 
-    private fun subscribeStep() = tutorialViewModel.step.observe(this, Observer {
+    private fun subscribeStep() = tutorialViewModel.step.observe(this) {
         currentStep = it
         when (currentStep) {
             0 -> setStep(currentStep, R.string.tutorial__step_welcome)
@@ -112,7 +111,11 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
             8 -> if (isPrivacyPolicyAccepted) {
                 tutorialViewModel.setStep(currentStep + 1)
             } else {
-                setStep(currentStep, R.string.tutorial__step_privacy_policy_terms_conditions, R.string.tutorial__action_accept)
+                setStep(
+                    currentStep,
+                    R.string.tutorial__step_privacy_policy_terms_conditions,
+                    R.string.tutorial__action_accept
+                )
             }
             9 -> if (getUser() != null) {
                 tutorialViewModel.setStep(currentStep + 1)
@@ -128,7 +131,7 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
             } ?: setStep(currentStep + 1, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
             11 -> setStep(currentStep, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
         }
-    })
+    }
 
     private fun setStep(step: Int, description: Int, label: Int? = null) {
         dataList.gone()

@@ -24,8 +24,8 @@ class UserPacksPagination(
             is ApiResponse.Success -> LoadResult.Page(
                 data = listOf(apiResponse.data),
                 prevKey = null,
-                nextKey = if (apiResponse.data.packs?.hasNextPage ?: false)
-                    apiResponse.data.packs?.nextPageToken
+                nextKey = if (apiResponse.data.packs?.hasNextPage == true)
+                    apiResponse.data.packs.nextPageToken
             else null
             )
             is ApiResponse.Error -> when (val apiException = apiResponse.error) {

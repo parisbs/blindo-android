@@ -1,21 +1,18 @@
 package com.pbaltazar.blindo.ui.app.details.pages.packs
 
 import android.os.Bundle
-import android.view.*
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blindoapp.uitools.recyclerview.PaginationScrollListener
-import com.pbaltazar.blindo.MainNavigationDirections
-import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentAppPacksBinding
 import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.entities.Pack
 import com.pbaltazar.blindo.entities.connections.PackConnection
 import com.pbaltazar.blindo.entities.inputs.AppInput
-import com.pbaltazar.blindo.entities.inputs.PackInput
 import com.pbaltazar.blindo.ui.app.details.AppFragmentDirections
 import com.pbaltazar.blindo.ui.app.details.AppViewModel
 import com.pbaltazar.blindo.ui.app.details.pages.AppPagerHelper
@@ -30,9 +27,9 @@ class AppPacksFragment : FilterableFragment<FragmentAppPacksBinding>() {
 
     private lateinit var appPacksViewState: ViewState
     private lateinit var appPacksRecycler: RecyclerView
-    private val appPacksAdapter: AppPacksAdapter = AppPacksAdapter({ pack ->
+    private val appPacksAdapter: AppPacksAdapter = AppPacksAdapter { pack ->
         packOnClickListener(pack)
-    })
+    }
 
     private var currentApp: App? = null
     private var isLoading: Boolean = false
@@ -52,7 +49,7 @@ class AppPacksFragment : FilterableFragment<FragmentAppPacksBinding>() {
         currentApp = AppPagerHelper.appViewModelListener.getCurrentApp()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAppPacksBinding.inflate(inflater, container, false)
         appPacksViewState = binding!!.appPacksViewState
         appPacksRecycler = binding!!.appPacksRecycler
@@ -70,7 +67,7 @@ class AppPacksFragment : FilterableFragment<FragmentAppPacksBinding>() {
         if (currentApp == null && requiresRefresh.not()) {
             currentApp = AppPagerHelper.appViewModelListener.getCurrentApp()
         }
-        if (currentApp?.availablePacks ?: 0 > 0 && currentApp?.packs == null) {
+        if ((currentApp?.availablePacks ?: 0) > 0 && currentApp?.packs == null) {
             loadPacks()
         } else {
             setupApp()
@@ -89,7 +86,7 @@ class AppPacksFragment : FilterableFragment<FragmentAppPacksBinding>() {
         }
     }
 
-    private fun subscribePacks() = appViewModel.packs.observe(this, Observer {
+    private fun subscribePacks() = appViewModel.packs.observe(viewLifecycleOwner) {
         when (val response = it) {
             is AppViewModel.PacksList.Success -> {
                 if (requiresRefresh) {
@@ -128,7 +125,7 @@ class AppPacksFragment : FilterableFragment<FragmentAppPacksBinding>() {
             }
         }
         isLoading = false
-    })
+    }
 
     private fun loadPacks() {
         if (isLoading.not()) {

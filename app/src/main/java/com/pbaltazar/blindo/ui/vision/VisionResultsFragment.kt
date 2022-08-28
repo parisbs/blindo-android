@@ -9,7 +9,6 @@ import android.view.accessibility.AccessibilityEvent
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
-import androidx.lifecycle.Observer
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentVisionResultsBinding
 import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
@@ -38,7 +37,7 @@ class VisionResultsFragment : BlindoFragment<FragmentVisionResultsBinding>() {
         BlindoVisionBridge.listener.stopScreenshotWatcher()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentVisionResultsBinding.inflate(inflater, container, false)
         resultsState = binding!!.resultsState
         imagePreview = binding!!.imagePreview
@@ -70,13 +69,13 @@ class VisionResultsFragment : BlindoFragment<FragmentVisionResultsBinding>() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun subscribeImageAnalisis() = visionResultsViewModel.imageAnalisis.observe(this, Observer {
-       when (val response = it) {
+    private fun subscribeImageAnalisis() = visionResultsViewModel.imageAnalisis.observe(viewLifecycleOwner) {
+        when (val response = it) {
             is VisionResultsViewModel.ImageAnalisis.Success -> {
                 imagePreview.setImageBitmap(response.image)
                 description.text = getString(
                     R.string.vision__description,
-response.imageDescription.description
+                    response.imageDescription.description
                 )
                 confidence.text = getString(
                     R.string.vision__confidence,
@@ -101,9 +100,9 @@ response.imageDescription.description
                     sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
                 }
             }
-           is VisionResultsViewModel.ImageAnalisis.Empty -> {
-               resultsState.setState(State.EMPTY)
-           }
+            is VisionResultsViewModel.ImageAnalisis.Empty -> {
+                resultsState.setState(State.EMPTY)
+            }
             is VisionResultsViewModel.ImageAnalisis.Error -> {
                 resultsState.setErrorDescriptionText(
                     response.reason
@@ -111,7 +110,7 @@ response.imageDescription.description
                 resultsState.setState(State.ERROR)
             }
         }
-    })
+    }
 
     override fun onPause() {
         super.onPause()

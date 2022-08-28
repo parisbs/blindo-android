@@ -27,7 +27,7 @@ class BlindoApiRatingGateway(
             GetAppRatingsQuery(
                 id = appInput.id,
                 ratingsFilters = Optional.presentIfNotNull(appInput.ratingInput.filters?.toGraphQLFilter()),
-                ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
+                ratingsSort = appInput.ratingInput.sort.map { it.apiEnum as RatingSortEnum },
                 ratingsFirst = appInput.ratingInput.pageSize,
                 ratingsAfter = Optional.presentIfNotNull(appInput.ratingInput.nextPageToken)
             )
@@ -51,7 +51,7 @@ class BlindoApiRatingGateway(
             GetAppRatingsByPackageNameQuery(
                 packageName = appInput.packageName,
                 ratingsFilters = Optional.presentIfNotNull(appInput.ratingInput.filters?.toGraphQLFilter()),
-                ratingsSort = appInput.ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum },
+                ratingsSort = appInput.ratingInput.sort.map { it.apiEnum as RatingSortEnum },
                 ratingsFirst = appInput.ratingInput.pageSize,
                 ratingsAfter = Optional.presentIfNotNull(appInput.ratingInput.nextPageToken)
             )
@@ -74,9 +74,9 @@ class BlindoApiRatingGateway(
         blindoApiClient.mutate(
             CreateRatingMutation(
                 input = CreateRatingInput(
-                    appId = Optional.presentIfNotNull(rating.app?.id?.takeUnless { it.isNullOrEmpty() }),
-                    appPackageName = Optional.presentIfNotNull(rating.app?.packageName?.takeUnless { it.isNullOrEmpty() }),
-                    appPackageLabel = Optional.presentIfNotNull(rating.app?.packageLabel?.takeUnless { it.isNullOrEmpty() }),
+                    appId = Optional.presentIfNotNull(rating.app?.id?.takeUnless { it.isEmpty() }),
+                    appPackageName = Optional.presentIfNotNull(rating.app?.packageName?.takeUnless { it.isEmpty() }),
+                    appPackageLabel = Optional.presentIfNotNull(rating.app?.packageLabel?.takeUnless { it.isEmpty() }),
                     ui = rating.ui,
                     screenreaders = rating.screenreaders,
                     labels = rating.labels,
@@ -129,13 +129,13 @@ class BlindoApiRatingGateway(
                         userId = Optional.presentIfNotNull(ratingInput.userId.takeUnless { it.isNullOrEmptyOrBlank() })
                     )
                 ),
-                sort = Optional.presentIfNotNull(ratingInput.sort.mapNotNull { it.apiEnum as RatingSortEnum }),
+                sort = Optional.presentIfNotNull(ratingInput.sort.map { it.apiEnum as RatingSortEnum }),
                 first = Optional.presentIfNotNull(ratingInput.pageSize),
                 after = Optional.presentIfNotNull(ratingInput.nextPageToken)
             )
         ).let { response ->
             when (response) {
-                is Response.Success -> response.data.listRatings?.edges?.takeUnless { it.isNullOrEmpty() }?.let { ratings ->
+                is Response.Success -> response.data.listRatings?.edges?.takeUnless { it.isEmpty() }?.let { ratings ->
                     ApiResponse.Success(
                         ratings.mapNotNull { it?.node?.toApiModel() },
                         response.data.listRatings?.pageInfo?.hasNextPage ?: false,

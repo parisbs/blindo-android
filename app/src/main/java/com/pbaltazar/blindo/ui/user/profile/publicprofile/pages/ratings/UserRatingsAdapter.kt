@@ -26,7 +26,7 @@ class UserRatingsAdapter(
         getItem(position)?.also { item ->
             holder.itemBinding.apply {
                 ViewCompat.setAccessibilityHeading(commentHeaderContainer, true)
-                val UNKNOWN_TEXT = root.context.getString(R.string.appcomment_unknown_author)
+                val unknownText = root.context.getString(R.string.appcomment_unknown_author)
 
                 appCommentUserPicture.apply {
                     Glide.with(context)
@@ -37,7 +37,7 @@ class UserRatingsAdapter(
                 }
 
                 appCommentUserName.apply {
-                    text = item.app?.packageLabel ?: UNKNOWN_TEXT
+                    text = item.app?.packageLabel ?: unknownText
                 }
 
                 appCommentTotalAndDate.apply {

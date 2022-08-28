@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
@@ -75,7 +74,7 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentRatingCreatorBinding.inflate(inflater, container, false)
         totalRating = binding!!.ratingBars.totalRating
         totalRatingBar = binding!!.ratingBars.totalRatingBar
@@ -125,15 +124,16 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
         }
     }
 
-    private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(AUTH_CANCELED_ON_DIALOG)?.observe(this, Observer {
+    private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(AUTH_CANCELED_ON_DIALOG)?.observe(this
+) {
         if (it.not()) {
             launchLoginScreen()
         } else {
             findNavController().popBackStack()
         }
-    })
+    }
 
-    private fun subscribeUserRating() = ratingCreatorViewModel.rating.observe(this, Observer {
+    private fun subscribeUserRating() = ratingCreatorViewModel.rating.observe(this) {
         it?.also { rating ->
             isUpdate = true
             currentRatingId = rating.id
@@ -144,9 +144,9 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
             performanceRatingBar.setValueWithAccessibilitySupport(rating.performance.toFloat())
             commentText.text = Editable.Factory.getInstance().newEditable(rating.comment ?: "")
         }
-    })
+    }
 
-    private fun subscribeCreation() = ratingCreatorViewModel.isCreated.observe(this, Observer {
+    private fun subscribeCreation() = ratingCreatorViewModel.isCreated.observe(this) {
         when (val response = it) {
             is RatingCreatorViewModel.RatingCreatorViewState.Success -> {
                 Snackbar.make(
@@ -180,7 +180,7 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
                 ).show()
             }
         }
-    })
+    }
 
     private fun setupUi(){
         totalRating.visibility = View.GONE
@@ -221,17 +221,11 @@ class RatingCreatorFragment : AuthenticableFragment<FragmentRatingCreatorBinding
     }
 
     private fun verifyRequirements() {
-        if (
-            uiRatingBar.rating >= 1F &&
-                    screenreadersRatingBar.rating >= 1F &&
-                    labelsRatingBar.rating >= 1F &&
-                    functionsRatingBar.rating >= 1F &&
-                    performanceRatingBar.rating >= 1F
-                ) {
-            isReadyToContinue = true
-        } else {
-            isReadyToContinue = false
-        }
+        isReadyToContinue = uiRatingBar.rating >= 1F &&
+        screenreadersRatingBar.rating >= 1F &&
+        labelsRatingBar.rating >= 1F &&
+        functionsRatingBar.rating >= 1F &&
+        performanceRatingBar.rating >= 1F
     }
 
     private fun createRating() {

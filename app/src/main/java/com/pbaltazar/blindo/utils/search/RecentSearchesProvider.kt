@@ -9,6 +9,6 @@ class RecentSearchesProvider : SearchRecentSuggestionsProvider() {
 
     companion object {
         const val AUTHORITY: String = "com.pbaltazar.blindo.utils.search.RecentSearchesProvider"
-        const val MODE: Int = SearchRecentSuggestionsProvider.DATABASE_MODE_QUERIES
+        const val MODE: Int = DATABASE_MODE_QUERIES
     }
 }

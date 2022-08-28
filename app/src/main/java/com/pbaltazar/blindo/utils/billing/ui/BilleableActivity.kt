@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.Observer
 import androidx.navigation.NavDeepLinkBuilder
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.entities.Coin
@@ -86,27 +85,27 @@ open class BilleableActivity : AuthenticableActivity(),
         }
     }
 
-    private fun subscribeBillingConnection() = billingViewModel.isConnected.observe(this, Observer {
+    private fun subscribeBillingConnection() = billingViewModel.isConnected.observe(this) {
         onBillingConnection(it)
-    })
+    }
 
     fun getInAppsToPurchase() = billingViewModel.getAvailableInApps()
 
     override fun onInAppsToPurchase(availableProducts: BillingViewModel.AvailableProducts) {
     }
 
-    private fun subscribeInAppsToPurchase() = billingViewModel.inApps.observe(this, Observer {
+    private fun subscribeInAppsToPurchase() = billingViewModel.inApps.observe(this) {
         onInAppsToPurchase(it)
-    })
+    }
 
     fun getSubscriptionsToPurchase() = billingViewModel.getAvailableSubscriptions()
 
     override fun onSubscriptionsToPurchase(availableProducts: BillingViewModel.AvailableProducts) {
     }
 
-    private fun subscribeSubscriptionsToPurchase() = billingViewModel.subscriptions.observe(this, Observer {
+    private fun subscribeSubscriptionsToPurchase() = billingViewModel.subscriptions.observe(this) {
         onSubscriptionsToPurchase(it)
-    })
+    }
 
     fun askForNewInAppPurchases() = billingViewModel.askForPurchases(ProductType.INAPP)
 
@@ -124,10 +123,8 @@ open class BilleableActivity : AuthenticableActivity(),
 
     override fun onNewPurchases(purchases: BillingViewModel.Purchases) {
         when (purchases) {
-            is BillingViewModel.Purchases.Success -> purchases.purchases.also { newPurchases ->
-                newPurchases.forEach { purchase ->
-                    billingViewModel.sendPurchaseToApi(purchase)
-                }
+            is BillingViewModel.Purchases.Success -> purchases.purchases.onEach { purchase ->
+                billingViewModel.sendPurchaseToApi(purchase)
             }
             is BillingViewModel.Purchases.Empty -> Unit
             is BillingViewModel.Purchases.CanceledByUser -> {}
@@ -138,9 +135,9 @@ open class BilleableActivity : AuthenticableActivity(),
         }
     }
 
-    private fun subscribePurchases() = billingViewModel.purchases.observe(this, Observer {
+    private fun subscribePurchases() = billingViewModel.purchases.observe(this) {
         onNewPurchases(it)
-    })
+    }
 
     override fun onProductConsumption(consumption: BillingViewModel.Consumption) {
         when (consumption) {
@@ -152,9 +149,9 @@ open class BilleableActivity : AuthenticableActivity(),
         }
     }
 
-    private fun subscribeConsumption() = billingViewModel.consumption.observe(this, Observer {
+    private fun subscribeConsumption() = billingViewModel.consumption.observe(this) {
         onProductConsumption(it)
-    })
+    }
 
     override fun onCoinsPurchased(purchasedCoin: BillingViewModel.PurchasedCoin) {
         when (purchasedCoin) {
@@ -169,18 +166,18 @@ open class BilleableActivity : AuthenticableActivity(),
         }
     }
 
-    private fun subscribeCoins() = billingViewModel.coins.observe(this, Observer {
+    private fun subscribeCoins() = billingViewModel.coins.observe(this) {
         onCoinsPurchased(it)
-    })
+    }
 
     fun getCoinsHistory() = billingViewModel.getCoinsHistory()
 
     override fun onCoinsHistory(coinsHistory: BillingViewModel.CoinsHistory) {
     }
 
-    private fun subscribeCoinsHistory() = billingViewModel.coinsHistory.observe(this, Observer {
+    private fun subscribeCoinsHistory() = billingViewModel.coinsHistory.observe(this) {
         onCoinsHistory(it)
-    })
+    }
 
     fun getMembership() = billingViewModel.getMembership()
 
@@ -198,9 +195,9 @@ open class BilleableActivity : AuthenticableActivity(),
         }
     }
 
-    private fun subscribeMembership() = billingViewModel.membership.observe(this, Observer {
+    private fun subscribeMembership() = billingViewModel.membership.observe(this) {
         onMembershipPurchased(it)
-    })
+    }
 
     fun launchSubscriptionManagementPage(productId: String) {
         Intent(

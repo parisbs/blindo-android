@@ -11,7 +11,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.blindo.apollito.utils.extensions.toTimeAgo
@@ -95,7 +94,7 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentPackDetailsBinding.inflate(inflater, container, false)
         userPhoto = binding!!.userPhoto
         authorInfo = binding!!.authorInfo
@@ -115,11 +114,11 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(
-        AUTH_CANCELED_ON_DIALOG)?.observe(viewLifecycleOwner, Observer {
+        AUTH_CANCELED_ON_DIALOG)?.observe(viewLifecycleOwner) {
         if (it.not()) {
             launchLoginScreen()
         }
-    })
+    }
 
     override fun onSubscribeUser(user: User?) {
         installPack.isEnabled = true
@@ -181,7 +180,7 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
         }
     }
 
-    private fun subscribeDownload() = packDetailsViewModel.installablePack.observe(this, Observer {
+    private fun subscribeDownload() = packDetailsViewModel.installablePack.observe(this) {
         installPack.apply {
             contentDescription = getString(R.string.packdetails__install_button)
             isEnabled = true
@@ -202,7 +201,7 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
                 ).show()
             }
         }
-    })
+    }
 
     private fun setupUi() {
         packDetailsViewModel.getTargetPack()?.also { pack ->
@@ -249,19 +248,18 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
             ),
             Snackbar.LENGTH_INDEFINITE
         ).setAction(
-            getString(R.string.packdetails__get_premium),
-            {
-                findNavController().navigate(
-                    PackDetailsFragmentDirections.actionFromPackDetailsToPremium()
-                )
-            }
-        )
+            getString(R.string.packdetails__get_premium)
+        ) {
+            findNavController().navigate(
+                PackDetailsFragmentDirections.actionFromPackDetailsToPremium()
+            )
+        }
         installPack.isEnabled = false
         language = Locale.getDefault().language
         translateCheckBox.isEnabled = true
     }
 
-    private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this, Observer {
+    private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this) {
         when (it) {
             is AdsViewModel.AdsConsentStatus.Success -> when (val status = it.status) {
                 AdsManager.ConsentStatus.UNKNOWN, AdsManager.ConsentStatus.ADS_FREE -> findNavController().navigate(
@@ -270,14 +268,17 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
                 else -> loadInterstitialAd()
             }
             is AdsViewModel.AdsConsentStatus.Failure -> findNavController().navigate(
-                PackDetailsFragmentDirections.actionFromPackDetailsToAdsSettings(AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name, false)
+                PackDetailsFragmentDirections.actionFromPackDetailsToAdsSettings(
+                    AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name,
+                    false
+                )
             )
         }
-    })
+    }
 
-    private fun subscribeInterstitialAd() = adsViewModel.interstitialAd.observe(this, Observer {
+    private fun subscribeInterstitialAd() = adsViewModel.interstitialAd.observe(this) {
         interstitialAd = it
-    })
+    }
 
     private fun loadInterstitialAd() {
         adsViewModel.getInterstitialAd(object : FullScreenContentCallback() {
@@ -307,7 +308,7 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
     }
 
     private fun installPack() {
-        if (getUser()?.isPremium ?: false) {
+        if (getUser()?.isPremium == true) {
             packFile.installTalkbackPack(installPack)
         } else {
             interstitialAd?.show(requireActivity()) ?: findNavController().navigate(

@@ -3,6 +3,7 @@ package com.pbaltazar.blindo.utils.authentication.local
 import android.accounts.Account
 import android.accounts.AccountManager
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.entities.User
@@ -12,14 +13,16 @@ class BlindoAuthenticationLocal(
     private val accountManager: AccountManager
 ) : AuthenticationLocal {
 
-    private val ID = "id"
-    private val SUB = "sub"
-    private val EMAIL = "email"
-    private val NAME = "name"
-    private val PICTURE = "picture"
-    private val COINS_LEFT = "coinsLeft"
-    private val IS_VERIFIED = "isVerified"
-    private val IS_PREMIUM = "isPremium"
+    companion object {
+        private const val ID = "id"
+        private const val SUB = "sub"
+        private const val EMAIL = "email"
+        private const val NAME = "name"
+        private const val PICTURE = "picture"
+        private const val COINS_LEFT = "coinsLeft"
+        private const val IS_VERIFIED = "isVerified"
+        private const val IS_PREMIUM = "isPremium"
+    }
 
     override fun registerLocalAccount(user: User): Boolean = Account(
         user.email,
@@ -91,7 +94,12 @@ class BlindoAuthenticationLocal(
 
     override fun unregisterLocalAccount() {
         accountManager.getAccountsByType(context.getString(R.string.account_type)).forEach { account ->
-            accountManager.removeAccountExplicitly(account)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                accountManager.removeAccountExplicitly(account)
+            } else {
+                @Suppress("DEPRECATION")
+                accountManager.removeAccount(account, null, null)
+            }
         }
     }
 }

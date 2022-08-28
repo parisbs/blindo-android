@@ -6,13 +6,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
+import androidx.annotation.ArrayRes
 import androidx.annotation.IdRes
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.getResourceIdOrThrow
 import com.pbaltazar.blindo.R
-import com.pbaltazar.blindo.databinding.ComponentFiltersScreenBinding
-import com.pbaltazar.blindo.entities.filters.common.FloatRange
-import com.pbaltazar.blindo.entities.filters.common.IntRange
 import com.pbaltazar.blindo.components.filters.elements.CheckboxFilter
 import com.pbaltazar.blindo.components.filters.elements.OrderByElementFilter
 import com.pbaltazar.blindo.components.filters.elements.RangeFilter
@@ -20,7 +18,11 @@ import com.pbaltazar.blindo.components.filters.entities.orderby.OrderBySelection
 import com.pbaltazar.blindo.components.filters.extensions.toFiltersCheckbox
 import com.pbaltazar.blindo.components.filters.extensions.toFiltersOrderByElement
 import com.pbaltazar.blindo.components.filters.extensions.toFiltersRange
+import com.pbaltazar.blindo.databinding.ComponentFiltersScreenBinding
+import com.pbaltazar.blindo.entities.filters.common.FloatRange
+import com.pbaltazar.blindo.entities.filters.common.IntRange
 
+@Suppress("unused")
 class FiltersScreen @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -108,9 +110,7 @@ class FiltersScreen @JvmOverloads constructor(
         filtersOrderBySection.setSelections(selections)
 
     fun getFloatRange(@IdRes rangeId: Int): FloatRange =
-        rangeFilterElements.filter { it.id == rangeId }.takeIf { it.size == 1 }?.first()?.let {
-            it.getFloatRange()
-        } ?: throw IllegalArgumentException("Invalid range element ID.")
+        rangeFilterElements.filter { it.id == rangeId }.takeIf { it.size == 1 }?.first()?.getFloatRange() ?: throw IllegalArgumentException("Invalid range element ID.")
 
     fun setFloatRange(@IdRes rangeId: Int, range: FloatRange) =
         rangeFilterElements.filter { it.id == rangeId }.takeIf {
@@ -118,9 +118,7 @@ class FiltersScreen @JvmOverloads constructor(
         }?.first()?.setFloatRange(range) ?: throw IllegalArgumentException("Invalid range element ID.")
 
     fun getIntRange(@IdRes rangeId: Int): IntRange =
-        rangeFilterElements.filter { it.id == rangeId }.takeIf { it.size == 1 }?.first()?.let {
-            it.getIntRange()
-        } ?: throw IllegalArgumentException("Invalid range element ID.")
+        rangeFilterElements.filter { it.id == rangeId }.takeIf { it.size == 1 }?.first()?.getIntRange() ?: throw IllegalArgumentException("Invalid range element ID.")
 
     fun setIntRange(@IdRes rangeId: Int, range: IntRange) =
         rangeFilterElements.filter { it.id == rangeId }.takeIf {
@@ -165,7 +163,7 @@ class FiltersScreen @JvmOverloads constructor(
         checkboxFilterElements.add(element)
     }
 
-    fun addElementsFromArray(@IdRes arrayResId: Int) {
+    fun addElementsFromArray(@ArrayRes arrayResId: Int) {
         processElementsTypedArray(getFiltersArray(arrayResId))
     }
 
@@ -173,7 +171,7 @@ class FiltersScreen @JvmOverloads constructor(
         if (array.length() < 1) {
             throw IllegalArgumentException("Attribute app:filters should reference an array with at least one array as item")
         }
-        for (i in 0..(array.length() - 1)) {
+        for (i in 0 until array.length()) {
             val filterArray = getFiltersArray(array.getResourceIdOrThrow(i))
             when (filterArray.getResourceIdOrThrow(0)) {
                 FilterType.ORDER_BY_TYPE.id -> addOrderByElementFromTypedArray(filterArray)
@@ -184,7 +182,7 @@ class FiltersScreen @JvmOverloads constructor(
         }
     }
 
-    private fun getFiltersArray(@IdRes resId: Int): TypedArray =
+    private fun getFiltersArray(@ArrayRes resId: Int): TypedArray =
         resources.obtainTypedArray(resId)
 
     private fun getElementIdName(@IdRes id: Int): String =
