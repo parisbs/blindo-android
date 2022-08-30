@@ -7,66 +7,66 @@ ext {
     ]
 
     // Gradle plugins
-    googleServicesPluginVersion = "4.3.10"
-    perfPluginVersion = "1.4.1"
-    firebaseCrashlyticsPluginVersion = "2.9.0"
+    firebaseCrashlyticsPluginVersion = '2.9.0'
+    googleServicesPluginVersion = '4.3.10'
+    perfPluginVersion = '1.4.1'
 
-kotlinVersion = "1.6.21"
+kotlinVersion = '1.7.10'
 
     // Android libraries
-    appcompatVersion = '1.4.2'
+    appcompatVersion = '1.5.0'
     constraintVersion = '2.1.4'
+    coroutinesVersion = '1.6.4'
+    designVersion = '1.0.0-rc01'
     desugarVersion = '1.1.5'
     ktxVersion = '1.8.0'
-    legacySupportVersion = "1.0.0"
-    lifecycleVersion = '2.4.1'
-    navigationVersion = '2.4.2'
+    legacySupportVersion = '1.0.0'
+    lifecycleVersion = '2.5.1'
+    materialVersion = '1.6.1'
+    navigationVersion = '2.5.1'
     pagingVersion = '3.1.1'
     preferencesVersion = '1.2.0'
-    recyclerVersion = "1.2.1"
-    roomVersion = "2.2.5"
-    viewPager2Version = "1.0.0"
-    designVersion = "1.0.0-rc01"
-    materialVersion = '1.6.1'
-    coroutinesVersion = "1.6.4"
+    recyclerVersion = '1.2.1'
+    roomVersion = '2.2.5'
+    viewPager2Version = '1.0.0'
 
     // Test
-    coreTestingVersion = "2.0.1"
-    runnerVersion = "1.1.1"
-    espressoVersion = "3.4.0"
-    junitVersion = "4.13.2"
-    junitExtVersion = "1.1.3"
+    coreTestingVersion = '2.0.1'
+    espressoVersion = '3.4.0'
+    junitVersion = '4.13.2'
+    junitExtVersion = '1.1.3'
+    runnerVersion = '1.1.1'
 
     // Mocks
-    mockkVersion = "1.9.3"
-    mockitoKotlinVersion = "2.1.0"
-    mockitoInlineVersion = "2.25.1"
-    mockitoAndroidVersion = "2.13.0"
+    mockkVersion = '1.9.3'
+    mockitoAndroidVersion = '2.13.0'
+    mockitoInlineVersion = '2.25.1'
+    mockitoKotlinVersion = '2.1.0'
 
     // External libraries
-    googleServicesVersion = "19.2.0"
-    playCoreVersion = '1.10.3'
-    playCoreKtxVersion = "1.8.1"
-    firebaseVersion = "19.0.0"
-    firebaseAuthVersion = '21.0.5'
-    firebaseUiAuthVersion = "8.0.0"
-    firebaseAdsVersion = '21.0.0'
-    adsConsentVersion = "1.0.8"
-    firebaseCrashlyticsVersion = '18.2.11'
+    adsConsentVersion = '1.0.8'
+    apolloVersion = '3.5.0'
+    facebookVersion = '12.0.0'
+    firebaseVersion = '19.0.0'
+    firebaseAdsVersion = '21.1.0'
+    firebaseAnalyticsVersion = '21.1.0'
+    firebaseAuthVersion = '21.0.7'
+    firebaseCrashlyticsVersion = '18.2.12'
+    firebaseMessagingVersion = '23.0.7'
     firebasePerformanceVersion = '20.1.0'
-    firebaseMessagingVersion = '23.0.5'
-    firebaseAnalyticsVersion = '21.0.0'
-    apolloVersion = "3.3.0"
-    koinVersion = "3.2.0"
+    firebaseUiAuthVersion = '8.0.1'
+    glideVersion = '4.13.2'
+    googleServicesVersion = '19.2.0'
+    koinVersion = '3.2.0'
+    okhttp3Version = '4.9.3'
+    page_indicator_version = '1.0.6'
+    playCoreVersion = '1.10.3'
+    playCoreKtxVersion = '1.8.1'
     playStoreBillingVersion = '5.0.0'
-    timberVersion = "5.0.1"
-    page_indicator_version = "1.0.6"
-    viewStateVersion = "1.0"
-    okhttp3Version = "4.9.3"
-    glideVersion = "4.11.0"
-    facebookVersion = "12.0.0"
-    twitterVersion = "3.3.0"
-    uiToolsVersion = "1.0.0-beta03"
+    timberVersion = '5.0.1'
+    twitterVersion = '3.3.0'
+    uiToolsVersion = '1.0.0-beta03'
+    viewStateVersion = '1.0'
 
     // Implementations
     libraries = [
