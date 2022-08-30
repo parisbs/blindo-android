@@ -47,6 +47,7 @@ class RatingCreatorViewModel(
     fun getUserRating(ratingInput: RatingInput) = viewModelScope.launch(backgroundDispatcher) {
         when (val apiResponse = queryListRatings(ratingInput)) {
             is ApiResponse.Success -> userRating.postValue(apiResponse.data.last())
+            else -> Unit
         }
     }
 

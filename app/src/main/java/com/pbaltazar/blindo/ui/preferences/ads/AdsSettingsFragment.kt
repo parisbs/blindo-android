@@ -7,19 +7,20 @@ import android.view.ViewGroup
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
 import android.widget.TextView
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentAdsSettingsBinding
+import com.pbaltazar.blindo.entities.responses.AdsResponse
 import com.pbaltazar.blindo.utils.ads.AdsManager
+import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableFragment
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() {
 
-    private val adsSettingsViewModel: AdsSettingsViewModel by viewModel()
+    private val adsViewModel: AdsViewModel by sharedViewModel()
     private val adsSettingsFragmentArgs: AdsSettingsFragmentArgs by navArgs()
 
     private lateinit var currentStatus: TextView
@@ -27,7 +28,7 @@ class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() 
     private lateinit var purchaseSubscription: Button
 
     private var isFirstLaunch: Boolean = true
-    private var adsConsentStatus: AdsManager.ConsentStatus? = null
+    private var adsConsentStatus: AdsManager.Companion.ConsentStatus? = null
     set(value) {
         field = value
         if (getUser() != null) {
@@ -43,27 +44,27 @@ class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() 
                 purchaseSubscription.isEnabled = true
             }
         }
-        when (adsConsentStatus) {
-            AdsManager.ConsentStatus.PERSONALIZED -> currentStatus.text = getString(
+        when (value) {
+            AdsManager.Companion.ConsentStatus.PERSONALIZED -> currentStatus.text = getString(
                 R.string.ads__current_status,
                 getString(R.string.ads__personalized)
             )
-            AdsManager.ConsentStatus.NON_PERSONALIZED -> currentStatus.text = getString(
+            AdsManager.Companion.ConsentStatus.NON_PERSONALIZED -> currentStatus.text = getString(
                 R.string.ads__current_status,
                 getString(R.string.ads__non_personalized)
             )
-            AdsManager.ConsentStatus.ADS_FREE -> currentStatus.text = getString(
+            AdsManager.Companion.ConsentStatus.ADS_FREE -> currentStatus.text = getString(
                 R.string.ads__current_status,
                 getString(R.string.ads__ads_free_but_not_purchased)
             )
-            AdsManager.ConsentStatus.NON_REQUIRED -> {
+            AdsManager.Companion.ConsentStatus.NON_REQUIRED -> {
                 currentStatus.text = getString(
                     R.string.ads__current_status,
                     getString(R.string.ads__non_required)
                 )
                 changeConsent.isEnabled = false
             }
-            AdsManager.ConsentStatus.UNKNOWN -> currentStatus.text = getString(
+            AdsManager.Companion.ConsentStatus.UNKNOWN -> currentStatus.text = getString(
                 R.string.ads__current_status,
                 getString(R.string.ads__unknown_consent)
             )
@@ -84,10 +85,9 @@ class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         closeAfterUpdate = adsSettingsFragmentArgs.closeAfterUpdate
-        subscribeAdsConsentStatus()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentAdsSettingsBinding.inflate(inflater, container, false)
         currentStatus = binding!!.currentStatus
         changeConsent = binding!!.changeConsent
@@ -99,7 +99,7 @@ class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adsSettingsFragmentArgs.consentStatus?.also {
-            adsConsentStatus = AdsManager.ConsentStatus.valueOf(it)
+            adsConsentStatus = AdsManager.Companion.ConsentStatus.valueOf(it)
             forceA11yFocus()
             isFirstLaunch = false
         }
@@ -108,14 +108,15 @@ class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() 
     override fun onResume() {
         super.onResume()
         if (adsConsentStatus == null && isFirstLaunch) {
-            adsSettingsViewModel.updateAdsConsentStatus()
+            subscribeAdsConsentStatus()
+            adsViewModel.updateAdsConsentStatus()
         }
     }
 
-    private fun subscribeAdsConsentStatus() = adsSettingsViewModel.adsConsentStatus.observe(this, Observer {
+    private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this) {
         when (it) {
-            is AdsSettingsViewModel.AdsConsentStatus.Success -> if (adsConsentStatus?.equals(it.status)?.not() ?: true) {
-                adsConsentStatus = it.status
+            is AdsResponse.Success -> if (adsConsentStatus?.equals(it.data)?.not() == true) {
+                adsConsentStatus = it.data
                 if (isFirstLaunch) {
                     isFirstLaunch = false
                     forceA11yFocus()
@@ -131,17 +132,17 @@ class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() 
                     }
                 }
             }
-            is AdsSettingsViewModel.AdsConsentStatus.Failure -> {
-                adsConsentStatus = AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER
-                currentStatus.text = it.reason
+            is AdsResponse.Error -> {
+                adsConsentStatus = AdsManager.Companion.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER
+                currentStatus.text = it.error.localizedMessage ?: it.error.toString()
                 forceA11yFocus()
             }
         }
-    })
+    }
 
     private fun setupUi() {
         changeConsent.setOnClickListener {
-            adsSettingsViewModel.showConsentForm()
+            adsViewModel.showConsentForm(requireContext())
         }
         purchaseSubscription.setOnClickListener {
             findNavController().navigate(

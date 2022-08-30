@@ -7,9 +7,18 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val adsUtilsModule = module {
+
+    single {
+        AdsManager(
+            get(),
+            get()
+        )
+    }
+
     viewModel {
         AdsViewModel(
             get(named(BACKGROUND_DISPATCHER)),
+            get(),
             get()
         )
     }

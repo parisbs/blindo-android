@@ -33,6 +33,7 @@ import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityBlindoBinding
 import com.pbaltazar.blindo.entities.User
 import com.pbaltazar.blindo.entities.purchases.Purchase
+import com.pbaltazar.blindo.entities.responses.AdsResponse
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
@@ -105,7 +106,6 @@ class BlindoActivity : BilleableActivity() {
 
         AnalyticsManager.initialize()
         NotificationsManager.initialize(this)
-        adsViewModel.initializeAdsManager(this)
         UpdateManager.initialize(this)
         MessagingManager.initialize(this)
         registerPurchasesNotificationChannel()
@@ -143,6 +143,7 @@ class BlindoActivity : BilleableActivity() {
         setupUi()
         subscribeUser()
         subscribeIsValidationEmailSent()
+        subscribeIsAdsClientInitialized()
         subscribeAdsConsentStatus()
         subscribeAdsSettings()
     }
@@ -390,10 +391,27 @@ class BlindoActivity : BilleableActivity() {
         }
     }
 
+    private fun subscribeIsAdsClientInitialized() = adsViewModel.isAdsClientInitialized.observe(this) {
+        if (it) {
+            if (getUser()?.isPremium != true) {
+                loadAds()
+            }
+        }
+    }
+
     private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this) {
         when (it) {
-            is AdsViewModel.AdsConsentStatus.Success -> when (val status = it.status) {
-                AdsManager.ConsentStatus.ADS_FREE -> if (getUser()?.isPremium?.not() != true) {
+            is AdsResponse.Success -> when (val status = it.data) {
+                AdsManager.Companion.ConsentStatus.PERSONALIZED, AdsManager.Companion.ConsentStatus.NON_PERSONALIZED, AdsManager.Companion.ConsentStatus.NON_REQUIRED -> if (getUser()?.isPremium == true) {
+                    adBanner.gone()
+                } else {
+                    if (isWaitingForSplash.not()) {
+                        adBanner.visible()
+                    } else {
+                        adBanner.gone()
+                    }
+                }
+                AdsManager.Companion.ConsentStatus.ADS_FREE -> if (getUser()?.isPremium != true) {
                     if (isWaitingForSplash.not()) {
                         navController.navigate(
                             MainNavigationDirections.actionGlobalToAdsSettings(status.name, false)
@@ -402,23 +420,15 @@ class BlindoActivity : BilleableActivity() {
                 } else {
                     adBanner.visibility = View.GONE
                 }
-                AdsManager.ConsentStatus.UNKNOWN, AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER -> if (isWaitingForSplash.not()) {
+                AdsManager.Companion.ConsentStatus.UNKNOWN, AdsManager.Companion.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER -> if (isWaitingForSplash.not()) {
                     navController.navigate(
                         MainNavigationDirections.actionGlobalToAdsSettings(status.name, false)
                     )
                 } else Unit
-                else -> {
-                    if (isWaitingForSplash.not()) {
-                        adBanner.visibility = View.VISIBLE
-                    } else {
-                        adBanner.visibility = View.GONE
-                    }
-                    loadAds()
-                }
             }
-            is AdsViewModel.AdsConsentStatus.Failure -> navController.navigate(
+            is AdsResponse.Error -> navController.navigate(
                 MainNavigationDirections.actionGlobalToAdsSettings(
-                    AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name,
+                    AdsManager.Companion.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name,
                     false
                 )
             )
@@ -426,11 +436,9 @@ class BlindoActivity : BilleableActivity() {
     }
 
     private fun subscribeAdsSettings() =
-        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<AdsManager.ConsentStatus>(
+        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<AdsManager.Companion.ConsentStatus>(
             ARGUMENT_CONSENT_STATUS)?.observe(this) {
-            if (isWaitingForSplash.not()) {
-                adsViewModel.setConsentStatus(AdsViewModel.AdsConsentStatus.Success(it))
-            }
+                // No action is required
         }
 
     override fun onIsValidationEmailSent(isValidationEmailSent: Boolean) {
@@ -456,9 +464,7 @@ class BlindoActivity : BilleableActivity() {
 
                 override fun onAdFailedToLoad(error: LoadAdError) {
                     super.onAdFailedToLoad(error)
-                    navController.navigate(
-                        MainNavigationDirections.actionGlobalToAdsSettings(AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name, false)
-                    )
+                    adsViewModel.retryToLoadAds { loadAds() }
                 }
             })
         }

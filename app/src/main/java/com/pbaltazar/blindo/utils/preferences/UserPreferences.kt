@@ -6,8 +6,8 @@ import com.pbaltazar.blindo.utils.ads.AdsManager
 
 interface UserPreferences {
 
-    fun getAdsConsentStatus(): AdsManager.ConsentStatus
-    fun setAdsConsentStatus(consentStatus: AdsManager.ConsentStatus): Boolean
+    fun getAdsConsentStatus(): AdsManager.Companion.ConsentStatus
+    fun setAdsConsentStatus(consentStatus: AdsManager.Companion.ConsentStatus): Boolean
 
     fun isFirstTime(): Boolean
     fun disableFirstTime(): Boolean

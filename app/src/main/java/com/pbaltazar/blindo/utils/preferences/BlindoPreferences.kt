@@ -26,12 +26,12 @@ class BlindoPreferences(
         sharedPreferences.registerOnSharedPreferenceChangeListener(baseListener)
     }
 
-    override fun getAdsConsentStatus(): AdsManager.ConsentStatus =
+    override fun getAdsConsentStatus(): AdsManager.Companion.ConsentStatus =
         sharedPreferences.getString(ADS_CONSENT_STATUS, DEFAULT_ADS_CONSENT_STATUS)!!.let {
-            AdsManager.ConsentStatus.valueOf(it)
+            AdsManager.Companion.ConsentStatus.valueOf(it)
         }
 
-    override fun setAdsConsentStatus(consentStatus: AdsManager.ConsentStatus): Boolean =
+    override fun setAdsConsentStatus(consentStatus: AdsManager.Companion.ConsentStatus): Boolean =
         sharedPreferences.putAndCommit(ADS_CONSENT_STATUS, consentStatus.name)
 
     override fun isFirstTime(): Boolean = sharedPreferences.getBoolean(IS_FIRST_TIME, true)

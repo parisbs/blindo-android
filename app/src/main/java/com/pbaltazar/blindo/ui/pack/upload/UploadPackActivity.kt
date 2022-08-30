@@ -14,6 +14,7 @@ import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.ActivityUploadPackBinding
 import com.pbaltazar.blindo.entities.Label
 import com.pbaltazar.blindo.entities.User
+import com.pbaltazar.blindo.entities.responses.AdsResponse
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticableActivity
@@ -44,8 +45,6 @@ class UploadPackActivity : AuthenticableActivity() {
         setContentView(binding!!.root)
         toolbar = binding!!.toolbar
         setSupportActionBar(toolbar)
-
-        adsViewModel.initializeAdsManager(this)
 
         adBanner = binding!!.content.adBanner
         resume = binding!!.content.resume
@@ -91,15 +90,15 @@ class UploadPackActivity : AuthenticableActivity() {
 
     private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this) {
         when (it) {
-            is AdsViewModel.AdsConsentStatus.Success -> when (it.status) {
-                AdsManager.ConsentStatus.ADS_FREE -> {
+            is AdsResponse.Success -> when (it.data) {
+                AdsManager.Companion.ConsentStatus.ADS_FREE -> {
                     resume.text = getString(
                         R.string.ads__current_status,
                         getString(R.string.ads__ads_free_but_not_purchased)
                     )
                     send.isEnabled = false
                 }
-                AdsManager.ConsentStatus.UNKNOWN -> {
+                AdsManager.Companion.ConsentStatus.UNKNOWN -> {
                     resume.text = getString(
                         R.string.ads__current_status,
                         getString(R.string.ads__unknown_consent)
@@ -108,8 +107,8 @@ class UploadPackActivity : AuthenticableActivity() {
                 }
                 else -> adsViewModel.initializeAdsClient()
             }
-            is AdsViewModel.AdsConsentStatus.Failure -> {
-                resume.text = it.reason
+            is AdsResponse.Error -> {
+                resume.text = it.error.localizedMessage ?: it.error.toString()
                 send.isEnabled = false
             }
         }

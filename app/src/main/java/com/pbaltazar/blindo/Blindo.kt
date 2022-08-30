@@ -6,7 +6,6 @@ import com.pbaltazar.blindo.ui.app.appModule
 import com.pbaltazar.blindo.ui.filter.filterModule
 import com.pbaltazar.blindo.ui.home.homeModule
 import com.pbaltazar.blindo.ui.pack.packModule
-import com.pbaltazar.blindo.ui.preferences.ads.adsModule
 import com.pbaltazar.blindo.ui.rating.ratingModule
 import com.pbaltazar.blindo.ui.search.searchModule
 import com.pbaltazar.blindo.ui.sli.sliModule
@@ -53,7 +52,6 @@ class Blindo : Application() {
                 listOf(
                     mainModule,
                     adsUtilsModule,
-                    adsModule,
                     messagingModule,
                     preferencesModule,
                     dataModule,

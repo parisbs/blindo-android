@@ -23,6 +23,7 @@ import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentPackDetailsBinding
 import com.pbaltazar.blindo.entities.InstallablePack
 import com.pbaltazar.blindo.entities.User
+import com.pbaltazar.blindo.entities.responses.AdsResponse
 import com.pbaltazar.blindo.graphql.type.SupportedScreenreadersEnum
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
@@ -261,15 +262,15 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
 
     private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this) {
         when (it) {
-            is AdsViewModel.AdsConsentStatus.Success -> when (val status = it.status) {
-                AdsManager.ConsentStatus.UNKNOWN, AdsManager.ConsentStatus.ADS_FREE -> findNavController().navigate(
+            is AdsResponse.Success -> when (val status = it.data) {
+                AdsManager.Companion.ConsentStatus.UNKNOWN, AdsManager.Companion.ConsentStatus.ADS_FREE -> findNavController().navigate(
                     PackDetailsFragmentDirections.actionFromPackDetailsToAdsSettings(status.name, false)
                 )
                 else -> loadInterstitialAd()
             }
-            is AdsViewModel.AdsConsentStatus.Failure -> findNavController().navigate(
+            is AdsResponse.Error -> findNavController().navigate(
                 PackDetailsFragmentDirections.actionFromPackDetailsToAdsSettings(
-                    AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name,
+                    AdsManager.Companion.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name,
                     false
                 )
             )
@@ -281,7 +282,7 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
     }
 
     private fun loadInterstitialAd() {
-        adsViewModel.getInterstitialAd(object : FullScreenContentCallback() {
+        adsViewModel.getInterstitialAd(requireContext(), object : FullScreenContentCallback() {
             override fun onAdShowedFullScreenContent() {
                 super.onAdShowedFullScreenContent()
                 installPressedAt = System.currentTimeMillis()
@@ -301,7 +302,7 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
             override fun onAdFailedToShowFullScreenContent(error: AdError) {
                 super.onAdFailedToShowFullScreenContent(error)
                 findNavController().navigate(
-                    PackDetailsFragmentDirections.actionFromPackDetailsToAdsSettings(AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name, false)
+                    PackDetailsFragmentDirections.actionFromPackDetailsToAdsSettings(AdsManager.Companion.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name, false)
                 )
             }
         })
@@ -312,7 +313,7 @@ class PackDetailsFragment : AuthenticableFragment<FragmentPackDetailsBinding>() 
             packFile.installTalkbackPack(installPack)
         } else {
             interstitialAd?.show(requireActivity()) ?: findNavController().navigate(
-                PackDetailsFragmentDirections.actionFromPackDetailsToAdsSettings(AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name, false)
+                PackDetailsFragmentDirections.actionFromPackDetailsToAdsSettings(AdsManager.Companion.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name, false)
             )
         }
     }

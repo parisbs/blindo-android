@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.pbaltazar.blindo.MainNavigationDirections
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentSplashBinding
+import com.pbaltazar.blindo.entities.responses.AdsResponse
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
@@ -103,8 +104,8 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
 
     private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this) {
         when (it) {
-            is AdsViewModel.AdsConsentStatus.Success -> when (val status = it.status) {
-                AdsManager.ConsentStatus.ADS_FREE -> getUser()?.also { currentUser ->
+            is AdsResponse.Success -> when (val status = it.data) {
+                AdsManager.Companion.ConsentStatus.ADS_FREE -> getUser()?.also { currentUser ->
                     if (currentUser.isPremium.not()) {
                         if (isAdsFlowInitialized.not()) {
                             isAdsFlowInitialized = true
@@ -125,7 +126,7 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
                         MainNavigationDirections.actionGlobalToAdsSettings(status.name, true)
                     )
                 }
-                AdsManager.ConsentStatus.UNKNOWN -> {
+                AdsManager.Companion.ConsentStatus.UNKNOWN -> {
                     if (isAdsFlowInitialized.not()) {
                         isAdsFlowInitialized = true
                         subscribeAdsSettings()
@@ -142,14 +143,14 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
                     adsViewModel.initializeAdsClient()
                 }
             }
-            is AdsViewModel.AdsConsentStatus.Failure -> showErrorLoading(it.reason)
+            is AdsResponse.Error -> showErrorLoading(it.error.localizedMessage ?: it.error.toString())
         }
     }
 
     private fun subscribeAdsSettings() =
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<AdsManager.ConsentStatus>(
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<AdsManager.Companion.ConsentStatus>(
             ARGUMENT_CONSENT_STATUS)?.observe(this) {
-            adsViewModel.setConsentStatus(AdsViewModel.AdsConsentStatus.Success(it))
+            // No action is required
         }
 
     private fun subscribeIsAdsClientInitialized() = adsViewModel.isAdsClientInitialized.observe(this) {
@@ -158,7 +159,7 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
         } else {
             findNavController().navigate(
                 MainNavigationDirections.actionGlobalToAdsSettings(
-                    AdsManager.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name,
+                    AdsManager.Companion.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name,
                     true
                 )
             )
