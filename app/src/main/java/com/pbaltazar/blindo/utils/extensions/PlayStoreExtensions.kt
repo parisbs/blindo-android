@@ -31,14 +31,14 @@ fun com.android.billingclient.api.Purchase.toBlindoModel(): Purchase = Purchase(
 )
 
 fun com.android.billingclient.api.Purchase.getProductType(): ProductType {
-    if (products.size >= 1) {
+    return if (products.size >= 1) {
         when (products.first()) {
-            "blindo_membership" -> return ProductType.SUBSCRIPTION
-            "blindo_coins_500" -> return ProductType.INAPP
-            else -> return ProductType.INAPP
+            "blindo_membership" -> ProductType.SUBSCRIPTION
+            "blindo_coins_500" -> ProductType.INAPP
+            else -> ProductType.INAPP
         }
     } else {
-        return ProductType.INAPP
+        ProductType.INAPP
     }
 }
 
@@ -54,7 +54,6 @@ fun Product.toPlayStoreProduct(): QueryProductDetailsParams.Product =
             when (type) {
                 ProductType.INAPP -> BillingClient.ProductType.INAPP
                 ProductType.SUBSCRIPTION -> BillingClient.ProductType.SUBS
-                else -> BillingClient.ProductType.SUBS
             }
         )
         .build()
