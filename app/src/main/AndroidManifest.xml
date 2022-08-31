@@ -72,12 +72,20 @@
             android:label="@string/title_activity_upload_pack"
             android:theme="@style/AppTheme.NoActionBar"
             android:exported="true">
-            <intent-filter>
+            <intent-filter
+                android:icon="@drawable/ic_blindo_192dp"
+                android:label="@string/title_activity_upload_pack"
+                android:priority="1">
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="application/json" />
+
+                <!-- Talkback labels -->
+                <data
+                    android:host="com.google.android.marvin.talkback.providers.FileProvider"
+                    android:pathSuffix=".tbl" />
             </intent-filter>
         </activity>
 

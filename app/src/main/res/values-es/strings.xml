@@ -422,7 +422,7 @@ de etiquetas, Si no quieres esperar ni mostrar anuncios puedes comprar una membr
         <item quantity="other">Con %1$d etiquetas en %2$s</item>
     </plurals>
 
-    <string name="title_activity_upload_pack">Subir etiquetas a Blindo</string>
+    <string name="title_activity_upload_pack">Subir paquete de etiquetas</string>
     <string name="uploadpack__user">Accediste como %1$s</string>
     <string name="uploadpack__notice">Tus etiquetas serán actualizadas ó creadas y estarán disponibles para cualquier usuario de Blindo además de añadirse
 a tu respaldo. Por favor no incluyas malas palabras ni utilices lenguaje ofensivo o discriminatorio, tu cuenta podría ser suspendida si incumples las reglas

@@ -397,7 +397,7 @@
         <item quantity="other">With %1$d labels on %2$s</item>
     </plurals>
 
-    <string name="title_activity_upload_pack">Upload labels in Blindo</string>
+    <string name="title_activity_upload_pack">Upload labels pack</string>
     <string name="uploadpack__user">Signed as %1$s</string>
     <string name="uploadpack__notice">Your labels will be updated or created and will be available for all the Blindo users and in your backup. Please don\'t include bad words or any bad expression or language, your account could be suspended if you violate the vocabulary rules</string>
     <string name="uploadpack__resume">Detected %1$d labels for %2$d apps in %3$d different languages (%4$s)</string>
