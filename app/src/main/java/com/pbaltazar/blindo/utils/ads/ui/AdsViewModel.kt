@@ -5,8 +5,6 @@ import androidx.lifecycle.*
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.pbaltazar.blindo.entities.responses.AdsResponse
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.preferences.UserPreferences
@@ -58,13 +56,6 @@ class AdsViewModel(
 
     fun getAdRequestWithAdsPreferences(): AdRequest =
         adsManager.getAdRequest()
-
-    private val _interstitialAd = MutableLiveData<InterstitialAd?>()
-    val interstitialAd: LiveData<InterstitialAd?> get() = _interstitialAd
-
-    fun getInterstitialAd(context: Context, fullScreenContentCallback: FullScreenContentCallback) = viewModelScope.launch {
-        _interstitialAd.postValue(adsManager.getInterstitialAd(context, fullScreenContentCallback))
-    }
 
     fun getBannerAd(adView: AdView, adListener: AdListener): AdView =
         adsManager.getBannerAd(adView, adListener)

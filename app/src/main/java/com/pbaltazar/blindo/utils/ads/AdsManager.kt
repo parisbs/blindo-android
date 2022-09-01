@@ -6,8 +6,6 @@ import com.google.ads.consent.*
 import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.initialization.AdapterStatus
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.pbaltazar.blindo.BuildConfig
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.entities.responses.AdsResponse
@@ -195,31 +193,6 @@ class AdsManager(
                 NO_PERSONALIZED_ADS_NO
             )
         }).build()
-
-    suspend fun getInterstitialAd(
-        context: Context,
-        fullScreenContentCallback: FullScreenContentCallback
-    ): InterstitialAd? {
-        val interstitialAdChannel: Channel<InterstitialAd?> = Channel(Channel.UNLIMITED)
-        InterstitialAd.load(
-            context,
-            context.getString(R.string.admob__install_pack_intersticial),
-            getAdRequest(),
-            object : InterstitialAdLoadCallback() {
-                override fun onAdLoaded(ad: InterstitialAd) {
-                    super.onAdLoaded(ad)
-                    ad.fullScreenContentCallback = fullScreenContentCallback
-                    interstitialAdChannel.trySend(ad)
-                }
-
-                override fun onAdFailedToLoad(error: LoadAdError) {
-                    super.onAdFailedToLoad(error)
-                    interstitialAdChannel.trySend(null)
-                }
-            }
-        )
-        return interstitialAdChannel.receive()
-    }
 
     fun getBannerAd(adView: AdView, adListener: AdListener): AdView {
         adView.loadAd(getAdRequest())
