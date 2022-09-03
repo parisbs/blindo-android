@@ -22,7 +22,6 @@ val authenticationModule = module {
 
     single<AuthenticationLocal> {
         BlindoAuthenticationLocal(
-            get(),
             get()
         )
     }
@@ -41,6 +40,7 @@ val authenticationModule = module {
     viewModel {
         AuthenticationViewModel(
             get(named(BACKGROUND_DISPATCHER)),
+            get(),
         get(),
             get(),
             get(),

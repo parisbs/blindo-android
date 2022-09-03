@@ -1,10 +1,10 @@
 package com.pbaltazar.blindo.ui.user.login
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
@@ -109,13 +109,17 @@ class LoginActivity : AuthenticableActivity() {
         }
     }
 
+    /**
+     * Suppress hardware IDs warning in order to retrieve an unique device ID
+     * and prevent multi-account and other dangerous behaviors
+     */
+    @SuppressLint("HardwareIds")
     override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
         when (userAuthentication) {
             is AuthenticationViewModel.UserAuthentication.Success -> userAuthentication.user.also {
                 setStepLoading()
                 registerDevice(
                     Device(
-                        hardwareFingerprint = Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID),
                         name = if (Build.MODEL.lowercase().startsWith(Build.MANUFACTURER.lowercase()))
                             Build.MODEL.substring(Build.MANUFACTURER.length).let { model ->
                                 "${

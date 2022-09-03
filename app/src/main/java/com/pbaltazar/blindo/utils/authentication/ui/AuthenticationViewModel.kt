@@ -16,13 +16,16 @@ import com.pbaltazar.blindo.usecases.*
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.authentication.local.AuthenticationLocal
 import com.pbaltazar.blindo.utils.authentication.provider.AuthenticationProvider
+import com.pbaltazar.blindo.utils.constants.REQUIRES_USER_DATA_UPDATE_BUILD_129
 import com.pbaltazar.blindo.utils.extensions.getAuthenticationMethod
+import com.pbaltazar.blindo.utils.preferences.UserPreferences
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 @Suppress("unused")
 class AuthenticationViewModel(
     private val backgroundDispatcher: CoroutineContext,
+    private val userPreferences: UserPreferences,
     private val authenticationLocal : AuthenticationLocal,
     private val authenticationProvider : AuthenticationProvider,
     private val queryAuthenticateUser: QueryAuthenticateUser,
@@ -315,13 +318,16 @@ class AuthenticationViewModel(
     }
 
     private fun signIn(user: User) {
+        if (userPreferences.getBoolean(REQUIRES_USER_DATA_UPDATE_BUILD_129, true)) {
+            if (softCleanLocalUserData()) {
+                userPreferences.setBoolean(REQUIRES_USER_DATA_UPDATE_BUILD_129, false)
+            }
+        }
         authenticationLocal.getLocalAccount()?.also { localUser ->
             if ((localUser == user).not()) {
                 authenticationLocal.updateLocalAccount(user)
             }
-        } ?: run {
-            authenticationLocal.registerLocalAccount(user)
-        }
+        } ?: authenticationLocal.registerLocalAccount(user)
         setUser(user)
         _authentication.postValue(UserAuthentication.Success(user))
         AnalyticsManager.registerLoginEvent(user.getAuthenticationMethod())
@@ -334,6 +340,12 @@ class AuthenticationViewModel(
 
     fun setIsUserPremium(isUserPremium: Boolean) = setUser(authenticationLocal.setLocalAccountIsPremium(isUserPremium))
 
+    fun saveDeviceMessagingToken(messagingToken: String) =
+        authenticationLocal.saveDeviceMessagingToken(messagingToken)
+
+    fun getLatestStoragedDeviceMessagingToken(): String? =
+        authenticationLocal.getLatestStoragedDeviceMessagingToken()
+
     fun signOut(propagateSignOutStateToViewModel: Boolean = true) {
         authenticationProvider.signOut()
         cleanLocalUserData()
@@ -343,9 +355,12 @@ class AuthenticationViewModel(
     }
 
     private fun cleanLocalUserData() {
-        authenticationLocal.unregisterLocalAccount()
+        softCleanLocalUserData()
         setUser(null)
     }
+
+    private fun softCleanLocalUserData(): Boolean =
+        authenticationLocal.unregisterLocalAccount()
 
     sealed class UserAuthentication {
         class Success(val user: User) : UserAuthentication()

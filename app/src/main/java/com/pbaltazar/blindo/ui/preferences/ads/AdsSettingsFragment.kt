@@ -28,6 +28,7 @@ class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() 
     private lateinit var purchaseSubscription: Button
 
     private var isFirstLaunch: Boolean = true
+    private var isSubscribedToAdsConsentStatus: Boolean = false
     private var adsConsentStatus: AdsManager.Companion.ConsentStatus? = null
     set(value) {
         field = value
@@ -108,7 +109,10 @@ class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() 
     override fun onResume() {
         super.onResume()
         if (adsConsentStatus == null && isFirstLaunch) {
-            subscribeAdsConsentStatus()
+            if (isSubscribedToAdsConsentStatus.not()) {
+                isSubscribedToAdsConsentStatus = true
+                subscribeAdsConsentStatus()
+            }
             adsViewModel.updateAdsConsentStatus()
         }
     }
@@ -142,6 +146,10 @@ class AdsSettingsFragment : AuthenticableFragment<FragmentAdsSettingsBinding>() 
 
     private fun setupUi() {
         changeConsent.setOnClickListener {
+            if (isSubscribedToAdsConsentStatus.not()) {
+                isSubscribedToAdsConsentStatus = true
+                subscribeAdsConsentStatus()
+            }
             adsViewModel.showConsentForm(requireContext())
         }
         purchaseSubscription.setOnClickListener {

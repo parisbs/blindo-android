@@ -18,7 +18,8 @@ data class User(
     val numberOfPacks: String = "0",
     val numberOfRatings: String = "0",
     val packs: PackConnection? = null,
-    val ratings: RatingConnection? = null
+    val ratings: RatingConnection? = null,
+    val device: Device = Device()
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -33,7 +34,8 @@ data class User(
         parcel.readString() ?: "0",
         parcel.readString() ?: "0",
         parcel.readParcelable(PackConnection::class.java.classLoader),
-        parcel.readParcelable(RatingConnection::class.java.classLoader)
+        parcel.readParcelable(RatingConnection::class.java.classLoader),
+        parcel.readParcelable(Device::class.java.classLoader) ?: Device()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -49,6 +51,7 @@ data class User(
         parcel.writeString(numberOfRatings)
         parcel.writeParcelable(packs, flags)
         parcel.writeParcelable(ratings, flags)
+        parcel.writeParcelable(device, flags)
     }
 
     override fun describeContents(): Int = 0

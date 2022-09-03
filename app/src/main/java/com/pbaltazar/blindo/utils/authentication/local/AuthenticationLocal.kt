@@ -16,5 +16,9 @@ interface AuthenticationLocal {
 
     fun setLocalAccountIsPremium(isPremium: Boolean): User?
 
-    fun unregisterLocalAccount()
+    fun saveDeviceMessagingToken(messagingToken: String)
+
+    fun getLatestStoragedDeviceMessagingToken(): String?
+
+    fun unregisterLocalAccount(): Boolean
 }

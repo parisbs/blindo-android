@@ -1,5 +1,7 @@
 package com.pbaltazar.blindo.utils.authentication.ui
 
+import android.annotation.SuppressLint
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import com.pbaltazar.blindo.entities.Device
 import com.pbaltazar.blindo.entities.User
@@ -12,6 +14,11 @@ open class AuthenticableActivity : AppCompatActivity(),
 
     private val loginScreen = registerForActivityResult(AuthenticationContract()) { signedUser ->
         authenticationViewModel.setUser(signedUser)
+    }
+
+    val hardwareFingerprint: String @SuppressLint("HardwareIds")
+    get() {
+        return Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
     }
 
     override fun onDestroy() {
@@ -65,13 +72,25 @@ open class AuthenticableActivity : AppCompatActivity(),
         onSubscribeDeviceRegistration(it)
     }
 
-    fun registerDevice(device: Device) = authenticationViewModel.registerDevice(device)
+    fun registerDevice(device: Device) =
+        authenticationViewModel.registerDevice(device.copy(
+            hardwareFingerprint = hardwareFingerprint
+        ))
 
     fun subscribeDeviceUpdates() = authenticationViewModel.deviceUpdates.observe(this) {
         onSubscribeDeviceUpdates(it)
     }
 
-    fun updateDevice(device: Device) = authenticationViewModel.updateDevice(device)
+    fun updateDevice(device: Device) =
+        authenticationViewModel.updateDevice(device.copy(
+            hardwareFingerprint = hardwareFingerprint
+        ))
+
+    fun saveDeviceMessagingToken(messagingToken: String) =
+        authenticationViewModel.saveDeviceMessagingToken(messagingToken)
+
+    fun getLatestStoragedDeviceMessagingToken(): String? =
+        authenticationViewModel.getLatestStoragedDeviceMessagingToken()
 
     fun signOut(propagateSignOutStateToViewModel: Boolean = true) = authenticationViewModel.signOut(propagateSignOutStateToViewModel)
 }

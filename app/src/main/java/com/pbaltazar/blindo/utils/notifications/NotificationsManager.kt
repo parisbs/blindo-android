@@ -13,16 +13,13 @@ import com.pbaltazar.blindo.utils.log.BlindoLogger
 
 object NotificationsManager {
 
-    private lateinit var context: Context
     private lateinit var notificationManager: NotificationManager
 
     val isInitialized: Boolean get() {
-        return this::context.isInitialized &&
-            this::notificationManager.isInitialized
+        return this::notificationManager.isInitialized
     }
 
     fun initialize(context: Context) {
-        this.context = context
         notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     }
 
@@ -36,6 +33,7 @@ object NotificationsManager {
     }
 
     fun createSimpleNotification(
+        context: Context,
         @DrawableRes icon: Int,
         title: String,
         body: String,
@@ -64,7 +62,7 @@ object NotificationsManager {
         }
     }
 
-    fun notify(id: Int, notification: Notification) {
+    fun notify(context: Context, id: Int, notification: Notification) {
         with(NotificationManagerCompat.from(context)) {
             this.notify(id, notification)
         }

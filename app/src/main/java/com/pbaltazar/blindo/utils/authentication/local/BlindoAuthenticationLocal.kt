@@ -2,14 +2,13 @@ package com.pbaltazar.blindo.utils.authentication.local
 
 import android.accounts.Account
 import android.accounts.AccountManager
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import com.pbaltazar.blindo.R
+import com.pbaltazar.blindo.entities.Device
 import com.pbaltazar.blindo.entities.User
+import com.pbaltazar.blindo.utils.constants.ACCOUNT_TYPE
 
 class BlindoAuthenticationLocal(
-    private val context: Context,
     private val accountManager: AccountManager
 ) : AuthenticationLocal {
 
@@ -22,11 +21,12 @@ class BlindoAuthenticationLocal(
         private const val COINS_LEFT = "coinsLeft"
         private const val IS_VERIFIED = "isVerified"
         private const val IS_PREMIUM = "isPremium"
+        private const val MESSAGING_TOKEN = "messagingToken"
     }
 
     override fun registerLocalAccount(user: User): Boolean = Account(
         user.email,
-        context.getString(R.string.account_type)
+        ACCOUNT_TYPE
     ).let { account ->
         Bundle().let { extra ->
             extra.putString(ID, user.id)
@@ -37,12 +37,13 @@ class BlindoAuthenticationLocal(
             extra.putInt(COINS_LEFT, user.coinsLeft)
             extra.putString(IS_VERIFIED, user.isVerified.toString())
             extra.putString(IS_PREMIUM, user.isPremium.toString())
+            extra.putString(MESSAGING_TOKEN, user.device.gcmToken)
             accountManager.addAccountExplicitly(account, user.id, extra)
         }
     }
 
     override fun getLocalAccount(): User? = accountManager.getAccountsByType(
-        context.getString(R.string.account_type)
+        ACCOUNT_TYPE
     ).lastOrNull()?.let { account ->
         User(
             id = accountManager.getUserData(account, ID),
@@ -54,12 +55,15 @@ class BlindoAuthenticationLocal(
                 coinsLeft?.toInt() ?: 0
             },
             isVerified = accountManager.getUserData(account, IS_VERIFIED).toBoolean(),
-            isPremium = accountManager.getUserData(account, IS_PREMIUM).toBoolean()
+            isPremium = accountManager.getUserData(account, IS_PREMIUM).toBoolean(),
+            device = Device(
+                gcmToken = accountManager.getUserData(account, MESSAGING_TOKEN)
+            )
         )
     }
 
     override fun updateLocalAccount(user: User): User? = accountManager.getAccountsByType(
-        context.getString(R.string.account_type)
+        ACCOUNT_TYPE
     ).lastOrNull()?.let { account ->
         accountManager.setUserData(account, ID, user.id)
         accountManager.setUserData(account, SUB, user.sub)
@@ -72,34 +76,45 @@ class BlindoAuthenticationLocal(
     }
 
     override fun setLocalAccountIsVerified(isVerified: Boolean): User? = accountManager.getAccountsByType(
-        context.getString(R.string.account_type)
+        ACCOUNT_TYPE
     ).lastOrNull()?.let { account ->
         accountManager.setUserData(account, IS_VERIFIED, isVerified.toString())
         getLocalAccount()
     }
 
     override fun setLocalAccountCoinsLeft(coinsLeft: Int): User? = accountManager.getAccountsByType(
-        context.getString(R.string.account_type)
+        ACCOUNT_TYPE
     ).lastOrNull()?.let { account ->
         accountManager.setUserData(account, COINS_LEFT, coinsLeft.toString())
         getLocalAccount()
     }
 
     override fun setLocalAccountIsPremium(isPremium: Boolean): User? = accountManager.getAccountsByType(
-        context.getString(R.string.account_type)
+        ACCOUNT_TYPE
     ).lastOrNull()?.let { account ->
         accountManager.setUserData(account, IS_PREMIUM, isPremium.toString())
         getLocalAccount()
     }
 
-    override fun unregisterLocalAccount() {
-        accountManager.getAccountsByType(context.getString(R.string.account_type)).forEach { account ->
+    override fun saveDeviceMessagingToken(messagingToken: String) {
+        accountManager.getAccountsByType(ACCOUNT_TYPE).lastOrNull()?.also { account ->
+            accountManager.setUserData(account, MESSAGING_TOKEN, messagingToken)
+        }
+    }
+
+    override fun getLatestStoragedDeviceMessagingToken(): String? = getLocalAccount()?.device?.gcmToken
+
+    override fun unregisterLocalAccount(): Boolean {
+        val isSuccess: MutableList<Boolean> = mutableListOf()
+        accountManager.getAccountsByType(ACCOUNT_TYPE).forEach { account ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                accountManager.removeAccountExplicitly(account)
+                isSuccess.add(accountManager.removeAccountExplicitly(account))
             } else {
                 @Suppress("DEPRECATION")
                 accountManager.removeAccount(account, null, null)
+                isSuccess.add(true)
             }
         }
+        return isSuccess.contains(false).not()
     }
 }

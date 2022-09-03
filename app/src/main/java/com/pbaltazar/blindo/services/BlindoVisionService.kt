@@ -92,6 +92,7 @@ class BlindoVisionService : AccessibilityService(),
             .addDestination(R.id.navPermissions)
             .createPendingIntent().apply {
                 NotificationsManager.createSimpleNotification(
+                    context = applicationContext,
                     icon = R.drawable.ic_blindo_192dp,
                     title = getString(R.string.permissions__activity_title),
                     body = getString(R.string.permissions__summary),
@@ -99,7 +100,7 @@ class BlindoVisionService : AccessibilityService(),
                     priority = NotificationCompat.PRIORITY_MAX,
                     pendingIntent = this
                 ).also { notification ->
-                    NotificationsManager.notify(missingPermissionsNotificationId, notification)
+                    NotificationsManager.notify(applicationContext, missingPermissionsNotificationId, notification)
                 }
             }
     }
@@ -118,6 +119,7 @@ class BlindoVisionService : AccessibilityService(),
                         .setDestination(R.id.navVisionResults)
                         .createPendingIntent().apply {
                             NotificationsManager.createSimpleNotification(
+                                context = applicationContext,
                                 icon = R.drawable.ic_blindo_192dp,
                                 title = getString(R.string.vision__service_name),
                                 body = getString(R.string.vision__screenshot_detected),
@@ -128,7 +130,7 @@ class BlindoVisionService : AccessibilityService(),
                                     if (timeOut.toInt() > 0) (timeOut.toInt() * 1000).toLong() else null
                                 }
                             ).also { notification ->
-                                NotificationsManager.notify(screenshotDetectedNotificationId, notification)
+                                NotificationsManager.notify(applicationContext, screenshotDetectedNotificationId, notification)
                             }
                         }
                 }

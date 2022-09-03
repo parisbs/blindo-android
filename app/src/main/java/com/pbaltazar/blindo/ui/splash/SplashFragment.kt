@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.pbaltazar.blindo.MainNavigationDirections
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.databinding.FragmentSplashBinding
+import com.pbaltazar.blindo.entities.Device
 import com.pbaltazar.blindo.entities.responses.AdsResponse
 import com.pbaltazar.blindo.utils.ads.AdsManager
 import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
@@ -18,18 +19,22 @@ import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.extensions.isActive
 import com.pbaltazar.blindo.utils.log.BlindoLogger
+import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
 
     private val splashViewModel: SplashViewModel by viewModel()
+    private val messagingViewModel: MessagingViewModel by sharedViewModel()
     private val adsViewModel: AdsViewModel by sharedViewModel()
 
     private lateinit var loadingText: TextView
 
     private var isInitFlowInitialized: Boolean = false
     private var isAdsFlowInitialized: Boolean = false
+
+    private var pendingMessagingToken: String = ""
 
     override val isSearchable: Boolean
         get() = false
@@ -55,12 +60,12 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
 
     override fun onBillingConnection(billingConnection: BillingViewModel.BillingConnection) {
         when (billingConnection) {
-            is BillingViewModel.BillingConnection.Connected -> if (getUser() == null) {
+            is BillingViewModel.BillingConnection.Connected -> if (getUser() == null || splashViewModel.requiresUserDataUpdateBuild129) {
                 subscribeAuthentication()
                 authenticateUser()
             } else {
-                subscribeMembership()
-                getMembership()
+                subscribeMessagingToken()
+                messagingViewModel.getDeviceMessagingToken()
             }
             is BillingViewModel.BillingConnection.Disconnected -> showErrorLoading(getString(R.string.membership__billing_disconnected))
             is BillingViewModel.BillingConnection.Error -> showErrorLoading(billingConnection.reason)
@@ -72,14 +77,39 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
     override fun onSubscribeAuthentication(userAuthentication: AuthenticationViewModel.UserAuthentication) {
         when (userAuthentication) {
             is AuthenticationViewModel.UserAuthentication.Success -> {
-                subscribeMembership()
-                getMembership()
+                subscribeMessagingToken()
+                messagingViewModel.getDeviceMessagingToken()
             }
             else -> {
                 subscribeAdsConsentStatus()
                 adsViewModel.updateAdsConsentStatus()
             }
         }
+    }
+
+    private fun subscribeMessagingToken() = messagingViewModel.messagingToken.observe(this) {
+        it?.also { messagingToken ->
+            if (messagingToken != getLatestStoragedDeviceMessagingToken()) {
+                pendingMessagingToken = messagingToken
+                subscribeDeviceUpdates()
+                updateDevice(Device(gcmToken = pendingMessagingToken))
+            } else {
+                subscribeMembership()
+                getMembership()
+            }
+        } ?: showErrorLoading("Unable to get messaging token")
+    }
+
+    override fun onSubscribeDeviceUpdates(deviceUpdate: AuthenticationViewModel.DeviceUpdate) {
+        when (deviceUpdate) {
+            is AuthenticationViewModel.DeviceUpdate.Success -> {
+                saveDeviceMessagingToken(pendingMessagingToken)
+                pendingMessagingToken = ""
+            }
+            else -> BlindoLogger.e("Unable to push new messaging token to server. $deviceUpdate")
+        }
+        subscribeMembership()
+        getMembership()
     }
 
     override fun onMembershipPurchased(purchasedMembership: BillingViewModel.PurchasedMembership) {

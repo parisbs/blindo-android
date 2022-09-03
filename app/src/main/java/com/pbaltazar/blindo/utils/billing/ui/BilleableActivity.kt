@@ -222,6 +222,7 @@ open class BilleableActivity : AuthenticableActivity(),
             .addDestination(R.id.navCoins)
             .createPendingIntent().also { pendingIntent ->
                 NotificationsManager.createSimpleNotification(
+                    context = this,
                     icon = R.drawable.ic_blindo_192dp,
                     title = getString(R.string.notification__purchases_new_coins_title),
                     body = getString(
@@ -232,7 +233,7 @@ open class BilleableActivity : AuthenticableActivity(),
                     priority = NotificationCompat.PRIORITY_HIGH,
                     pendingIntent = pendingIntent
                 ).also { notification ->
-                    NotificationsManager.notify(coin.hashCode(), notification)
+                    NotificationsManager.notify(this, coin.hashCode(), notification)
                 }
             }
     }
@@ -246,9 +247,10 @@ open class BilleableActivity : AuthenticableActivity(),
             .addDestination(R.id.navMembership)
             .createPendingIntent().also { pendingIntent ->
                 NotificationsManager.createSimpleNotification(
+                    context = this,
                     icon = R.drawable.ic_blindo_192dp,
                     title = getString(R.string.notification__purchases_new_membership_title),
-                    getString(
+                    body = getString(
                         R.string.notification__purchases_new_membership_body,
                         membership.productId.let { when (it) {
                             "blindo_monthly_subscription", "blindo_membership" -> getString(R.string.notification__purchases_new_membership_classic)
@@ -260,7 +262,7 @@ open class BilleableActivity : AuthenticableActivity(),
                     priority = NotificationCompat.PRIORITY_HIGH,
                     pendingIntent = pendingIntent
                 ).also { notification ->
-                    NotificationsManager.notify(membership.hashCode(), notification)
+                    NotificationsManager.notify(this, membership.hashCode(), notification)
                 }
             }
     }

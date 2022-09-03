@@ -42,13 +42,15 @@ import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
 import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.extensions.gone
 import com.pbaltazar.blindo.utils.extensions.visible
-import com.pbaltazar.blindo.utils.messaging.MessagingManager
+import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
 import com.pbaltazar.blindo.utils.notifications.NotificationsManager
 import com.pbaltazar.blindo.utils.updates.UpdateManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@Suppress("unused")
 class BlindoActivity : BilleableActivity() {
 
+    private val messagingViewModel: MessagingViewModel by viewModel()
     private val adsViewModel: AdsViewModel by viewModel()
     private var binding: ActivityBlindoBinding? = null
 
@@ -107,7 +109,6 @@ class BlindoActivity : BilleableActivity() {
         AnalyticsManager.initialize()
         NotificationsManager.initialize(this)
         UpdateManager.initialize(this)
-        MessagingManager.initialize(this)
         registerPurchasesNotificationChannel()
 
         drawerLayout = binding!!.drawerLayout
@@ -144,8 +145,6 @@ class BlindoActivity : BilleableActivity() {
         subscribeUser()
         subscribeIsValidationEmailSent()
         subscribeIsAdsClientInitialized()
-        subscribeAdsConsentStatus()
-        subscribeAdsSettings()
     }
 
     override fun onResume() {

@@ -6,21 +6,23 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.pbaltazar.blindo.R
 import com.pbaltazar.blindo.utils.constants.UPDATES_NOTIFICATION_CHANNEL
 import com.pbaltazar.blindo.utils.notifications.NotificationsManager
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
 
-object MessagingManager {
+class MessagingManager(
+    private val context: Context,
+    private val firebaseMessaging: FirebaseMessaging
+) {
 
-    private lateinit var context: Context
-    private lateinit var firebaseMessaging: FirebaseMessaging
+    private val messagingTokenChannel: Channel<String?> = Channel(Channel.UNLIMITED)
+    val messagingTokenFlow: Flow<String?> get() = messagingTokenChannel.receiveAsFlow()
 
-    val isInitialized: Boolean get() {
-        return this::context.isInitialized &&
-            this::firebaseMessaging.isInitialized
-    }
-
-    fun initialize(context: Context) {
-        this.context = context
-        firebaseMessaging = FirebaseMessaging.getInstance()
-    }
+    fun getDeviceMessagingToken() {
+            firebaseMessaging.token.addOnCompleteListener { task ->
+                if (task.isSuccessful) messagingTokenChannel.trySend(task.result)
+            }
+        }
 
     fun registerNotificationChannels() {
         if (NotificationsManager.isInitialized.not()) {

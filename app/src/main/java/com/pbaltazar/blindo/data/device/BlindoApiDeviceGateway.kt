@@ -2,6 +2,7 @@ package com.pbaltazar.blindo.data.device
 
 import com.apollographql.apollo3.api.Optional
 import com.blindo.apollito.api.ApollitoClient
+import com.blindo.apollito.api.constants.FetchPolicy
 import com.blindo.apollito.models.Response
 import com.pbaltazar.blindo.data.ApiHelpers
 import com.pbaltazar.blindo.entities.Device
@@ -26,7 +27,8 @@ class BlindoApiDeviceGateway(
             GetDeviceQuery(
                 hardwareFingerprint = hardwareFingerprint
             ),
-            idToken
+            idToken,
+            FetchPolicy.NETWORK_ONLY
         ).let { response ->
             when (response) {
                 is Response.Success -> response.data.getDevice?.let { device ->
@@ -61,11 +63,12 @@ class BlindoApiDeviceGateway(
         blindoApiClient.mutate(
             UpdateDeviceMutation(
                 UpdateDeviceInput(
-                    id = device.id,
+                    id = Optional.presentIfNotNull(device.id.takeUnless { it.isEmpty() }),
+                    hardwareFingerprint = Optional.presentIfNotNull(device.hardwareFingerprint.takeUnless { it.isEmpty() }),
                     gcmToken = Optional.presentIfNotNull(device.gcmToken),
-                    name = Optional.presentIfNotNull(device.name),
-                    language = Optional.presentIfNotNull(device.language),
-                    country = Optional.presentIfNotNull(device.country)
+                    name = Optional.presentIfNotNull(device.name.takeUnless { it.isEmpty() }),
+                    language = Optional.presentIfNotNull(device.language.takeUnless { it.isEmpty() }),
+                    country = Optional.presentIfNotNull(device.country.takeUnless { it.isEmpty() })
                 )
             ),
             idToken

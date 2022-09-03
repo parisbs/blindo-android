@@ -12,7 +12,7 @@
         {
           "kind": "OBJECT",
           "name": "Query",
-          "description": "Query nodes\n\nSome queries require authentication and/or permissions,\nplease send the authorization token through the request headers.",
+          "description": "Some queries require authentication and/or permissions,\nplease send the authorization token through the request headers.",
           "fields": [
             {
               "name": "getApp",
@@ -6576,7 +6576,7 @@
         {
           "kind": "OBJECT",
           "name": "Mutation",
-          "description": "Alter the nodes\n\n    Some mutations require authentication and/or permissions,\n    please send the authorization token through the request headers.",
+          "description": "Some mutations require authentication and/or permissions,\nplease send the authorization token through the request headers.",
           "fields": [
             {
               "name": "createApp",
@@ -7157,13 +7157,19 @@
               "name": "id",
               "description": "The unique identifier of the device object to update.",
               "type": {
-                "kind": "NON_NULL",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "ID",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "ID",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "hardwareFingerprint",
+              "description": "The ID or fingerprint of the hardware for this device.",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
