@@ -39,7 +39,6 @@ import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.analytics.AnalyticsManager
 import com.pbaltazar.blindo.utils.billing.ui.BilleableActivity
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
-import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.extensions.gone
 import com.pbaltazar.blindo.utils.extensions.visible
 import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
@@ -47,7 +46,6 @@ import com.pbaltazar.blindo.utils.notifications.NotificationsManager
 import com.pbaltazar.blindo.utils.updates.UpdateManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-@Suppress("unused")
 class BlindoActivity : BilleableActivity() {
 
     private val messagingViewModel: MessagingViewModel by viewModel()
@@ -110,6 +108,7 @@ class BlindoActivity : BilleableActivity() {
         NotificationsManager.initialize(this)
         UpdateManager.initialize(this)
         registerPurchasesNotificationChannel()
+        messagingViewModel.initialize(this)
 
         drawerLayout = binding!!.drawerLayout
         blindocoordinator = binding!!.appBar.blindocoordinator
@@ -194,16 +193,14 @@ class BlindoActivity : BilleableActivity() {
     }
 
     override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
         when (intent.action) {
             Intent.ACTION_SEARCH -> intent.getStringExtra(SearchManager.QUERY)?.also { query ->
                 navController.navigate(
                     MainNavigationDirections.actionGlobalToSearch(query)
                 )
             }
-            else -> {
-                super.onNewIntent(intent)
-                navController.handleDeepLink(intent)
-            }
+            else -> navController.handleDeepLink(intent)
         }
     }
 
@@ -401,7 +398,7 @@ class BlindoActivity : BilleableActivity() {
 
     private fun subscribeAdsConsentStatus() = adsViewModel.adsConsentStatus.observe(this) {
         when (it) {
-            is AdsResponse.Success -> when (val status = it.data) {
+            is AdsResponse.Success -> when (it.data) {
                 AdsManager.Companion.ConsentStatus.PERSONALIZED, AdsManager.Companion.ConsentStatus.NON_PERSONALIZED, AdsManager.Companion.ConsentStatus.NON_REQUIRED -> if (getUser()?.isPremium == true) {
                     adBanner.gone()
                 } else {

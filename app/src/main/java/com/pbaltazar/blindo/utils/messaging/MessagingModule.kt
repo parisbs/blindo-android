@@ -1,8 +1,10 @@
 package com.pbaltazar.blindo.utils.messaging
 
 import com.google.firebase.messaging.FirebaseMessaging
+import com.pbaltazar.blindo.utils.BACKGROUND_DISPATCHER
 import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val messagingModule = module {
@@ -13,13 +15,14 @@ val messagingModule = module {
 
     single {
         MessagingManager(
-            get(),
             get()
         )
     }
 
     viewModel {
         MessagingViewModel(
+            get(named(BACKGROUND_DISPATCHER)),
+            get(),
             get()
         )
     }

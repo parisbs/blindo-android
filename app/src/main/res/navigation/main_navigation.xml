@@ -51,6 +51,15 @@
             app:argType="integer"
             android:defaultValue="0" />
         <action
+            android:id="@+id/configurePushNotifications"
+            app:destination="@id/settingsEntryPoint"
+            app:popUpTo="@id/navTutorial"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+        <action
             android:id="@+id/actionFromTutorialToHome"
             app:destination="@id/navHome"
             app:popUpTo="@id/navTutorial"

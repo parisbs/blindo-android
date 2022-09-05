@@ -16,7 +16,6 @@ import com.pbaltazar.blindo.utils.ads.ui.AdsViewModel
 import com.pbaltazar.blindo.utils.authentication.ui.AuthenticationViewModel
 import com.pbaltazar.blindo.utils.billing.ui.BilleableFragment
 import com.pbaltazar.blindo.utils.billing.ui.BillingViewModel
-import com.pbaltazar.blindo.utils.constants.ARGUMENT_CONSENT_STATUS
 import com.pbaltazar.blindo.utils.extensions.isActive
 import com.pbaltazar.blindo.utils.log.BlindoLogger
 import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
@@ -32,7 +31,6 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
     private lateinit var loadingText: TextView
 
     private var isInitFlowInitialized: Boolean = false
-    private var isAdsFlowInitialized: Boolean = false
 
     private var pendingMessagingToken: String = ""
 
@@ -114,7 +112,7 @@ if (isInitFlowInitialized.not()) {
             is BillingViewModel.PurchasedMembership.Success -> purchasedMembership.membership.also { membership ->
                 if (membership.isActive()) {
                     setIsUserPremium(true)
-                    verifyIsFirstRunAndPrivacyPolicyAccepted()
+                    verifyIsFirstRunOrRequiresShowUpdates()
                 } else {
                     setIsUserPremium(false)
                     subscribeAdsConsentStatus()
@@ -134,39 +132,24 @@ if (isInitFlowInitialized.not()) {
             is AdsResponse.Success -> when (val status = it.data) {
                 AdsManager.Companion.ConsentStatus.ADS_FREE -> getUser()?.also { currentUser ->
                     if (currentUser.isPremium.not()) {
-                        if (isAdsFlowInitialized.not()) {
-                            isAdsFlowInitialized = true
-                            subscribeAdsSettings()
-                        }
                         findNavController().navigate(
                             MainNavigationDirections.actionGlobalToAdsSettings(status.name, true)
                         )
                     } else {
-                        verifyIsFirstRunAndPrivacyPolicyAccepted()
+                        verifyIsFirstRunOrRequiresShowUpdates()
                     }
                 } ?: run {
-                    if (isAdsFlowInitialized.not()) {
-                        isAdsFlowInitialized = true
-                        subscribeAdsSettings()
-                    }
                     findNavController().navigate(
                         MainNavigationDirections.actionGlobalToAdsSettings(status.name, true)
                     )
                 }
                 AdsManager.Companion.ConsentStatus.UNKNOWN -> {
-                    if (isAdsFlowInitialized.not()) {
-                        isAdsFlowInitialized = true
-                        subscribeAdsSettings()
-                    }
                     findNavController().navigate(
                         MainNavigationDirections.actionGlobalToAdsSettings(status.name, true)
                     )
                 }
                 else -> {
-                    if (isAdsFlowInitialized.not()) {
-                        isAdsFlowInitialized = true
-                        subscribeIsAdsClientInitialized()
-                    }
+                    subscribeIsAdsClientInitialized()
                     adsViewModel.initializeAdsClient()
                 }
             }
@@ -174,15 +157,9 @@ if (isInitFlowInitialized.not()) {
         }
     }
 
-    private fun subscribeAdsSettings() =
-        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<AdsManager.Companion.ConsentStatus>(
-            ARGUMENT_CONSENT_STATUS)?.observe(this) {
-            // No action is required
-        }
-
     private fun subscribeIsAdsClientInitialized() = adsViewModel.isAdsClientInitialized.observe(this) {
         if (it) {
-            verifyIsFirstRunAndPrivacyPolicyAccepted()
+            verifyIsFirstRunOrRequiresShowUpdates()
         } else {
             findNavController().navigate(
                 MainNavigationDirections.actionGlobalToAdsSettings(
@@ -193,13 +170,19 @@ if (isInitFlowInitialized.not()) {
         }
     }
 
-    private fun verifyIsFirstRunAndPrivacyPolicyAccepted() {
+    private fun verifyIsFirstRunOrRequiresShowUpdates() {
         if (splashViewModel.isFirstRun.not()) {
             if (splashViewModel.isVisionIntroduced) {
                 if (splashViewModel.isPrivacyPolicyAccepted) {
-                    findNavController().navigate(
-                        SplashFragmentDirections.actionFromSplashToHome()
-                    )
+                    if (messagingViewModel.isPushNotificationsConfigured()) {
+                        findNavController().navigate(
+                            SplashFragmentDirections.actionFromSplashToHome()
+                        )
+                    } else {
+                        findNavController().navigate(
+                            SplashFragmentDirections.actionFromSplashToTutorial(9)
+                        )
+                    }
                 } else {
                     findNavController().navigate(
                         SplashFragmentDirections.actionFromSplashToTutorial(8)

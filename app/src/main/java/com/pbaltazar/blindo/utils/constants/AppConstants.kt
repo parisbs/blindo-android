@@ -6,9 +6,10 @@ import com.pbaltazar.blindo.BuildConfig
 const val ACCOUNT_TYPE = "com.blindoapp"
 
 // Notifications
-const val PURCHASES_NOTIFICATION_CHANNEL = "purchasesNotificationChannel"
+const val IS_SUBSCRIBED_TO_TOPIC_PREFIX = "isSubscribedTo"
 const val VISION_NOTIFICATION_CHANNEL = "visionNotificationChannel"
-const val UPDATES_NOTIFICATION_CHANNEL = "updatesNotificationChannel"
+const val NEWS_NOTIFICATION_CHANNEL = "newsNotificationChannel"
+const val PURCHASES_NOTIFICATION_CHANNEL = "purchasesNotificationChannel"
 
 // Ads
 const val NO_PERSONALIZED_ADS = "npa"
@@ -22,6 +23,7 @@ const val DEFAULT_ADS_CONSENT_STATUS = "UNKNOWN"
 const val IS_FIRST_TIME = "isFirstTime"
 const val IS_PRIVACY_POLICY_ACCEPTED = "isPrivacyPolicyAccepted"
 const val IS_VISION_INTRODUCED = "isVisionIntroduced"
+const val IS_PUSH_NOTIFICATIONS_CONFIGURED = "isPushNotificationsConfigured"
 
 // Blindo Vision
 const val VISION_LANGUAGE = "vision__language"

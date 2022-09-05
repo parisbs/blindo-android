@@ -25,11 +25,14 @@ import com.pbaltazar.blindo.utils.constants.TERMS_AND_CONDITIONS_LINK
 import com.pbaltazar.blindo.utils.extensions.gone
 import com.pbaltazar.blindo.utils.extensions.invisible
 import com.pbaltazar.blindo.utils.extensions.visible
+import com.pbaltazar.blindo.utils.messaging.ui.MessagingViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
 
     private val tutorialViewModel: TutorialViewModel by viewModel()
+    private val messagingViewModel: MessagingViewModel by sharedViewModel()
     private val tutorialFragmentArgs: TutorialFragmentArgs by navArgs()
 
     private lateinit var stepInfo: TextView
@@ -81,6 +84,9 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
             7 -> if (AccessibilityCapabilities.isBlindoVisionEnabled()) {
                 tutorialViewModel.setStep(currentStep + 1)
             }
+            10 -> if (messagingViewModel.isPushNotificationsConfigured()) {
+                tutorialViewModel.setStep(currentStep + 1)
+            }
             else -> Unit
         }
     }
@@ -122,14 +128,17 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
             } else {
                 setStep(currentStep, R.string.tutorial__step_account, R.string.tutorial__action_sign_in)
             }
-            10 -> getUser()?.also { user ->
+            10 -> if (getUser() != null && messagingViewModel.isPushNotificationsConfigured().not()) {
+                setStep(currentStep, R.string.settings__notifications_not_configured_advise_message, R.string.settings__notifications_not_configured_advise_yes)
+            } else tutorialViewModel.setStep(currentStep + 1)
+            11 -> getUser()?.also { user ->
                 if (user.isPremium) {
                     setStep(currentStep + 1, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
                 } else {
                     setStep(currentStep, R.string.tutorial__step_premium, R.string.tutorial__action_get_premium)
                 }
             } ?: setStep(currentStep + 1, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
-            11 -> setStep(currentStep, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
+            12 -> setStep(currentStep, R.string.tutorial__step_finish, R.string.tutorial__action_finish)
         }
     }
 
@@ -175,6 +184,16 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
                                 startActivity(this)
                             }
                         }
+                    }
+                }
+                R.string.settings__notifications_not_configured_advise_yes -> {
+                    omitButton.text = getString(R.string.settings__notifications_not_configured_advise_later)
+                    text = getString(label)
+                    setOnClickListener {
+                        messagingViewModel.setIsPushNotificationsConfigured(true)
+                        findNavController().navigate(
+                            TutorialFragmentDirections.configurePushNotifications()
+                        )
                     }
                 }
                 R.string.tutorial__action_accept -> {
@@ -237,7 +256,7 @@ class TutorialFragment : AuthenticableFragment<FragmentTutorialBinding>() {
                     omitButton.apply {
                         visible()
                         setOnClickListener {
-                            tutorialViewModel.setStep(11)
+                            tutorialViewModel.setStep(12)
                         }
                     }
                 }

@@ -14,6 +14,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        app:title="@string/settings__category_notifications">
+
+        <CheckBoxPreference
+            app:key="isSubscribedToNews"
+            app:title="@string/settings__notifications_subscribe_news_topic_title"
+            app:summary="@string/settings__notifications_subscribe_news_topic_summary"
+            app:defaultValue="false"
+            app:persistent="false"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         app:title="@string/settings__category_ads">
 
         <Preference

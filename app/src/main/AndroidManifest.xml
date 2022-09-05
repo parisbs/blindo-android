@@ -84,8 +84,9 @@
 
                 <!-- Talkback labels -->
                 <data
-                    android:host="com.google.android.marvin.talkback.providers.FileProvider"
-                    android:pathSuffix=".tbl" />
+                android:host="com.google.android.marvin.talkback.providers.FileProvider"
+                    android:pathSuffix=".tbl"
+                    tools:ignore="AppLinkUrlError" />
             </intent-filter>
         </activity>
 
@@ -130,6 +131,9 @@
             <meta-data
                 android:name="com.google.firebase.messaging.default_notification_color"
                 android:resource="@color/colorAccent" />
+            <meta-data
+                android:name="com.google.firebase.messaging.default_notification_channel_id"
+                android:value="newsNotificationChannel" />
         </service>
 
         <service

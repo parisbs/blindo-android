@@ -59,6 +59,7 @@
 
     <!-- Settings -->
     <string name="settings__title">Settings</string>
+    <string name="settings__category_notifications">Notifications</string>
     <string name="settings__category_ads">Ads</string>
     <string name="settings__category_others">Others</string>
     <!-- Cache Settings -->
@@ -80,6 +81,13 @@
     <string name="settings__vision_language_summary">Select the language for the image descriptions</string>
     <string name="settings__vision_auto_discard_notifications_title">Auto discard notifications</string>
     <string name="settings__vision_auto_discard_notifications_summary">Seconds to wait to auto discard the screenshot detection notifications</string>
+    <!-- Notifications Settings -->
+    <string name="settings__notifications_not_configured_advise_title">Configure push notifications</string>
+    <string name="settings__notifications_not_configured_advise_message">You have not configured push notifications yet, do you want to configure them?</string>
+    <string name="settings__notifications_not_configured_advise_yes">Go to configuration</string>
+    <string name="settings__notifications_not_configured_advise_later">Maybe later</string>
+    <string name="settings__notifications_subscribe_news_topic_title">News and announcements</string>
+    <string name="settings__notifications_subscribe_news_topic_summary">Receive notifications about Blindo news and announcements</string>
 
     <!-- Search -->
     <string name="search__app_title">Searching for \"%1$s\"</string>
@@ -95,9 +103,9 @@
     <string name="notification__purchases_new_membership_title">Membership purchased</string>
     <string name="notification__purchases_new_membership_body">Your payment was confirmed and your %1$s is active</string>
     <string name="notification__purchases_new_membership_classic">Classic Membership</string>
-    <!-- Updates Notifications -->
-    <string name="notification__updates_channel_title">Updates</string>
-    <string name="notification__updates_channel_description">Notifications about updates and new features</string>
+    <!-- News Notifications -->
+    <string name="notification__news_channel_title">News</string>
+    <string name="notification__news_channel_description">Notifications about Blindo news and announcements</string>
 
     <!-- Ads Settings -->
     <string name="ads_settings_title">Ads Settings</string>
