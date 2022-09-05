@@ -275,7 +275,8 @@
         android:name="com.pbaltazar.blindo.ui.app.details.AppFragment"
         tools:layout="@layout/fragment_app">
         <deepLink
-            app:uri="app.blindoapp.com/#/app/{packageName}" />
+            app:uri="app.blindoapp.com/#/app/{packageName}"
+            android:autoVerify="true" />
         <argument
             android:name="app"
             app:argType="com.pbaltazar.blindo.entities.App"
@@ -487,7 +488,8 @@
         android:label="@string/permissions__activity_title"
         tools:layout="@layout/fragment_permissions">
         <deepLink
-            app:uri="blindoapp://actions/requestPermissions" />
+            app:uri="blindoapp://actions/requestPermissions"
+            android:autoVerify="false" />
         <argument
             android:name="shouldReturnToApp"
             app:argType="boolean"
