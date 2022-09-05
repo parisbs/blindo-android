@@ -143,8 +143,9 @@ class BlindoActivity : BilleableActivity() {
 
         setupUi()
         subscribeUser()
-        subscribeIsValidationEmailSent()
+        subscribeAdsConsentStatus()
         subscribeIsAdsClientInitialized()
+        subscribeIsValidationEmailSent()
     }
 
     override fun onResume() {
@@ -410,35 +411,11 @@ class BlindoActivity : BilleableActivity() {
                         adBanner.gone()
                     }
                 }
-                AdsManager.Companion.ConsentStatus.ADS_FREE -> if (getUser()?.isPremium != true) {
-                    if (isWaitingForSplash.not()) {
-                        navController.navigate(
-                            MainNavigationDirections.actionGlobalToAdsSettings(status.name, false)
-                        )
-                    }
-                } else {
-                    adBanner.visibility = View.GONE
-                }
-                AdsManager.Companion.ConsentStatus.UNKNOWN, AdsManager.Companion.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER -> if (isWaitingForSplash.not()) {
-                    navController.navigate(
-                        MainNavigationDirections.actionGlobalToAdsSettings(status.name, false)
-                    )
-                } else Unit
+                else -> Unit
             }
-            is AdsResponse.Error -> navController.navigate(
-                MainNavigationDirections.actionGlobalToAdsSettings(
-                    AdsManager.Companion.ConsentStatus.INTERNET_ERROR_OR_ADS_BLOCKER.name,
-                    false
-                )
-            )
+            else -> Unit
         }
     }
-
-    private fun subscribeAdsSettings() =
-        navController.currentBackStackEntry?.savedStateHandle?.getLiveData<AdsManager.Companion.ConsentStatus>(
-            ARGUMENT_CONSENT_STATUS)?.observe(this) {
-                // No action is required
-        }
 
     override fun onIsValidationEmailSent(isValidationEmailSent: Boolean) {
         if (isValidationEmailSent) {

@@ -52,7 +52,7 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
 
     override fun onResume() {
         super.onResume()
-        if (isInitFlowInitialized.not()) {
+if (isInitFlowInitialized.not()) {
             isInitFlowInitialized = true
             subscribeBillingConnection()
         }
@@ -60,12 +60,9 @@ class SplashFragment : BilleableFragment<FragmentSplashBinding>() {
 
     override fun onBillingConnection(billingConnection: BillingViewModel.BillingConnection) {
         when (billingConnection) {
-            is BillingViewModel.BillingConnection.Connected -> if (getUser() == null || splashViewModel.requiresUserDataUpdateBuild129) {
+            is BillingViewModel.BillingConnection.Connected -> {
                 subscribeAuthentication()
                 authenticateUser()
-            } else {
-                subscribeMessagingToken()
-                messagingViewModel.getDeviceMessagingToken()
             }
             is BillingViewModel.BillingConnection.Disconnected -> showErrorLoading(getString(R.string.membership__billing_disconnected))
             is BillingViewModel.BillingConnection.Error -> showErrorLoading(billingConnection.reason)

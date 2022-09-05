@@ -20,7 +20,6 @@ const val DEFAULT_ADS_CONSENT_STATUS = "UNKNOWN"
 
 // Tutorial and splash screen
 const val IS_FIRST_TIME = "isFirstTime"
-const val REQUIRES_USER_DATA_UPDATE_BUILD_129 = "requiresUserDataUpdateBuild129"
 const val IS_PRIVACY_POLICY_ACCEPTED = "isPrivacyPolicyAccepted"
 const val IS_VISION_INTRODUCED = "isVisionIntroduced"
 

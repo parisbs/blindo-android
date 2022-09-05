@@ -40,7 +40,6 @@ val authenticationModule = module {
     viewModel {
         AuthenticationViewModel(
             get(named(BACKGROUND_DISPATCHER)),
-            get(),
         get(),
             get(),
             get(),
