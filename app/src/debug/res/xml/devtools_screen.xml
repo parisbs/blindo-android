@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Preference
+        app:key="devToolsBilling"
+        app:title="Billing Info"
+        app:persistent="false" />
+
+    <Preference
+        app:key="devToolsDevice"
+        app:title="Device Info"
+        app:persistent="false" />
+
+    <Preference
+        app:key="devToolsPreferences"
+        app:title="Preferences Info"
+        app:persistent="false" />
+
+</PreferenceScreen>

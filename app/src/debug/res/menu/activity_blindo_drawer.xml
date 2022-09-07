@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navView">
+
+    <item
+        android:id="@+id/devToolsScreen"
+        android:title="Dev Tools"
+        android:orderInCategory="99" />
+
+    <item
+        android:id="@+id/navHome"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/menu__home" />
+
+    <item
+        android:id="@+id/navLocalApps"
+        android:icon="@drawable/ic_settings_applications_black_24dp"
+        android:title="@string/localapps__title" />
+
+    <item
+        android:id="@+id/navBackup"
+        android:icon="@drawable/ic_settings_backup_restore_black_24dp"
+        android:title="@string/backup__title" />
+
+    <item
+        android:id="@+id/navUserComments"
+        android:icon="@drawable/ic_stars_black_24dp"
+        android:title="@string/usercomments__title" />
+
+    <item
+        android:id="@+id/navSli"
+        android:icon="@drawable/ic_accessibility_black_24dp"
+        android:title="@string/sli__title" />
+
+    <item
+        android:id="@+id/navCoins"
+        android:title="@string/coins__title" />
+
+    <item
+        android:id="@+id/navMembership"
+        android:icon="@drawable/ic_card_membership_black_24dp"
+        android:title="@string/membership__title" />
+
+    <item
+        android:id="@+id/settingsEntryPoint"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/settings__title" />
+
+    <item
+        android:id="@+id/navTutorial"
+        android:icon="@drawable/ic_description_black_24dp"
+        android:title="@string/tutorial__title" />
+
+    <item
+        android:id="@+id/navAbout"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:title="@string/about__title" />
+
+</menu>
