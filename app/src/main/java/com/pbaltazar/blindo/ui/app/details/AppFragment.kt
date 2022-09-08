@@ -58,10 +58,9 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
     override val isSearchable: Boolean
         get() = false
 
-    override fun getMenuResId(): Int = R.menu.app
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        menuResId = R.menu.app
         currentApp = appFragmentArgs.app ?: App(packageName = appFragmentArgs.packageName)
         AppPagerHelper.appViewModelListener = object : AppViewModelListener {
             override fun getCurrentApp(): App? = currentApp
@@ -92,18 +91,6 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.navRatingCreator -> {
-                findNavController().navigate(
-                    AppFragmentDirections.actionFromAppDetailsToCommentCreator(currentApp!!)
-                )
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         appTabs.addOnTabSelectedListener(tabSelectedListener)
@@ -112,6 +99,16 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
     override fun onPause() {
         super.onPause()
         appTabs.removeOnTabSelectedListener(tabSelectedListener)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.navRatingCreator -> {
+            findNavController().navigate(
+                AppFragmentDirections.actionFromAppDetailsToCommentCreator(currentApp!!)
+            )
+            true
+        }
+        else -> super.onMenuItemSelected(menuItem)
     }
 
     private fun loadApp() {

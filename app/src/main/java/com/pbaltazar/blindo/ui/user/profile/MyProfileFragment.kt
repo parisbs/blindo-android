@@ -50,10 +50,9 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
     override val isSearchable: Boolean
         get() = false
 
-    override fun getMenuResId(): Int = R.menu.user_profile
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        menuResId = R.menu.user_profile
         subscribeUser()
         subscribeUserUpdates()
     }
@@ -75,25 +74,21 @@ class MyProfileFragment : AuthenticableFragment<FragmentMyProfileBinding>() {
         setupUi()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menuEditProfile -> {
-                item.apply {
-                    isEditing = isEditing.not()
-                    title = if (isEditing) {
-                        setIcon(R.drawable.ic_done_black_24dp)
-                        getString(R.string.profile__done)
-                    } else {
-                        setIcon(R.drawable.ic_input_black_24dp)
-                        getString(R.string.profile__edit)
-                    }
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.menuEditProfile -> {
+            menuItem.apply {
+                isEditing = isEditing.not()
+                title = if (isEditing) {
+                    setIcon(R.drawable.ic_done_black_24dp)
+                    getString(R.string.profile__done)
+                } else {
+                    setIcon(R.drawable.ic_input_black_24dp)
+                    getString(R.string.profile__edit)
                 }
-                return true
             }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
+            true
         }
+        else -> super.onMenuItemSelected(menuItem)
     }
 
     override fun onSubscribeUser(user: User?) {

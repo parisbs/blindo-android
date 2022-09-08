@@ -38,6 +38,7 @@ class CoinsFragment : BilleableFragment<FragmentCoinsBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        menuResId = R.menu.coins
         subscribeAuth()
         subscribeInAppsToPurchase()
     }
@@ -63,14 +64,12 @@ class CoinsFragment : BilleableFragment<FragmentCoinsBinding>() {
         }
     }
 
-    override fun getMenuResId(): Int = R.menu.coins
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
         R.id.menuProcessPurchases -> {
             askForNewInAppPurchases()
             true
         }
-        else -> super.onOptionsItemSelected(item)
+        else -> super.onMenuItemSelected(menuItem)
     }
 
     override fun onSubscribeUser(user: User?) {

@@ -15,23 +15,20 @@ abstract class FilterableFragment<VB : ViewBinding> : BlindoFragment<VB>() {
 
     abstract fun onFiltersChange(isChanged: Boolean)
 
-    override fun getMenuResId(): Int = R.menu.filterable
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        menuResId = R.menu.filterable
         subscribeFilters()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.filter -> {
-                findNavController().navigate(
-                    MainNavigationDirections.actionGlobalToFilters(filtersSet)
-                )
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.filter -> {
+            findNavController().navigate(
+                MainNavigationDirections.actionGlobalToFilters(filtersSet)
+            )
+            true
         }
+        else -> super.onMenuItemSelected(menuItem)
     }
 
     private fun subscribeFilters() = findNavController().currentBackStackEntry?.savedStateHandle

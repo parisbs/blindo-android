@@ -166,7 +166,7 @@ class BlindoActivity : BilleableActivity() {
         }
         hideSearchBoxInPreferencesScreens()
         return true
-    }
+                            }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
