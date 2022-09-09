@@ -14,19 +14,23 @@ ext {
 kotlinVersion = '1.7.10'
 
     // Android libraries
+    activityVersion = '1.5.1'
     appcompatVersion = '1.5.0'
+    coordinatorLayoutVersion = '1.2.0'
     constraintVersion = '2.1.4'
     coroutinesVersion = '1.6.4'
     designVersion = '1.0.0-rc01'
     desugarVersion = '1.1.5'
+    drawerLayoutVersion = '1.1.1'
+    fragmentVersion = '1.5.2'
     ktxVersion = '1.8.0'
-    legacySupportVersion = '1.0.0'
     lifecycleVersion = '2.5.1'
     materialVersion = '1.6.1'
     navigationVersion = '2.5.1'
     pagingVersion = '3.1.1'
     preferencesVersion = '1.2.0'
-    recyclerVersion = '1.2.1'
+    recyclerViewVersion = '1.2.1'
+    recyclerViewSelectionVersion = '1.1.0'
     roomVersion = '2.2.5'
     viewPager2Version = '1.0.0'
 
@@ -87,22 +91,39 @@ kotlinVersion = '1.7.10'
         ],
         // Android libraries
         androidx: [
+            activityKtx: "androidx.activity:activity-ktx:$activityVersion",
             appcompat: "androidx.appcompat:appcompat:$appcompatVersion",
+            coordinatorLayout: "androidx.coordinatorlayout:coordinatorlayout:$coordinatorLayoutVersion",
             constraintLayout: "androidx.constraintlayout:constraintlayout:$constraintVersion",
             desugar: "com.android.tools:desugar_jdk_libs:$desugarVersion",
+            drawerLayout: "androidx.drawerlayout:drawerlayout:$drawerLayoutVersion",
+            fragmentKtx: "androidx.fragment:fragment-ktx:$fragmentVersion",
             ktx: "androidx.core:core-ktx:$ktxVersion",
-            legacy: "androidx.legacy:legacy-support-v4:$legacySupportVersion",
-            navigationFragment: "androidx.navigation:navigation-fragment:$navigationVersion",
-            navigationFragmentKtx: "androidx.navigation:navigation-fragment-ktx:$navigationVersion",
-            navigationUi: "androidx.navigation:navigation-ui:$navigationVersion",
-            navigationUiKtx: "androidx.navigation:navigation-ui-ktx:$navigationVersion",
+            lifecycle      : [
+                runtime: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
+                viewModel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
+                liveData: "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
+                savedState: "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion",
+                service: "androidx.lifecycle:lifecycle-service:$lifecycleVersion",
+                process: "androidx.lifecycle:lifecycle-process:$lifecycleVersion",
+                reactiveStreams: "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion",
+                compilerJava8: "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion",
+                testing: "androidx.arch.core:core-testing:$lifecycleVersion"
+            ],
+            navigation: [
+                navigationFragmentKtx: "androidx.navigation:navigation-fragment-ktx:$navigationVersion",
+                navigationUiKtx: "androidx.navigation:navigation-ui-ktx:$navigationVersion",
+                navigationDynamicFeatures: "androidx.navigation:navigation-dynamic-features-fragment:$navigationVersion"
+            ],
             paging: [
                 runtime: "androidx.paging:paging-runtime:$pagingVersion",
                 test: "androidx.paging:paging-common:$pagingVersion"
             ],
-            preferences: "androidx.preference:preference:$preferencesVersion",
             preferencesKtx: "androidx.preference:preference-ktx:$preferencesVersion",
-            recyclerView: "androidx.recyclerview:recyclerview:$recyclerVersion",
+            recyclerView: [
+                recyclerView: "androidx.recyclerview:recyclerview:$recyclerViewVersion",
+                recyclerViewSelection: "androidx.recyclerview:recyclerview-selection:$recyclerViewSelectionVersion"
+            ],
             viewPager2: "androidx.viewpager2:viewpager2:$viewPager2Version",
         ],
         material       : [
@@ -120,17 +141,6 @@ kotlinVersion = '1.7.10'
             android: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion",
             jdk8: "org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:$coroutinesVersion",
             test: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
-        ],
-        lifecycle      : [
-            runtime: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
-            viewModel: "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
-            liveData: "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion",
-            savedState: "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion",
-            service: "androidx.lifecycle:lifecycle-service:$lifecycleVersion",
-            process: "androidx.lifecycle:lifecycle-process:$lifecycleVersion",
-            reactiveStreams: "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion",
-            compilerJava8: "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion",
-            testing: "androidx.arch.core:core-testing:$lifecycleVersion"
         ],
         koin           : [
             core: "io.insert-koin:koin-android:$koinVersion",

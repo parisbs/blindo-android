@@ -39,7 +39,7 @@ android {
         minSdk sdk.min
         targetSdk sdk.target
 
-        versionCode 129
+        versionCode 131
         versionName "5.0.0"
 
         multiDexEnabled true
@@ -123,19 +123,21 @@ dependencies {
 
     coreLibraryDesugaring libraries.androidx.desugar
 
-    implementation libraries.androidx.appcompat
+    implementation libraries.androidx.activityKtx
+    implementation libraries.androidx.fragmentKtx
     implementation libraries.androidx.ktx
-    implementation libraries.androidx.legacy
     implementation libraries.material.material
     implementation libraries.androidx.constraintLayout
-    implementation libraries.androidx.recyclerView
+    implementation libraries.androidx.coordinatorLayout
+    implementation libraries.androidx.drawerLayout
+    implementation libraries.androidx.recyclerView.recyclerView
     implementation libraries.androidx.viewPager2
-    implementation libraries.androidx.navigationFragmentKtx
-    implementation libraries.androidx.navigationUiKtx
-    implementation libraries.lifecycle.runtime
-    implementation libraries.lifecycle.viewModel
-    implementation libraries.lifecycle.liveData
-    implementation libraries.lifecycle.savedState
+    implementation libraries.androidx.navigation.navigationFragmentKtx
+    implementation libraries.androidx.navigation.navigationUiKtx
+    implementation libraries.androidx.lifecycle.runtime
+    implementation libraries.androidx.lifecycle.viewModel
+    implementation libraries.androidx.lifecycle.liveData
+    implementation libraries.androidx.lifecycle.savedState
     implementation libraries.androidx.preferencesKtx
     implementation libraries.androidx.paging.runtime
 
