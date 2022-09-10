@@ -51,10 +51,11 @@
     <!-- Permissions -->
     <string name="permissions__activity_title">Permisos para Blindo Vision</string>
     <string name="permissions__loading_title">Validando permisos...</string>
-    <string name="permissions__summary">
+    <string name="permissions__read_external_storage_description">
         Blindo Vision necesita acceder al almacenamiento de tus capturas de pantalla para poder obtener el recorte de los elementos que quieres describir.
     </string>
-    <string name="permissions__continue">Continuar</string>
+    <string name="permissions__deny">No, gracias</string>
+    <string name="permissions__accept">Continuar</string>
 
     <!-- Settings -->
     <string name="settings__title">Configuración</string>

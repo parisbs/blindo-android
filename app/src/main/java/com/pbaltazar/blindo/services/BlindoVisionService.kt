@@ -9,9 +9,11 @@ import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavDeepLinkBuilder
 import com.blindo.screenshotwatcher.ScreenshotWatcherDelegate
 import com.blindo.screenshotwatcher.exceptions.PermissionException
@@ -78,7 +80,7 @@ class BlindoVisionService : AccessibilityService(),
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 showMissingPermissionsNotification()
             }
         }
@@ -90,12 +92,15 @@ class BlindoVisionService : AccessibilityService(),
         NavDeepLinkBuilder(this)
             .setGraph(R.navigation.main_navigation)
             .addDestination(R.id.navPermissions)
+            .setArguments(Bundle().apply {
+                putString("permissions", Manifest.permission.READ_EXTERNAL_STORAGE)
+            })
             .createPendingIntent().apply {
                 NotificationsManager.createSimpleNotification(
                     context = applicationContext,
                     icon = R.drawable.ic_blindo_192dp,
                     title = getString(R.string.permissions__activity_title),
-                    body = getString(R.string.permissions__summary),
+                    body = getString(R.string.permissions__read_external_storage_description),
                     channelId = VISION_NOTIFICATION_CHANNEL,
                     priority = NotificationCompat.PRIORITY_MAX,
                     pendingIntent = this

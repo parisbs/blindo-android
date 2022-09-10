@@ -6,6 +6,7 @@ import com.pbaltazar.blindo.ui.app.appModule
 import com.pbaltazar.blindo.ui.filter.filterModule
 import com.pbaltazar.blindo.ui.home.homeModule
 import com.pbaltazar.blindo.ui.pack.packModule
+import com.pbaltazar.blindo.ui.permissions.permissionsModule
 import com.pbaltazar.blindo.ui.rating.ratingModule
 import com.pbaltazar.blindo.ui.search.searchModule
 import com.pbaltazar.blindo.ui.sli.sliModule
@@ -59,6 +60,7 @@ class Blindo : Application() {
                     billingModule,
                     authenticationModule,
                     searchModule,
+                    permissionsModule,
                     visionResultsModule,
                     splashModule,
                     tutorialModule,

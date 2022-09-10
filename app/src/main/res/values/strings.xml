@@ -52,10 +52,11 @@
     <!-- Permissions -->
     <string name="permissions__activity_title">Blindo Vision Permissions</string>
     <string name="permissions__loading_title">Checking for permissions...</string>
-    <string name="permissions__summary">
+    <string name="permissions__read_external_storage_description">
         Blindo Vision requires to access the storage of your screenshots in order to get the clipping of the elements you want to describe.
     </string>
-    <string name="permissions__continue">Continue</string>
+    <string name="permissions__deny">No, thanks</string>
+    <string name="permissions__accept">Continue</string>
 
     <!-- Settings -->
     <string name="settings__title">Settings</string>

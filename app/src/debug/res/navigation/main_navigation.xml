@@ -524,8 +524,14 @@
         android:label="@string/permissions__activity_title"
         tools:layout="@layout/fragment_permissions">
         <deepLink
-            app:uri="blindoapp://actions/requestPermissions"
-            android:autoVerify="false" />
+            app:uri="blindoapp://actions/requestPermissions?askFor={permissions}"
+            android:autoVerify="false"
+            />
+        <argument
+            android:name="permissions"
+            app:argType="string"
+            app:nullable="false"
+            />
         <argument
             android:name="shouldReturnToApp"
             app:argType="boolean"
