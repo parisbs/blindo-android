@@ -37,7 +37,7 @@ val dataModule = module {
     single(named(BASIC_APOLLITO_CLIENT)) {
         ApollitoClient.Builder()
             .context(get())
-            .serverUrl(BuildConfig.SERVER_URL)
+            .serverUrl(BuildConfig.BLINDO_API_URL)
             .addCustomTypeAdapters(
                 mapOf<CustomScalarType, Adapter<*>>(
                     Pair(
@@ -57,7 +57,7 @@ val dataModule = module {
     single(named(EXTENDED_TIMEOUT_APOLLITO_CLIENT)) {
         ApollitoClient.Builder()
             .context(get())
-            .serverUrl(BuildConfig.SERVER_URL)
+            .serverUrl(BuildConfig.BLINDO_API_URL)
             .connectionTimeOut(300, TimeUnit.SECONDS)
             .addCustomTypeAdapters(
                 mapOf<CustomScalarType, Adapter<*>>(

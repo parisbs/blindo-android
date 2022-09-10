@@ -97,7 +97,7 @@ class AdsManager(
                     IllegalStateException("AdsManager should be initialized")
                 ))
             }
-        consentInformation.requestConsentInfoUpdate(arrayOf(BuildConfig.PUBLISHER_ID), object : ConsentInfoUpdateListener {
+        consentInformation.requestConsentInfoUpdate(arrayOf(BuildConfig.ADMOB_PUBLISHER_ID), object : ConsentInfoUpdateListener {
             override fun onConsentInfoUpdated(consentStatus: com.google.ads.consent.ConsentStatus) {
                 val currentConsentStatus = if (consentInformation.isRequestLocationInEeaOrUnknown.not()) {
                     ConsentStatus.NON_REQUIRED

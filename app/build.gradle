@@ -1,16 +1,13 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
     id 'com.google.gms.google-services'
     id 'com.apollographql.apollo3'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.firebase.firebase-perf'
     id 'com.google.firebase.crashlytics'
 }
-
-def ENV_FILE = 'env.properties'
-Properties properties = new Properties()
-properties.load(project.rootProject.file(ENV_FILE).newDataInputStream())
 
 def KS_FILE = 'keystore.properties'
 Properties keystore = new Properties()
@@ -19,10 +16,10 @@ keystore.load(project.rootProject.file(KS_FILE).newDataInputStream())
 android {
     signingConfigs {
         tests {
-            storeFile file(keystore['TEST_KS_FILE'])
-            storePassword keystore['TEST_KS_PASS']
-            keyAlias keystore['TEST_K_ALIAS']
-            keyPassword keystore['TEST_K_PASS']
+            storeFile file(keystore['DEBUG_KS_FILE'])
+            storePassword keystore['DEBUG_KS_PASS']
+            keyAlias keystore['DEBUG_K_ALIAS']
+            keyPassword keystore['DEBUG_K_PASS']
         }
         release {
             storeFile file(keystore['KS_FILE'])
@@ -56,24 +53,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexKeepProguard file('multidex-config.pro')
             signingConfig signingConfigs.release
-
-            buildConfigField 'String', 'SERVER_URL', properties.getProperty('PROD_SERVER_URL')
-            buildConfigField 'String', 'PUBLISHER_ID', properties.getProperty('PUBLISHER_ID')
-            buildConfigField 'String', 'TEST_DEVICE_ID', '""'
-            buildConfigField 'String', 'DEBUG_GEOGRAPHY', '""'
         }
         beta {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexKeepProguard file('multidex-config.pro')
             signingConfig signingConfigs.release
-
             versionNameSuffix "-beta"
-
-            buildConfigField 'String', 'SERVER_URL', properties.getProperty('PROD_SERVER_URL')
-            buildConfigField 'String', 'PUBLISHER_ID', properties.getProperty('PUBLISHER_ID')
-            buildConfigField 'String', 'TEST_DEVICE_ID', '""'
-            buildConfigField 'String', 'DEBUG_GEOGRAPHY', '""'
         }
         debug {
             minifyEnabled false
@@ -81,13 +67,7 @@ android {
             debuggable true
             multiDexKeepProguard file('multidex-config.pro')
             signingConfig signingConfigs.tests
-
             versionNameSuffix "-debug"
-
-            buildConfigField 'String', 'SERVER_URL', properties.getProperty('TEST_SERVER_URL')
-            buildConfigField 'String', 'PUBLISHER_ID', properties.getProperty('PUBLISHER_ID')
-            buildConfigField 'String', 'TEST_DEVICE_ID', properties.getProperty('TEST_DEVICE_ID')
-            buildConfigField 'String', 'DEBUG_GEOGRAPHY', properties.getProperty('DEBUG_GEOGRAPHY')
         }
     }
 

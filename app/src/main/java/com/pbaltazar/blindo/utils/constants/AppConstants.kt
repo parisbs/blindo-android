@@ -2,9 +2,6 @@ package com.pbaltazar.blindo.utils.constants
 
 import com.pbaltazar.blindo.BuildConfig
 
-// Authentication
-const val ACCOUNT_TYPE = "com.blindoapp"
-
 // Notifications
 const val IS_SUBSCRIBED_TO_TOPIC_PREFIX = "isSubscribedTo"
 const val VISION_NOTIFICATION_CHANNEL = "visionNotificationChannel"

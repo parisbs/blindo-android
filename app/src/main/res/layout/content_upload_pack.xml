@@ -13,7 +13,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         app:adSize="SMART_BANNER"
-        app:adUnitId="@string/admob__upload_pack_banner"
+        app:adUnitId="${ADMOB_UPLOAD_PACK_BANNER}"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

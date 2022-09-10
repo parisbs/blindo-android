@@ -10,6 +10,7 @@ ext {
     firebaseCrashlyticsPluginVersion = '2.9.0'
     googleServicesPluginVersion = '4.3.10'
     perfPluginVersion = '1.4.1'
+    secretsPluginVersion = '2.0.1'
 
 kotlinVersion = '1.7.10'
 

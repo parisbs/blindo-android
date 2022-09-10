@@ -9,10 +9,15 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!-- Required to storage the Blindo account -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission
+        android:name="android.permission.AUTHENTICATE_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
+    <uses-permission
+        android:name="android.permission.MANAGE_ACCOUNTS"
+        android:maxSdkVersion="22" />
 
     <!-- Required to allow purchases -->
     <uses-permission android:name="com.android.vending.BILLING" />
@@ -174,7 +179,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admob_application_id" />
+            android:value="${admobApplicationId}" />
     </application>
 
 </manifest>

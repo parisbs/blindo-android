@@ -15,7 +15,7 @@
         android:layout_margin="@dimen/default_components_margin"
         android:visibility="gone"
         app:adSize="SMART_BANNER"
-        app:adUnitId="@string/admob__main_banner"
+        app:adUnitId="${ADMOB_MAIN_BANNER}"
         app:layout_constraintTop_toTopOf="parent"
         />
 

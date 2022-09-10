@@ -2,12 +2,14 @@ package com.pbaltazar.blindo.utils.authentication.local
 
 import android.accounts.Account
 import android.accounts.AccountManager
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
+import com.pbaltazar.blindo.BuildConfig
 import com.pbaltazar.blindo.entities.Device
 import com.pbaltazar.blindo.entities.User
-import com.pbaltazar.blindo.utils.constants.ACCOUNT_TYPE
 
+@SuppressLint("MissingPermission")
 class BlindoAuthenticationLocal(
     private val accountManager: AccountManager
 ) : AuthenticationLocal {
@@ -26,7 +28,7 @@ class BlindoAuthenticationLocal(
 
     override fun registerLocalAccount(user: User): Boolean = Account(
         user.email,
-        ACCOUNT_TYPE
+        BuildConfig.ACCOUNT_TYPE
     ).let { account ->
         Bundle().let { extra ->
             extra.putString(ID, user.id)
@@ -43,7 +45,7 @@ class BlindoAuthenticationLocal(
     }
 
     override fun getLocalAccount(): User? = accountManager.getAccountsByType(
-        ACCOUNT_TYPE
+        BuildConfig.ACCOUNT_TYPE
     ).lastOrNull()?.let { account ->
         User(
             id = accountManager.getUserData(account, ID),
@@ -63,7 +65,7 @@ class BlindoAuthenticationLocal(
     }
 
     override fun updateLocalAccount(user: User): User? = accountManager.getAccountsByType(
-        ACCOUNT_TYPE
+        BuildConfig.ACCOUNT_TYPE
     ).lastOrNull()?.let { account ->
         accountManager.setUserData(account, ID, user.id)
         accountManager.setUserData(account, SUB, user.sub)
@@ -76,28 +78,28 @@ class BlindoAuthenticationLocal(
     }
 
     override fun setLocalAccountIsVerified(isVerified: Boolean): User? = accountManager.getAccountsByType(
-        ACCOUNT_TYPE
+        BuildConfig.ACCOUNT_TYPE
     ).lastOrNull()?.let { account ->
         accountManager.setUserData(account, IS_VERIFIED, isVerified.toString())
         getLocalAccount()
     }
 
     override fun setLocalAccountCoinsLeft(coinsLeft: Int): User? = accountManager.getAccountsByType(
-        ACCOUNT_TYPE
+        BuildConfig.ACCOUNT_TYPE
     ).lastOrNull()?.let { account ->
         accountManager.setUserData(account, COINS_LEFT, coinsLeft.toString())
         getLocalAccount()
     }
 
     override fun setLocalAccountIsPremium(isPremium: Boolean): User? = accountManager.getAccountsByType(
-        ACCOUNT_TYPE
+        BuildConfig.ACCOUNT_TYPE
     ).lastOrNull()?.let { account ->
         accountManager.setUserData(account, IS_PREMIUM, isPremium.toString())
         getLocalAccount()
     }
 
     override fun saveDeviceMessagingToken(messagingToken: String) {
-        accountManager.getAccountsByType(ACCOUNT_TYPE).lastOrNull()?.also { account ->
+        accountManager.getAccountsByType(BuildConfig.ACCOUNT_TYPE).lastOrNull()?.also { account ->
             accountManager.setUserData(account, MESSAGING_TOKEN, messagingToken)
         }
     }
@@ -106,7 +108,7 @@ class BlindoAuthenticationLocal(
 
     override fun unregisterLocalAccount(): Boolean {
         val isSuccess: MutableList<Boolean> = mutableListOf()
-        accountManager.getAccountsByType(ACCOUNT_TYPE).forEach { account ->
+        accountManager.getAccountsByType(BuildConfig.ACCOUNT_TYPE).forEach { account ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
                 isSuccess.add(accountManager.removeAccountExplicitly(account))
             } else {
