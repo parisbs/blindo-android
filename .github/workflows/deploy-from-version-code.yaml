@@ -1,0 +1,25 @@
+name: Deploy from version code
+
+concurrency:
+  group: deploy-blindo-version
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+    paths:
+      - 'version.gradle'
+
+jobs:
+  deploy_blindo_version_from_version_code:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment: build-release
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/workflows/deploy-blindo-version.yaml
+      with:
+        secrets: inherit

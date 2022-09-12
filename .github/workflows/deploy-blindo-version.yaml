@@ -1,0 +1,51 @@
+name: Deploy Blindo version
+
+on:
+  workflow_call:
+
+env:
+  ENCODED_STORE: ${{ secrets.KEYSTORE_ENCODED_STORE }}
+  STORE_FILE: 'keystore.jks'
+  STORE_PASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+  KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+  KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+  ACCOUNT_TYPE: ${{ secrets.APP_ACCOUNT_TYPE }}
+  BLINDO_API_URL: ${{ secrets.APP_BLINDO_API_URL }}
+  TEST_DEVICE_ID: ""
+  DEBUG_GEOGRAPHY: ""
+  ADMOB_PUBLISHER_ID: $
+  ADMOB_APPLICATION_ID: $
+  ADMOB_MAIN_BANNER: $
+  ADMOB_UPLOAD_PACK_BANNER: $
+  FACEBOOK_APPLICATION_ID: ${{ secrets.AUTH_FACEBOOK_APPLICATION_ID }}
+  FB_LOGIN_PROTOCOL_SCHEME: ${{ secrets.AUTH_FACEBOOK_LOGIN_PROTOCOL_SCHEME }}
+  TWITTER_CONSUMER_KEY: ${{ secrets.AUTH_TWITTER_CONSUMER_KEY }}
+  TWITTER_CONSUMER_SECRET: ${{ secrets.AUTH_TWITTER_CONSUMER_SECRET }}
+  GOOGLE_SERVICES_JSON: $
+  PLAY_CONSOLE_SERVICE_ACCOUNT: $
+
+jobs:
+  deploy_blindo_version:
+    runs-on: ubuntu-latest
+    environment: build-release
+    steps:
+      - name: Generate keystore configuration
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-keystore-configuration.sh
+      - name: Generate Gradle secrets
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-gradle-secrets.sh
+      - name: Generate Google Services JSON
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-google-services-json.sh
+      - name: Generate Firebase UI Auth secrets
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-firebase-ui-auth-secrets.sh
+      - name: Build app bundle
+        run: ./gradlew :app:bundleRelease
+      - uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${PLAY_CONSOLE_SERVICE_ACCOUNT}
+        packageName: com.pbaltazar.blindo
+        releaseFiles: ${GITHUB_WORKSPACE}/app/release/app-release.aab
+        track: internal
+        userFraction: 1.0
+        inAppUpdatePriority: 5
+        mappingFile: ${GITHUB_WORKSPACE}/app/build/outputs/mapping/release/mapping.txt
+        whatsNewDirectory: ${GITHUB_WORKSPACE}/assets/whatsnew

@@ -1,0 +1,19 @@
+name: Deploy from tag
+
+concurrency:
+  group: deploy-blindo-version
+  cancel-in-progress: true
+
+on:
+  tag:
+      - 'v*'
+
+jobs:
+  deploy_blindo_version_from_tag:
+    runs-on: ubuntu-latest
+    environment: build-release
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/workflows/deploy-blindo-version.yaml
+      with:
+        secrets: inherit
