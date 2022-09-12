@@ -89,6 +89,6 @@ lint/tmp/
 # lint/reports/
 
 # secrets
-env.properties
 keystore.properties
+release.properties
 secrets.xml

@@ -15,17 +15,17 @@ keystore.load(project.rootProject.file(KS_FILE).newDataInputStream())
 
 android {
     signingConfigs {
-        tests {
-            storeFile file(keystore['DEBUG_KS_FILE'])
-            storePassword keystore['DEBUG_KS_PASS']
-            keyAlias keystore['DEBUG_K_ALIAS']
-            keyPassword keystore['DEBUG_K_PASS']
+        debug {
+            storeFile file(keystore['DEBUG_STORE_FILE'])
+            storePassword keystore['DEBUG_STORE_PASSWORD']
+            keyAlias keystore['DEBUG_KEY_ALIAS']
+            keyPassword keystore['DEBUG_KEY_PASSWORD']
         }
         release {
-            storeFile file(keystore['KS_FILE'])
-            storePassword keystore['KS_PASS']
-            keyAlias keystore['K_ALIAS']
-            keyPassword keystore['K_PASS']
+            storeFile file(keystore['STORE_FILE'])
+            storePassword keystore['STORE_PASSWORD']
+            keyAlias keystore['KEY_ALIAS']
+            keyPassword keystore['KEY_PASSWORD']
         }
     }
 
@@ -36,8 +36,8 @@ android {
         minSdk sdk.min
         targetSdk sdk.target
 
-        versionCode 131
-        versionName "5.0.0"
+        versionCode blindo.versionCode
+        versionName blindo.versionName
 
         multiDexEnabled true
 
@@ -66,7 +66,7 @@ android {
             jniDebuggable true
             debuggable true
             multiDexKeepProguard file('multidex-config.pro')
-            signingConfig signingConfigs.tests
+                signingConfig signingConfigs.debug
             versionNameSuffix "-debug"
         }
     }
