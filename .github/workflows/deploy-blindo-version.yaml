@@ -1,0 +1,83 @@
+name: Deploy Blindo version
+
+on:
+  workflow_call:
+    inputs:
+      track:
+        description: Release type in Play Console, possible values are production, beta, alpha, internal, internalsharing or a custom track
+        required: true
+        type: string
+      userFraction:
+        description: Percentage of users who should get this release
+        required: true
+        type: number
+      inAppUpdatePriority:
+        description: Priority for inApp updates where 0 represents a minimum priority and 5 the higher one
+        required: true
+        type: number
+    outputs:
+      internalSharingDownloadUrls:
+        description: A JSON list containing the download urls for every release file uploaded using the internalsharing track
+        value: ${{ jobs.deploy-to-play-console.outputs.internalSharingDownloadUrls }}
+
+env:
+  ENCODED_STORE: ${{ secrets.KEYSTORE_ENCODED_STORE }}
+  STORE_FILE: 'keystore.jks'
+  STORE_PASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
+  KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+  KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+  ACCOUNT_TYPE: ${{ secrets.APP_ACCOUNT_TYPE }}
+  BLINDO_API_URL: ${{ secrets.APP_BLINDO_API_URL }}
+  TEST_DEVICE_ID: ""
+  DEBUG_GEOGRAPHY: ""
+  ADMOB_PUBLISHER_ID: $
+  ADMOB_APPLICATION_ID: $
+  ADMOB_MAIN_BANNER: $
+  ADMOB_UPLOAD_PACK_BANNER: $
+  FACEBOOK_APPLICATION_ID: ${{ secrets.AUTH_FACEBOOK_APPLICATION_ID }}
+  FB_LOGIN_PROTOCOL_SCHEME: ${{ secrets.AUTH_FACEBOOK_LOGIN_PROTOCOL_SCHEME }}
+  TWITTER_CONSUMER_KEY: ${{ secrets.AUTH_TWITTER_CONSUMER_KEY }}
+  TWITTER_CONSUMER_SECRET: ${{ secrets.AUTH_TWITTER_CONSUMER_SECRET }}
+  GOOGLE_SERVICES_JSON: $
+  PLAY_CONSOLE_SERVICE_ACCOUNT: $
+
+jobs:
+  prepare-environment:
+    name: Prepare environment
+    steps:
+      - name: Grant permissions
+        run: chmod +x ${GITHUB_WORKSPACE}/.github/scripts/*
+  generate-secrets:
+    name: Generate secrets
+    needs: prepare-environment
+    steps:
+      - name: Generate keystore configuration
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-keystore-configuration.sh
+      - name: Generate Gradle secrets
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-gradle-secrets.sh
+      - name: Generate Google Services JSON
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-google-services-json.sh
+      - name: Generate Firebase UI Auth secrets
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-firebase-ui-auth-secrets.sh
+  build-app-bundle:
+    name: Build app bundle
+    needs: generate-secrets
+    steps:
+      - run: ./gradlew :app:bundleRelease
+  deploy-to-play-console:
+    name: Deploy to Play Console
+    needs: build-app-bundle
+    outputs:
+      internalSharingDownloadUrls: ${{ steps.publish-in-play-console.outputs.internalSharingDownloadUrls }}
+    steps:
+      - id: publish-in-play-console
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${PLAY_CONSOLE_SERVICE_ACCOUNT}
+          packageName: com.pbaltazar.blindo
+          releaseFiles: ${GITHUB_WORKSPACE}/app/release/app-release.aab
+          track: ${{ inputs.track }}
+          userFraction: ${{ inputs.userFraction }}
+          inAppUpdatePriority: ${{ inputs.inAppUpdatePriority }}
+          mappingFile: ${GITHUB_WORKSPACE}/app/build/outputs/mapping/release/mapping.txt
+          whatsNewDirectory: ${GITHUB_WORKSPACE}/assets/whatsnew
