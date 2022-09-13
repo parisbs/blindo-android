@@ -49,10 +49,9 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
     override val isSearchable: Boolean
         get() = false
 
-    override fun getMenuResId(): Int = R.menu.backup
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        menuResId = R.menu.backup
         subscribeUser()
         subscribePacks()
         subscribeBackup()
@@ -71,40 +70,36 @@ class BackupFragment : AuthenticableFragment<FragmentBackupBinding>() {
         setupUi()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menuDownloadBackup -> {
-                getUser()?.also { user ->
-                    if (user.isPremium.not()) {
-                        findNavController().navigate(
-                            BackupFragmentDirections.actionFromBackupToRequiresPremium()
-                        )
-                    } else {
-                        if (backupAdapter.itemCount == 0) {
-                        showMessage(getString(R.string.backup__empty))
-                    } else {
-                        downloadBackupMenuItem = item
-                            item.isEnabled = false
-                        showMessage(getString(R.string.backup__downloading_message))
-                        backupViewModel.downloadBackup(SupportedScreenreadersEnum.TALKBACK)
-                    }
-                    }
-                } ?: findNavController().navigate(
-                    BackupFragmentDirections.actionFromBackupToRequiresAuth()
-                )
-                return true
-            }
-            else -> {
-                return super.onOptionsItemSelected(item)
-            }
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         if (backupAdapter.itemCount == 0 && isLoading.not()) {
             loadPacks()
         }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.menuDownloadBackup -> {
+            getUser()?.also { user ->
+                if (user.isPremium.not()) {
+                    findNavController().navigate(
+                        BackupFragmentDirections.actionFromBackupToRequiresPremium()
+                    )
+                } else {
+                    if (backupAdapter.itemCount == 0) {
+                        showMessage(getString(R.string.backup__empty))
+                    } else {
+                        downloadBackupMenuItem = menuItem
+                        menuItem.isEnabled = false
+                        showMessage(getString(R.string.backup__downloading_message))
+                        backupViewModel.downloadBackup(SupportedScreenreadersEnum.TALKBACK)
+                    }
+                }
+            } ?: findNavController().navigate(
+                BackupFragmentDirections.actionFromBackupToRequiresAuth()
+            )
+            true
+        }
+        else -> super.onMenuItemSelected(menuItem)
     }
 
     private fun subscribeAuth() = findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<Boolean>(

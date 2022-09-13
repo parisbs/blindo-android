@@ -158,6 +158,7 @@ class MembershipFragment : BilleableFragment<FragmentMembershipBinding>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        menuResId = R.menu.membership
         subscribeAuth()
         subscribeSubscriptionsToPurchase()
     }
@@ -187,13 +188,12 @@ class MembershipFragment : BilleableFragment<FragmentMembershipBinding>(),
         }
     }
 
-    override fun getMenuResId(): Int = R.menu.membership
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
         R.id.menuRestoreSubscriptions -> {
             askForNewSubscriptionPurchases()
             true
         }
-        else -> super.onOptionsItemSelected(item)
+        else -> super.onMenuItemSelected(menuItem)
     }
 
     override fun onSubscribeUser(user: User?) {
