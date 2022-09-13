@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.widget.SearchView
@@ -14,6 +15,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
+import androidx.core.view.MenuProvider
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -46,7 +48,8 @@ import com.pbaltazar.blindo.utils.notifications.NotificationsManager
 import com.pbaltazar.blindo.utils.updates.UpdateManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class BlindoActivity : BilleableActivity() {
+class BlindoActivity : BilleableActivity(),
+    MenuProvider {
 
     private val messagingViewModel: MessagingViewModel by viewModel()
     private val adsViewModel: AdsViewModel by viewModel()
@@ -103,6 +106,7 @@ class BlindoActivity : BilleableActivity() {
         setContentView(binding!!.root)
         toolbar = binding!!.appBar.toolbar
         setSupportActionBar(toolbar)
+        addMenuProvider(this)
 
         AnalyticsManager.initialize()
         NotificationsManager.initialize(this)
@@ -157,7 +161,7 @@ class BlindoActivity : BilleableActivity() {
         super.onDestroy()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
         menuInflater.inflate(R.menu.blindo, menu)
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
         searchMenuItem = menu.findItem(R.id.searchApps)
@@ -165,8 +169,12 @@ class BlindoActivity : BilleableActivity() {
             setSearchableInfo(searchManager.getSearchableInfo(componentName))
         }
         hideSearchBoxInPreferencesScreens()
-        return true
-                            }
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        android.R.id.home -> navController.navigateUp(appBarConfiguration)
+        else -> true
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
