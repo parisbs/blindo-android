@@ -105,6 +105,7 @@ dependencies {
 
     implementation libraries.androidx.activityKtx
     implementation libraries.androidx.fragmentKtx
+    implementation libraries.androidx.appcompat
     implementation libraries.androidx.ktx
     implementation libraries.material.material
     implementation libraries.androidx.constraintLayout

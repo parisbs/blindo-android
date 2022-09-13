@@ -39,9 +39,10 @@ abstract class BlindoFragment<VB: ViewBinding> : Fragment(),
         menu.findItem(R.id.searchApps).isVisible = isSearchable
     }
 
-    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = true
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean = false
 
     override fun onDestroyView() {
+        (requireActivity() as MenuHost).removeMenuProvider(this)
         binding = null
         super.onDestroyView()
     }

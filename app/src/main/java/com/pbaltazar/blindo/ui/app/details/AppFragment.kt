@@ -19,6 +19,7 @@ import com.pbaltazar.blindo.entities.App
 import com.pbaltazar.blindo.ui.app.details.pages.AppPagerHelper
 import com.pbaltazar.blindo.ui.app.details.pages.AppViewModelListener
 import com.pbaltazar.blindo.utils.core.ui.BlindoFragment
+import com.pbaltazar.blindo.utils.core.ui.ShareHelper
 import com.pbaltazar.blindo.utils.extensions.isNullOrEmptyOrBlank
 import com.wizeline.viewstate.State
 import com.wizeline.viewstate.ViewState
@@ -102,6 +103,17 @@ class AppFragment : BlindoFragment<FragmentAppBinding>() {
     }
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
+        R.id.shareApp -> {
+            ShareHelper.shareUrl(
+                requireContext(),
+                getString(
+                    R.string.share_app_title,
+                    currentApp!!.packageLabel
+                ),
+                "app/${currentApp!!.packageName}"
+            )
+            true
+        }
         R.id.navRatingCreator -> {
             findNavController().navigate(
                 AppFragmentDirections.actionFromAppDetailsToCommentCreator(currentApp!!)

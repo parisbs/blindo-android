@@ -8,6 +8,10 @@
     <string name="navigation_drawer_open">Abrir menú de navegación</string>
     <string name="navigation_drawer_close">Cerrar menú de navegación</string>
 
+    <!-- Common -->
+    <string name="share">Compartir</string>
+    <string name="share_app_title">%1$s en Blindo</string>
+
     <!-- Blindo Vision -->
     <string name="vision__service_summary">
         Lleva la accesibilidad a un nivel superior describiendo cualquier elemento con una simple captura de pantalla.

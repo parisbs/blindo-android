@@ -2,6 +2,9 @@ package com.pbaltazar.blindo.utils.constants
 
 import com.pbaltazar.blindo.BuildConfig
 
+// Share
+const val BASE_URL_FOR_SHARES = "https://app.blindoapp.com/#/"
+
 // Notifications
 const val IS_SUBSCRIBED_TO_TOPIC_PREFIX = "isSubscribedTo"
 const val VISION_NOTIFICATION_CHANNEL = "visionNotificationChannel"

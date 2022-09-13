@@ -8,6 +8,10 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- Common -->
+    <string name="share">Share</string>
+    <string name="share_app_title">%1$s in Blindo</string>
+
     <!-- Blindo Vision -->
     <string name="vision__service_name" translatable="false">Blindo Vision</string>
     <string name="vision__service_summary">

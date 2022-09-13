@@ -15,6 +15,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.GravityCompat
+import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -173,7 +174,7 @@ class BlindoActivity : BilleableActivity(),
 
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean = when (menuItem.itemId) {
         android.R.id.home -> navController.navigateUp(appBarConfiguration)
-        else -> true
+        else -> false
     }
 
     override fun onSupportNavigateUp(): Boolean {
