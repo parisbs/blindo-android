@@ -3,22 +3,36 @@ name: Deploy Blindo version
 on:
   workflow_call:
     inputs:
+      packageType:
+        description: Type of package to compile, possible values are 'apk' or 'aab'
+        type: string
+        required: true
+      variant:
+        description: Variant to compile, possible values are 'release', 'beta' or 'debug'
+        type: string
+        required: true
+      enableDownload:
+        description: If the compiled app should be available to download in artifacts
+        type: boolean
+        required: false
+        default: false
+      shouldPublishInPlayConsole:
+        description: If the compiled app should be published in Play Console
+        type: boolean
+        required: true
       track:
         description: Release type in Play Console, possible values are production, beta, alpha, internal, internalsharing or a custom track
-        required: true
         type: string
       userFraction:
         description: Percentage of users who should get this release
-        required: true
         type: number
       inAppUpdatePriority:
         description: Priority for inApp updates where 0 represents a minimum priority and 5 the higher one
-        required: true
         type: number
     outputs:
       internalSharingDownloadUrls:
         description: A JSON list containing the download urls for every release file uploaded using the internalsharing track
-        value: ${{ jobs.deploy-to-play-console.outputs.internalSharingDownloadUrls }}
+        value: ${{ jobs.deploy-package.outputs.internalSharingDownloadUrls }}
 
 env:
   ENCODED_STORE: ${{ secrets.KEYSTORE_ENCODED_STORE }}
@@ -42,35 +56,35 @@ env:
   PLAY_CONSOLE_SERVICE_ACCOUNT: $
 
 jobs:
-  prepare-environment:
-    name: Prepare environment
-    steps:
-      - name: Grant permissions
-        run: chmod +x ${GITHUB_WORKSPACE}/.github/scripts/*
-  generate-secrets:
-    name: Generate secrets
-    needs: prepare-environment
-    steps:
-      - name: Generate keystore configuration
-        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-keystore-configuration.sh
-      - name: Generate Gradle secrets
-        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-gradle-secrets.sh
-      - name: Generate Google Services JSON
-        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-google-services-json.sh
-      - name: Generate Firebase UI Auth secrets
-        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-firebase-ui-auth-secrets.sh
-  build-app-bundle:
-    name: Build app bundle
-    needs: generate-secrets
-    steps:
-      - run: ./gradlew :app:bundleRelease
-  deploy-to-play-console:
-    name: Deploy to Play Console
-    needs: build-app-bundle
+  deploy-package:
+    name: Deploy package
+    runs-on: ubuntu-latest
     outputs:
       internalSharingDownloadUrls: ${{ steps.publish-in-play-console.outputs.internalSharingDownloadUrls }}
     steps:
+      - id: checkout-repository
+        name: Checkout repository
+        uses: actions/checkout@v3
+      - id: grant-permissions
+        name: Grant permissions
+        run: chmod +x ${GITHUB_WORKSPACE}/.github/scripts/*
+      - id: generate-keystore-configuration
+        name: Generate keystore configuration
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-keystore-configuration.sh
+      - id: generate-gradle-secrets
+        name: Generate Gradle secrets
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-gradle-secrets.sh
+      - id: generate-google-services-json
+        name: Generate Google Services JSON
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-google-services-json.sh
+      - id: generate-firebase-auth-secrets
+        name: Generate Firebase Auth secrets
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-firebase-auth-secrets.sh
+      - id: build-artifact
+        name: Build artifact
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/compile-package.sh ${{ inputs.packageType }} ${{ inputs.variant }}
       - id: publish-in-play-console
+        if: ${{ inputs.shouldPublishInPlayConsole }}
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${PLAY_CONSOLE_SERVICE_ACCOUNT}

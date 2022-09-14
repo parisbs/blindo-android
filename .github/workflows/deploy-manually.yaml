@@ -1,0 +1,42 @@
+name: Deploy manually
+
+concurrency:
+  group: deploy-blindo-version
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      packageType:
+        description: Type of package to compile, possible values are 'apk' or 'aab'
+        type: string
+        required: true
+      variant:
+        description: Variant to compile, possible values are 'release', 'beta' or 'debug'
+        type: string
+        required: true
+      enableDownload:
+        description: If the compiled app should be available to download in artifacts
+        type: boolean
+        required: false
+        default: false
+      shouldPublishInPlayConsole:
+        description: If the compiled app should be published in Play Console
+        type: boolean
+        required: true
+      track:
+        description: Release type in Play Console, possible values are production, beta, alpha, internal, internalsharing or a custom track
+        type: string
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/deploy-blindo-version.yaml
+    secrets: inherit
+    with:
+      packageType: ${{ inputs.packageType }}
+      variant: ${{ inputs.variant }}
+      enableDownload: ${{ inputs.enableDownload }}
+      shouldPublishInPlayConsole: ${{ inputs.shouldPublishInPlayConsole }}
+      track: ${{ inputs.track }}
+      userFraction: 1.0
+      inAppUpdatePriority: 5

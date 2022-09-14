@@ -1,4 +1,4 @@
-name: Deploy from tag
+name: Deploy from push
 
 concurrency:
   group: deploy-blindo-version
@@ -6,8 +6,10 @@ concurrency:
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
+    paths:
+      - 'version.gradle'
 
 jobs:
   deploy:
