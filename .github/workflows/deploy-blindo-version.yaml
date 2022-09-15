@@ -46,7 +46,7 @@ env:
   DEBUG_GEOGRAPHY: ""
   ADMOB_PUBLISHER_ID: ${{ secrets.aDMOB_PUBLISHER_ID }}
   ADMOB_APPLICATION_ID: ${{ secrets.ADMOB_APPLICATION_ID }}
-  ADMOB_MAIN_BANNER: ${{ secrets.ADMOB_MAIM_BANNER }}
+  ADMOB_MAIN_BANNER: ${{ secrets.ADMOB_MAIN_BANNER }}
   ADMOB_UPLOAD_PACK_BANNER: ${{ secrets.ADMOB_UPLOAD_PACK_BANNER }}
   FACEBOOK_APPLICATION_ID: ${{ secrets.AUTH_FACEBOOK_APPLICATION_ID }}
   FB_LOGIN_PROTOCOL_SCHEME: ${{ secrets.AUTH_FACEBOOK_LOGIN_PROTOCOL_SCHEME }}
@@ -71,15 +71,35 @@ jobs:
       - id: generate-keystore-configuration
         name: Generate keystore configuration
         run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-keystore-configuration.sh
+      - id: archive-keystore
+        uses: actions/upload-artifact@v3
+        with:
+          name: keystore-configuration
+          path: keystore.properties
       - id: generate-gradle-secrets
         name: Generate Gradle secrets
         run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-gradle-secrets.sh
+      - id: archive-gradle-secrets
+        uses: actions/upload-artifact@v3
+        with:
+          name: gradle-secrets
+          path: local.properties
       - id: generate-google-services-json
         name: Generate Google Services JSON
         run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-google-services-json.sh
+      - id: archive-google-services
+        uses: actions/upload-artifact@v3
+        with:
+          name: google-services
+          path: app/google-services.json
       - id: generate-firebase-auth-secrets
         name: Generate Firebase Auth secrets
         run: bash ${GITHUB_WORKSPACE}/.github/scripts/generate-firebase-auth-secrets.sh
+      - id: archive-firebase-auth-secrets
+        uses: actions/upload-artifact@v3
+        with:
+          name: firebase-auth-secrets
+          path: app/src/main/res/values/secrets.xml
       - id: build-artifact
         name: Build artifact
         run: bash ${GITHUB_WORKSPACE}/.github/scripts/compile-package.sh ${{ inputs.packageType }} ${{ inputs.variant }}
