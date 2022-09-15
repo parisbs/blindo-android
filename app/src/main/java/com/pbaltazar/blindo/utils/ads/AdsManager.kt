@@ -47,14 +47,6 @@ class AdsManager(
     }
 
     init {
-        if (
-            BuildConfig.DEBUG &&
-            BuildConfig.TEST_DEVICE_ID.isEmpty().not() &&
-            BuildConfig.DEBUG_GEOGRAPHY.isEmpty().not()
-        ) {
-            consentInformation.addTestDevice(BuildConfig.TEST_DEVICE_ID)
-            consentInformation.debugGeography = DebugGeography.valueOf(BuildConfig.DEBUG_GEOGRAPHY)
-        }
         isInitialized = true
     }
 
@@ -163,13 +155,6 @@ class AdsManager(
 
     suspend fun initializeAdsClient(): Boolean =
         suspendCoroutine { continuation ->
-            if (BuildConfig.DEBUG && BuildConfig.TEST_DEVICE_ID.isEmpty().not()) {
-                MobileAds.setRequestConfiguration(
-                    RequestConfiguration.Builder()
-                        .setTestDeviceIds(listOf(BuildConfig.TEST_DEVICE_ID))
-                        .build()
-                )
-            }
             MobileAds.initialize(context) { initializationStatus ->
                 isAdsClientInitialized = if (initializationStatus.adapterStatusMap.containsKey(ADS_CLIENT_ID)) {
                     initializationStatus.adapterStatusMap[ADS_CLIENT_ID]?.initializationState?.equals(AdapterStatus.State.READY)
