@@ -3,12 +3,12 @@ name: Deploy Blindo version
 on:
   workflow_call:
     inputs:
-      environment:
-        description: Environment to run compilation against
-        type: environment
-        required: true
       packageType:
         description: Type of package to compile, possible values are 'apk' or 'aab'
+        type: string
+        required: true
+      variant:
+        description: Variant to compile, possible values are release, beta or debug
         type: string
         required: true
       enableDownload:
@@ -34,15 +34,11 @@ on:
         description: A JSON list containing the download urls for every release file uploaded using the internalsharing track
         value: ${{ jobs.deploy-package.outputs.internalSharingDownloadUrls }}
 
-env:
-  VARIANT: ${{ secrets.VARIANT }}
 
 jobs:
   deploy-package:
     name: Deploy package
-    if: VARIANT == inputs.variant
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
     outputs:
       internalSharingDownloadUrls: ${{ steps.publish-in-play-console.outputs.internalSharingDownloadUrls }}
     steps:
