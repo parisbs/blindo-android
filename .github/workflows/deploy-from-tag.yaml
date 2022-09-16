@@ -11,13 +11,14 @@ on:
 
 jobs:
   deploy:
+    environment: production
     uses: ./.github/workflows/deploy-blindo-version.yaml
     secrets: inherit
     with:
       packageType: aab
-      variant: release
+      variant: ${{ secrets.VARIANT }}
       enableDownload: false
       shouldPublishInPlayConsole: true
-      track: internal
+      track: beta
       userFraction: 1.0
       inAppUpdatePriority: 5

@@ -8,35 +8,34 @@ on:
   workflow_dispatch:
     inputs:
       packageType:
-        description: Type of package to compile, possible values are 'apk' or 'aab'
-        type: string
+        description: Type of package to compile
+        type: choice
         required: true
-      variant:
-        description: Variant to compile, possible values are 'release', 'beta' or 'debug'
-        type: string
+        options:
+          - apk
+          - aab
+      environment:
+        description: Variant to compile
+        type: environment
         required: true
       enableDownload:
-        description: If the compiled app should be available to download in artifacts
+        description: The compiled app should be available to download in artifacts
         type: boolean
         required: false
         default: false
       shouldPublishInPlayConsole:
-        description: If the compiled app should be published in Play Console
+        description: Publish app in Play Console
         type: boolean
         required: true
-      track:
-        description: Release type in Play Console, possible values are production, beta, alpha, internal, internalsharing or a custom track
-        type: string
 
 jobs:
   deploy:
     uses: ./.github/workflows/deploy-blindo-version.yaml
-    secrets: inherit
     with:
+      environment: ${{ inputs.environment }}
       packageType: ${{ inputs.packageType }}
-      variant: ${{ inputs.variant }}
       enableDownload: ${{ inputs.enableDownload }}
       shouldPublishInPlayConsole: ${{ inputs.shouldPublishInPlayConsole }}
-      track: ${{ inputs.track }}
+      track: beta
       userFraction: 1.0
       inAppUpdatePriority: 5

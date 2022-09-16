@@ -90,5 +90,6 @@ lint/tmp/
 
 # secrets
 keystore.properties
+debug.properties
 release.properties
 secrets.xml

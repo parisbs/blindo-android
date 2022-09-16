@@ -19,3 +19,4 @@ echo "KEY_ALIAS=${KEY_ALIAS}" >> ${keystorePropertiesPath}
 echo "KEY_PASSWORD=${KEY_PASSWORD}" >> ${keystorePropertiesPath}
 
 echo "Done"
+exit 0
