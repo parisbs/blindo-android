@@ -12,17 +12,20 @@ on:
         type: choice
         required: true
         options:
-          - apk
-          - aab
-      environment:
+          - APK
+          - AAB
+      variant:
         description: Variant to compile
-        type: environment
+        type: choice
         required: true
+        options:
+          - Release
+          - Beta
+          - Debug
       enableDownload:
         description: The compiled app should be available to download in artifacts
         type: boolean
-        required: false
-        default: false
+        required: true
       shouldPublishInPlayConsole:
         description: Publish app in Play Console
         type: boolean
@@ -31,9 +34,10 @@ on:
 jobs:
   deploy:
     uses: ./.github/workflows/deploy-blindo-version.yaml
+    secrets: inherit
     with:
-      environment: ${{ inputs.environment }}
       packageType: ${{ inputs.packageType }}
+      variant: ${{ inputs.variant }}
       enableDownload: ${{ inputs.enableDownload }}
       shouldPublishInPlayConsole: ${{ inputs.shouldPublishInPlayConsole }}
       track: beta
