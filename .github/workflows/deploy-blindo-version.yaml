@@ -53,6 +53,10 @@ jobs:
           STORE_PASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+          DEBUG_ENCODED_STORE: ${{ secrets.KEYSTORE_DEBUG_ENCODED_STORE }}
+          DEBUG_STORE_PASSWORD: ${{ secrets.KEYSTORE_DEBUG_STORE_PASSWORD }}
+          DEBUG_KEY_ALIAS: ${{ secrets.KEYSTORE_DEBUG_KEY_ALIAS }}
+          DEBUG_KEY_PASSWORD: ${{ secrets.KEYSTORE_DEBUG_KEY_PASSWORD }}
           BLINDO_API_URL: ${{ secrets.APP_BLINDO_API_URL }}
           ADMOB_PUBLISHER_ID: ${{ secrets.aDMOB_PUBLISHER_ID }}
           ADMOB_APPLICATION_ID: ${{ secrets.ADMOB_APPLICATION_ID }}
