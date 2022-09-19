@@ -52,13 +52,13 @@ kotlinVersion = '1.7.10'
     adsConsentVersion = '1.0.8'
     apolloVersion = '3.5.0'
     facebookVersion = '12.0.0'
-    firebaseVersion = '19.0.0'
+    firebaseVersion = '21.1.1'
     firebaseAdsVersion = '21.1.0'
-    firebaseAnalyticsVersion = '21.1.0'
-    firebaseAuthVersion = '21.0.7'
-    firebaseCrashlyticsVersion = '18.2.12'
-    firebaseMessagingVersion = '23.0.7'
-    firebasePerformanceVersion = '20.1.0'
+    firebaseAnalyticsVersion = '21.1.1'
+    firebaseAuthVersion = '21.0.8'
+    firebaseCrashlyticsVersion = '18.2.13'
+    firebaseMessagingVersion = '23.0.8'
+    firebasePerformanceVersion = '20.1.1'
     firebaseUiAuthVersion = '8.0.1'
     glideVersion = '4.13.2'
     googleServicesVersion = '19.2.0'
@@ -147,20 +147,21 @@ kotlinVersion = '1.7.10'
             core: "io.insert-koin:koin-android:$koinVersion",
         ],
         firebase       : [
-                ui: [
-                        auth: "com.firebaseui:firebase-ui-auth:$firebaseUiAuthVersion"
-                ],
-                core: "com.google.firebase:firebase-core:$firebaseVersion",
-                auth: "com.google.firebase:firebase-auth:$firebaseAuthVersion",
-                authKtx: "com.google.firebase:firebase-auth-ktx:$firebaseAuthVersion",
-                ads: "com.google.firebase:firebase-ads:$firebaseAdsVersion",
-                crashlytics: "com.google.firebase:firebase-crashlytics:$firebaseCrashlyticsVersion",
-                crashlyticsKtx: "com.google.firebase:firebase-crashlytics-ktx:$firebaseCrashlyticsVersion",
-                performance: "com.google.firebase:firebase-perf:$firebasePerformanceVersion",
-                messaging: "com.google.firebase:firebase-messaging:$firebaseMessagingVersion",
-                messagingKtx: "com.google.firebase:firebase-messaging-ktx:$firebaseMessagingVersion",
-                analytics: "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion",
-                analyticsKtx: "com.google.firebase:firebase-analytics-ktx:$firebaseAnalyticsVersion"
+            ads: "com.google.firebase:firebase-ads:$firebaseAdsVersion",
+            analytics: "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion",
+            analyticsKtx: "com.google.firebase:firebase-analytics-ktx:$firebaseAnalyticsVersion",
+            auth: "com.google.firebase:firebase-auth:$firebaseAuthVersion",
+            authKtx: "com.google.firebase:firebase-auth-ktx:$firebaseAuthVersion",
+            core: "com.google.firebase:firebase-core:$firebaseVersion",
+            crashlytics: "com.google.firebase:firebase-crashlytics:$firebaseCrashlyticsVersion",
+            crashlyticsKtx: "com.google.firebase:firebase-crashlytics-ktx:$firebaseCrashlyticsVersion",
+            messaging: "com.google.firebase:firebase-messaging:$firebaseMessagingVersion",
+            messagingKtx: "com.google.firebase:firebase-messaging-ktx:$firebaseMessagingVersion",
+            performance: "com.google.firebase:firebase-perf:$firebasePerformanceVersion",
+            performanceKtx: "com.google.firebase:firebase-perf-ktx:$firebasePerformanceVersion",
+            ui: [
+                auth: "com.firebaseui:firebase-ui-auth:$firebaseUiAuthVersion"
+            ]
         ],
         billing        : [
             playStoreBilling: "com.android.billingclient:billing:$playStoreBillingVersion",

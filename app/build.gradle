@@ -127,7 +127,7 @@ dependencies {
 
     implementation libraries.firebase.analyticsKtx
     implementation libraries.firebase.crashlyticsKtx
-    implementation libraries.firebase.performance
+    implementation libraries.firebase.performanceKtx
 
     implementation libraries.billing.playStoreBillingKtx
     implementation libraries.adsConsent
