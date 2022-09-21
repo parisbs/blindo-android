@@ -64,6 +64,7 @@ captures/
 .cxx/
 
 # Google Services (e.g. APIs or Firebase)
+service-account.json
 google-services.json
 
 # Freeline
@@ -90,6 +91,5 @@ lint/tmp/
 
 # secrets
 keystore.properties
-debug.properties
 release.properties
 secrets.xml

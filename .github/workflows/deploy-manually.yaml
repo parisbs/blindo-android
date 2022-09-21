@@ -12,8 +12,8 @@ on:
         type: choice
         required: true
         options:
-          - APK
           - AAB
+          - APK
       variant:
         description: Variant to compile
         type: choice
@@ -22,6 +22,18 @@ on:
           - Release
           - Beta
           - Debug
+      shouldUpdateVersionName:
+        description: Auto update version name
+        type: boolean
+        required: true
+      versionNameUpdateLevel:
+        description: Level to update version name
+        type: choice
+        required: true
+        options:
+          - Patch
+          - Minor
+          - Major
       enableDownload:
         description: The compiled app should be available to download in artifacts
         type: boolean
@@ -30,6 +42,19 @@ on:
         description: Publish app in Play Console
         type: boolean
         required: true
+      track:
+        description: Type of publish
+        type: choice
+        required: false
+        options:
+          - Production
+          - Beta
+          - Internal
+      inAppUpdatePriority:
+        description: InApp update priority (0=lower and 5=highest)
+        type: string
+        required: false
+        default: 0
 
 jobs:
   deploy:
@@ -38,8 +63,9 @@ jobs:
     with:
       packageType: ${{ inputs.packageType }}
       variant: ${{ inputs.variant }}
+      shouldUpdateVersionName: ${{ inputs.shouldUpdateVersionName }}
+      versionNameUpdateLevel: ${{ inputs.versionNameUpdateLevel }}
       enableDownload: ${{ inputs.enableDownload }}
       shouldPublishInPlayConsole: ${{ inputs.shouldPublishInPlayConsole }}
-      track: beta
-      userFraction: 1.0
-      inAppUpdatePriority: 5
+      track: ${{ inputs.track }}
+      inAppUpdatePriority: ${{ inputs.inAppUpdatePriority }}

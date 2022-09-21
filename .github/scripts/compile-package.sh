@@ -3,8 +3,8 @@
 declare -A packageTypes=(["apk"]="assemble" ["aab"]="bundle")
 declare -A availableVariants=(["release"]=0 ["beta"]=1 ["debug"]=2)
 
-packageType=${1,,}
-variant=${2,,}
+packageType=${PACKAGE_TYPE,,}
+variant=${VARIANT,,}
 
 if ! [[ -n "${packageTypes[$packageType]}" ]]; then
   echo "Invalid packageType, possible values are 'apk' or 'aab'"
@@ -17,8 +17,11 @@ if ! [[ -n "${availableVariants[$variant]}" ]]; then
 fi
 
 compilationRunner="${packageTypes[$packageType]}${variant^}"
+compilationLog="${GITHUB_WORKSPACE}/build.log"
 
-bash ./gradlew :app:$compilationRunner
+bash ./gradlew :app:$compilationRunner --no-daemon 2>&1 | tee ${compilationLog}
+
+echo ::set-output name=build-log-file-path::"${compilationLog}"
 
 packageTypePath="${packageTypes[$packageType]}"
 if [[ "${packageType}" == "apk" ]]; then
@@ -34,12 +37,16 @@ else
   echo ::set-output name=package-file-path::"${packageFilePath}"
 fi
 
-mappingFilePath="${GITHUB_WORKSPACE}/app/build/outputs/mapping/${variant}/mapping.txt"
+mappingPath="${GITHUB_WORKSPACE}/app/build/outputs/mapping/${variant}"
+mappingFilePath="${mappingPath}/mapping.txt"
 
 if ! test -f "$mappingFilePath"; then
   mappingFilePath=""
 fi
 
+echo ::set-output name=mapping-path::"${mappingPath}"
 echo ::set-output name=mapping-file-path::"${mappingFilePath}"
+
+echo ::set-output name=whatsnew-path::"${GITHUB_WORKSPACE}/assets/whatsnew/"
 
 exit 0

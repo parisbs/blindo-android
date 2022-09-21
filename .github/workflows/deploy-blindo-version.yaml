@@ -8,14 +8,22 @@ on:
         type: string
         required: true
       variant:
-        description: Variant to compile, possible values are release, beta or debug
+        description: Variant to compile, possible values are 'release', 'beta' or 'debug'
         type: string
         required: true
+      shouldUpdateVersionName:
+        description: If the artifact version name will be auto updated
+        type: boolean
+        required: true
+      versionNameUpdateLevel:
+        description: Level to update the version name, possible values are 'major', 'minor' or 'patch'
+        type: string
+        required: false
+        default: patch
       enableDownload:
         description: If the compiled app should be available to download in artifacts
         type: boolean
-        required: false
-        default: false
+        required: true
       shouldPublishInPlayConsole:
         description: If the compiled app should be published in Play Console
         type: boolean
@@ -23,30 +31,64 @@ on:
       track:
         description: Release type in Play Console, possible values are production, beta, alpha, internal, internalsharing or a custom track
         type: string
-      userFraction:
-        description: Percentage of users who should get this release
-        type: number
       inAppUpdatePriority:
         description: Priority for inApp updates where 0 represents a minimum priority and 5 the higher one
-        type: number
+        type: string
+        default: 0
     outputs:
+      previousVersionCode:
+        description: Previous artifact version code
+        value: ${{ jobs.deploy-package.outputs.previousVersionCode }}
+      previousVersionName:
+        description: Previous artifact version name
+        value: ${{ jobs.deploy-package.outputs.previousVersionName }}
+      updatedVersionCode:
+        description: Updated artifact version code
+        value: ${{ jobs.deploy-package.outputs.updatedVersionCode }}
+      updatedVersionName:
+        description: Updated artifact version name
+        value: ${{ jobs.deploy-package.outputs.updatedVersionName }}
       internalSharingDownloadUrls:
         description: A JSON list containing the download urls for every release file uploaded using the internalsharing track
         value: ${{ jobs.deploy-package.outputs.internalSharingDownloadUrls }}
-
 
 jobs:
   deploy-package:
     name: Deploy package
     runs-on: ubuntu-latest
     outputs:
+      previousVersionCode: ${{ steps.update-artifact-version-info.outputs.previous-version-code }}
+      previousVersionName: ${{ steps.update-artifact-version-info.outputs.previous-version-name }}
+      updatedVersionCode: ${{ steps.update-artifact-version-info.outputs.updated-version-code }}
+      updatedVersionName: ${{ steps.update-artifact-version-info.outputs.updated-version-name }}
       internalSharingDownloadUrls: ${{ steps.publish-in-play-console.outputs.internalSharingDownloadUrls }}
     steps:
       - id: checkout-repository
         name: Checkout repository
         uses: actions/checkout@v3
+      - id: prepare-environment
+        name: Prepare environment
+        if: success()
+        env:
+          PACKAGE_TYPE: ${{ inputs.packageType }}
+          VARIANT: ${{ inputs.variant }}
+          SHOULD_PUBLISH_IN_PLAY_CONSOLE: ${{ inputs.shouldPublishInPlayConsole }}
+          TRACK: ${{ inputs.track }}
+          IN_APP_UPDATE_PRIORITY: ${{ inputs.inAppUpdatePriority }}
+        run: |
+          chmod +x ${GITHUB_WORKSPACE}/.github/scripts/*
+          bash ${GITHUB_WORKSPACE}/.github/scripts/validate-environment.sh
+      - id: update-artifact-version-info
+        name: Update artifact version info
+        if: success()
+        env:
+          VARIANT: ${{ inputs.variant }}
+          SHOULD_UPDATE_VERSION_NAME: ${{ inputs.shouldUpdateVersionName }}
+          VERSION_NAME_UPDATE_LEVEL: ${{ inputs.versionNameUpdateLevel }}
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/update-version-info.sh
       - id: generate-secrets
         name: Generate secrets
+        if: success()
         env:
           ENCODED_STORE: ${{ secrets.KEYSTORE_ENCODED_STORE }}
           STORE_FILE: 'keystore.jks'
@@ -62,22 +104,34 @@ jobs:
           ADMOB_APPLICATION_ID: ${{ secrets.ADMOB_APPLICATION_ID }}
           ADMOB_MAIN_BANNER: ${{ secrets.ADMOB_MAIN_BANNER }}
           ADMOB_UPLOAD_PACK_BANNER: ${{ secrets.ADMOB_UPLOAD_PACK_BANNER }}
+          PLAY_CONSOLE_SERVICE_ACCOUNT: ${{ secrets.PLAY_CONSOLE_SERVICE_ACCOUNT }}
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
           FACEBOOK_APPLICATION_ID: ${{ secrets.AUTH_FACEBOOK_APPLICATION_ID }}
           FB_LOGIN_PROTOCOL_SCHEME: ${{ secrets.AUTH_FACEBOOK_LOGIN_PROTOCOL_SCHEME }}
           TWITTER_CONSUMER_KEY: ${{ secrets.AUTH_TWITTER_CONSUMER_KEY }}
           TWITTER_CONSUMER_SECRET: ${{ secrets.AUTH_TWITTER_CONSUMER_SECRET }}
         run: |
-          chmod +x ${GITHUB_WORKSPACE}/.github/scripts/*
           bash ${GITHUB_WORKSPACE}/.github/scripts/generate-keystore-configuration.sh
           bash ${GITHUB_WORKSPACE}/.github/scripts/generate-gradle-secrets.sh
           bash ${GITHUB_WORKSPACE}/.github/scripts/generate-google-services-json.sh
           bash ${GITHUB_WORKSPACE}/.github/scripts/generate-firebase-auth-secrets.sh
+      - id: setup-java
+        name: Setup Java
+        if: success()
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+          cache: 'gradle'
       - id: build-artifact
         name: Build artifact
         if: success()
-        run: bash ${GITHUB_WORKSPACE}/.github/scripts/compile-package.sh ${{ inputs.packageType }} ${{ inputs.variant }}
-      - id: upload-artifact
+        env:
+          PACKAGE_TYPE: ${{ inputs.packageType }}
+          VARIANT: ${{ inputs.variant }}
+        run: bash ${GITHUB_WORKSPACE}/.github/scripts/compile-package.sh
+      - id: archive-artifact
+        name: Archive-artifact
         if: |
           success() &&
           inputs.enableDownload &&
@@ -85,19 +139,35 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: blindo-package
-          path: ${{ steps.build-artifact.outputs.package-file-path }}
+          path: |
+            ${{ steps.build-artifact.outputs.package-file-path }}
+            ${{ steps.build-artifact.outputs.mapping-path }}
+            ${{ steps.build-artifact.outputs.build-log-file-path }}
+          if-no-files-found: ignore
       - id: publish-in-play-console
+        name: Publish in Play Console
         if: |
           success() &&
           inputs.shouldPublishInPlayConsole &&
           steps.build-artifact.outputs.package-file-path != null
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@7cd1379b4f13b751d744df4aee475a6f618a1a69
         with:
-          serviceAccountJsonPlainText: ${{secrets.PLAY_CONSOLE_SERVICE_ACCOUNT }}
+          serviceAccountJson: ${{ steps.generate-secrets.outputs.service-account-json }}
           packageName: com.pbaltazar.blindo
           releaseFiles: ${{ steps.build-artifact.outputs.package-file-path }}
+          status: 'completed'
           track: ${{ inputs.track }}
-          userFraction: ${{ inputs.userFraction }}
           inAppUpdatePriority: ${{ inputs.inAppUpdatePriority }}
           mappingFile: ${{ steps.build-artifact.outputs.mapping-file-path }}
-          whatsNewDirectory: ${GITHUB_WORKSPACE}/assets/whatsnew
+          whatsNewDirectory: ${{ steps.build-artifact.outputs.whatsnew-path }}
+      - id: push-version-info
+        name: Push version info
+        if: |
+          success() &&
+          steps.update-artifact-version-info.outputs.updated-version-code != null &&
+          steps.update-artifact-version-info.outputs.updated-version-name != null
+        uses: test-room-7/action-update-file@v1
+        with:
+          file-path: version.gradle
+          commit-msg: ${{ steps.update-artifact-version-info.outputs.version-info-commit-msg }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
