@@ -150,7 +150,7 @@ jobs:
           success() &&
           inputs.shouldPublishInPlayConsole &&
           steps.build-artifact.outputs.package-file-path != null
-        uses: r0adkll/upload-google-play@7cd1379b4f13b751d744df4aee475a6f618a1a69
+        uses: r0adkll/upload-google-play@master
         with:
           serviceAccountJson: ${{ steps.generate-secrets.outputs.service-account-json }}
           packageName: com.pbaltazar.blindo
