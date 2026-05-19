@@ -25,3 +25,11 @@ Join us now and be an important colaborator of the biggest accessibility communi
 4. Copy and rename the file keystore.properties.example to keystore.properties and set all the values, ensure that you use a keystore authorized on the Firebase project
 5. Add the file app/google-services.json, you can download this file from the Firebase project
 6. Build or run the app
+
+## License
+
+Copyright (C) 2022 Paris N. Baltazar Salguero
+
+This program is free software: you can redistribute it and/or modify it under the terms of the **GNU General Public License v3.0** as published by the Free Software Foundation. See the [LICENSE](LICENSE) file for the full license text.
+
+Third-party components used by this project retain their own licenses. See the [NOTICE](NOTICE) file for details.
