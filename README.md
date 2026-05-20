@@ -28,8 +28,8 @@ Join us now and be an important colaborator of the biggest accessibility communi
 
 ## License
 
-Copyright (C) 2022 Paris N. Baltazar Salguero
+Copyright (C) 2022-2026 Paris N. Baltazar Salguero
 
-This program is free software: you can redistribute it and/or modify it under the terms of the **GNU General Public License v3.0** as published by the Free Software Foundation. See the [LICENSE](LICENSE) file for the full license text.
+This program is free software: you can redistribute it and/or modify it under the terms of the **GNU Affero General Public License v3.0** as published by the Free Software Foundation. See the [LICENSE](LICENSE) file for the full license text.
 
 Third-party components used by this project retain their own licenses. See the [NOTICE](NOTICE) file for details.

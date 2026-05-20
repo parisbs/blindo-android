@@ -1,5 +1,5 @@
 Blindo for Android
-Copyright (C) 2022 Paris N. Baltazar Salguero
+Copyright (C) 2022-2026 Paris N. Baltazar Salguero
 
 This project includes third-party software components listed below.
 
@@ -57,7 +57,7 @@ License: Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
 Facebook Android SDK (com.facebook.android)
 Copyright (c) Meta Platforms, Inc.
 License: Facebook Platform License - https://github.com/facebook/facebook-android-sdk/blob/main/LICENSE
-Note: This dependency is fetched at build time and is NOT covered by the GPL v3
+Note: This dependency is fetched at build time and is NOT covered by the AGPL v3
 license of this project. Its use is governed by Meta's own license terms.
 
 --------------------------------------------------------------------------------
@@ -74,6 +74,6 @@ AdMob (com.google.android.gms:play-services-ads)
 Copyright (c) Google LLC
 License: Google APIs Terms of Service - https://developers.google.com/terms
 Note: These dependencies are fetched at build time and are NOT covered by the
-GPL v3 license of this project. Their use is governed by Google's own terms.
+AGPL v3 license of this project. Their use is governed by Google's own terms.
 
 --------------------------------------------------------------------------------
