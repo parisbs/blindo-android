@@ -1,0 +1,79 @@
+Blindo for Android
+Copyright (C) 2022 Paris N. Baltazar Salguero
+
+This project includes third-party software components listed below.
+
+--------------------------------------------------------------------------------
+Apollo GraphQL (com.apollographql.apollo3)
+Copyright (c) The Apollo Authors
+License: Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+OkHttp (com.squareup.okhttp3)
+Copyright (c) Square, Inc.
+License: Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+Kotlin & Kotlin Coroutines (org.jetbrains.kotlin, org.jetbrains.kotlinx)
+Copyright (c) JetBrains s.r.o.
+License: Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+Koin (io.insert-koin)
+Copyright (c) Arnaud Giuliani, KOTZILLA
+License: Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+Glide (com.github.bumptech.glide)
+Copyright (c) Sam Judd
+License: BSD, Apache 2.0, MIT - https://github.com/bumptech/glide/blob/master/LICENSE
+
+--------------------------------------------------------------------------------
+Timber (com.jakewharton.timber)
+Copyright (c) Jake Wharton
+License: Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+Material Components for Android (com.google.android.material)
+Copyright (c) Google LLC
+License: Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+AndroidX Libraries (androidx.*)
+Copyright (c) The Android Open Source Project
+License: Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+Mockito (org.mockito)
+Copyright (c) Mockito contributors
+License: MIT License - https://opensource.org/licenses/MIT
+
+--------------------------------------------------------------------------------
+MockK (io.mockk)
+Copyright (c) MockK contributors
+License: Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+Facebook Android SDK (com.facebook.android)
+Copyright (c) Meta Platforms, Inc.
+License: Facebook Platform License - https://github.com/facebook/facebook-android-sdk/blob/main/LICENSE
+Note: This dependency is fetched at build time and is NOT covered by the GPL v3
+license of this project. Its use is governed by Meta's own license terms.
+
+--------------------------------------------------------------------------------
+Twitter Core SDK (com.twitter.sdk.android)
+Copyright (c) Twitter, Inc.
+License: Apache License 2.0 - https://www.apache.org/licenses/LICENSE-2.0
+
+--------------------------------------------------------------------------------
+Google Play Billing (com.android.billingclient)
+Google Play Services Auth (com.google.android.gms)
+Google Play Core (com.google.android.play)
+Firebase SDKs (com.google.firebase)
+AdMob (com.google.android.gms:play-services-ads)
+Copyright (c) Google LLC
+License: Google APIs Terms of Service - https://developers.google.com/terms
+Note: These dependencies are fetched at build time and are NOT covered by the
+GPL v3 license of this project. Their use is governed by Google's own terms.
+
+--------------------------------------------------------------------------------
