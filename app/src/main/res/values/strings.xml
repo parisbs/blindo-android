@@ -427,8 +427,8 @@
 
     <string name="about__title">About</string>
     <string name="about__blindo_version">Blindo App version %1$s revision %2$d</string>
-    <string name="about__blindo_copyright">© 2020 Paris Baltazar Salguero. All rights reserved</string>
-    <string name="about__copyright_notice">The modification, adaptation, translation, derivation, copying, distribution and/or marketing of this application and any of its algorithms, components and sub-components, as well as services offered excluding the services and/or components of third parties integrated and authorized for use within it, is prohibited</string>
+    <string name="about__blindo_copyright">© 2022-2026 Paris N. Baltazar Salguero</string>
+    <string name="about__copyright_notice">This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License v3.0 as published by the Free Software Foundation. Third-party services and components integrated into this app are governed by their own license terms.</string>
     <string name="about__terms_conditions_privacy_policy">Read our &lt;a href="%1$s"&gt;terms and conditions&lt;/a&gt; and &lt;a href="%2$s"&gt;privacy policy&lt;/a&gt;</string>
     <string name="about__contact_us">&lt;a href="mailto:support@blindoapp.com"&gt;Contact us&lt;/a&gt;</string>
 
