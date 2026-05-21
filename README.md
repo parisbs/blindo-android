@@ -1,5 +1,12 @@
 # Blindo App for Android
-![Beta deployment status](https://github.com/parisbs/blindo-android/actions/workflows/deploy-blindo-beta-version.yaml/badge.svg)
+
+## Status
+
+This repository is published as **historical open source code**. The project has been **discontinued**, no active development or support is provided, and there are no guarantees of any kind. It is released under the GNU Affero General Public License v3.0 (or any later version) so that its code remains useful to the community for educational, accessibility, and research purposes.
+
+Contributions are not actively reviewed. Forks and derivative works are welcome under the terms of the AGPL-3.0-or-later license (see [LICENSE](LICENSE) and [NOTICE](NOTICE)).
+
+## What's Blindo?
 
 Blindo is the first and the biggest labels repository for Android screenreaders in the world, we work as a social app where anybody can collaborate uploading new labels for screenreaders and all these labels can be downloaded with just one click, also the collaborators can rate the usability and accessibility of any Android app to share with the world the best accessible apps and allow the blind community to use Android easier.  
 Keep your screenreaders labels safe with our unlimited and free labels backup to avoid missing labels when you change your device, let us analice your installed apps to create a custom labels pack with all available labels for you and forget all the headeaches that the unlabeled buttons give.  
